@@ -1,0 +1,43 @@
+header {
+    background-color: #ffffff;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.navbar-nav .nav-item .nav-link {
+    font-size: 18px;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: #ff6f61;
+}
+
+.form-inline .form-control {
+    width: 300px;
+}
+
+#bell-icon {
+    font-size: 20px;
+    color: #333;
+}
+
+#bell-icon:hover {
+    color: #ff6f61;
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.navbar-toggler-icon {
+    color: #333;
+}
