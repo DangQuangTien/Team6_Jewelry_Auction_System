@@ -1,18 +1,21 @@
-/* General body style */
-body {
-    background-color: #f8f9fa; 
-}
-
 /* Navbar style */
 .navbar {
-    margin-bottom: 20px;
     transition: background-color 0.3s ease, height 0.3s ease;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    
+    -webkit-transition: background-color 0.3s ease, height 0.3s ease;
+    -moz-transition: background-color 0.3s ease, height 0.3s ease;
+    -ms-transition: background-color 0.3s ease, height 0.3s ease;
+    -o-transition: background-color 0.3s ease, height 0.3s ease;
 }
 
-/* Custom Navbar with gradient background */
 .custom-navbar {
     position: relative;
     transition: height 0.3s ease, background-color 0.3s ease;
+    z-index: 1; 
 }
 
 .custom-navbar .gradient-overlay {
@@ -35,11 +38,11 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    z-index: -2; /* Moved behind the gradient */
+    z-index: -2;
     transition: height 0.3s ease;
 }
 
-/* Navbar collapsed and extended state */
+
 .custom-navbar.navbar-collapsed .navbar-bg,
 .custom-navbar.navbar-collapsed .gradient-overlay {
     height: 56px; 
@@ -47,15 +50,16 @@ body {
 
 .custom-navbar.navbar-extended .navbar-bg,
 .custom-navbar.navbar-extended .gradient-overlay {
-    height: 400px; 
+    height: 350px; 
 }
 
 /* Navbar brand style */
 .navbar-brand {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #fff; /* Ensure brand text is white for contrast */
+    color: #fff; 
     transition: transform 0.3s ease;
+    letter-spacing: 1px;
 }
 
 .navbar-brand.animate {
@@ -64,13 +68,15 @@ body {
 
 /* Navbar link style */
 .navbar-nav .nav-item .nav-link {
-    color: #fff; /* Make navbar links white */
+    color: #fff; 
+    letter-spacing: 1px;
     transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 .navbar-nav .nav-item .nav-link:hover {
     color: #000;
-    background-color: #fff; /* Inverse colors on hover for contrast */
+    background-color: #fff; 
+    letter-spacing: 1px;
 }
 
 /* Dropdown menu style */
@@ -78,7 +84,7 @@ body {
     color: #000;
     border-color: #000;
     transition: background-color 0.3s ease;
-    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    background-color: rgba(255, 255, 255, 0.8); 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); 
     padding: 10px;
     border-radius: 5px; 
@@ -90,7 +96,7 @@ body {
 }
 
 .dropdown-menu {
-    max-height: 300px;
+    max-height: 200px;
     overflow-y: auto;
     scroll-behavior: smooth;
 }
@@ -124,6 +130,8 @@ body {
 .show > .btn-outline-success.dropdown-toggle:focus {
     box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5); 
 }
+
+
 
 /* Responsive styles */
 @media (max-width: 767px) {

@@ -12,9 +12,11 @@
         <title>Jewelry Auctions Online</title>
         <!-- Include Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="component/home.css">
+        
         <link rel="stylesheet" type="text/css" href="component/header.css">
         <link rel="stylesheet" type="text/css" href="component/footer.css">
+        <link rel="stylesheet" type="text/css" href="component/home.css">
+        <link rel="stylesheet" href="TEST/styles.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
         <style>
@@ -76,25 +78,29 @@
         <c:set var="listCategory" value="${dao.listCategory()}" />
 
         <!-- START OF HEADER -->
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-light">
+      
+            <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top custom-navbar">
+                <div class="navbar-bg"></div>
+                <div class="gradient-overlay"></div>
                 <a class="navbar-brand" href="#">Jewelry Auctions</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="home.jsp">Home <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="Auction.jsp">Auction</a>
                         </li>
+                        <!-- Conditional rendering based on user role -->
                         <c:if test="${role == 'Member' || role == null}">
                             <li class="nav-item">
                                 <a class="nav-link" href="seller/selling.html">Sell</a>
                             </li>
                         </c:if>
+                        <!-- Conditional rendering based on user authentication -->
                         <c:choose>
                             <c:when test="${username == null}">
                                 <li class="nav-item">
@@ -119,7 +125,7 @@
                             </c:otherwise>
                         </c:choose>
                         <li class="nav-item">
-                            <a class="nav-link" href="notification.jsp" id="bell-icon"><i class="fas fa-bell"></i></a>
+                            <a class="nav-link" href="notification.jsp"><i class="fas fa-bell"></i></a>
                         </li>
                     </ul>
                     <form class="form-inline my-2 my-lg-0">
@@ -128,10 +134,7 @@
                     </form>
                 </div>
             </nav>
-        </header>
-        <section class="banner mb-4">
-            <img src="https://images.pexels.com/photos/265906/pexels-photo-265906.jpeg?cs=srgb&dl=pexels-pixabay-265906.jpg&fm=jpg" class="img-fluid" alt="Banner showcasing various jewelry pieces">
-        </section>
+      
         <!-- END OF HEADER -->
         <main class="container mt-4">
             <hr>
