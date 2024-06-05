@@ -272,7 +272,7 @@
         <!-- Custom Javascript -->
         <!-- Slideshow -->
         <script src="javascript/home.js"></script>
-        <script src="TEST/script.js"></script>
+        
     </body>
 </html>
 
