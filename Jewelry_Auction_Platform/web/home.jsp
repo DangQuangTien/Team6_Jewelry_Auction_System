@@ -95,21 +95,21 @@
                                         <button class="btn btn-outline-success my-2 my-sm-0"
                                             type="submit">Search</button>
                                     </form>
-
-                                    <!-- WELCOME SECTION -->
-                                    <section class="welcome-section">
-                                        <h2>Welcome To V Rising</h2>
-                                        <p class="welcome-text">
-                                            We're delighted to have you explore our curated selection of fine
-                                            jewelry. Each piece is a treasure waiting to be discovered. Join our
-                                            community of connoisseurs and start your bidding journey today.
-                                        </p>
-                                    </section>
-                                    <hr>
                                 </div>
                             </nav>
 
                             <main class="container mt-4">
+                                <hr>
+                            <!-- WELCOME SECTION -->
+                            <section class="welcome-section">
+                                <h2>Welcome To V Rising</h2>
+                                <p class="welcome-text">
+                                    We're delighted to have you explore our curated selection of fine
+                                    jewelry. Each piece is a treasure waiting to be discovered. Join our
+                                    community of connoisseurs and start your bidding journey today.
+                                </p>
+                            </section>
+                            <hr>
                                 <br>
                                 <h2>Top Categories</h2>
                                 <c:if test="${not empty listCategory}">
@@ -228,6 +228,43 @@
                                     <p>Fill out the form below for more assistance.</p>
                                 </section>
                                 <hr>
+                                <section class="contact mt-5">
+                                    <h2>Latest from Jewelry Auctions Blog</h2>
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="blog-preview">
+                                                    <img src="https://www.withclarity.com/cdn/shop/articles/SOLITAIRE_ENGAGEMENT_RINGS.jpg?v=1697178742" alt="Latest Trends in Jewelry" class="img-fluid blog-preview-image">
+                                                    <h3>Blog Post 1 Title</h3>
+                                                    <p>Blog post 1 description. From vintage designs to modern pieces, we cover it all.</p>
+                                                    <!-- Add more previews as needed -->
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="blog-preview">
+                                                    <img src="https://www.withclarity.com/cdn/shop/articles/SOLITAIRE_ENGAGEMENT_RINGS.jpg?v=1697178742" alt="Latest Trends in Jewelry" class="img-fluid blog-preview-image">
+                                                    <h3>Blog Post 2 Title</h3>
+                                                    <p>Blog post 2 description. From vintage designs to modern pieces, we cover it all.</p>
+                                                    <!-- Add more previews as needed -->
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="blog-preview">
+                                                    <img src="https://www.withclarity.com/cdn/shop/articles/SOLITAIRE_ENGAGEMENT_RINGS.jpg?v=1697178742" alt="Latest Trends in Jewelry" class="img-fluid blog-preview-image">
+                                                    <h3>Blog Post 3 Title</h3>
+                                                    <p>Blog post 3 description. From vintage designs to modern pieces, we cover it all.</p>
+                                                    <!-- Add more previews as needed -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                         <!-- Added line to separate the blog posts -->
+                                    </div>
+                                    <div class="text-center">
+                                        <a href="blog.jsp" class="btn btn-primary">Read More</a>
+                                    </div>
+                                </section>
+                                <hr>
+
                             </main>
                             <!-- START OF FOOTER -->
                             <footer class="text-center py-3 mt-auto">

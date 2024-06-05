@@ -67,15 +67,6 @@
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                     </form>
     
-                    <!-- WELCOME SECTION -->
-                    <section class="welcome-section">
-                        <h2>Welcome To V Rising</h2>
-                        <p class="welcome-text">
-                            We're delighted to have you explore our curated selection of fine
-                            jewelry. Each piece is a treasure waiting to be discovered. Join our
-                            community of connoisseurs and start your bidding journey today.
-                        </p>
-                    </section>
                     <hr>
                 </div>
             </nav>

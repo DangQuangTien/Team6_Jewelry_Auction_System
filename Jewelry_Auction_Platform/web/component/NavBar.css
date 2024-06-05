@@ -126,23 +126,6 @@
     box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
 }
 
-.welcome-section {
-    text-align: initial;
-    margin-top: 20px;
-}
-
-.welcome-section h2 {
-    text-align: center;
-    color: #fff;
-    font-size: 2rem;
-    margin-bottom: 10px;
-}
-
-.welcome-section p {
-    text-align: center;
-    color: #fff;
-    font-size: 1rem;
-}
 
 @media (max-width: 767px) {
     .navbar-nav {
