@@ -123,7 +123,6 @@
                                 </c:if>
                                 <br>
                                 <hr>
-
                                 <h2>Upcoming Auction</h2>
                                 <section class="upcoming-auction">
                                     <div class="container">
