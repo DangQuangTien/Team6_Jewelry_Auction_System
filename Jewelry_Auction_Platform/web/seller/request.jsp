@@ -7,7 +7,7 @@
     <title>Jewelry Auctions Online</title>
     <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../component/header.css">
+    <link rel="stylesheet" type="text/css" href="component/header.css">
     <link rel="stylesheet" type="text/css" href="../component/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <!-- Include AngularJS -->
@@ -80,11 +80,7 @@
                         <a class="nav-link" href="${pageContext.request.contextPath}/home.jsp">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-<<<<<<< HEAD
-                        <a class="nav-link" href="${pageContext.request.contextPath}/auctions/upcoming.jsp">Auction</a>
-=======
                         <a class="nav-link" href="#">Auction</a>
->>>>>>> 48cca9594a0ab49c4bf10e7484b2667a5d6a211c
                     </li>
                 </ul>
             </div>
@@ -187,7 +183,11 @@
             <a href="#">Sitemap</a>
         </div>
     </footer>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <!-- Include jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script>
         angular.module('valuationApp', [])
             .controller('ValuationController', ['$scope', function($scope) {
