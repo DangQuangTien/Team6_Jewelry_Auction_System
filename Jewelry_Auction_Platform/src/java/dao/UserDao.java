@@ -5,6 +5,7 @@
 package dao;
 
 import dto.UserDTO;
+import entity.Auction.Auction;
 import entity.product.Category;
 import entity.product.Jewelry;
 import entity.request_shipment.RequestShipment;
@@ -57,5 +58,16 @@ public interface UserDao {
     boolean sendToSeller(String jewelryID);
 
     boolean confirmToAuction(String jewelryID);
+
     boolean rejectToAuction(String jewelryID);
+
+    List<Jewelry> displayConfirmedJewelry(int page, int pageSize);
+
+    boolean createAuction(String auctionDate, String startTime, String endTime, String[] selectedJewelryIDs);
+
+    List<Auction> displayAuction();
+
+    Auction getAuctionByID(String auctionID);
+
+    List<Jewelry> displayCatalog(String auctionID);
 }

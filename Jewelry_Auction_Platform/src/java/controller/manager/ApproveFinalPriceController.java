@@ -1,3 +1,5 @@
+package controller.manager;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
@@ -17,10 +19,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author User
  */
-@WebServlet(urlPatterns = {"/ApproveFinalPriceController"})
+@WebServlet(name = "ApproveFinalPriceController", urlPatterns = {"/ApproveFinalPriceController"})
 public class ApproveFinalPriceController extends HttpServlet {
 
-    private static final String ERROR_PAGE = "/WEB-INF/jsp/index.jsp";
+    private static final String ERROR_PAGE = "index.htm";
     private static final String MANAGER_PAGE = "/manager/manager.jsp";
 
     /**

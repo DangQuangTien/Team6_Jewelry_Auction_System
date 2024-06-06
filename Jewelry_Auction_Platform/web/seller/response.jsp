@@ -93,10 +93,10 @@
                         <a class="nav-link" href="${pageContext.request.contextPath}/home.jsp">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="request.jsp">Request A Valuation</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/seller/request.jsp">Request A Valuation</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="notification.jsp">Notification</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/seller/shipmentRequest.jsp">Notification</a>
                     </li>
                 </ul>
             </div>

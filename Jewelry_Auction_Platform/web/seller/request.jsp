@@ -147,7 +147,7 @@
                         <a class="nav-link" href="${pageContext.request.contextPath}/home.jsp">Home <span class="sr-only">(current)</span></a>
                     </li>                
                     <li class="nav-item">
-                        <a class="nav-link" href="/Jewelry_Auction_Platform/web/Auction.jsp">Auction</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/auctions/upcoming.jsp">Auction</a>
                     </li>
                 </ul>
             </div>

@@ -1,3 +1,5 @@
+<%@page import="entity.Auction.Auction"%>
+<%@page import="java.util.List"%>
 <%@page import="dao.UserDAOImpl"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="entity.product.Category"%>
@@ -21,8 +23,8 @@
             .category-container {
                 display: flex;
                 flex-wrap: wrap;
-                justify-content: space-around; 
-                gap: 20px; 
+                justify-content: space-around;
+                gap: 20px;
                 padding: 20px;
                 background-color: #f0f0f0;
             }
@@ -31,19 +33,19 @@
                 font-family: 'Arial, sans-serif';
                 font-size: 24px;
                 color: #333;
-                background-color: #f9f9f9; 
+                background-color: #f9f9f9;
                 padding: 10px 20px;
                 border-radius: 8px;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                 text-align: center;
-                flex: 1 1 200px; 
-                max-width: 300px; 
+                flex: 1 1 200px;
+                max-width: 300px;
             }
-            
-                .banner img {
+
+            .banner img {
                 width: 100%;
                 height: auto;
-                max-height: 400px;
+                max-height: 950px;
                 object-fit: cover;
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             }
@@ -67,14 +69,29 @@
                 line-height: 1.6;
             }
 
+
+            .banner {
+                position: relative;
+            }
+
+            .banner-overlay {
+                position: absolute;
+                top: 50%;
+                left: 50px; /* Adjust this value based on your design */
+                transform: translateY(-50%);
+                padding: 20px;
+                border-radius: 5px;
+                text-align: center;
+                font-size: 18px;
+            }
         </style>
+
     </head>
     <body>
-        <c:set var="dao" value="<%= new dao.UserDAOImpl() %>"/>
+        <c:set var="dao" value="<%= new dao.UserDAOImpl()%>"/>
         <c:set var="username" value="${sessionScope.USERNAME}" />
         <c:set var="role" value="${sessionScope.ROLE}" />
         <c:set var="listCategory" value="${dao.listCategory()}" />
-
         <!-- START OF HEADER -->
         <header>
             <nav class="navbar navbar-expand-lg navbar-light">
@@ -85,10 +102,10 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="Auction.jsp">Auction</a>
+                            <a class="nav-link" href="auctions/upcoming.jsp">Auction</a>
                         </li>
                         <c:if test="${role == 'Member' || role == null}">
                             <li class="nav-item">
@@ -129,23 +146,50 @@
                 </div>
             </nav>
         </header>
+        <%
+            UserDAOImpl _dao = new UserDAOImpl();
+            Auction auction = new Auction();
+            try {
+                List<Auction> auctions = _dao.displayAuction();
+                if (auctions != null && !auctions.isEmpty()) {
+                    auction = auctions.get(0);
+                } else {
+                    // Handle case where no auctions are available
+                    // For example, set a default value or display a message
+                }
+            } catch (Exception ex) {
+                // Handle exception appropriately
+                ex.printStackTrace(); // Print the exception trace for debugging
+            }
+        %>
         <section class="banner mb-4">
-            <img src="https://images.pexels.com/photos/265906/pexels-photo-265906.jpeg?cs=srgb&dl=pexels-pixabay-265906.jpg&fm=jpg" class="img-fluid" alt="Banner showcasing various jewelry pieces">
+            <div class="banner-overlay">
+                <h3>OPEN NOW for BIDDING</h3><br>
+                <h1>Fine Jewels & Watches</h1><br>
+                The first batch of lots has been uploaded.<br>
+                More lots coming shortly.<br>
+                STAY TUNED! Sign up for email notifications and be the first to know<br> when the remaining lots are uploaded and available for bidding.<br><br>
+                <form id="viewAuctionForm" action="auctions/detail.jsp" method="GET">
+                    <input type="hidden" name="auctionID" value="<%= auction.getAuctionID()%>">
+                    <button type="submit" class="btn-danger">View Auction</button>
+                </form>
+            </div>
+            <img src="images/HERO-1121-Banner-Variation-1-scaled.jpg" class="img-fluid" alt="Banner showcasing various jewelry pieces">
         </section>
         <!-- END OF HEADER -->
         <main class="container mt-4">
             <hr>
-        <!-- WELCOME SECTION -->
-<section class="welcome-section">
-    <h2>Welcome to Jewelry Auction</h2>
-    <p class="welcome-text">
-        We're delighted to have you explore our curated selection of fine jewelry. Each piece is a treasure waiting to be discovered. Join our community of connoisseurs and start your bidding journey today.
-    </p>
-</section>
+            <!-- WELCOME SECTION -->
+            <section class="welcome-section">
+                <h2>Welcome to Jewelry Auction</h2>
+                <p class="welcome-text">
+                    We're delighted to have you explore our curated selection of fine jewelry. Each piece is a treasure waiting to be discovered. Join our community of connoisseurs and start your bidding journey today.
+                </p>
+            </section>
 
-<hr>
+            <hr>
 
-<br>
+            <br>
             <h2>Top Categories</h2>
             <c:if test="${not empty listCategory}">
                 <div class="category-container">
@@ -156,7 +200,7 @@
                     </c:forEach>
                 </div>
             </c:if>
-<br>
+            <br>
             <hr>
 
             <h2>Upcoming Auction</h2>
