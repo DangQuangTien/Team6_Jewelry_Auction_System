@@ -5,6 +5,7 @@
 package dao;
 
 import dto.UserDTO;
+import entity.Auction.Auction;
 import entity.product.Category;
 import entity.product.Jewelry;
 import entity.request_shipment.RequestShipment;
@@ -13,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import utils.DBUtils;
@@ -251,18 +253,69 @@ public class UserDAOImpl implements UserDao {
 
     @Override
     public boolean confirmReceipt(String valuationID) {
-        String query = "UPDATE JEWELRY SET [STATUS] = 'Received' WHERE VALUATIONID = ?";
+        String updateJewelryQuery = "UPDATE JEWELRY SET [STATUS] = 'Received' WHERE VALUATIONID = ?";
+        String updateRequestValuationQuery = "UPDATE RequestValuation SET final_Status = 1 WHERE valuationId = ?";
+
+        Connection conn = null;
+        PreparedStatement psJewelry = null;
+        PreparedStatement psRequestValuation = null;
+
         try {
             conn = DBUtils.getConnection();
-            ps = conn.prepareStatement(query);
-            ps.setString(1, valuationID);
-            int result = ps.executeUpdate();
-            return result > 0;
+            conn.setAutoCommit(false); // Start transaction
+
+            // Update Jewelry table
+            psJewelry = conn.prepareStatement(updateJewelryQuery);
+            psJewelry.setString(1, valuationID);
+            int resultJewelry = psJewelry.executeUpdate();
+
+            // Update RequestValuation table
+            psRequestValuation = conn.prepareStatement(updateRequestValuationQuery);
+            psRequestValuation.setString(1, valuationID);
+            int resultRequestValuation = psRequestValuation.executeUpdate();
+
+            if (resultJewelry > 0 && resultRequestValuation > 0) {
+                conn.commit(); // Commit transaction
+                return true;
+            } else {
+                conn.rollback(); // Rollback transaction
+                return false;
+            }
 
         } catch (ClassNotFoundException | SQLException ex) {
-            ex.getMessage();
+            if (conn != null) {
+                try {
+                    conn.rollback(); // Rollback transaction on error
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            ex.printStackTrace();
+            return false;
+        } finally {
+            if (psJewelry != null) {
+                try {
+                    psJewelry.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (psRequestValuation != null) {
+                try {
+                    psRequestValuation.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        return false;
     }
 
     @Override
@@ -472,6 +525,184 @@ public class UserDAOImpl implements UserDao {
         }
         return false;
 
+    }
+
+    @Override
+    public List<Jewelry> displayConfirmedJewelry(int currentPage, int pageSize) {
+        List<Jewelry> listJewelry = new ArrayList<>();
+        String query = "SELECT j.*\n"
+                + "FROM Jewelry j\n"
+                + "LEFT JOIN Session s ON j.jewelryID = s.jewelryID\n"
+                + "WHERE s.jewelryID IS NULL and j.status = 'Confirmed'\n"
+                + "ORDER BY j.jewelryID\n"
+                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, (currentPage - 1) * pageSize); // Calculate the offset
+            ps.setInt(2, pageSize); // Set the number of rows to fetch
+
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Jewelry jewelry = new Jewelry();
+                    jewelry.setJewelryID(rs.getString("jewelryID"));
+                    jewelry.setCategoryName(rs.getString("categoryID"));
+                    jewelry.setJewelryName(rs.getString("jewelryName"));
+                    jewelry.setArtist(rs.getString("artist"));
+                    jewelry.setCirca(rs.getString("circa"));
+                    jewelry.setMaterial(rs.getString("material"));
+                    jewelry.setDial(rs.getString("dial"));
+                    jewelry.setBraceletMaterial(rs.getString("braceletMaterial"));
+                    jewelry.setCaseDimensions(rs.getString("caseDimensions"));
+                    jewelry.setBraceletSize(rs.getString("braceletSize"));
+                    jewelry.setSerialNumber(rs.getString("serialNumber"));
+                    jewelry.setReferenceNumber(rs.getString("referenceNumber"));
+                    jewelry.setCaliber(rs.getString("caliber"));
+                    jewelry.setMovement(rs.getString("movement"));
+                    jewelry.setCondition(rs.getString("condition"));
+                    jewelry.setMetal(rs.getString("metal"));
+                    jewelry.setGemstones(rs.getString("gemstones"));
+                    jewelry.setMeasurements(rs.getString("measurements"));
+                    jewelry.setWeight(rs.getString("weight"));
+                    jewelry.setStamped(rs.getString("stamped"));
+                    jewelry.setRingSize(rs.getString("ringSize"));
+                    jewelry.setMinPrice(rs.getString("minPrice"));
+                    jewelry.setMaxPrice(rs.getString("maxPrice"));
+                    jewelry.setValuationId(rs.getString("valuationID"));
+                    jewelry.setFinal_Price(rs.getString("final_Price"));
+                    jewelry.setPhotos(rs.getString("photos"));
+                    listJewelry.add(jewelry);
+                }
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        return listJewelry;
+    }
+
+    public int getTotalConfirmedJewelryCount() {
+        int count = 0;
+        String query = "SELECT COUNT(*) AS total FROM Jewelry j\n"
+                + "LEFT JOIN Session s ON j.jewelryID = s.jewelryID\n"
+                + "WHERE s.jewelryID IS NULL and j.status = 'Confirmed'";
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query);  ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                count = rs.getInt("total");
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        return count;
+    }
+
+    @Override
+    public boolean createAuction(String auctionDate, String startTime, String endTime, String[] selectedJewelryIDs) {
+        String insertAuctionQuery = "INSERT INTO Auction (startDate, startTime) VALUES (?, ?)";
+        String selectAuctionQuery = "SELECT TOP 1 auctionID FROM Auction WHERE status = 0 ORDER BY auctionID DESC";
+        String insertSessionQuery = "INSERT INTO [Session] (auctionID, jewelryID) VALUES (?, ?)";
+        String updateAuctionStatusQuery = "UPDATE Auction SET status = 1 WHERE auctionID = ?";
+
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement psInsertAuction = conn.prepareStatement(insertAuctionQuery);  PreparedStatement psSelectAuction = conn.prepareStatement(selectAuctionQuery);  PreparedStatement psInsertSession = conn.prepareStatement(insertSessionQuery);  PreparedStatement psUpdateAuctionStatus = conn.prepareStatement(updateAuctionStatusQuery)) {
+
+            // Insert auction
+            psInsertAuction.setString(1, auctionDate);
+            psInsertAuction.setString(2, startTime);
+            int result = psInsertAuction.executeUpdate();
+
+            if (result > 0) {
+                // Get the latest auction ID
+                try ( ResultSet rs = psSelectAuction.executeQuery()) {
+                    if (rs.next()) {
+                        String auctionID = rs.getString("auctionID");
+                        // Insert selected jewelry into session
+                        for (String id : selectedJewelryIDs) {
+                            psInsertSession.setString(1, auctionID);
+                            psInsertSession.setString(2, id);
+                            psInsertSession.executeUpdate();
+                        }
+                        // Update auction status
+                        psUpdateAuctionStatus.setString(1, auctionID);
+                        int updated = psUpdateAuctionStatus.executeUpdate();
+                        return updated > 0;
+                    }
+                }
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace(); // Handle or log the exception properly
+        }
+        return false;
+    }
+
+    @Override
+    public List<Auction> displayAuction() {
+        String query = "SELECT * FROM AUCTION WHERE STATUS = 1";
+        List<Auction> listAuction = new ArrayList<>();
+        try {
+            conn = DBUtils.getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Auction auction = new Auction();
+                auction.setAuctionID(rs.getString(1));
+                auction.setStartDate(rs.getDate(2));
+                auction.setStartTime(LocalTime.parse(rs.getString(3)));
+                listAuction.add(auction);
+            }
+            return listAuction;
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.getMessage();
+        }
+        return null;
+    }
+
+    @Override
+    public Auction getAuctionByID(String auctionID) {
+        String query = "SELECT * FROM AUCTION WHERE AUCTIONID = ?";
+        Auction auction = new Auction();
+        try {
+            conn = DBUtils.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, auctionID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                auction.setAuctionID(rs.getString(1));
+                auction.setStartDate(rs.getDate(2));
+                auction.setStartTime(LocalTime.parse(rs.getString(3)));
+            }
+            return auction;
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.getMessage();
+        }
+        return null;
+    }
+
+    @Override
+    public List<Jewelry> displayCatalog(String auctionID) {
+        String query = "SELECT J.*, C.CATEGORYNAME \n"
+                + "FROM JEWELRY J \n"
+                + "JOIN CATEGORY C ON J.CATEGORYID = C.CATEGORYID\n"
+                + "JOIN Session S ON J.JEWELRYID = S.JEWELRYID\n"
+                + "JOIN Auction AUC ON S.AUCTIONID = AUC.AUCTIONID\n"
+                + "WHERE AUC.AUCTIONID = ?";
+        List<Jewelry> listJewelry = new ArrayList<>();
+        try {
+            conn = DBUtils.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, auctionID);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                Jewelry jewelry = new Jewelry();
+                jewelry.setJewelryID(rs.getString("jewelryID"));
+                jewelry.setPhotos(rs.getString("photos"));
+                jewelry.setJewelryName(rs.getString("jewelryName"));
+                jewelry.setCategoryName(rs.getString("CATEGORYNAME"));
+                jewelry.setMinPrice(rs.getString("minPrice"));
+                jewelry.setMaxPrice(rs.getString("maxPrice"));
+                listJewelry.add(jewelry);
+            }
+            return listJewelry;
+        } catch (Exception ex){
+            ex.getMessage();
+        }
+        return null;
     }
 
 }

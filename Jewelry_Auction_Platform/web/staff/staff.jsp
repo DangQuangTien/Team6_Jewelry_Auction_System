@@ -1,9 +1,3 @@
-<%-- 
-    Document   : staff
-    Created on : May 23, 2024, 1:09:59 AM
-    Author     : User
---%>
-
 <%@page import="entity.valuation.Valuation"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.time.LocalTime"%>
@@ -196,22 +190,26 @@
                             </div>
                         </td>
                         <td>
-                            <form action="${pageContext.request.contextPath}/MainController" method="POST" onsubmit="confirmReceipt(event)">
-                                <input type="hidden" name="valuationID" value="${val.valuationID}">
-                                <input type="submit" name="action" class="submit-btn" value="Confirm Receipt">
-                            </form>
-                        </td>
-                        <td><c:choose>
-                                <c:when test="${val.status == 0}">
-                                    <input type="submit" class="submit-btn-grey" value="Final Evaluate" disabled>
+                            <c:choose>
+                                <c:when test="${val.final_Status == 0 and val.status == 1}">
+                                    <form action="${pageContext.request.contextPath}/MainController" method="POST" onsubmit="confirmReceipt(event)">
+                                        <input type="hidden" name="valuationID" value="${val.valuationID}">
+                                        <input type="submit" name="action" class="submit-btn" value="Confirm Receipt">
+                                    </form>
                                 </c:when>
                                 <c:otherwise>
-                                    <form action="${pageContext.request.contextPath}/staff/finalValuation.jsp" method="POST">
-                                        <input type="hidden" name="valuationID" value="${val.valuationID}">
-                                        <input type="submit" name="action" class="submit-btn" value="Final Evaluate">
-                                    </form>
+                                    <c:if test="${val.final_Status == 1}"><div style="color: red">Confirmed</div></c:if>
+
                                 </c:otherwise>
                             </c:choose>
+                        </td>
+                        <td>
+                            <c:if test="${val.final_Status == 1}">
+                                <form action="${pageContext.request.contextPath}/staff/finalValuation.jsp" method="POST">
+                                    <input type="hidden" name="valuationID" value="${val.valuationID}">
+                                    <input type="submit" name="action" class="submit-btn" value="Final Evaluate">
+                                </form>
+                            </c:if>
                         </td>
                     </tr>
                 </c:forEach>

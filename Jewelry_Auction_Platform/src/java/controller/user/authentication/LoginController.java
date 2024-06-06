@@ -29,7 +29,7 @@ public class LoginController extends HttpServlet {
     private static final String STAFF_PAGE = "/staff/staff.jsp";
     private static final String MANAGER_PAGE = "/manager/manager.jsp";
     private static final String HOME_PAGE = "home.jsp";
-    private static final String ERROR_PAGE = "/WEB-INF/jsp/index.jsp";
+    private static final String ERROR_PAGE = "index.htm";
     private static final String REDIRECT_PAGE = "redirect.jsp";
 
     /**

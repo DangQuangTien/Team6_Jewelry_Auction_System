@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "InsertJewelryController", urlPatterns = {"/InsertJewelryController"})
 public class InsertJewelryController extends HttpServlet {
 
-    private static final String ERROR_PAGE = "/WEB-INF/jsp/index.jsp";
+    private static final String ERROR_PAGE = "index.htm";
     private static final String STAFF_PAGE = "ProcessValuationRequest";
 
     /**
