@@ -91,7 +91,7 @@
                         <!-- Hidden field for category -->
                         <input type="hidden" name="category" value="<%= j.getCategoryName()%>">
                         <!-- Place Bid Button -->
-                        <a href="#" class="btn btn-primary">Place Bid</a>
+                        <a href="bidForm.jsp" class="btn btn-primary">Place Bid</a>
                     </div>
                 </div>
             </div>
