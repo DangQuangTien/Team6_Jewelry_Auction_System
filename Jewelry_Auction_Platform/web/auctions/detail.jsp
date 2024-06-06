@@ -1,3 +1,9 @@
+<%-- 
+    Document   : detail
+    Created on : Jun 6, 2024, 2:12:04 AM
+    Author     : User
+--%>
+
 <%@page import="entity.product.Category"%>
 <%@page import="entity.product.Jewelry"%>
 <%@page import="java.util.List"%>
