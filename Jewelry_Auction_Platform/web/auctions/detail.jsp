@@ -71,7 +71,9 @@
                 <option value="<%= category.getCategoryName()%>"><%= category.getCategoryName()%></option>
                 <% } %>
             </select>
+            
         </div>
+        <a href="registerBid.jsp" class="btn btn-primary">Register bid</a>
 
         <h2>Catalog</h2>
         <% if (listJewelry != null && !listJewelry.isEmpty()) { %>
@@ -91,7 +93,7 @@
                         <!-- Hidden field for category -->
                         <input type="hidden" name="category" value="<%= j.getCategoryName()%>">
                         <!-- Place Bid Button -->
-                        <a href="bidForm.jsp" class="btn btn-primary">Place Bid</a>
+                        <a href="registerBid.jsp" class="btn btn-primary">Place Bid</a>
                     </div>
                 </div>
             </div>
