@@ -20,8 +20,8 @@
         <style>
             body {
                 font-family: Arial, sans-serif;
-                background-color: #f8f9fa;
-                padding-top: 60px;
+                background-color: #ffffff;
+                padding-top: 20px;
             }
             .text-primary {
                 color: #007BFF;
@@ -52,12 +52,13 @@
             }
             .table-responsive {
                 margin-top: 20px;
-                padding: 20px;
             }
             table {
                 width: 100%;
                 border-collapse: collapse;
                 margin-bottom: 20px;
+                background-color: #fff;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             }
             th, td {
                 padding: 12px 15px;
@@ -77,34 +78,11 @@
             .text-danger {
                 color: red;
             }
-            .img-thumbnail {
-                max-width: 150px;
-                max-height: 150px;
-                border: none;
-                border-radius: 8px;
-            }
-            .navbar-brand, .navbar-nav .nav-link {
-                color: black !important;
-            }
-            .navbar {
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            }
-            footer {
-                background-color: #f8f9fa;
-                padding: 20px 0;
-                text-align: center;
-                margin-top: 20px;
-                box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-            }
-            .btn-group-vertical .btn {
-                width: 100%;
-                margin-bottom: 5px;
-            }
         </style>
     </head>
     <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">Jewelry Auctions</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -126,7 +104,7 @@
     </header>
 
     <div class="container">
-        <h1 class="text-center text-primary mt-5">Overall Assessment for Your Requests</h1>
+        <h1 class="text-center text-primary">Overall Assessment for your requests</h1>
         <%
             String userID = (String) session.getAttribute("USERID");
             UserDAOImpl dao = new UserDAOImpl();
@@ -139,6 +117,7 @@
                     <tr>
                         <th>Photo</th>
                         <th>Jewelry Name</th>
+                        
                         <th>Artist</th>
                         <th>Circa</th>
                         <th>Material</th>
@@ -162,13 +141,15 @@
                         <th>Temporary Price</th>
                         <th>Final Price</th>
                         <th>Status</th>
+
                     </tr>
                 </thead>
                 <tbody>
                     <% for (Jewelry jewelry : listJewelry) {%>
+
                     <tr>
                         <% String[] photoArray = jewelry.getPhotos().split(";");%>
-                        <td><img class="img-fluid img-thumbnail" src="${pageContext.request.contextPath}/<%= photoArray[0]%>" alt="Jewelry Image"></td>
+                        <td><img class="img-fluid" src="${pageContext.request.contextPath}/<%= photoArray[0]%>" alt="Jewelry Image"></td>
                         <td><%= jewelry.getJewelryName()%></td>
                         <td><%= jewelry.getArtist()%></td>
                         <td><%= jewelry.getCirca()%></td>
@@ -198,19 +179,18 @@
                         <% } else if (status.equals("Received")) {%>
                         <td style="color: red"><%= (jewelry.getFinal_Price() != null) ? jewelry.getFinal_Price() : "Updating"%></td>
                         <td style="color: green">Received</td>
+
                         <% } else if (status.equals("Pending Confirm")) {%>
                         <td style="color: red"> <%= jewelry.getFinal_Price()%> </td>
                         <td style="color: green"><strong>Pending Confirm</strong><br>
-                            <div class="btn-group-vertical">
-                                <form action="${pageContext.request.contextPath}/MainController">
-                                    <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID()%>">
-                                    <input type="submit" name="action" value="Confirm" class="btn btn-success btn-sm"> 
-                                </form>
-                                <form action="${pageContext.request.contextPath}/MainController">
-                                    <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID()%>">
-                                    <input type="submit" name="action" value="Reject" class="btn btn-danger btn-sm"> 
-                                </form>
-                            </div>
+                            <form action="${pageContext.request.contextPath}/MainController">
+                                <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID()%>">
+                                <input type="submit" name="action" value="Confirm"> 
+                            </form><br>
+                            <form action="${pageContext.request.contextPath}/MainController">
+                                <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID()%>">
+                                <input type="submit" name="action" value="Reject"> 
+                            </form>
                         </td>
                         <% } else if (status.equals("Confirmed")) {%>
                         <td style="color: red"> <%= jewelry.getFinal_Price()%> </td>
@@ -219,6 +199,7 @@
                         <td style="color: red">Updating</td>
                         <td style="color: red">In Progress</td>
                         <% } %>
+
                     </tr>
                     <% } %>
                 </tbody>
@@ -228,14 +209,8 @@
         <p class="no-jewelry">No jewelry found</p>
         <% }%>
     </div>
-    
-    <footer>
-        <p>&copy; 2024 Jewelry Auctions. All rights reserved.</p>
-    </footer>
-    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
