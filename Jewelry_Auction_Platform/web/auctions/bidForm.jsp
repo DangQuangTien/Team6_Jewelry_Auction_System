@@ -316,7 +316,6 @@
             $scope.user = {};
             $scope.submitRegister = function(isValid) {
                 if (isValid) {
-                    // Handle the form submission
                     alert('Form submitted successfully!');
                 }
             };
