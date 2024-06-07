@@ -71,7 +71,9 @@
                 <option value="<%= category.getCategoryName()%>"><%= category.getCategoryName()%></option>
                 <% } %>
             </select>
+            
         </div>
+        <a href="registerBid.jsp" class="btn btn-primary">Register bid</a>
 
         <h2>Catalog</h2>
         <% if (listJewelry != null && !listJewelry.isEmpty()) { %>
@@ -88,10 +90,14 @@
                         <h5 class="card-title"><%= j.getJewelryName()%></h5>
                         <p class="card-text">Min Price: <%= j.getMinPrice()%></p>
                         <p class="card-text">Max Price: <%= j.getMaxPrice()%></p>
+                        
                         <!-- Hidden field for category -->
                         <input type="hidden" name="category" value="<%= j.getCategoryName()%>">
                         <!-- Place Bid Button -->
-                        <a href="#" class="btn btn-primary">Place Bid</a>
+                        <form action="itemDetail.jsp">
+                            <input type="hidden" name="jewelryID" value="<%= j.getJewelryID() %>">
+                            <input type="submit"  class="btn btn-primary" value="View Detail">
+                        </form>
                     </div>
                 </div>
             </div>
