@@ -1,3 +1,4 @@
+<%@page import="dao.UserDAOImpl"%>
 <%@page import="entity.product.Jewelry"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -122,131 +123,130 @@
 
     <div class="container">
         <h1>Item Detail</h1>
-        <% Jewelry jewelry = (Jewelry) request.getAttribute("jewelry"); %>
-        <% if (jewelry != null) { %>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h2 class="card-title"><%= jewelry.getJewelryName() %></h2>
-                            <img src="<%= jewelry.getPhotos() %>" class="card-img-top" alt="<%= jewelry.getJewelryName() %>">
-                            <p class="card-text"><strong>Category:</strong> <%= jewelry.getCategoryName() %></p>
-                            <p class="card-text"><strong>Min Price:</strong> <%= jewelry.getMinPrice() %></p>
-                            <p class="card-text"><strong>Max Price:</strong> <%= jewelry.getMaxPrice() %></p>
-                            <p class="card-text"><strong>Description:</strong> <%= jewelry.getDescription() %></p>
-                            <a href="#" class="btn btn-primary">Place Bid</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="additional-info">
-                        <h2>Additional Information</h2>
-                        <div>
-                            <label for="jewelryName">Jewelry Name</label>
-                            <input type="text" id="jewelryName" name="jewelryName" value="<%= jewelry.getJewelryName() %>" readonly>
-                        </div>
-                        <div>
-                            <label for="artist">Artist</label>
-                            <input type="text" id="artist" name="artist" value="<%= jewelry.getArtist() %>" readonly>
-                        </div>
 
-                        <% if ("Watch".equals(jewelry.getCategoryName())) { %>
-                            <!-- Watch Fields -->
-                            <div id="watchFields" class="form-section">
-                                <h3>Watch Details</h3>
-                                <div>
-                                    <label for="circa">Circa</label>
-                                    <input type="text" id="circa" name="circa" value="<%= jewelry.getCirca() %>" readonly>
-                                </div>
-                                <div>
-                                    <label for="material">Case Material</label>
-                                    <input type="text" id="material" name="material" value="<%= jewelry.getCaseMaterial() %>" readonly>
-                                </div>
-                                <div>
-                                    <label for="dial">Dial</label>
-                                    <input type="text" id="dial" name="dial" value="<%= jewelry.getDial() %>" readonly>
-                                </div>
-                                <div>
-                                    <label for="braceletMaterial">Bracelet Material</label>
-                                    <input type="text" id="braceletMaterial" name="braceletMaterial" value="<%= jewelry.getBraceletMaterial() %>" readonly>
-                                </div>
-                                <div>
-                                    <label for="caseDimensions">Case Dimensions</label>
-                                    <input type="text" id="caseDimensions" name="caseDimensions" value="<%= jewelry.getCaseDimensions() %>" readonly>
-                                </div>
-                                <div>
-                                    <label for="braceletSize">Bracelet Size</label>
-                                    <input type="text" id="braceletSize" name="braceletSize" value="<%= jewelry.getBraceletSize() %>" readonly>
-                                </div>
-                                <div>
-                                    <label for="serialNumber">Serial Number</label>
-                                    <input type="text" id="serialNumber" name="serialNumber" value="<%= jewelry.getSerialNumber() %>" readonly>
-                                </div>
-                                <div>
-                                    <label for="referenceNumber">Reference Number</label>
-                                    <input type="text" id="referenceNumber" name="referenceNumber" value="<%= jewelry.getReferenceNumber() %>" readonly>
-                                </div>
-                                <div>
-                                    <label for="caliber">Caliber</label>
-                                    <input type="text" id="caliber" name="caliber" value="<%= jewelry.getCaliber() %>" readonly>
-                                </div>
-                                <div>
-                                    <label for="movement">Movement</label>
-                                    <input type="text" id="movement" name="movement" value="<%= jewelry.getMovement() %>" readonly>
-                                </div>
-                                <div>
-                                    <label for="condition">Condition</label>
-                                    <input type="text" id="condition" name="condition" value="<%= jewelry.getCondition() %>" readonly>
-                                </div>
-                            </div>
-                        <% } else if ("Bracelet".equals(jewelry.getCategoryName())) { %>
-                            <!-- Bracelet Fields -->
-                            <div id="braceletFields" class="form-section">
-                                <h3>Bracelet Details</h3>
-                                <div>
-                                    <label for="braceletMetal">Metal</label>
-                                    <input type="text" id="braceletMetal" name="metal" value="<%= jewelry.getBraceletMetal() %>" readonly>
-                                </div>
-                                <div>
-                                    <label for="braceletGemstones">Gemstone(s)</label>
-                                    <input type="text" id="braceletGemstones" name="gemstones" value="<%= jewelry.getBraceletGemstones() %>" readonly>
-                                </div>
-                                <div>
-                                    <label for="braceletMeasurements">Measurements</label>
-                                    <input type="text" id="braceletMeasurements" name="measurements" value="<%= jewelry.getBraceletMeasurements() %>" readonly>
-                                </div>
-                                <div>
-                                    <label for="braceletWeight">Weight</label>
-                                    <input type="text" id="braceletWeight" name="weight" value="<%= jewelry.getBraceletWeight() %>" readonly>
-                                </div>
-                                <div>
-                                    <label for="braceletCondition">Condition</label>
-                                    <input type="text" id="braceletCondition" name="condition" value="<%= jewelry.getBraceletCondition() %>" readonly>
-                                </div>
-                                <div>
-                                    <label for="braceletStamped">Stamped</label>
-                                    <input type="text" id="braceletStamped" name="stamped" value="<%= jewelry.getBraceletStamped() %>" readonly>
-                                </div>
-                                <div>
-                                    <label for="ringSize" style="color: red;">Ring Size (for rings)</label>
-                                    <input type="text" id="ringSize" name="ringSize" value="<%= jewelry.getRingSize() %>" readonly>
-                                </div>
-                            </div>
-                        <% } %>
-                        <div>
-                            <label for="Price">Estimate</label>
-                            <input type="number" id="minPrice" name="minPrice" value="<%= jewelry.getMinPrice() %>" readonly>
-                            <input type="number" id="maxPrice" name="maxPrice" value="<%= jewelry.getMaxPrice() %>" readonly>
-                        </div>
-                        <div>
-                            <label for="tempPrice">Temporary Price</label>
-                            <input type="number" id="tempPrice" name="tempPrice" value="<%= jewelry.getTempPrice() %>" readonly>
-                        </div>
+        <%
+            UserDAOImpl dao = new UserDAOImpl();
+            String jewelryID = request.getParameter("jewelryID");
+            Jewelry jewelry = dao.getJewelryDetails(jewelryID);
+        %>
+        <% if (jewelry != null) { %>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title"><%= jewelry.getJewelryName() %></h2>
+                        <img src="<%= jewelry.getPhotos() %>" class="card-img-top" alt="<%= jewelry.getJewelryName() %>">
+                        <p class="card-text"><strong>Category:</strong> <%= jewelry.getCategoryName() %></p>
+                        <p class="card-text"><strong>Min Price:</strong> <%= jewelry.getMinPrice() %></p>
+                        <p class="card-text"><strong>Max Price:</strong> <%= jewelry.getMaxPrice() %></p>
+                        <a href="#" class="btn btn-primary">Place Bid</a>
                     </div>
                 </div>
             </div>
+            <div class="col-md-6">
+                <div class="additional-info">
+                    <h2>Additional Information</h2>
+                    <div>
+                        <label for="jewelryName">Jewelry Name</label>
+                        <input type="text" id="jewelryName" name="jewelryName" value="<%= jewelry.getJewelryName() %>" readonly>
+                    </div>
+                    <div>
+                        <label for="artist">Artist</label>
+                        <input type="text" id="artist" name="artist" value="<%= jewelry.getArtist() %>" readonly>
+                    </div>
+
+                    <% if ("Watch".equals(jewelry.getCategoryName())) { %>
+                    <!-- Watch Fields -->
+                    <div id="watchFields" class="form-section">
+                        <h3>Watch Details</h3>
+                        <div>
+                            <label for="circa">Circa</label>
+                            <input type="text" id="circa" name="circa" value="<%= jewelry.getCirca() %>" readonly>
+                        </div>
+                        <div>
+                            <label for="material">Case Material</label>
+                            <input type="text" id="material" name="material" value="<%= jewelry.getCaseDimensions() %>" readonly>
+                        </div>
+                        <div>
+                            <label for="dial">Dial</label>
+                            <input type="text" id="dial" name="dial" value="<%= jewelry.getDial() %>" readonly>
+                        </div>
+                        <div>
+                            <label for="braceletMaterial">Bracelet Material</label>
+                            <input type="text" id="braceletMaterial" name="braceletMaterial" value="<%= jewelry.getBraceletMaterial() %>" readonly>
+                        </div>
+                        <div>
+                            <label for="caseDimensions">Case Dimensions</label>
+                            <input type="text" id="caseDimensions" name="caseDimensions" value="<%= jewelry.getCaseDimensions() %>" readonly>
+                        </div>
+                        <div>
+                            <label for="braceletSize">Bracelet Size</label>
+                            <input type="text" id="braceletSize" name="braceletSize" value="<%= jewelry.getBraceletSize() %>" readonly>
+                        </div>
+                        <div>
+                            <label for="serialNumber">Serial Number</label>
+                            <input type="text" id="serialNumber" name="serialNumber" value="<%= jewelry.getSerialNumber() %>" readonly>
+                        </div>
+                        <div>
+                            <label for="referenceNumber">Reference Number</label>
+                            <input type="text" id="referenceNumber" name="referenceNumber" value="<%= jewelry.getReferenceNumber() %>" readonly>
+                        </div>
+                        <div>
+                            <label for="caliber">Caliber</label>
+                            <input type="text" id="caliber" name="caliber" value="<%= jewelry.getCaliber() %>" readonly>
+                        </div>
+                        <div>
+                            <label for="movement">Movement</label>
+                            <input type="text" id="movement" name="movement" value="<%= jewelry.getMovement() %>" readonly>
+                        </div>
+                        <div>
+                            <label for="condition">Condition</label>
+                            <input type="text" id="condition" name="condition" value="<%= jewelry.getCondition() %>" readonly>
+                        </div>
+                    </div>
+                    <% } else if ("Bracelet".equals(jewelry.getCategoryName())) { %>
+                    <!-- Bracelet Fields -->
+                    <div id="braceletFields" class="form-section">
+                        <h3>Bracelet Details</h3>
+                        <div>
+                            <label for="metal">Metal</label>
+                            <input type="text" id="metal" name="metal" value="<%= jewelry.getMetal() %>" readonly>
+                        </div>
+                        <div>
+                            <label for="gemstones">Gemstone(s)</label>
+                            <input type="text" id="gemstones" name="gemstones" value="<%= jewelry.getGemstones() %>" readonly>
+                        </div>
+                        <div>
+                            <label for="measurements">Measurements</label>
+                            <input type="text" id="measurements" name="measurements" value="<%= jewelry.getMeasurements() %>" readonly>
+                        </div>
+                        <div>
+                            <label for="weight">Weight</label>
+                            <input type="text" id="weight" name="weight" value="<%= jewelry.getWeight() %>" readonly>
+                        </div>
+                        <div>
+                            <label for="condition">Condition</label>
+                            <input type="text" id="condition" name="condition" value="<%= jewelry.getCondition() %>" readonly>
+                        </div>
+                        <div>
+                            <label for="stamped">Stamped</label>
+                            <input type="text" id="stamped" name="stamped" value="<%= jewelry.getStamped() %>" readonly>
+                        </div>
+                    </div>
+                    <% } %>
+                    <div>
+                        <label for="minPrice">Min Price</label>
+                        <input type="text" id="minPrice" name="minPrice" value="<%= jewelry.getMinPrice() %>" readonly>
+                    </div>
+                    <div>
+                        <label for="maxPrice">Max Price</label>
+                        <input type="text" id="maxPrice" name="maxPrice" value="<%= jewelry.getMaxPrice() %>" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
         <% } else { %>
-            <p>No item details available.</p>
+        <p>No item details available.</p>
         <% } %>
     </div>
 

@@ -70,4 +70,6 @@ public interface UserDao {
     Auction getAuctionByID(String auctionID);
 
     List<Jewelry> displayCatalog(String auctionID);
+    
+    Jewelry getJewelryDetails(String jewelryID);
 }
