@@ -10,6 +10,7 @@ import entity.product.Category;
 import entity.product.Jewelry;
 import entity.request_shipment.RequestShipment;
 import entity.valuation.Valuation;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,4 +71,7 @@ public interface UserDao {
     Auction getAuctionByID(String auctionID);
 
     List<Jewelry> displayCatalog(String auctionID);
+    
+    //---------------------------------
+    public boolean createBidRegistry(String sessionID, String firstName, String lastName, Double bidAmount_Current, LocalDateTime bidTime_Current);
 }

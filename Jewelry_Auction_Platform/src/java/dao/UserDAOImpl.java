@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -703,6 +704,37 @@ public class UserDAOImpl implements UserDao {
             ex.getMessage();
         }
         return null;
+    }
+    
+    //----------------------
+
+    @Override
+    public boolean createBidRegistry(String sessionID, String firstName, String lastName, Double bidAmount_Current, LocalDateTime bidTime_Current) {
+        String selectQuery = "SELECT memberID FROM Member WHERE firstName = ? AND lastName = ?";
+        String createQuery = "INSERT INTO Register_Bid (memberID, sessionID, bidAmount_Current, bidTime_Current, status) VALUES (?, ?, ?, ?, 0)";
+        String memberID;
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement pst = conn.prepareStatement(selectQuery)) {
+            pst.setString(1, firstName);
+            pst.setString(2, lastName);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    memberID = rs.getString("memberID");
+                    try (PreparedStatement ps = conn.prepareStatement(createQuery)) {
+                        ps.setString(1, sessionID);
+                        ps.setString(2, memberID);
+                        ps.setDouble(3, bidAmount_Current);
+                        ps.setObject(4, bidTime_Current);
+
+                        int rowsAffected = ps.executeUpdate();
+                        return rowsAffected > 0;
+                    }
+                }
+
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 
 }
