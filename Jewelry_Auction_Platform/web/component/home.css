@@ -126,3 +126,36 @@ footer a {
     }
 }
 
+#viewAuctionButton {
+    background-color: #dc3545; 
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#viewAuctionButton:hover {
+    background-color: #c82333; 
+}
+
+#viewAuctionButton[disabled] {
+    background-color: #6c757d; 
+    cursor: not-allowed;
+}
+
+#noAuctionBox {
+    background-color: #ffc107; 
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #343a40; 
+    font-weight: bold;
+    margin-left: 10px; 
+    display: none; 
+}
+
+#viewAuctionForm.no-auction #noAuctionBox {
+    display: inline-block;
+}
+

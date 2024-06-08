@@ -9,7 +9,6 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,12 +18,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="component/home.css">
 </head>
-
 <body>
     <c:set var="dao" value="<%= new dao.UserDAOImpl() %>" />
     <c:set var="username" value="${sessionScope.USERNAME}" />
     <c:set var="role" value="${sessionScope.ROLE}" />
     <c:set var="listCategory" value="${dao.listCategory()}" />
+
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Jewelry Auctions</a>
@@ -67,32 +66,26 @@
                         </li>
                     </c:otherwise>
                 </c:choose>
-                <li class="nav-item">
+                <li class="nav-item d-flex align-items-center">
                     <% 
                     UserDAOImpl _dao = new UserDAOImpl(); 
-                    Auction auction = null; // Declare auction variable outside of try-catch block
+                    Auction auction = null; 
                     try {
-                        List<Auction> auctions = _dao.displayAuction(); // Use the correct case for Auction
+                        List<Auction> auctions = _dao.displayAuction(); 
                         if (auctions != null && !auctions.isEmpty()) {
                             auction = auctions.get(0);
-                        } else {
-                            // Handle case where no auctions are available
-                            // For example, set a default value or display a message
                         }
                     } catch (Exception ex) {
-                        // Handle exception appropriately
-                        ex.printStackTrace(); // Print the exception trace for debugging
+                        ex.printStackTrace();
                     }
-                    if(auction != null) { // Check if auction is not null before using it
                     %>
-                    <form id="viewAuctionForm" action="auctions/detail.jsp" method="GET">
-                        <input type="hidden" name="auctionID" value="<%= auction.getAuctionID() %>">
-                        <button type="submit" class="btn btn-danger">View Auction</button>
+                    <form id="viewAuctionForm" action="auctions/detail.jsp" method="GET" class="d-flex">
+                        <input type="hidden" name="auctionID" value="<%= auction != null ? auction.getAuctionID() : "" %>">
+                        <button type="submit" class="btn btn-danger" id="viewAuctionButton"><%= auction != null ? "View Auction" : "No Auction Available" %></button>
                     </form>
-                    <% } else {
-                        // Display a message or handle the null case
-                    }
-                    %>
+                    <% if (auction == null) { %>
+                    <div id="noAuctionBox" class="highlight ml-2">No auction available</div>
+                    <% } %>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="notification.jsp" id="bell-icon"><i class="fas fa-bell"></i></a>
@@ -226,6 +219,19 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-</body>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var auctionButton = document.getElementById('viewAuctionButton');
+            auctionButton.addEventListener('click', function(event) {
+                var auctionID = document.querySelector('input[name="auctionID"]').value;
+                if (!auctionID) {
+                    event.preventDefault();
+                    alert('No auction available');
+                }
+            });
+        });
+    </script>
+    
+</body>
 </html>
