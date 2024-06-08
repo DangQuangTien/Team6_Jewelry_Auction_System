@@ -45,7 +45,7 @@
         Auction auction = dao.getAuctionByID(auctionID);
         List<Jewelry> listJewelry = dao.displayCatalog(auctionID);
     %>
-    <body>
+    <body>     
         <div class="header">
             <a href="${pageContext.request.contextPath}/home.jsp" class="btn btn-secondary">Home</a>
             <a href="${pageContext.request.contextPath}/login.jsp" class="btn btn-secondary">Log In</a>

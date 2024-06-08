@@ -4,91 +4,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jewelry Auctions Online</title>
+    <title>Jewelry Auctions Blog</title>
     <!-- Include Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="component/header.css">
-    <link rel="stylesheet" type="text/css" href="../component/footer.css">
+    <link rel="stylesheet" type="text/css" href="component/footer.css">
+    <link rel="stylesheet" type="text/css" href="component/NavBar.css">  
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <!-- Include AngularJS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <script>
-        // AngularJS code here
-    </script>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            margin: 0;
-        }
-        
-        main {
-            flex: 1;
-            padding-top: 80px;
-            /* Adjust based on header height */
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-check-label {
-            margin-right: 1.5rem;
-        }
-        
-        .list-group-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .list-group-item button {
-            margin-left: 1rem;
-        }
-        
-        .error-message {
-            color: red;
-        }
-        
-        footer {
-            background: #f8f9fa;
-            padding: 1rem 0;
-        }
-        
-        .sticky-header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+         
 </head>
+<style>
+    .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #343a40;
+    border-bottom: 3px solid #e4af11;
+}
 
+.navbar-brand, .nav-link, .navbar-toggler-icon {
+    color: #ffc107 !important;
+}
+
+.navbar-brand:hover, .nav-link:hover {
+    color: #0a0800 !important;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+}
+</style>
 <body>
-    <!-- START OF HEADER -->
-    <header class="sticky-header">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Jewelry Auctions</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mr-auto">
+  
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Jewelry Auctions</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="auctions/upcoming.jsp">Auction</a>
+                </li>
+                <c:if test="${role == 'Member' || role == null}">
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/home.jsp">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="seller/selling.html">Sell</a>
                     </li>
-                    <li class="nav-item">
+        </div>
+    </nav>
 
-                        <a class="nav-link" href="${pageContext.request.contextPath}/auctions/upcoming.jsp">Auction</a>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/auctions/upcoming.jsp">Auction</a>
-                        <a class="nav-link" href="#">Auction</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
     <!-- END OF HEADER -->
     <main class="container mt-4" ng-controller="ValuationController">
         <div class="row justify-content-center">
@@ -186,11 +153,12 @@
             <a href="#">Sitemap</a>
         </div>
     </footer>
+
     <!-- Include jQuery and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>  
     <script>
         angular.module('valuationApp', [])
             .controller('ValuationController', ['$scope', function($scope) {
@@ -230,5 +198,6 @@
                 };
             }]);
     </script>
+
 </body>
 </html>

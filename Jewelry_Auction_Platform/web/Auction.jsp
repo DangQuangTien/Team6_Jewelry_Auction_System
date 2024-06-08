@@ -17,64 +17,77 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top custom-navbar">
-        <div class="navbar-bg"></div>
-        <div class="gradient-overlay"></div>
-        <a class="navbar-brand" href="#">The V Rising</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+ 
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Jewelry Auctions</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="home.jsp"><i class="fas fa-home"></i>Home <span
-                            class="sr-only">(current)</span></a>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="Auction.jsp"><i class="fas fa-cogs"></i>Auction</a>
+                    <a class="nav-link" href="auctions/upcoming.jsp">Auction</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="seller/selling.html"><i class="fas fa-dollar-sign"></i>Sell</a>
-                </li>
-                <% String username=(String) session.getAttribute("USERNAME"); if (username==null) { %>
+                <c:if test="${role == 'Member' || role == null}">
                     <li class="nav-item">
-                        <a class="nav-link" href="login.jsp">Login</a>
+                        <a class="nav-link" href="seller/selling.html">Sell</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="register.jsp">Register</a>
-                    </li>
-                    <% } else { %>
+                </c:if>
+                <c:choose>
+                    <c:when test="${username == null}">
                         <li class="nav-item">
-                            <a class="nav-link" href="MainController?action=Profile&username=<%= username %>">
-                                <%= username %>
-                            </a>
+                            <a class="nav-link" href="login.jsp">Login</a>
                         </li>
-                        <% } %>
-                            <li class="nav-item">
-                                <a class="nav-link" href="blog.jsp">Blog</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="seller/notification.jsp"><i class="fas fa-bell"></i></a>
-                            </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link" href="register.jsp">Register</a>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="url">
+                            <c:choose>
+                                <c:when test="${role == 'Member'}">bidder/profile.jsp</c:when>
+                                <c:when test="${role == 'Staff'}">staff/staff.jsp</c:when>
+                                <c:when test="${role == 'Manager'}">manager/manager.jsp</c:when>
+                                <c:otherwise>admin/admin.jsp</c:otherwise>
+                            </c:choose>
+                        </c:set>
+                        <li class="nav-item">
+                            <a class="nav-link" href="${url}">${username}</a>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
+                <li class="nav-item d-flex align-items-center">
+                    <% 
+                    UserDAOImpl _dao = new UserDAOImpl(); 
+                    Auction auction = null; 
+                    try {
+                        List<Auction> auctions = _dao.displayAuction(); 
+                        if (auctions != null && !auctions.isEmpty()) {
+                            auction = auctions.get(0);
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    %>
+                    <form id="viewAuctionForm" action="auctions/detail.jsp" method="GET" class="d-flex">
+                        <input type="hidden" name="auctionID" value="<%= auction != null ? auction.getAuctionID() : "" %>">
+                        <button type="submit" class="btn btn-danger" id="viewAuctionButton"><%= auction != null ? "View Auction" : "No Auction Available" %></button>
+                    </form>
+                    <% if (auction == null) { %>
+                    <div id="noAuctionBox" class="highlight ml-2">No auction available</div>
+                    <% } %>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="notification.jsp" id="bell-icon"><i class="fas fa-bell"></i></a>
+                </li>
             </ul>
-
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search for anything" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
-
-            <!-- WELCOME SECTION -->
-            <section class="welcome-section">
-                <h2>Welcome To V Rising</h2>
-                <p class="welcome-text">
-                    We're delighted to have you explore our curated selection of fine
-                    jewelry. Each piece is a treasure waiting to be discovered. Join our
-                    community of connoisseurs and start your bidding journey today.
-                </p>
-            </section>
-            <hr>
         </div>
     </nav>
 
