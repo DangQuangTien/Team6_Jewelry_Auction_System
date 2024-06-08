@@ -6,6 +6,7 @@ package dao;
 
 import dto.UserDTO;
 import entity.Auction.Auction;
+import entity.Session.Session;
 import entity.product.Category;
 import entity.product.Jewelry;
 import entity.request_shipment.RequestShipment;
@@ -73,5 +74,8 @@ public interface UserDao {
     List<Jewelry> displayCatalog(String auctionID);
     
     //---------------------------------
-    public boolean createBidRegistry(String sessionID, String firstName, String lastName, Double bidAmount_Current, LocalDateTime bidTime_Current);
+    public boolean createBidRegistry(String firstName, String lastName, String phoneNumber, Double bidAmount_Current, LocalDateTime bidTime_Current
+                                        , String country, String address, String city, String state, String zip);
+    
+    public List<Session> getSessionByMemberID(String userID);
 }

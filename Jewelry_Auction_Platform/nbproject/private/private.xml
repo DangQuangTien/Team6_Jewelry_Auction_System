@@ -3,10 +3,38 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Project/SWP391_Team6_Jewelry_Auction_System-main/Jewelry_Auction_Platform/web/seller/selling.html</file>
-            <file>file:/E:/Project/SWP391_Team6_Jewelry_Auction_System-main/Jewelry_Auction_Platform/src/java/dao/UserDAOImpl.java</file>
-            <file>file:/E:/Project/SWP391_Team6_Jewelry_Auction_System-main/Jewelry_Auction_Platform/web/seller/request.jsp</file>
-            <file>file:/E:/Project/SWP391_Team6_Jewelry_Auction_System-main/Jewelry_Auction_Platform/web/home.jsp</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/controller/user/ConfirmToAuctionController.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/entity/valuation/Valuation.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/Auction.jsp</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/entity/product/Category.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/dao/UserDao.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/entity/Auction/Auction.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/controller/user/BidRegisterRequestController.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/controller/staff/InsertJewelryController.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/notification.jsp</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/auctions/registerBid.jsp</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/controller/user/LogoutController.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/redirect.jsp</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/manager/createAuction.jsp</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/entity/Session/Session.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/controller/staff/RequestShipmentController.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/dto/UserDTO.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/auctions/itemDetail.jsp</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/controller/staff/ProcessValuationRequest.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/controller/user/MainController.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/register.jsp</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/controller/user/authentication/LoginController.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/entity/product/Jewelry.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/controller/user/ValuationRequestServlet.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/controller/user/RejectToAuctionController.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/controller/staff/SendToSellerController.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/entity/address/Address.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/payment.jsp</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/dao/UserDAOImpl.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/controller/staff/UpdateFinalPriceController.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/controller/manager/CreateAuctionController.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/seller/response.jsp</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/SWP391_Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/controller/staff/ConfirmReceiptController.java</file>
         </group>
     </open-files>
 </project-private>

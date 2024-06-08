@@ -6,6 +6,7 @@ package dao;
 
 import dto.UserDTO;
 import entity.Auction.Auction;
+import entity.Session.Session;
 import entity.product.Category;
 import entity.product.Jewelry;
 import entity.request_shipment.RequestShipment;
@@ -709,24 +710,35 @@ public class UserDAOImpl implements UserDao {
     //----------------------
 
     @Override
-    public boolean createBidRegistry(String sessionID, String firstName, String lastName, Double bidAmount_Current, LocalDateTime bidTime_Current) {
-        String selectQuery = "SELECT memberID FROM Member WHERE firstName = ? AND lastName = ?";
-        String createQuery = "INSERT INTO Register_Bid (memberID, sessionID, bidAmount_Current, bidTime_Current, status) VALUES (?, ?, ?, ?, 0)";
+    public boolean createBidRegistry(String firstName, String lastName, String phoneNumber, Double bidAmount_Current, LocalDateTime bidTime_Current
+                                        , String country, String address, String city, String state, String zipCode) {
+        String selectQuery = "SELECT memberID FROM Member WHERE firstName = ? AND lastName = ? AND phoneNumber = ?";
+        //sessionID where?
+        String createQuery1 = "INSERT INTO Register_Bid (memberID, bidAmount_Current, bidTime_Current, status) VALUES (?, ?, ?, 0)";
+        String createQuery2 = "INSERT INTO Address (street, city, state, zipcode, country, memberID) VALUES (?, ?, ?, ?, ?, ?)";
         String memberID;
         try (Connection conn = DBUtils.getConnection(); PreparedStatement pst = conn.prepareStatement(selectQuery)) {
             pst.setString(1, firstName);
             pst.setString(2, lastName);
+            pst.setString(3, phoneNumber);
             try (ResultSet rs = pst.executeQuery()) {
                 if (rs.next()) {
                     memberID = rs.getString("memberID");
-                    try (PreparedStatement ps = conn.prepareStatement(createQuery)) {
-                        ps.setString(1, sessionID);
-                        ps.setString(2, memberID);
-                        ps.setDouble(3, bidAmount_Current);
-                        ps.setObject(4, bidTime_Current);
-
-                        int rowsAffected = ps.executeUpdate();
-                        return rowsAffected > 0;
+                    try (PreparedStatement ps1 = conn.prepareStatement(createQuery1)) {
+                        ps1.setString(1, memberID);
+                        ps1.setDouble(2, bidAmount_Current);
+                        ps1.setObject(3, bidTime_Current);
+                        try(PreparedStatement ps2 = conn.prepareStatement(createQuery2)){
+                            ps2.setString(1, country);
+                            ps2.setString(2, address);
+                            ps2.setString(3, city);
+                            ps2.setString(4, state);
+                            ps2.setString(5, zipCode);
+                            int rowsAffected1 = ps1.executeUpdate();
+                            int rowsAffected2 = ps2.executeUpdate();
+                            if (rowsAffected1 > 0 && rowsAffected2 > 0)
+                                return true;
+                        }
                     }
                 }
 
@@ -735,6 +747,36 @@ public class UserDAOImpl implements UserDao {
             ex.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    // hien? thi. cac' auction session ma` member co' tham gia
+    public List<Session> getSessionByMemberID(String userID){
+        List<Session> listSession = new ArrayList<>();
+        String query = "SELECT s.* FROM Session s"
+                + "JOIN Register_Bid rb ON s.sessionID = rb.sessionID"
+                + "JOIN Member m ON rb.memberID = m.memberID"
+                + "JOIN Users u ON m.userID = u.userID";
+        
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, userID);
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Session session = new Session();
+                    session.setAuctionID(rs.getString("auctionID"));
+                    session.setJewelryID(rs.getString("jewelryID"));
+                    session.setStartBid(rs.getString("startBid"));
+                    session.setStatus(rs.getInt("status"));
+                    listSession.add(session);
+                }
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        return listSession;
+        
+                
+                
     }
 
 }

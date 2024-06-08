@@ -38,7 +38,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 public class BidRegisterRequestController extends HttpServlet {
 
     private static final String ERROR_PAGE = "/WEB-INF/jsp/index.jsp";
-    private static final String USER_PAGE = "";
+    private static final String USER_PAGE = "auctions/registerBid.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -61,17 +61,28 @@ public class BidRegisterRequestController extends HttpServlet {
                 Hashtable params = new Hashtable();
                 //get Parameter
                 HttpSession session = request.getSession();
-                String sessionID = (String) params.get("sessionID");
+                
+                //sessionID where?
                 String firstName = (String) params.get("firstName");
                 String lastName = (String) params.get("lastName");
+                String phoneNumber = (String) params.get("phone");
                 Double bidAmount_Current = (Double) params.get("bidAmount_Current");
                 LocalDateTime bidAmount_Time = LocalDateTime.now();
+
+                String country = (String) params.get("country");
+                String address = (String) params.get("address");
+                String city = (String) params.get("city");
+                String state = (String) params.get("state");
+                String zipCode = (String) params.get("zip");
+
                 String username = (String) session.getAttribute("USERNAME");
                 UserDAOImpl dao = new UserDAOImpl();
                 try {
-                    boolean result = dao.createBidRegistry(sessionID, firstName, lastName, bidAmount_Current, bidAmount_Time);
-                    if (result) {
-                        url = USER_PAGE;
+                    if (username != null) {
+                        boolean result = dao.createBidRegistry(firstName, lastName, phoneNumber, bidAmount_Current, bidAmount_Time, country, address, city, state, zipCode);
+                        if (result) {
+                            url = USER_PAGE;
+                        }
                     }
                 } catch (Exception ex) {
                     ex.getMessage();
