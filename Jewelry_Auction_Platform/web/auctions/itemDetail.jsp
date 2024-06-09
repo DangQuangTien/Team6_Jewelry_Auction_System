@@ -8,65 +8,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../component/header.css">
     <link rel="stylesheet" type="text/css" href="../component/footer.css">
+    <link rel="stylesheet" type="text/css" href="../component/itemDetail.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-        }
-        .container {
-            margin-top: 20px;
-        }
-        .card {
-            margin-top: 20px;
-        }
-        .card-body {
-            padding: 20px;
-        }
-        .card-title {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        .card img {
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        .card-text {
-            margin-bottom: 10px;
-        }
-        .additional-info {
-            margin-top: 20px;
-        }
-        .additional-info h2 {
-            font-size: 22px;
-            margin-bottom: 10px;
-        }
-        .additional-info h3 {
-            font-size: 18px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-        .additional-info label {
-            font-weight: bold;
-            margin-top: 5px;
-        }
-        .additional-info input {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            margin-bottom: 10px;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-        }
-        .btn-primary {
-            margin-top: 10px;
-        }
-    </style>
 </head>
 <body>
     <!-- START OF HEADER -->
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand" href="#">Jewelry Auctions</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -121,7 +69,7 @@
     <!-- END OF HEADER -->
 
     <div class="container">
-        <h1>Item Detail</h1>
+        <h1 class="mb-4">Item Detail</h1>
         <% Jewelry jewelry = (Jewelry) request.getAttribute("jewelry"); %>
         <% if (jewelry != null) { %>
             <div class="row">
@@ -134,7 +82,7 @@
                             <p class="card-text"><strong>Min Price:</strong> <%= jewelry.getMinPrice() %></p>
                             <p class="card-text"><strong>Max Price:</strong> <%= jewelry.getMaxPrice() %></p>
                             <p class="card-text"><strong>Description:</strong> <%= jewelry.getDescription() %></p>
-                            <a href="#" class="btn btn-primary">Place Bid</a>
+                            <a href="bidPage.jsp" class="btn btn-primary">Place Bid</a>
                         </div>
                     </div>
                 </div>
