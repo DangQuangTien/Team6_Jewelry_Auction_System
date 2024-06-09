@@ -10,6 +10,8 @@
 
         <!-- Font Awesome -->
         <link rel="stylesheet" type="text/css" href="../component//userProfile.css">
+        <link rel="stylesheet" type="text/css" href="../component/header.css">
+        <link rel="stylesheet" type="text/css" href="../component/footer.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     </head>
@@ -37,7 +39,8 @@
     }
     </style>
 
-    <body>       
+    <body>
+        <header>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <a class="navbar-brand" href="#"><i class="fas fa-gem"></i> Jewelry Auctions</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,6 +59,14 @@
                         </li>
                         <!-- JSTL Conditional Rendering -->
                         <c:choose>
+                            <c:when test="${empty sessionScope.USERNAME}">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="login.jsp"><i class="fas fa-sign-in-alt"></i> Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="register.jsp"><i class="fas fa-user-plus"></i> Register</a>
+                                </li>
+                            </c:when>
                             <c:otherwise>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -85,7 +96,9 @@
                     </form>
                 </div>
             </nav>
+        </header>
         
+
         <main>
             <div class="container light-style flex-grow-1 container-p-y">
                 <h4 class="font-weight-bold py-3 mb-4">
