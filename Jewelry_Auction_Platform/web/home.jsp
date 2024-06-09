@@ -88,7 +88,7 @@
                     <% } %>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="notification.jsp" id="bell-icon"><i class="fas fa-bell"></i></a>
+                    <a class="nav-link" href="seller/shipmentRequest.jsp" id="bell-icon"><i class="fas fa-bell"></i></a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">

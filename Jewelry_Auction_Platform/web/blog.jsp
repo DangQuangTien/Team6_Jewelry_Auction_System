@@ -22,23 +22,23 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-home"></i> Home<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="../web/home.jsp"><i class="fas fa-home"></i> Home<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="auctions/upcoming.jsp"><i class="fas fa-gavel"></i> Auction</a>
+                        <a class="nav-link" href="../web/auctions/upcoming.jsp"><i class="fas fa-gavel"></i> Auction</a>
                     </li>
                     <c:if test="${role == 'Member' || role == null}">
                         <li class="nav-item">
-                            <a class="nav-link" href="seller/selling.html"><i class="fas fa-dollar-sign"></i> Sell</a>
+                            <a class="nav-link" href="../web/seller/request.jsp"><i class="fas fa-dollar-sign"></i> Sell</a>
                         </li>
                     </c:if>
                     <c:choose>
                         <c:when test="${username == null}">
                             <li class="nav-item">
-                                <a class="nav-link" href="login.jsp"><i class="fas fa-sign-in-alt"></i> Login</a>
+                                <a class="nav-link" href="../web/login.jsp"><i class="fas fa-sign-in-alt"></i> Login</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="register.jsp"><i class="fas fa-user-plus"></i> Register</a>
+                                <a class="nav-link" href="../web/register.jsp"><i class="fas fa-user-plus"></i> Register</a>
                             </li>
                         </c:when>
                         <c:otherwise>
@@ -77,7 +77,7 @@
                         <% } %>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="notification.jsp" id="bell-icon"><i class="fas fa-bell"></i></a>
+                        <a class="nav-link" href="../web/auctions/detail.jsp" id="bell-icon"><i class="fas fa-bell"></i></a>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
