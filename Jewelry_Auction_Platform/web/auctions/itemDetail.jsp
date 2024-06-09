@@ -52,12 +52,17 @@
             margin-top: 10px;
             margin-bottom: 10px;
         }
-        .additional-info ul {
-            list-style-type: none;
-            padding: 0;
+        .additional-info label {
+            font-weight: bold;
+            margin-top: 5px;
         }
-        .additional-info ul li {
-            padding: 5px 0;
+        .additional-info input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
         }
         .btn-primary {
             margin-top: 10px;
