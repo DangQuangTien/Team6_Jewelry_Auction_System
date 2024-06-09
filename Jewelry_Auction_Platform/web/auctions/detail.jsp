@@ -17,7 +17,6 @@
         Auction auction = dao.getAuctionByID(auctionID);
         List<Jewelry> listJewelry = dao.displayCatalog(auctionID);
     %>
-
     <script>
         function getTimeDifference(startDate) {
             var now = new Date().getTime();
@@ -25,25 +24,21 @@
             var difference = startTime - now;
 
             if (difference <= 0) {
-                // If the start date is in the past or the countdown reaches zero
                 document.getElementById("countdown").innerHTML = "Auction started!";
-                clearInterval(countdownInterval); // Stop the interval
+                clearInterval(countdownInterval);
                 return;
             }
-            // Calculate days, hours, minutes, and seconds
             var days = Math.floor(difference / (1000 * 60 * 60 * 24));
             var hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             var minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((difference % (1000 * 60)) / 1000);
-            // Display the countdown timer
-            document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s " + "left";
+            document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s left";
         }
-        // Call getTimeDifference when the page loads
+
         document.addEventListener('DOMContentLoaded', function () {
             getTimeDifference('<%= auction.getStartDate()%>T<%= auction.getStartTime()%>');
                 });
 
-                // Update the timer every second
                 var countdownInterval = setInterval(function () {
                     getTimeDifference('<%= auction.getStartDate()%>T<%= auction.getStartTime()%>');
                         }, 1000);
@@ -51,31 +46,47 @@
     <body>
     <a href="${pageContext.request.contextPath}/home.jsp">Home</a>
     <a href="${pageContext.request.contextPath}/login.jsp">Log In</a>
-
-    <%-- Auction --%>
     <div class="container">
         <h1 class="mt-4">Fine Jewels & Watches</h1>
         <h2>Live Auction</h2>
         <h3>Live bidding begins: <%= (auction.getStartDate() != null) ? auction.getStartDate() : ""%> at <%= (auction.getStartTime() != null) ? auction.getStartTime() : ""%></h3>
         <h3 style="color: orange"><div id="countdown"></div></h3>
-        <a href="registerBid.jsp" class="btn btn-primary">Register bid</a>
-        <!-- Filter by Category -->
-        <br><br>
-        <div class="form-group">
-            Category:
-            <select class="form-control" id="categoryFilter">
-                <option value="">All Categories</option>
-                <%-- Populate options dynamically based on available categories --%>
-                <% for (Category category : dao.listCategory()) {%>
-                <option value="<%= category.getCategoryName()%>"><%= category.getCategoryName()%></option>
-                <% } %>
-            </select>
-        </div>
-        <%-- Auction --%>
+        <a href="registerBid.jsp" class="btn btn-primary">REGISTER TO BID</a>
+        <hr>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="sortPrice">Sort By:</label>
+                    <select class="form-control" id="sortPrice">
+                        <option value="">Select</option>
+                        <option value="lowToHigh">Estimate Low to High</option>
+                        <option value="highToLow">Estimate High to Low</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="categoryFilter">Category:</label>
+                    <select class="form-control" id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <% for (Category category : dao.listCategory()) {%>
+                        <option value="<%= category.getCategoryName()%>"><%= category.getCategoryName()%></option>
+                        <% } %>
+                    </select>
+                </div>
+            </div>
 
-        <h2>Catalog</h2>
-        <% if (listJewelry != null && !listJewelry.isEmpty()) { %>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="searchBar">Search By Lots:</label>
+                    <input type="text" class="form-control" id="searchBar" placeholder="Search Lots">
+                </div>
+            </div>
+
+        </div>
+        <hr>
         <div class="row" id="catalogItems">
+            <% if (listJewelry != null && !listJewelry.isEmpty()) { %>
             <% for (Jewelry j : listJewelry) {
                     String photos = j.getPhotos();
                     String[] photoArray = photos.split(";");
@@ -88,47 +99,75 @@
                             <h5 class="card-title"><%= j.getJewelryID()%></h5>
                             <h5 class="card-title"><%= j.getJewelryName()%></h5>
                             Starting Bid: $1500 <br>
-                            Est. $<%= j.getMinPrice()%> - $<%= j.getMaxPrice()%>
-                            <!-- Place Bid Button -->
+                            Est. $<span class="min-price"><%= j.getMinPrice()%></span> - $<span class="max-price"><%= j.getMaxPrice()%></span>
                             <form action="${pageContext.request.contextPath}/auctions/registerBid.jsp" method="GET">
                                 <input type="hidden" name="jewelryID" value="<%= j.getJewelryID()%>">
-                                <input type="submit"  class="btn btn-primary" value="Place Bid">
+                                <input type="submit" class="btn btn-primary" value="PLACE BID">
                             </form>
                         </div>
                     </a>
                 </div>
             </div>
-
             <% } %>
+            <% } else { %>
+            <p>No items available in the catalog.</p>
+            <% }%>
         </div>
-        <% } else { %>
-        <p>No items available in the catalog.</p>
-        <% }%>
     </div>
-    <!-- Include Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
                         document.addEventListener('DOMContentLoaded', function () {
-                            // Function to filter catalog items by category
-                            function filterByCategory(category) {
-                                var catalogItems = document.querySelectorAll('.catalog-item');
+                            function filterItems() {
+                                var selectedCategory = document.getElementById('categoryFilter').value;
+                                var searchQuery = document.getElementById('searchBar').value.trim().toLowerCase();
+                                var sortPrice = document.getElementById('sortPrice').value;
 
+                                console.log('Selected Category:', selectedCategory);
+                                console.log('Search Query:', searchQuery);
+                                console.log('Sort Price:', sortPrice);
+
+                                var catalogItems = Array.from(document.querySelectorAll('.catalog-item'));
+
+                                // Filter by category and search query
                                 catalogItems.forEach(function (item) {
-                                    if (category === '' || item.getAttribute('data-category') === category) {
+                                    var itemCategory = item.getAttribute('data-category');
+                                    var itemJewelryID = item.querySelector('.card-title').textContent.toLowerCase();
+
+                                    var categoryMatch = (selectedCategory === '' || itemCategory === selectedCategory);
+                                    var searchMatch = (searchQuery === '' || itemJewelryID.includes(searchQuery));
+
+                                    if (categoryMatch && searchMatch) {
                                         item.style.display = 'block';
                                     } else {
                                         item.style.display = 'none';
                                     }
                                 });
+
+                                // Sort by price
+                                if (sortPrice !== '') {
+                                    catalogItems.sort(function (a, b) {
+                                        var aMinPrice = parseFloat(a.querySelector('.min-price').textContent);
+                                        var bMinPrice = parseFloat(b.querySelector('.min-price').textContent);
+
+                                        if (sortPrice === 'lowToHigh') {
+                                            return aMinPrice - bMinPrice;
+                                        } else if (sortPrice === 'highToLow') {
+                                            return bMinPrice - aMinPrice;
+                                        }
+                                    });
+
+                                    var catalogContainer = document.getElementById('catalogItems');
+                                    catalogItems.forEach(function (item) {
+                                        catalogContainer.appendChild(item);
+                                    });
+                                }
                             }
 
-                            // Event listener for category filter change
-                            document.getElementById('categoryFilter').addEventListener('change', function () {
-                                var selectedCategory = this.value;
-                                filterByCategory(selectedCategory);
-                            });
+                            document.getElementById('categoryFilter').addEventListener('change', filterItems);
+                            document.getElementById('searchBar').addEventListener('input', filterItems);
+                            document.getElementById('sortPrice').addEventListener('change', filterItems);
                         });
     </script>
 </body>
