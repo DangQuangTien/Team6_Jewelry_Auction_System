@@ -64,8 +64,8 @@ public class BidRegisterRequestController extends HttpServlet {
                 String userID = (String) session.getAttribute("USERID");
                 
                 //sessionID where?
-                Double bidAmount_Current = (Double) params.get("bidAmount_Current");
-                LocalDateTime bidAmount_Time = LocalDateTime.now();
+//                Double bidAmount_Current = (Double) params.get("bidAmount_Current");
+//                LocalDateTime bidAmount_Time = LocalDateTime.now();
 
                 String country = (String) params.get("country");
                 String address = (String) params.get("address");
@@ -76,7 +76,7 @@ public class BidRegisterRequestController extends HttpServlet {
                 UserDAOImpl dao = new UserDAOImpl();
                 try {
                     if (userID != null) {
-                        boolean result = dao.createBidRegistry(userID, bidAmount_Current, bidAmount_Time, country, address, city, state, zipCode);
+                        boolean result = dao.createBidRegistry(userID, country, address, city, state, zipCode);
                         if (result) {
                             url = USER_PAGE;
                         }

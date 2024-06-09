@@ -73,9 +73,12 @@ public interface UserDao {
 
     List<Jewelry> displayCatalog(String auctionID);
     
+    Jewelry getJewelryDetails(String jewelryID);
+    
     //---------------------------------
-    public boolean createBidRegistry(String userID, Double bidAmount_Current, LocalDateTime bidTime_Current
-                                        , String country, String address, String city, String state, String zip);
+    public boolean createBidRegistry(String userID, String country, String address, String city, String state, String zipCode);
     
     public List<Session> getSessionByMemberID(String userID);
+    
+    public boolean setNewBidPrice(String userID, Double bidAmount_Current);
 }
