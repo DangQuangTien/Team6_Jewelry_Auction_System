@@ -37,24 +37,27 @@
 <body>
   
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Jewelry Auctions</a>
+        <a class="navbar-brand" href="#"><i class="fas fa-gem"></i> Jewelry Auctions</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#"><i class="fas fa-home"></i> Home<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="auctions/upcoming.jsp">Auction</a>
+                    <a class="nav-link" href="auctions/upcoming.jsp"><i class="fas fa-gavel"></i> Auction</a>
                 </li>
                 <c:if test="${role == 'Member' || role == null}">
                     <li class="nav-item">
-                        <a class="nav-link" href="seller/selling.html">Sell</a>
+                        <a class="nav-link" href="seller/selling.html"><i class="fas fa-dollar-sign"></i> Sell</a>
                     </li>
+                </c:if>
+            </ul>
         </div>
     </nav>
+    
 
     <!-- END OF HEADER -->
     <main class="container mt-4" ng-controller="ValuationController">
