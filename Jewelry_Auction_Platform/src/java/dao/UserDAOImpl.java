@@ -707,7 +707,7 @@ public class UserDAOImpl implements UserDao {
 
     @Override
     public Jewelry getJewelryDetails(String jewelryID) {
-        String query = "SELECT * FROM JEWELRY WHERE jewelryID = ?";
+        String query = "SELECT * FROM JEWELRY j, category c WHERE c.categoryID = j.categoryID and j.jewelryID = ?";
 
         try {
             conn = DBUtils.getConnection();
@@ -718,7 +718,7 @@ public class UserDAOImpl implements UserDao {
 
             while (rs.next()) {
                 jewelry.setJewelryID(rs.getString("jewelryID"));
-                jewelry.setCategoryName(rs.getString("categoryID"));
+                jewelry.setCategoryName(rs.getString("categoryName"));
                 jewelry.setJewelryName(rs.getString("jewelryName"));
                 jewelry.setArtist(rs.getString("artist"));
                 jewelry.setCirca(rs.getString("circa"));

@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,6 +43,8 @@
     }
 </style>
 <body>
+    <c:set var="username" value="${sessionScope.USERNAME}" />
+    <c:set var="role" value="${sessionScope.ROLE}" />
     <!-- START OF HEADER -->
     <header>
         <nav class="navbar navbar-expand-lg navbar-light">
@@ -55,11 +58,11 @@
                         <a class="nav-link" href="${pageContext.request.contextPath}/home.jsp">Home<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/upcoming.jsp">Auction</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/auctions/upcoming.jsp">Auction</a>
                     </li>
                     <c:if test="${role == 'Member' || role == null}">
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/selling.html">Sell</a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/seller/selling.html">Sell</a>
                         </li>
                     </c:if>
                     <c:choose>
@@ -81,7 +84,7 @@
                                 </c:choose>
                             </c:set>
                             <li class="nav-item">
-                                <a class="nav-link" href="${url}">${username}</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/${url}">${username}</a>
                             </li>
                         </c:otherwise>
                     </c:choose>
@@ -89,10 +92,6 @@
                         <a class="nav-link" href="notification.jsp" id="bell-icon"><i class="fas fa-bell"></i></a>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search for anything" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
             </div>
         </nav>
     </header>
