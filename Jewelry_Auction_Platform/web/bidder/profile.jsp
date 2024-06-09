@@ -45,11 +45,7 @@
                                 </li>
                             </c:when>
                             <c:otherwise>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="${pageContext.request.contextPath}/bidder/profile.jsp">
-                                        ${sessionScope.USERNAME}
-                                    </a>
-                                </li>
+                                <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/bidder/profile.jsp">${sessionScope.USERNAME}</a></li>
                             </c:otherwise>
                         </c:choose>
                         <li class="nav-item">
