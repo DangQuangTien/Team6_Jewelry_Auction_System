@@ -15,21 +15,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Valuation Form</title>
-
-        <script type="text/javascript" src="asset/app.js"></script>
-        <script>
-            function confirmValuation(event) {
-                if (!confirm("Are you certain you want to send this appraisal?")) {
-                    event.preventDefault();
-                }
-            }
-            function cancelValuation() {
-                if (confirm("Are you sure you want to cancel this appraisal?")) {
-                    window.location.href = "${pageContext.request.contextPath}/ProcessValuationRequest";
-                }
-            }
-        </script>   
+        <title>Valuation Form</title>  
         <link rel="stylesheet" type="text/css" href="component/header.css">
         <link rel="stylesheet" type="text/css" href="component/footer.css">
         <link rel="stylesheet" type="text/css" href="asset/styles.css">
@@ -192,5 +178,18 @@
             </div>
         </div>
     </main>
+    <script type="text/javascript" src="asset/app.js"></script>
+    <script>
+        function confirmValuation(event) {
+            if (!confirm("Are you certain you want to send this appraisal?")) {
+                event.preventDefault();
+            }
+        }
+        function cancelValuation() {
+            if (confirm("Are you sure you want to cancel this appraisal?")) {
+                window.location.href = "${pageContext.request.contextPath}/ProcessValuationRequest";
+            }
+        }
+    </script> 
 </body>
 </html>
