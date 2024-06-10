@@ -41,10 +41,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-user"></i>Staff</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/MainController?action=ValuationRequest"><i class="fas fa-file-invoice-dollar"></i> Valuation Request</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/staff/approvalRequest.jsp"><i class="fas fa-thumbs-up"></i> Approval Request</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/staff/finalValuation.jsp"><i class="fas fa-check-double"></i> Final Valuation</a>
                     </li>
                     <li class="nav-item">
                         <form action="${pageContext.request.contextPath}/MainController" method="POST" onsubmit="confirmLogout(event)">
@@ -54,7 +60,7 @@
                 </ul>
             </div>
         </nav>
-        <h3 class="text-center mt-4">Good <%= greeting %> Welcome back, Staff</h3>
+        <h3 class="text-center mt-4">Approval Request</h3>
 
         <div class="container mt-4">
             <c:set var="listValuationRequest" value="${requestScope.listValuationRequest}" />

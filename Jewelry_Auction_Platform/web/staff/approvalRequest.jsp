@@ -26,10 +26,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/staff/staff.jsp"><i class="fas fa-user"></i> Staff</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/MainController?action=ValuationRequest"><i class="fas fa-file-invoice-dollar"></i> Valuation Request</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/staff/approvalRequest.jsp"><i class="fas fa-thumbs-up"></i> Approval Request</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/staff/finalValuation.jsp"><i class="fas fa-check-double"></i> Final Valuation</a>
                     </li>
                     <li class="nav-item">
                         <form action="${pageContext.request.contextPath}/MainController" method="POST" onsubmit="confirmLogout(event)">
@@ -38,7 +44,9 @@
                     </li>
                 </ul>
             </div>
-        </nav>
+            </nav>
+            
+        
         <div class="container">
             <h1 class="text-center text-primary my-4">Approval Requests</h1>
             <%

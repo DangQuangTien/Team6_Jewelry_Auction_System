@@ -29,10 +29,16 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/staff/staff.jsp"><i class="fas fa-user"></i>Staff</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/MainController?action=ValuationRequest"><i class="fas fa-file-invoice-dollar"></i> Valuation Request</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/staff/approvalRequest.jsp"><i class="fas fa-thumbs-up"></i> Approval Request</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/staff/finalValuation.jsp"><i class="fas fa-check-double"></i> Final Valuation</a>
                 </li>
                 <li class="nav-item">
                     <form action="${pageContext.request.contextPath}/MainController" method="POST" onsubmit="confirmLogout(event)">
@@ -51,7 +57,7 @@
                         <h2>Jewelry Appraisal</h2>
                         <%
                             String photos = (String) request.getParameter("photoURL");
-                            String[] photoArray = photos.split(";");
+                            String[] photoArray = photos != null ? photos.split(";") : new String[0];
 
                             ArrayList<Category> listCategory = new ArrayList<>();
                             try {
@@ -165,10 +171,6 @@
                                 <div class="form-group">
                                     <label for="braceletCondition">Condition</label>
                                     <input type="text" class="form-control" id="braceletCondition" name="condition" value="">
-                                </div>
-                                <div class="form-group">
-                                    <label for="braceletStamped">Stamped</label>
-                                    <input type="text" class="form-control" id="braceletStamped" name="stamped" value="">
                                 </div>
                                 <div class="form-group">
                                     <label style="color: red" for="ringSize">Ring Size (for rings)</label>
