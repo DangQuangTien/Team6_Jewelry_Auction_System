@@ -3,85 +3,130 @@
 <%@page import="dao.UserDAOImpl"%>
 <%@page import="java.time.LocalTime"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="../admin/style/styles.css">
-    <title>Jewelry Manager</title>
-    <script>
-        function confirmLogout(event) {
-            if (!confirm("Are you sure you want to log out?")) {
-                event.preventDefault();
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Manager</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script>
+            function confirmLogout(event) {
+                if (!confirm("Are you sure you want to log out?")) {
+                    event.preventDefault();
+                }
             }
-        }
-        function confirmAuction(event) {
-            if (!confirm("Do you confirm approving this bid?")) {
-                event.preventDefault();
+            function confirmAuction(event) {
+                if (!confirm("Do you confirm approving this bid?")) {
+                    event.preventDefault();
+                }
             }
-        }
-        function toggleApprovalTable() {
-            var table = document.getElementById("approvalTable");
-            if (table.style.display === "none" || table.style.display === "") {
-                table.style.display = "table";
+            function toggleApprovalTable() {
+                var table = document.getElementById("approvalTable");
+                if (table.style.display === "none" || table.style.display === "") {
+                    table.style.display = "table";
+                } else {
+                    table.style.display = "none";
+                }
+            }
+        </script>
+        <style>
+            h3 {
+                font-size: 2em;
+                color: #4CAF50;
+                text-align: center;
+                padding: 20px;
+                border-radius: 10px;
+                background: linear-gradient(135deg, #ff6f91, #ff9671, #ffc75f, #f9f871, #d65db1, #845ec2, #2c73d2, #0081cf, #0089ba, #008e9b, #00c9a7);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+                animation: wave 3s linear infinite;
+            }
+
+            @keyframes wave {
+                0%, 100% {
+                    transform: translateY(0);
+                }
+                25% {
+                    transform: translateY(-5px);
+                }
+                50% {
+                    transform: translateY(0);
+                }
+                75% {
+                    transform: translateY(5px);
+                }
+            }
+            .table-responsive {
+                margin: 20px auto;
+            }
+            table {
+                width: 100%;
+                margin: 20px auto;
+                border-collapse: collapse;
+                background-color: #fff;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                border: 1px solid #ddd;
+            }
+
+
+            th, td {
+                padding: 10px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+                border-right: 1px solid #ddd;
+            }
+
+            th {
+                background-color: #f2f2f2;
+                border-top: 1px solid #ddd;
+            }
+            tr:hover {
+                background-color: #f5f5f5;
+            }
+
+            .submit-btn, .action-btn {
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+            .submit-btn:hover, .action-btn:hover {
+                background-color: #45a049;
+            }
+        </style>
+    </head>
+    <%
+        String greeting = "day!";
+        try {
+            LocalTime now = LocalTime.now();
+            int hour = now.getHour();
+            if (hour < 12) {
+                greeting = "Morning!";
+            } else if (hour < 17) {
+                greeting = "Afternoon!";
             } else {
-                table.style.display = "none";
+                greeting = "Evening!";
             }
+        } catch (Exception ex) {
+            ex.getMessage();
         }
-    </script>
-</head>
-<body>
-<%
-    String greeting = "day!";
-    try {
-        LocalTime now = LocalTime.now();
-        int hour = now.getHour();
-        if (hour < 12) {
-            greeting = "Morning!";
-        } else if (hour < 17) {
-            greeting = "Afternoon!";
-        } else {
-            greeting = "Evening!";
-        }
-    } catch (Exception ex) {
-        ex.getMessage();
-    }
-%>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-2 d-flex flex-column bg-dark min-vh-100 sidebar">
-            <div class="text-center mt-4">
-                <a href="#" class="text-white text-decoration-none d-flex align-items-center justify-content-center sidebar-logo">
-                    <img src="../images/logo/auction_jewelry.png" alt="Logo">
-                </a>
-                <hr class="text-white d-none d-sm-block" />
-                <ul class="nav nav-pills flex-column" id="menu">
-                    <li class="nav-item mb-2">
-                        <a class="nav-link text-white" href="createAuction.jsp">
-                            <i class="fas fa-plus-circle"></i>
-                            <span class="ms-2 d-none d-sm-inline">Create Auction</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mb-2">
-                        <a class="nav-link text-white" href="auctionManagement.jsp">
-                            <i class="fas fa-tasks"></i>
-                            <span class="ms-2 d-none d-sm-inline">Auction Management</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mb-2">
-                        <a class="nav-link text-white" href="auctionAssignment.jsp">
-                            <i class="fas fa-user-tag"></i>
-                            <span class="ms-2 d-none d-sm-inline">Auction Assignment</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mb-2">
-                        <a class="nav-link text-white" href="#" onclick="toggleApprovalTable()">
-                            <i class="fas fa-check-circle"></i>
-                            <span class="ms-2 d-none d-sm-inline">Approval Requests</span>
-                        </a>
+    %>
+    <body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Jewelry Auctions</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/manager/auctionManagement.jsp">Auction Management</a>
                     </li>
                 </ul>
             </div>

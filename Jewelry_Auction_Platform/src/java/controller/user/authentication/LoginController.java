@@ -6,6 +6,7 @@ package controller.user.authentication;
 
 import dao.UserDAOImpl;
 import dto.UserDTO;
+import entity.member.Member;
 import utils.RoleConstants;
 
 import javax.servlet.RequestDispatcher;
@@ -49,13 +50,17 @@ public class LoginController extends HttpServlet {
             String username = request.getParameter("email");
             String password = request.getParameter("password");
             String url = ERROR_PAGE;
-
+            HttpSession session = request.getSession();
             UserDAOImpl dao = new UserDAOImpl();
 
             try {
                 UserDTO user = dao.checkLogin(username, password);
                 if (user != null) {
                     url = determinePageByRole(user.getRole());
+                    if ("Member".equals(user.getRole())) {
+                        Member member = dao.getInformation(user.getUserID());
+                        session.setAttribute("INF", member);
+                    }
                     initializeSession(request, user);
                 }
             } catch (Exception ex) {
