@@ -1,133 +1,201 @@
-<%-- 
-    Document   : detail
-    Created on : Jun 6, 2024, 2:12:04 AM
-    Author     : User
---%>
-
 <%@page import="entity.product.Category"%>
 <%@page import="entity.product.Jewelry"%>
 <%@page import="java.util.List"%>
 <%@page import="entity.Auction.Auction"%>
 <%@page import="dao.UserDAOImpl"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Jewelry Auctions Online</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <style>
-            body {
-                background-color: #f8f9fa;
-            }
-            .container {
-                max-width: 960px;
-            }
-            .header {
-                padding: 3rem 1.5rem;
-                text-align: center;
-                color: #6c757d;
-            }
-            .catalog-item {
-                transition: transform .2s;
-            }
-            .catalog-item:hover {
-                transform: scale(1.1);
-            }
-            .catalog {
-                margin-top: 2rem;
-            }
-        </style>
+        <link rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     </head>
     <%
-        String auctionID = request.getParameter("auctionID");
-        UserDAOImpl dao = new UserDAOImpl();
-        Auction auction = dao.getAuctionByID(auctionID);
-        List<Jewelry> listJewelry = dao.displayCatalog(auctionID);
-    %>
-    <body>     
-        <div class="header">
-            <a href="${pageContext.request.contextPath}/home.jsp" class="btn btn-secondary">Home</a>
-            <a href="${pageContext.request.contextPath}/login.jsp" class="btn btn-secondary">Log In</a>
-            <h1 class="display-4">Fine Jewels & Watches</h1>
-            <p class="lead">Live Auction</p>
-            <p>Live bidding begins: <%= (auction.getStartDate() != null) ? auction.getStartDate() : ""%> at <%= (auction.getStartTime() != null) ? auction.getStartTime() : ""%></p>
-            <h3 style="color: orange"><div id="countdown"></div></h3>
-        </div>
-        <div class="container">
-            <!-- Search Bar -->
-            <div class="form-group">
-                <label for="searchBar">Search:</label>
-                <input type="text" class="form-control" id="searchBar" placeholder="Search for items...">
-            </div>
+    String auctionID = request.getParameter("auctionID");
+    UserDAOImpl dao = new UserDAOImpl();
+    Auction auction = dao.getAuctionByID(auctionID);
+    List<jewelry> listJewelry = dao.displayCatalog(auctionID);
+        %>
+        <script>
+        function getTimeDifference(startDate) {
+            var now = new Date().getTime();
+            var startTime = new Date(startDate).getTime();
+            var difference = startTime - now;
 
-            <!-- Filter by Category -->
-            <div class="form-group">
-                <label for="categoryFilter">Filter by Category:</label>
-                <select class="form-control" id="categoryFilter">
-                    <option value="">All</option>
-                    <%-- Populate options dynamically based on available categories --%>
-                    <% for (Category category : dao.listCategory()) {%>
-                    <option value="<%= category.getCategoryName()%>"><%= category.getCategoryName()%></option>
-                    <% } %>
-                </select>
-            </div>
+            if (difference <= 0) {
+                document.getElementById("countdown").innerHTML = "Auction started!";
+                clearInterval(countdownInterval);
+                return;
+            }
+            var days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((difference % (1000 * 60)) / 1000);
+            document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s left";
+        }
 
-            <div class="catalog">
-                <h2>Catalog</h2>
-                <% if (listJewelry != null && !listJewelry.isEmpty()) { %>
+        document.addEventListener('DOMContentLoaded', function () {
+            getTimeDifference('<%= auction.getStartDate()%>T<%= auction.getStartTime()%>');
+                });
+
+                var countdownInterval = setInterval(function () {
+                    getTimeDifference('<%= auction.getStartDate()%>T<%= auction.getStartTime()%>');
+                        }, 1000);
+    </script>
+        <body>
+            <a href="${pageContext.request.contextPath}/home.jsp">Home</a>
+            <a href="${pageContext.request.contextPath}/login.jsp">Log In</a>
+            <div class="container">
+                <h1 class="mt-4">Fine Jewels & Watches</h1>
+                <h2>Live Auction</h2>
+                <h3>Live bidding begins: <%= (auction.getStartDate() != null) ?
+                    auction.getStartDate() : ""%> at <%= (auction.getStartTime()
+                    != null) ? auction.getStartTime() : ""%></h3>
+                <h3 style="color: orange"><div id="countdown"></div></h3>
+                <a href="registerBid.jsp" class="btn btn-primary">REGISTER TO
+                    BID</a>
+                <hr>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="sortPrice">Sort By:</label>
+                            <select class="form-control" id="sortPrice">
+                                <option value>Select</option>
+                                <option value="lowToHigh">Estimate Low to
+                                    High</option>
+                                <option value="highToLow">Estimate High to
+                                    Low</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="categoryFilter">Category:</label>
+                            <select class="form-control" id="categoryFilter">
+                                <option value>All Categories</option>
+                                <% for (Category category : dao.listCategory())
+                                {%>
+                                <option
+                                    value="<%= category.getCategoryName()%>"><%=
+                                    category.getCategoryName()%></option>
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="searchBar">Search By Lots:</label>
+                            <input type="text" class="form-control"
+                                id="searchBar" placeholder="Search Lots">
+                        </div>
+                    </div>
+
+                </div>
+                <hr>
                 <div class="row" id="catalogItems">
-                    <% for (Jewelry j : listJewelry) {%>
-                    <div class="col-md-4 mb-4 catalog-item" data-category="<%= j.getCategoryName()%>">
-                        <div class="card h-100">
-                            <%
-                                String photos = j.getPhotos();
-                                String[] photoArray = photos.split(";");
-                            %>
-                            <img class="card-img-top" src="${pageContext.request.contextPath}/<%= photoArray[0]%>" alt="<%= j.getJewelryName()%>">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title"><%= j.getJewelryName()%></h5>
-                                <p class="card-text">Min Price: <%= j.getMinPrice()%></p>
-                                <p class="card-text">Max Price: <%= j.getMaxPrice()%></p>
-                                <!-- Hidden field for category -->
-                                <input type="hidden" name="category" value="<%= j.getCategoryName()%>">
-                                <!-- Place Bid Button -->
-                                <a href="#" class="btn btn-primary mt-auto">Place Bid</a>
-                            </div>
+                    <% if (listJewelry != null && !listJewelry.isEmpty()) { %>
+                    <% for (Jewelry j : listJewelry) {
+                    String photos = j.getPhotos();
+                    String[] photoArray = photos.split(";");
+                    %>
+                    <div class="col-md-4 mb-4 catalog-item"
+                        data-category="<%= j.getCategoryName()%>">
+                        <div class="card">
+                            <a
+                                href="itemDetail.jsp?jewelryID=<%= j.getJewelryID()%>&auctionID=<%= request.getParameter("auctionID")%>">
+                                <img class="card-img-top"
+                                    src="${pageContext.request.contextPath}/<%= photoArray[0]%>"
+                                    alt="<%= j.getJewelryName()%>">
+                                <div class="card-body">
+                                    <h5 class="card-title"><%=
+                                        j.getJewelryID()%></h5>
+                                    <h5 class="card-title"><%=
+                                        j.getJewelryName()%></h5>
+                                    Starting Bid: $1500 <br>
+                                    Est. $<span class="min-price"><%=
+                                        j.getMinPrice()%></span> - $<span
+                                        class="max-price"><%=
+                                        j.getMaxPrice()%></span>
+                                    <form
+                                        action="${pageContext.request.contextPath}/auctions/registerBid.jsp"
+                                        method="GET">
+                                        <input type="hidden" name="jewelryID"
+                                            value="<%= j.getJewelryID()%>">
+                                        <input type="submit"
+                                            class="btn btn-primary"
+                                            value="PLACE BID">
+                                    </form>
+                                </div>
+                            </a>
                         </div>
                     </div>
                     <% } %>
+                    <% } else { %>
+                    <p>No items available in the catalog.</p>
+                    <% }%>
                 </div>
-                <% } else { %>
-                <p>No items available in the catalog.</p>
-                <% }%>
             </div>
-        </div>
-        <!-- Include Bootstrap JS and dependencies -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                // Function to filter catalog items by category
-                function filterByCategory(category) {
-                    var catalogItems = document.querySelectorAll('.catalog-item');
+            <script
+                src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script
+                src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+            <script
+                src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            function filterItems() {
+                                var selectedCategory = document.getElementById('categoryFilter').value;
+                                var searchQuery = document.getElementById('searchBar').value.trim().toLowerCase();
+                                var sortPrice = document.getElementById('sortPrice').value;
 
-                    catalogItems.forEach(function (item) {
-                        if (category === '' || item.getAttribute('data-category') === category) {
-                            item.style.display = 'block';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
-                }
+                                console.log('Selected Category:', selectedCategory);
+                                console.log('Search Query:', searchQuery);
+                                console.log('Sort Price:', sortPrice);
 
-                // Event listener for category filter change
-                document.getElementById('categoryFilter').addEventListener('change', function () {
-                    var selectedCategory = this.value;
-                    filterByCategory(selectedCategory);
-                });
-            });
-        </script>
-    </body>
-</html>
+                                var catalogItems = Array.from(document.querySelectorAll('.catalog-item'));
+
+                                // Filter by category and search query
+                                catalogItems.forEach(function (item) {
+                                    var itemCategory = item.getAttribute('data-category');
+                                    var itemJewelryID = item.querySelector('.card-title').textContent.toLowerCase();
+
+                                    var categoryMatch = (selectedCategory === '' || itemCategory === selectedCategory);
+                                    var searchMatch = (searchQuery === '' || itemJewelryID.includes(searchQuery));
+
+                                    if (categoryMatch && searchMatch) {
+                                        item.style.display = 'block';
+                                    } else {
+                                        item.style.display = 'none';
+                                    }
+                                });
+
+                                // Sort by price
+                                if (sortPrice !== '') {
+                                    catalogItems.sort(function (a, b) {
+                                        var aMinPrice = parseFloat(a.querySelector('.min-price').textContent);
+                                        var bMinPrice = parseFloat(b.querySelector('.min-price').textContent);
+
+                                        if (sortPrice === 'lowToHigh') {
+                                            return aMinPrice - bMinPrice;
+                                        } else if (sortPrice === 'highToLow') {
+                                            return bMinPrice - aMinPrice;
+                                        }
+                                    });
+
+                                    var catalogContainer = document.getElementById('catalogItems');
+                                    catalogItems.forEach(function (item) {
+                                        catalogContainer.appendChild(item);
+                                    });
+                                }
+                            }
+
+                            document.getElementById('categoryFilter').addEventListener('change', filterItems);
+                            document.getElementById('searchBar').addEventListener('input', filterItems);
+                            document.getElementById('sortPrice').addEventListener('change', filterItems);
+                        });
+    </script>
+        </body>
+    </html>
