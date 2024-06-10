@@ -19,11 +19,12 @@ public class Member {
     private String gender;
     private Date DOB;
     private String avatar;
+    private int status;
 
     public Member() {
     }
 
-    public Member(String memberID, String firstName, String lastName, String phoneNumber, String gender, Date DOB, String avatar) {
+    public Member(String memberID, String firstName, String lastName, String phoneNumber, String gender, Date DOB, String avatar, int status) {
         this.memberID = memberID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -31,6 +32,7 @@ public class Member {
         this.gender = gender;
         this.DOB = DOB;
         this.avatar = avatar;
+        this.status = status;
     }
 
     public String getMemberID() {
@@ -81,12 +83,21 @@ public class Member {
         this.DOB = DOB;
     }
 
-    public String getAvartar() {
+    public String getAvatar() {
         return avatar;
     }
 
-    public void setAvartar(String avartar) {
-        this.avatar = avartar;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    
 }

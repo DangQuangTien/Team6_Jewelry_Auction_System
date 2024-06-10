@@ -1,3 +1,4 @@
+<%@page import="entity.member.Member"%>
 <%@page import="entity.product.Category"%>
 <%@page import="entity.product.Jewelry"%>
 <%@page import="java.util.List"%>
@@ -87,7 +88,14 @@
         <hr>
         <div class="row" id="catalogItems">
             <% if (listJewelry != null && !listJewelry.isEmpty()) { %>
-            <% for (Jewelry j : listJewelry) {
+            <%
+                String userID = (String) session.getAttribute("USERID");
+                Member member = dao.getInformation(userID);
+                int status = 1;
+                if (member != null) {
+                    status = member.getStatus();
+                }
+                for (Jewelry j : listJewelry) {
                     String photos = j.getPhotos();
                     String[] photoArray = photos.split(";");
             %>
@@ -100,10 +108,15 @@
                             <h5 class="card-title"><%= j.getJewelryName()%></h5>
                             Starting Bid: $1500 <br>
                             Est. $<span class="min-price"><%= j.getMinPrice()%></span> - $<span class="max-price"><%= j.getMaxPrice()%></span>
+                            <% if (status == 0) {%>
                             <form action="${pageContext.request.contextPath}/auctions/registerBid.jsp" method="GET">
                                 <input type="hidden" name="jewelryID" value="<%= j.getJewelryID()%>">
                                 <input type="submit" class="btn btn-primary" value="PLACE BID">
                             </form>
+                            <% } else { %>
+                            <br>
+                            <input type="submit" class="btn btn-primary" value="PLACE BID">
+                            <% } %>
                         </div>
                     </a>
                 </div>
