@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,15 +7,14 @@
     <link rel="stylesheet" type="text/css" href="component/header.css">
     <link rel="stylesheet" type="text/css" href="component/footer.css">
     <link rel="stylesheet" type="text/css" href="component/auction.css">
-    <link rel="stylesheet" type="text/css" href="component/NavBar.css">
-
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-
+    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 </head>
-
 <body>
+
  
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Jewelry Auctions</a>
@@ -38,12 +36,14 @@
                 </c:if>
                 <c:choose>
                     <c:when test="${username == null}">
+
                         <li class="nav-item">
                             <a class="nav-link" href="login.jsp">Login</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="register.jsp">Register</a>
                         </li>
+
                     </c:when>
                     <c:otherwise>
                         <c:set var="url">
@@ -91,6 +91,7 @@
         </div>
     </nav>
 
+
     <!-- Main Content -->
     <div class="container-fluid flex-grow-1">
         <div class="row">
@@ -123,8 +124,7 @@
 
             <!-- Main Section -->
             <main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-4">
-                <div
-                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Auction Items</h1>
                 </div>
                 <div class="container-fluid">
@@ -132,11 +132,9 @@
                         <!-- Example auction items, repeat as needed -->
                         <div class="col-md-6 auction-item">
                             <div class="card mb-4 shadow-sm">
-                                <img src="https://a.1stdibscdn.com/archivesE/upload/1121189/j_130196821629192638945/13019682_datamatics.jpg"
-                                    alt="Item image" class="card-img-top img-fluid">
+                                <img src="https://a.1stdibscdn.com/archivesE/upload/1121189/j_130196821629192638945/13019682_datamatics.jpg" alt="Item image" class="card-img-top img-fluid">
                                 <div class="card-body">
-                                    <h6 class="card-title">14k Solid Gold Patek Watch - Schauffhausen IWC 'Pristine
-                                        Condition'</h6>
+                                    <h6 class="card-title">14k Solid Gold Patek Watch - Schauffhausen IWC 'Pristine Condition'</h6>
                                     <p class="card-text">Product Brand: IWC</p>
                                     <p class="card-text">Auction ID: 15678</p>
                                     <p class="card-text">Time left: 4d 20h</p>
@@ -165,12 +163,11 @@
             <a href="#">Sitemap</a>
         </div>
     </footer>
-
+    
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="javascript/Auction.js"></script>
 </body>
-
 </html>
