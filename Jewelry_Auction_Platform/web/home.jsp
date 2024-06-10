@@ -1,319 +1,238 @@
-<%@page import="entity.Auction.Auction"%>
-<%@page import="java.util.List"%>
-<%@page import="dao.UserDAOImpl"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="entity.product.Category"%>
+<%@page import="entity.Auction.Auction" %>
+<%@page import="java.util.List" %>
+<%@page import="dao.UserDAOImpl" %>
+<%@page import="java.util.ArrayList" %>
+<%@page import="entity.product.Category" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Jewelry Auctions Online</title>
-        <!-- Include Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="component/home.css">
-        <link rel="stylesheet" type="text/css" href="component/header.css">
-        <link rel="stylesheet" type="text/css" href="component/footer.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-        <style>
-            .category-container {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: space-around;
-                gap: 20px;
-                padding: 20px;
-                background-color: #f0f0f0;
-            }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jewelry Auctions Online</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="component/home.css">
+    
+</head>
+<body>
+    <c:set var="dao" value="<%= new dao.UserDAOImpl() %>" />
+    <c:set var="username" value="${sessionScope.USERNAME}" />
+    <c:set var="role" value="${sessionScope.ROLE}" />
+    <c:set var="listCategory" value="${dao.listCategory()}" />
 
-            .category-name {
-                font-family: 'Arial, sans-serif';
-                font-size: 24px;
-                color: #333;
-                background-color: #f9f9f9;
-                padding: 10px 20px;
-                border-radius: 8px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                text-align: center;
-                flex: 1 1 200px;
-                max-width: 300px;
-            }
-
-            .banner img {
-                width: 100%;
-                height: auto;
-                max-height: 950px;
-                object-fit: cover;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            }
-            .welcome-section {
-                text-align: center;
-                padding: 50px 20px;
-                background-color: #ffffff;
-                margin: 20px 0;
-                border-radius: 5px;
-            }
-
-            .welcome-section h2 {
-                font-size: 2.5rem;
-                color: #333;
-                margin-bottom: 20px;
-            }
-
-            .welcome-text {
-                font-size: 1.2rem;
-                color: #666;
-                line-height: 1.6;
-            }
-
-
-            .banner {
-                position: relative;
-            }
-
-            .banner-overlay {
-                position: absolute;
-                top: 50%;
-                left: 50px; /* Adjust this value based on your design */
-                transform: translateY(-50%);
-                padding: 20px;
-                border-radius: 5px;
-                text-align: center;
-                font-size: 18px;
-            }
-        </style>
-
-    </head>
-    <body>
-        <c:set var="dao" value="<%= new dao.UserDAOImpl()%>"/>
-        <c:set var="username" value="${sessionScope.USERNAME}" />
-        <c:set var="role" value="${sessionScope.ROLE}" />
-        <c:set var="listCategory" value="${dao.listCategory()}" />
-        <!-- START OF HEADER -->
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-light">
-                <a class="navbar-brand" href="#">Jewelry Auctions</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav mr-auto">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#"><i class="fas fa-gem"></i> Jewelry Auctions</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-home"></i> Home<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="auctions/upcoming.jsp"><i class="fas fa-gavel"></i> Auction</a>
+                </li>
+                <c:if test="${role == 'Member' || role == null}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="seller/selling.html"><i class="fas fa-dollar-sign"></i> Sell</a>
+                    </li>
+                </c:if>
+                <c:choose>
+                    <c:when test="${username == null}">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="login.jsp"><i class="fas fa-sign-in-alt"></i> Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="auctions/upcoming.jsp">Auction</a>
+                            <a class="nav-link" href="register.jsp"><i class="fas fa-user-plus"></i> Register</a>
                         </li>
-                        <c:if test="${role == 'Member' || role == null}">
-                            <li class="nav-item">
-                                <a class="nav-link" href="seller/selling.html">Sell</a>
-                            </li>
-                        </c:if>
-                        <c:choose>
-                            <c:when test="${username == null}">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="login.jsp">Login</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="register.jsp">Register</a>
-                                </li>
-                            </c:when>
-                            <c:otherwise>
-                                <c:set var="url">
-                                    <c:choose>
-                                        <c:when test="${role == 'Member'}">bidder/profile.jsp</c:when>
-                                        <c:when test="${role == 'Staff'}">staff/staff.jsp</c:when>
-                                        <c:when test="${role == 'Manager'}">manager/manager.jsp</c:when>
-                                        <c:otherwise>admin/admin.jsp</c:otherwise>
-                                    </c:choose>
-                                </c:set>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="${url}">${username}</a>
-                                </li>
-                            </c:otherwise>
-                        </c:choose>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="url">
+                            <c:choose>
+                                <c:when test="${role == 'Member'}">bidder/profile.jsp</c:when>
+                                <c:when test="${role == 'Staff'}">staff/staff.jsp</c:when>
+                                <c:when test="${role == 'Manager'}">manager/manager.jsp</c:when>
+                                <c:otherwise>admin/admin.jsp</c:otherwise>
+                            </c:choose>
+                        </c:set>
                         <li class="nav-item">
-                            <a class="nav-link" href="notification.jsp" id="bell-icon"><i class="fas fa-bell"></i></a>
+                            <a class="nav-link" href="${url}"><i class="fas fa-user"></i> ${username}</a>
                         </li>
-                    </ul>
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search for anything" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </c:otherwise>
+                </c:choose>
+                <li class="nav-item d-flex align-items-center">
+                    <% 
+                    UserDAOImpl _dao = new UserDAOImpl(); 
+                    Auction auction = null; 
+                    try {
+                        List<Auction> auctions = _dao.displayAuction(); 
+                        if (auctions != null && !auctions.isEmpty()) {
+                            auction = auctions.get(0);
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    %>
+                    <form id="viewAuctionForm" action="auctions/detail.jsp" method="GET" class="d-flex">
+                        <input type="hidden" name="auctionID" value="<%= auction != null ? auction.getAuctionID() : "" %>">
+                        <button type="submit" class="btn btn-danger" id="viewAuctionButton"><%= auction != null ? "View Auction" : "No Auction Available" %></button>
                     </form>
-                </div>
-            </nav>
-        </header>
-        <%
-            UserDAOImpl _dao = new UserDAOImpl();
-            Auction auction = new Auction();
-            try {
-                List<Auction> auctions = _dao.displayAuction();
-                if (auctions != null && !auctions.isEmpty()) {
-                    auction = auctions.get(0);
-                } else {
-                    // Handle case where no auctions are available
-                    // For example, set a default value or display a message
-                }
-            } catch (Exception ex) {
-                // Handle exception appropriately
-                ex.printStackTrace(); // Print the exception trace for debugging
-            }
-        %>
-        <section class="banner mb-4">
-            <div class="banner-overlay">
-                <h3>OPEN NOW for BIDDING</h3><br>
-                <h1>Fine Jewels & Watches</h1><br>
-                The first batch of lots has been uploaded.<br>
-                More lots coming shortly.<br>
-                STAY TUNED! Sign up for email notifications and be the first to know<br> when the remaining lots are uploaded and available for bidding.<br><br>
-                <form id="viewAuctionForm" action="auctions/detail.jsp" method="GET">
-                    <input type="hidden" name="auctionID" value="<%= auction.getAuctionID()%>">
-                    <button type="submit" class="btn-danger">View Auction</button>
-                </form>
-            </div>
-            <img src="images/HERO-1121-Banner-Variation-1-scaled.jpg" class="img-fluid" alt="Banner showcasing various jewelry pieces">
-        </section>
-        <!-- END OF HEADER -->
-        <main class="container mt-4">
-            <hr>
-            <!-- WELCOME SECTION -->
-            <section class="welcome-section">
+                    <% if (auction == null) { %>
+                    <div id="noAuctionBox" class="highlight ml-2"><i class="fas fa-exclamation-circle"></i> No auction available</div>
+                    <% } %>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="seller/shipmentRequest.jsp" id="bell-icon"><i class="fas fa-bell"></i></a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search for anything" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i> Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <section class="welcome-section">
+        <div class="banner">
+            <img src="https://png.pngtree.com/thumb_back/fw800/background/20190223/ourmid/pngtree-beautiful-romantic-golden-jewelry-banner-background-spheresmall-golden-ballgold-image_83218.jpg" alt="Banner Image">
+            <div class="banner-text">
                 <h2>Welcome to Jewelry Auction</h2>
-                <p class="welcome-text">
-                    We're delighted to have you explore our curated selection of fine jewelry. Each piece is a treasure waiting to be discovered. Join our community of connoisseurs and start your bidding journey today.
-                </p>
-            </section>
+                <p>We're delighted to have you explore our curated selection of fine jewelry. Each piece is a treasure waiting to be discovered. Join our community of connoisseurs and start your bidding journey today.</p>
+            </div>
+        </div>
+    </section>
 
-            <hr>
-
-            <br>
-            <h2>Top Categories</h2>
-            <c:if test="${not empty listCategory}">
-                <div class="category-container">
-                    <c:forEach var="category" items="${listCategory}">
-                        <div class="category-name">
-                            ${category.categoryName}
-                        </div>
-                    </c:forEach>
-                </div>
-            </c:if>
-            <br>
-            <hr>
-
-            <h2>Upcoming Auction</h2>
-            <section class="upcoming-auction">
-                <div class="container">
+    <div class="content container mt-5">
+        <h2>Upcoming Auction</h2>
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="mySlides slide">
-                                <div class="card mb-4">
-                                    <img src="https://a.1stdibscdn.com/archivesE/upload/1121189/j_130196821629192638945/13019682_datamatics.jpg" class="card-img-top" alt="Tiny Crystal Heart Pendant Necklace in Rose Gold">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Tiny Crystal Heart Pendant Necklace in Rose Gold</h5>
-                                        <p class="card-text">Start: Wed, May 22, 12:00 PM GMT+3</p>
-                                        <p class="card-text">Auction ID: 159234</p>
-                                        <button class="btn btn-primary">Notify me</button>
-                                    </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <img src="" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Item 1</h5>
+                                    <p class="card-text">Description for Item 1.</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mySlides slide">
-                                <div class="card mb-4">
-                                    <img src="https://nhj.com.vn/wp-content/uploads/2019/04/vong-tay-vang-24k-8.jpg" class="card-img-top" alt="14K Rose Gold Full Round Moissanite Diamond Ring">
-                                    <div class="card-body">
-                                        <h5 class="card-title">14K Rose Gold Full Round Moissanite Diamond Ring</h5>
-                                        <p class="card-text">Start: Wed, May 22, 12:00 PM GMT+3</p>
-                                        <p class="card-text">Auction ID: 294819</p>
-                                        <button class="btn btn-primary">Notify me</button>
-                                    </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <img src="" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Item 2</h5>
+                                    <p class="card-text">Description for Item 2.</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mySlides slide">
-                                <div class="card mb-4">
-                                    <img src="https://a.1stdibscdn.com/archivesE/upload/1121189/j_130196821629192638945/13019682_datamatics.jpg" class="card-img-top" alt="Tiny Crystal Heart Pendant Necklace in Rose Gold">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Tiny Crystal Heart Pendant Necklace in Rose Gold</h5>
-                                        <p class="card-text">Start: Wed, May 22, 12:00 PM GMT+3</p>
-                                        <p class="card-text">Auction ID: 159234</p>
-                                        <button class="btn btn-primary">Notify me</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mySlides slide">
-                                <div class="card mb-4">
-                                    <img src="https://a.1stdibscdn.com/archivesE/upload/1121189/j_130196821629192638945/13019682_datamatics.jpg" class="card-img-top" alt="Tiny Crystal Heart Pendant Necklace in Rose Gold">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Tiny Crystal Heart Pendant Necklace in Rose Gold</h5>
-                                        <p class="card-text">Start: Wed, May 22, 12:00 PM GMT+3</p>
-                                        <p class="card-text">Auction ID: 159234</p>
-                                        <button class="btn btn-primary">Notify me</button>
-                                    </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <img src="" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Item 3</h5>
+                                    <p class="card-text">Description for Item 3.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Next and previous buttons -->
-                <div class="next-prev-btn">
-                    <a class="prev" onclick="plusSlides(-2)">&#10094;</a>
-                    <a class="next" onclick="plusSlides(2)">&#10095;</a>
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <img src="" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Item 4</h5>
+                                    <p class="card-text">Description for Item 4.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <img src="" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Item 5</h5>
+                                    <p class="card-text">Description for Item 5.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <img src="" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Item 6</h5>
+                                    <p class="card-text">Description for Item 6.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <br>
-                <!-- The dots/circles -->
-                <div style="text-align:center">
-                    <span class="dot" onclick="currentSlide(1)"></span>
-                    <span class="dot" onclick="currentSlide(2)"></span>
-                </div>
-            </section>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
 
-            <br>
-            <hr>
-            <section class="contact mt-5">
-                <h2>About Us</h2>
-                <p>Welcome to Jewelry Auctioned! We offer a wide range of discounted jewelry and gemstones directly from verified manufacturers worldwide. 
-                    Shop top-quality pieces at a fraction of the price. Our sellers meet high standards through a rigorous application process.</p>
-            </section>
+        <section class="highlight-box mt-5">
+            <h2>About Us</h2>
+            <div class="content-box">
+                <p>Welcome to Jewelry Auctioned! We offer a wide range of discounted jewelry and gemstones directly from verified manufacturers worldwide. Shop top-quality pieces at a fraction of the price. Our sellers meet high standards through a rigorous application process.</p>
+            </div>
+        </section>
 
-            <section class="contact mt-5">
-                <h2>Contact</h2>
+        <section class="highlight-box mt-5">
+            <h2>Contact</h2>
+            <div class="content-box">
                 <p>We welcome your feedback and encourage you to share your thoughts. Feel free to ask questions, tell us what you like, and let us know how we can improve. Your input is valuable to us!</p>
                 <p>Phone Support: +849872539999 (Available 7 days a week, 9:00 am - 5:30 pm EST)</p>
                 <p>Email Support: support@jewelryauction.com</p>
                 <p>Fill out the form below for more assistance.</p>
-            </section>
-            <hr>
-        </main>
-        <!-- START OF FOOTER -->
-        <footer class="text-center py-3 mt-auto">
-            <div>
-                <h6>Jewelry Auction</h6>
-                <a href="register.jsp">Register</a> |
-                <a href="login.jsp">Login</a> |
-                <a href="#">Help & FAQ</a> |
-                <a href="#">Support</a> |
-                <a href="#">Sitemap</a>
             </div>
-        </footer>
-        <!-- END OF FOOTER -->
+        </section>
+    </div>
 
-        <!-- Include Bootstrap JS and dependencies -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <!-- Custom Javascript -->
-        <!-- Slideshow -->
-        <script src="javascript/home.js"></script>
-    </body>
+    <footer class="text-center py-3 mt-auto">
+        <div>
+            <h6>Jewelry Auction</h6>
+            <a href="register.jsp">Register</a> |
+            <a href="login.jsp">Login</a> |
+            <a href="#">Help & FAQ</a> |
+            <a href="#">Support</a> |
+            <a href="#">Sitemap</a>
+        </div>
+    </footer>
+
+    <!-- Include Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var auctionButton = document.getElementById('viewAuctionButton');
+            auctionButton.addEventListener('click', function(event) {
+                var auctionID = document.querySelector('input[name="auctionID"]').value;
+                if (!auctionID) {
+                    event.preventDefault();
+                    alert('No auction available');
+                }
+            });
+        });
+    </script>
+    
+</body>
 </html>
-
-

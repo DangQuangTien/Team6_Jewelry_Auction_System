@@ -62,7 +62,7 @@ public class MainController extends HttpServlet {
                 case "Sell":
                     url = "/seller/selling.html";
                     break;
-                case "Valuation Request":
+                case "ValuationRequest":
                     url = PROCESS_VALUATION_CONTROLLER;
                     break;
                 case "Submit":

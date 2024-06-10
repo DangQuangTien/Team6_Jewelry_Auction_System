@@ -16,39 +16,66 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     </head>
 
+    <style>
+        .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background-color: #343a40 !important;
+        border-bottom: 3px solid #e4af11;
+    }
+    
+    .navbar-brand, .nav-link, .navbar-toggler-icon {
+        color: #ffc107 !important;
+    }
+    
+    .navbar-brand:hover, .nav-link:hover {
+        color: #0a0800 !important;
+    }
+    
+    .content {
+        flex: 1;
+        padding: 20px;
+    }
+    </style>
+
     <body>
         <header>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">Jewelry Auctions</a>
+                <a class="navbar-brand" href="#"><i class="fas fa-gem"></i> Jewelry Auctions</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/home.jsp">Home <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/home.jsp"><i class="fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/Auction.jsp">Auction</a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/Auction.jsp"><i class="fas fa-gavel"></i> Auction</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/seller/selling.html">Sell</a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/seller/selling.html"><i class="fas fa-dollar-sign"></i> Sell</a>
                         </li>
                         <!-- JSTL Conditional Rendering -->
                         <c:choose>
                             <c:when test="${empty sessionScope.USERNAME}">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="login.jsp">Login</a>
+                                    <a class="nav-link" href="login.jsp"><i class="fas fa-sign-in-alt"></i> Login</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="register.jsp">Register</a>
+                                    <a class="nav-link" href="register.jsp"><i class="fas fa-user-plus"></i> Register</a>
                                 </li>
                             </c:when>
                             <c:otherwise>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="${pageContext.request.contextPath}/bidder/profile.jsp">
-                                        ${sessionScope.USERNAME}
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-user"></i> ${sessionScope.USERNAME}
                                     </a>
+                                    <div class="dropdown-menu" aria-labelledby="userDropdown">
+                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/bidder/profile.jsp">Profile</a>
+                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/logout.jsp">Logout</a>
+                                    </div>
                                 </li>
                             </c:otherwise>
                         </c:choose>
@@ -65,11 +92,12 @@
                     </ul>
                     <form class="form-inline my-2 my-lg-0">
                         <input class="form-control mr-sm-2" type="search" placeholder="Search for anything" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i> Search</button>
                     </form>
                 </div>
             </nav>
         </header>
+        
 
         <main>
             <div class="container light-style flex-grow-1 container-p-y">
@@ -115,7 +143,7 @@
                                         </div>
                                         <div class="form-group mb-2">
                                             <label class="form-label fw-bold mb-2">Name</label>
-                                            <input type="text" class="form-control" value="Nguy?n Thành Tài">
+                                            <input type="text" class="form-control" value="Nguy?n Thï¿½nh Tï¿½i">
                                         </div>
                                         <div class="form-group mb-2">
                                             <label class="form-label fw-bold mb-2">E-mail</label>
@@ -154,6 +182,10 @@
         <!-- Scripts -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('logout-link').addEventListener('click', function (event) {
