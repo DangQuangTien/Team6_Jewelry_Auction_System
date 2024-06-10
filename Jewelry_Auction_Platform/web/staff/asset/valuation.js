@@ -1,29 +1,30 @@
-
 function showFormFields() {
-    var category = document.getElementById("category").value;
-    var watchFields = document.getElementById("watchFields");
-    var braceletFields = document.getElementById("braceletFields");
+    var category = document.getElementById('category').value;
+    var watchFields = document.getElementById('watchFields');
+    var braceletFields = document.getElementById('braceletFields');
 
-    watchFields.style.display = "none";
-    braceletFields.style.display = "none";
+    watchFields.classList.add('d-none');
+    braceletFields.classList.add('d-none');
 
-    if (category === "category9") {
-        watchFields.style.display = "block";
-    } else {
-        braceletFields.style.display = "block";
+    if (category === 'watch') {
+        watchFields.classList.remove('d-none');
+    } else if (category === 'bracelet') {
+        braceletFields.classList.remove('d-none');
     }
 }
-window.onload = function () {
-    showFormFields();
-}
 
-function confirmValuation(event) {
-    if (!confirm("Are you certain you want to send this appraisal?")) {
+function confirmLogout(event) {
+    if (!confirm('Are you sure you want to log out?')) {
         event.preventDefault();
     }
 }
-function cancelValuation() {
-    if (confirm("Are you sure you want to cancel this appraisal?")) {
-        window.location.href = "${pageContext.request.contextPath}/ProcessValuationRequest";
+
+function confirmValuation(event) {
+    if (!confirm('Are you sure you want to submit this valuation?')) {
+        event.preventDefault();
     }
+}
+
+function cancelValuation() {
+    window.history.back();
 }
