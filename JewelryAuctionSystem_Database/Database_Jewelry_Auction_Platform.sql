@@ -326,3 +326,7 @@ insert into Member (memberID, userID, firstName, lastName, phoneNumber, gender, 
 select * from Jewelry
 SELECT * FROM CATEGORY
 select * from Notification
+SELECT * FROM REQUESTVALUATION
+alter table RequestValuation
+add final_Status bit default 0
+update RequestValuation set final_Status = 0
