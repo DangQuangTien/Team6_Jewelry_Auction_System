@@ -66,3 +66,36 @@
   font-weight: bold;
   width: 50px;
 }
+
+.main-content {
+  background-color: #f8f9fa;
+  padding: 20px;
+}
+
+.title h2 {
+  font-family: Arial, sans-serif;
+}
+
+.dropdown a {
+  color: #6c757d;
+}
+
+.dropdown a:hover {
+  color: #495057;
+}
+
+.list-group-item {
+  transition: background-color 0.3s ease;
+}
+
+.list-group-item:hover {
+  background-color: #f8f9fa;
+}
+
+.btn {
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #6c757d;
+}
