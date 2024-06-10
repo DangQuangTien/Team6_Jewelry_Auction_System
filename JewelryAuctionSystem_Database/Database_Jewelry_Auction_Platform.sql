@@ -1,13 +1,54 @@
 CREATE DATABASE Jewelry_Auction_System;
 GO
+
 USE Jewelry_Auction_System;
 GO
 
+-- Create sequences
 CREATE SEQUENCE userID_sequence
     START WITH 0
     INCREMENT BY 1;
 GO
 
+CREATE SEQUENCE addressID_sequence
+    START WITH 0
+    INCREMENT BY 1;
+GO
+
+CREATE SEQUENCE categoryID_sequence
+    START WITH 0
+    INCREMENT BY 1;
+GO
+
+CREATE SEQUENCE valuationId_sequence
+    START WITH 0
+    INCREMENT BY 1;
+GO
+
+CREATE SEQUENCE notificationId_sequence
+    START WITH 0
+    INCREMENT BY 1;
+GO
+
+CREATE SEQUENCE jewelryID_sequence
+    AS BIGINT
+    START WITH 1
+    INCREMENT BY 1;
+GO
+
+CREATE SEQUENCE auctionID_sequence
+    AS BIGINT
+    START WITH 1
+    INCREMENT BY 1;
+GO
+
+CREATE SEQUENCE sessionID_sequence
+    AS BIGINT
+    START WITH 1
+    INCREMENT BY 1;
+GO
+
+-- Create tables
 CREATE TABLE [Role] (
     roleID VARCHAR(50) NOT NULL PRIMARY KEY,
     role_name NVARCHAR(50)
@@ -25,28 +66,6 @@ CREATE TABLE Users (
 );
 GO
 
-CREATE TRIGGER check_unique_username
-ON Users
-INSTEAD OF INSERT
-AS
-BEGIN
-    IF EXISTS (SELECT 1 FROM Users INNER JOIN inserted ON Users.username = inserted.username)
-    BEGIN
-        RAISERROR ('username already exists.', 16, 1);
-        ROLLBACK TRANSACTION;
-    END
-    ELSE
-    BEGIN
-        DECLARE @new_userID VARCHAR(50);
-        SET @new_userID = 'User' + CAST(NEXT VALUE FOR userID_sequence AS VARCHAR(50));
-        
-        INSERT INTO Users (userID, username, email, [password], joined_at, roleID)
-        SELECT @new_userID, username, email, [password], GETDATE(), roleID
-        FROM inserted;
-    END
-END;
-GO
-
 CREATE TABLE [Member] (
     memberID VARCHAR(50) NOT NULL PRIMARY KEY,
     userID VARCHAR(50) NOT NULL,
@@ -56,13 +75,9 @@ CREATE TABLE [Member] (
     gender NVARCHAR(10),
     dob DATE,
     avatar NVARCHAR(255),
+	status_register_to_bid bit default 0,
     CONSTRAINT fk_member_userID FOREIGN KEY (userID) REFERENCES Users(userID)
 );
-GO
-
-CREATE SEQUENCE addressID_sequence
-    START WITH 0
-    INCREMENT BY 1;
 GO
 
 CREATE TABLE [Address](
@@ -77,24 +92,6 @@ CREATE TABLE [Address](
 ); 
 GO
 
-CREATE TRIGGER autogenerate_addressID 
-ON [Address] 
-INSTEAD OF INSERT
-AS 
-BEGIN
-    DECLARE @newaddressID VARCHAR(50);
-    SET @newaddressID = 'Address' + CAST(NEXT VALUE FOR addressID_sequence AS VARCHAR(50));
-    INSERT INTO [Address] (addressID, street, city, [state], zipcode, country, memberID)
-    SELECT @newaddressID, street, city, [state], zipcode, country, memberID
-    FROM inserted;
-END;
-GO
-
-CREATE SEQUENCE categoryID_sequence
-    START WITH 0
-    INCREMENT BY 1;
-GO
-
 CREATE TABLE category (
     categoryID NVARCHAR(50) NOT NULL PRIMARY KEY,
     categoryName NVARCHAR(255) NOT NULL,
@@ -102,24 +99,6 @@ CREATE TABLE category (
     [active] BIT DEFAULT 1,
     FOREIGN KEY (parentID) REFERENCES category(categoryID)
 );
-GO
-
-CREATE TRIGGER autogenerate_categoryID 
-ON category 
-INSTEAD OF INSERT
-AS 
-BEGIN
-    DECLARE @newcategoryID NVARCHAR(50);
-    SET @newcategoryID = 'category' + CAST(NEXT VALUE FOR categoryID_sequence AS NVARCHAR(50));
-    INSERT INTO category (categoryID, categoryName)
-    SELECT @newcategoryID, categoryName
-    FROM inserted;
-END;
-GO
-
-CREATE SEQUENCE valuationId_sequence
-    START WITH 0
-    INCREMENT BY 1;
 GO
 
 CREATE TABLE RequestValuation (
@@ -131,28 +110,10 @@ CREATE TABLE RequestValuation (
     [description] NVARCHAR(MAX),
     photos VARCHAR(255),
     memberId VARCHAR(50),
-    status bit default 0,
+    status BIT DEFAULT 0,
+    final_Status BIT DEFAULT 0,
     FOREIGN KEY (memberId) REFERENCES [Member](memberId)
 );
-GO
-
-CREATE TRIGGER autogenerate_valuationId 
-ON RequestValuation
-INSTEAD OF INSERT
-AS 
-BEGIN
-    DECLARE @newvaluationId NVARCHAR(50);
-    SET @newvaluationId = 'val' + CAST(NEXT VALUE FOR valuationId_sequence AS NVARCHAR(50));
-    INSERT INTO RequestValuation (valuationId, [name], email, phonenumber, communication, [description], photos, memberId)
-    SELECT @newvaluationId, [name], email, phonenumber, communication, [description], photos, memberId
-    FROM inserted;
-END;
-GO
-
-
-CREATE SEQUENCE notificationId_sequence
-    START WITH 0
-    INCREMENT BY 1;
 GO
 
 CREATE TABLE [Notification](
@@ -161,25 +122,6 @@ CREATE TABLE [Notification](
     content NVARCHAR(MAX),
     FOREIGN KEY (valuationId) REFERENCES RequestValuation(valuationId)
 );
-GO
-
-CREATE TRIGGER autogenerate_notificationId 
-ON [Notification] 
-INSTEAD OF INSERT
-AS 
-BEGIN
-    DECLARE @newnotificationId NVARCHAR(50);
-    SET @newnotificationId = 'No' + CAST(NEXT VALUE FOR notificationId_sequence AS NVARCHAR(50));
-    INSERT INTO [Notification] (notificationId, valuationId, content)
-    SELECT @newnotificationId, valuationId, content
-    FROM inserted;
-END;
-GO
-
-CREATE SEQUENCE jewelryID_sequence
-    AS BIGINT
-    START WITH 1
-    INCREMENT BY 1;
 GO
 
 CREATE TABLE Jewelry (
@@ -206,26 +148,146 @@ CREATE TABLE Jewelry (
     ringSize NVARCHAR(50),
     minPrice VARCHAR(255),
     maxPrice VARCHAR(255),
-	temp_Price varchar(255),
+    temp_Price VARCHAR(255),
     valuationId VARCHAR(50),
-	photos nvarchar(MAX),
-    [status] varchar(50) default 'Re-Evaluated',
-	final_Price varchar(255),
+    photos NVARCHAR(MAX),
+    [status] VARCHAR(50) DEFAULT 'Re-Evaluated',
+    final_Price VARCHAR(255),
     FOREIGN KEY (valuationId) REFERENCES RequestValuation(valuationId),
     FOREIGN KEY (categoryID) REFERENCES category(categoryID)
 );
-ALTER TABLE Jewelry
-DROP CONSTRAINT DF__Jewelry__statusF__75A278F5;
-ALTER TABLE Jewelry
-DROP COLUMN [status];
-ALTER TABLE Jewelry
-ADD [status] VARCHAR(50) default 'Re-Evaluated';
-ALTER TABLE Jewelry
-ADD temp_Price varchar(255);
-ALTER TABLE Jewelry
-ADD final_Price varchar(255);
 GO
-DROP TRIGGER autogenerate_jewelryID;
+
+CREATE TABLE Auction (
+    auctionId VARCHAR(50) PRIMARY KEY NOT NULL,
+    startDate DATE,
+    startTime TIME,
+    [status] BIT DEFAULT 0
+);
+GO
+
+CREATE TABLE [Session](
+    sessionID VARCHAR(50) NOT NULL PRIMARY KEY,
+    auctionID VARCHAR(50) NOT NULL,
+    jewelryID VARCHAR(50) NOT NULL, 
+    startBid DECIMAL(18,2),
+    winnerID VARCHAR(50),
+    [status] BIT DEFAULT 0,
+    CONSTRAINT fk_auctionID FOREIGN KEY (auctionID) REFERENCES Auction(auctionId),
+    CONSTRAINT fk_jewelryID FOREIGN KEY (jewelryID) REFERENCES Jewelry(jewelryID),
+    CONSTRAINT uc_auction_jewelry UNIQUE (auctionID, jewelryID)
+);
+GO
+CREATE TABLE Register_Bid(
+    registerBidID VARCHAR(50) NOT NULL PRIMARY KEY,
+    sessionID VARCHAR(50) NOT NULL,
+    memberID VARCHAR(50) NOT NULL,
+    bidAmount_Current DECIMAL(18,2),
+    bidTime_Current DATETIME,
+    preBid_Amount DECIMAL(18,2),
+    preBid_Time TIME,
+    [status] BIT,
+    CONSTRAINT fk_sessionID FOREIGN KEY (sessionID) REFERENCES [Session](sessionID),
+    CONSTRAINT fk_Register_Bid_memberID FOREIGN KEY (memberID) REFERENCES [Member](memberID)
+);
+GO
+
+CREATE TABLE Bid_Track(
+    bidID VARCHAR(50) NOT NULL PRIMARY KEY,
+    sessionID VARCHAR(50) NOT NULL,
+    memberID VARCHAR(50) NOT NULL,
+    bidAmount DECIMAL(18,2) NOT NULL,
+    bidTime DATETIME NOT NULL,
+    CONSTRAINT fk_sessionID_live FOREIGN KEY (sessionID) REFERENCES [Session](sessionID),
+    CONSTRAINT fk_memberID_live FOREIGN KEY (memberID) REFERENCES [Member](memberID)
+);
+GO
+
+CREATE TABLE Invoice(
+    invoiceID VARCHAR(50) NOT NULL PRIMARY KEY,
+    registerBidID VARCHAR(50) NOT NULL,
+    invoiceDate DATETIME NOT NULL,
+    totalAmount DECIMAL(18,2) NOT NULL,
+    paymentMethod VARCHAR(50),  -- Field for payment method
+    shippingAddress NVARCHAR(500),  -- Field for shipping address
+    CONSTRAINT fk_RegisterBid FOREIGN KEY (registerBidID) REFERENCES Register_Bid(registerBidID)
+);    
+GO
+
+-- Create triggers
+CREATE TRIGGER check_unique_username
+ON Users
+INSTEAD OF INSERT
+AS
+BEGIN
+    IF EXISTS (SELECT 1 FROM Users INNER JOIN inserted ON Users.username = inserted.username)
+    BEGIN
+        RAISERROR ('username already exists.', 16, 1);
+        ROLLBACK TRANSACTION;
+    END
+    ELSE
+    BEGIN
+        DECLARE @new_userID VARCHAR(50);
+        SET @new_userID = 'User' + CAST(NEXT VALUE FOR userID_sequence AS VARCHAR(50));
+        
+        INSERT INTO Users (userID, username, email, [password], joined_at, roleID)
+        SELECT @new_userID, username, email, [password], GETDATE(), roleID
+        FROM inserted;
+    END
+END;
+GO
+
+CREATE TRIGGER autogenerate_addressID 
+ON [Address] 
+INSTEAD OF INSERT
+AS 
+BEGIN
+    DECLARE @newaddressID VARCHAR(50);
+    SET @newaddressID = 'Address' + CAST(NEXT VALUE FOR addressID_sequence AS VARCHAR(50));
+    INSERT INTO [Address] (addressID, street, city, [state], zipcode, country, memberID)
+    SELECT @newaddressID, street, city, [state], zipcode, country, memberID
+    FROM inserted;
+END;
+GO
+
+CREATE TRIGGER autogenerate_categoryID 
+ON category 
+INSTEAD OF INSERT
+AS 
+BEGIN
+    DECLARE @newcategoryID NVARCHAR(50);
+    SET @newcategoryID = 'category' + CAST(NEXT VALUE FOR categoryID_sequence AS NVARCHAR(50));
+    INSERT INTO category (categoryID, categoryName)
+    SELECT @newcategoryID, categoryName
+    FROM inserted;
+END;
+GO
+
+CREATE TRIGGER autogenerate_valuationId 
+ON RequestValuation
+INSTEAD OF INSERT
+AS 
+BEGIN
+    DECLARE @newvaluationId NVARCHAR(50);
+    SET @newvaluationId = 'val' + CAST(NEXT VALUE FOR valuationId_sequence AS NVARCHAR(50));
+    INSERT INTO RequestValuation (valuationId, [name], email, phonenumber, communication, [description], photos, memberId)
+    SELECT @newvaluationId, [name], email, phonenumber, communication, [description], photos, memberId
+    FROM inserted;
+END;
+GO
+
+CREATE TRIGGER autogenerate_notificationId 
+ON [Notification] 
+INSTEAD OF INSERT
+AS 
+BEGIN
+    DECLARE @newnotificationId NVARCHAR(50);
+    SET @newnotificationId = 'No' + CAST(NEXT VALUE FOR notificationId_sequence AS NVARCHAR(50));
+    INSERT INTO [Notification] (notificationId, valuationId, content)
+    SELECT @newnotificationId, valuationId, content
+    FROM inserted;
+END;
+GO
 
 CREATE TRIGGER autogenerate_jewelryID
 ON Jewelry
@@ -248,6 +310,19 @@ BEGIN
 END;
 GO
 
+CREATE TRIGGER trg_UpdateStatusOnFinalPrice
+ON Jewelry
+AFTER UPDATE
+AS
+BEGIN
+    IF UPDATE(final_Price)
+    BEGIN
+        UPDATE Jewelry
+        SET [status] = 'Final-Evaluated'
+        WHERE jewelryID IN (SELECT jewelryID FROM Inserted) AND final_Price IS NOT NULL;
+    END
+END;
+GO
 
 CREATE TRIGGER update_valuation_status
 ON Jewelry
@@ -260,73 +335,85 @@ BEGIN
     JOIN inserted i ON val.valuationId = i.valuationId;
 END;
 GO
-create table Auction(
-	auctionID varchar(50) not null primary key,
-	startDate date not null,
-	[status] bit default 0,
-)
-create table [Session](
-	sessionID varchar(50) not null primary key,
-	auctionID varchar(50) not null,
-	jewelryID varchar(50) not null, 
-	startTime time not null,
-	endTime time not null,
-	startBid decimal(18,2),
-	winnerID varchar(50),
-	status bit default 0,
-	CONSTRAINT fk_auctionID FOREIGN KEY (auctionID) REFERENCES Auction(auctionID),
-	CONSTRAINT fk_jewelryID FOREIGN KEY (jewelryID) REFERENCES Jewelry(jewelryID),
-	CONSTRAINT uc_auction_jewelry UNIQUE (auctionID, jewelryID)
-)
-CREATE TABLE Register_Bid(
-    registerBidID varchar(50) NOT NULL PRIMARY KEY,
-    sessionID varchar(50) NOT NULL,
-    memberID varchar(50) NOT NULL,
-    bidAmount_Current decimal(18,2),
-    bidTime_Current datetime,
-	preBid_Amount decimal(18,2),
-	preBid_Time time,
-	status bit,
-    CONSTRAINT fk_sessionID FOREIGN KEY (sessionID) REFERENCES [Session](sessionID),
-    CONSTRAINT fk_Register_Bid_memberID FOREIGN KEY (memberID) REFERENCES Member(memberID)
-);
 
-CREATE TABLE Bid_Track(
-    bidID varchar(50) NOT NULL PRIMARY KEY,
-    sessionID varchar(50) NOT NULL,
-    memberID varchar(50) NOT NULL,
-    bidAmount decimal(18,2) NOT NULL,
-    bidTime datetime NOT NULL,
-    CONSTRAINT fk_sessionID_live FOREIGN KEY (sessionID) REFERENCES [Session](sessionID),
-    CONSTRAINT fk_memberID_live FOREIGN KEY (memberID) REFERENCES Member(memberID)
-);
+CREATE TRIGGER autogenerate_auctionID
+ON Auction
+INSTEAD OF INSERT
+AS 
+BEGIN
+    DECLARE @newauctionID NVARCHAR(50);
 
-CREATE TABLE Invoice(
-    invoiceID varchar(50) NOT NULL PRIMARY KEY,
-    registerBidID varchar(50) NOT NULL,
-    invoiceDate datetime NOT NULL,
-    totalAmount decimal(18,2) NOT NULL,
-    paymentMethod varchar(50),  -- Field for payment method
-    shippingAddress nvarchar(500),  -- Field for shipping address
-    CONSTRAINT fk_RegisterBid FOREIGN KEY (registerBidID) REFERENCES Register_Bid(registerBidID)
-);	
-select * from users   
-select * from RequestValuation
-delete from RequestValuation
-delete from Jewelry
-SELECT * FROM REQUESTVALUATION
-select * from Member
-select * from Jewelry
-select * from Role
-insert into Users (username, email, password, roleID) values ('staff', 'staff123@gmail.com', '123', 'Role02')
-insert into Users (username, email, password, roleID) values ('manager', 'manager123@gmail.com', '123', 'Role03')
-insert into Users (username, email, password, roleID) values ('admin', 'admin123@gmail.com', '123', 'Role04')
+    INSERT INTO Auction (auctionID, startDate, startTime)
+    SELECT 'Auc' + CAST(NEXT VALUE FOR auctionID_sequence AS NVARCHAR(50)), startDate, startTime
+    FROM inserted;
+END;
+GO
+
+CREATE TRIGGER autogenerate_sessionID
+ON [Session]
+INSTEAD OF INSERT
+AS 
+BEGIN
+    DECLARE @newsessionID NVARCHAR(50);
+
+    INSERT INTO [Session] (sessionID, auctionID, jewelryID)
+    SELECT 'Turn' + CAST(NEXT VALUE FOR sessionID_sequence AS NVARCHAR(50)), auctionID, jewelryID
+    FROM inserted;
+END;
+GO
+
+/* Testing and data manipulation queries 
+-- Select queries
+select * from Users;   
+select * from RequestValuation;
+select * from Member;
+select * from Jewelry;
+select * from Role;
+select * from Category;
+select * from Notification;
+select * from Session;
+select * from Auction;
+SELECT * FROM Jewelry WHERE [status] = 'Received';
+SELECT * FROM Jewelry WHERE [status] = 'Approved';
+SELECT * FROM Auction WHERE auctionID = 'Auc42';
+SELECT J.* FROM Jewelry J, Session S WHERE S.jewelryID = J.jewelryID AND auctionID = 'Auc42';
+SELECT J.*, C.categoryName FROM Jewelry J, Category C, Session S, Auction Auc 
+WHERE J.categoryID = C.categoryID AND S.auctionID = Auc.auctionID AND J.jewelryID = S.jewelryID AND Auc.auctionID = 'Auc42';
+SELECT * FROM Auction WHERE [status] = 0;
+
+-- Insert queries
+insert into Users (username, email, [password], roleID) values ('staff', 'staff123@gmail.com', '123', 'Role02');
+insert into Users (username, email, [password], roleID) values ('manager', 'manager123@gmail.com', '123', 'Role03');
+insert into Users (username, email, [password], roleID) values ('admin', 'admin123@gmail.com', '123', 'Role04');
 insert into Member (memberID, userID, firstName, lastName, phoneNumber, gender, dob, avatar) values
-('Member1', 'User0', 'Alex', 'Watson', '0978787898', 'Male', '2000-02-19', null)
+('Member1', 'User0', 'Alex', 'Watson', '0978787898', 'Male', '2000-02-19', null);
+
+-- Delete queries
+delete from RequestValuation;
+delete from Jewelry;
+delete from Notification;
+delete from Auction;
+delete from [Session];
+*/
+drop trigger autogenerate_addressID
+CREATE SEQUENCE addressID_sequence
+    START WITH 0
+    INCREMENT BY 1;
+GO
+CREATE TRIGGER autogenerate_addressID
+ON [Address]
+INSTEAD OF INSERT
+AS 
+BEGIN
+    DECLARE @newaddressID NVARCHAR(50);
+    SET @newaddressID = 'Add' + CAST(NEXT VALUE FOR addressID_sequence AS NVARCHAR(50));
+    INSERT INTO [Address] (addressID, city, state, zipcode, country, memberID, address1, address2)
+    SELECT @newaddressID,  city, state, zipcode, country, memberID, address1, address2
+    FROM inserted;
+END;
+GO
+INSERT INTO [Address] (city, state, zipcode, country, memberID, address1, address2) VALUES (?, ?, ?, ?, ?, ?, ?);
+
+select * from Member
+update Member set status_register_to_bid = 1
 select * from Jewelry
-SELECT * FROM CATEGORY
-select * from Notification
-SELECT * FROM REQUESTVALUATION
-alter table RequestValuation
-add final_Status bit default 0
-update RequestValuation set final_Status = 0

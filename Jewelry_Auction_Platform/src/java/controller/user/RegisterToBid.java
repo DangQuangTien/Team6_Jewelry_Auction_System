@@ -2,14 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.staff;
+package controller.user;
 
-import dao.UserDAOImpl;
-import entity.valuation.Valuation;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,11 +16,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author User
  */
-@WebServlet(name = "ProcessValuationRequest", urlPatterns = {"/ProcessValuationRequest"})
-public class ProcessValuationRequest extends HttpServlet {
-
-    private static final String ERROR_PAGE = "index.htm";
-    private static final String STAFF_PAGE = "/staff/staff.jsp";
+@WebServlet(name = "RegisterToBid", urlPatterns = {"/RegisterToBid"})
+public class RegisterToBid extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,20 +32,16 @@ public class ProcessValuationRequest extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            UserDAOImpl dao = new UserDAOImpl();
-            String url = ERROR_PAGE;
-            try {
-                ArrayList<Valuation> lst = dao.displayValuationRequest();
-                if (lst != null) {
-                    url = STAFF_PAGE;
-                    request.setAttribute("listValuationRequest", lst);
-                }
-            } catch (Exception ex) {
-                ex.getMessage();
-            } finally {
-                RequestDispatcher dist = request.getRequestDispatcher(url);
-                dist.forward(request, response);
-            }
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet RegisterToBid</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet RegisterToBid at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

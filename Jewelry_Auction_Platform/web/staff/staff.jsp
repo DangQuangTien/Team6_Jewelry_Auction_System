@@ -1,4 +1,3 @@
-<%@page import="dao.UserDAOImpl"%>
 <%@page import="entity.valuation.Valuation"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.time.LocalTime"%>
@@ -33,128 +32,129 @@
         }
     %>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Staff Portal</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/staff/approvalRequest.jsp"><i class="fas fa-thumbs-up"></i> Approval Request</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/staff/finalValuation.jsp"><i class="fas fa-check-double"></i> Final Valuation</a>
-                    </li>
-                    <li class="nav-item">
-                        <form action="${pageContext.request.contextPath}/MainController" method="POST" onsubmit="confirmLogout(event)">
-                            <button type="submit" name="action" class="btn btn-link nav-link" value="Log out"><i class="fas fa-sign-out-alt"></i> Logout</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        <h3 class="text-center mt-4">Approval Request</h3>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Staff Portal</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/MainController?action=Valuation Request"><i class="fas fa-file-invoice-dollar"></i> Valuation Request</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/staff/approvalRequest.jsp"><i class="fas fa-thumbs-up"></i> Approval Request</a>
+                </li>
+                <li class="nav-item">
+                    <form action="${pageContext.request.contextPath}/MainController" method="POST" onsubmit="confirmLogout(event)">
+                        <button type="submit" name="action" class="btn btn-link nav-link" value="Log out"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-        <div class="container mt-4">
-            <c:set var="listValuationRequest" value="${requestScope.listValuationRequest}" />
-            <c:if test="${not empty listValuationRequest}">
-                <h2>Valuation Requests</h2>
-                <table class="table table-hover">
-                    <thead class="thead-light">
+    <h3 class="text-center mt-4">Good <%= greeting%> Welcome back, Staff</h3>
+
+    <div class="container mt-4">
+        <c:set var="listValuationRequest" value="${requestScope.listValuationRequest}" />
+        <c:if test="${not empty listValuationRequest}">
+            <h2>Valuation Requests</h2>
+            <table class="table table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>No</th>
+                        <th>Photo</th>
+                        <th>Name</th>
+                        <th>More Info</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="val" items="${listValuationRequest}" varStatus="loop">
                         <tr>
-                            <th>No</th>
-                            <th>Photo</th>
-                            <th>Name</th>
-                            <th>More Info</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="val" items="${listValuationRequest}" varStatus="loop">
-                            <tr>
-                                <td>${loop.index + 1}</td>
-                                <td>
-                                    <c:set var="photoArray" value="${fn:split(val.photo, ';')}" />
-                                    <img src="${photoArray[0]}" alt="Photo" class="img-thumbnail" style="max-width: 100px;">
-                                </td>
-                                <td>${val.name}</td>
-                                <td>
-                                    <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#infoModal${loop.index}">View</button>
-                                    <div class="modal fade" id="infoModal${loop.index}" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel${loop.index}" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="infoModalLabel${loop.index}">Detailed Information</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p><strong>Phone Number:</strong> ${val.phone}</p>
-                                                    <p><strong>Communication Preference:</strong> ${val.communication}</p>
-                                                    <p><strong>Description:</strong> ${val.description}</p>
-                                                    <p><strong>Action:</strong></p>
-                                                    <div>
-                                                        <c:choose>
-                                                            <c:when test="${val.status == 0}">
-                                                                <form action="${pageContext.request.contextPath}/staff/valuation.jsp" method="GET">
-                                                                    <input type="hidden" name="photoURL" value="${val.photo}">
-                                                                    <input type="hidden" name="valuationID" value="${val.valuationID}">
-                                                                    <button type="submit" class="btn btn-primary">Evaluate</button>
-                                                                </form>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <button class="btn btn-secondary" disabled>Evaluated</button>
-                                                                <c:if test="${val.status == 1}">
-                                                                    <form action="${pageContext.request.contextPath}/MainController" method="GET">
-                                                                        <input type="hidden" name="valuationID" value="${val.valuationID}">
-                                                                        <input type="hidden" name="name" value="${val.name}">
-                                                                        <button type="submit" name="action" class="btn btn-primary mt-2">Request to Ship</button>
-                                                                    </form>
-                                                                </c:if>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </div>
-                                                    <p><strong>Confirmation of Receipt:</strong></p>
-                                                    <div>
-                                                        <c:choose>
-                                                            <c:when test="${val.final_Status == 0 && val.status == 1}">
-                                                                <form action="${pageContext.request.contextPath}/MainController" method="POST" onsubmit="confirmReceipt(event)">
-                                                                    <input type="hidden" name="valuationID" value="${val.valuationID}">
-                                                                    <button type="submit" name="action" class="btn btn-success mt-2">Confirm Receipt</button>
-                                                                </form>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <c:if test="${val.final_Status == 1}">
-                                                                    <p class="text-danger mt-2">Confirmed</p>
-                                                                </c:if>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </div>
-                                                    <p><strong>Final Valuation:</strong></p>
-                                                    <div>
-                                                        <c:if test="${val.final_Status == 1}">
-                                                            <form action="${pageContext.request.contextPath}/staff/finalValuation.jsp" method="POST">
+                            <td>${loop.index + 1}</td>
+                            <td>
+                                <c:set var="photoArray" value="${fn:split(val.photo, ';')}" />
+                                <img src="${photoArray[0]}" alt="Photo" class="img-thumbnail" style="max-width: 100px;">
+                            </td>
+                            <td>${val.name}</td>
+                            <td>
+                                <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#infoModal${loop.index}">View</button>
+                                <div class="modal fade" id="infoModal${loop.index}" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel${loop.index}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="infoModalLabel${loop.index}">Detailed Information</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p><strong>Phone Number:</strong> ${val.phone}</p>
+                                                <p><strong>Communication Preference:</strong> ${val.communication}</p>
+                                                <p><strong>Description:</strong> ${val.description}</p>
+                                                <p><strong>Action:</strong></p>
+                                                <div>
+                                                    <c:choose>
+                                                        <c:when test="${val.status == 0}">
+                                                            <form action="${pageContext.request.contextPath}/staff/valuation.jsp" method="GET">
+                                                                <input type="hidden" name="photoURL" value="${val.photo}">
                                                                 <input type="hidden" name="valuationID" value="${val.valuationID}">
-                                                                <button type="submit" name="action" class="btn btn-warning mt-2">Final Evaluate</button>
+                                                                <button type="submit" class="btn btn-primary">Evaluate</button>
                                                             </form>
-                                                        </c:if>
-                                                    </div>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <button class="btn btn-secondary" disabled>Evaluated</button>
+                                                            <c:if test="${val.status == 1}">
+                                                                <form action="${pageContext.request.contextPath}/MainController" method="GET">
+                                                                    <input type="hidden" name="valuationID" value="${val.valuationID}">
+                                                                    <input type="hidden" name="name" value="${val.name}">
+                                                                    <button type="submit" name="action" class="btn btn-primary mt-2" value="Request to Ship">Request to Ship</button>
+                                                                </form>
+                                                            </c:if>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </div>
+                                                <p><strong>Confirmation of Receipt:</strong></p>
+                                                <div>
+                                                    <c:choose>
+                                                        <c:when test="${val.final_Status == 0 && val.status == 1}">
+                                                            <form action="${pageContext.request.contextPath}/MainController" method="POST" onsubmit="confirmReceipt(event)">
+                                                                <input type="hidden" name="valuationID" value="${val.valuationID}">
+                                                                <button type="submit" name="action" class="btn btn-success mt-2" value="Confirm Receipt">Confirm Receipt</button>
+                                                            </form>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <c:if test="${val.final_Status == 1}">
+                                                                <p class="text-danger mt-2">Confirmed</p>
+                                                            </c:if>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </div>
+                                                <p><strong>Final Valuation:</strong></p>
+                                                <div>
+                                                    <c:if test="${val.final_Status == 1}">
+                                                        <form action="${pageContext.request.contextPath}/staff/finalValuation.jsp" method="POST">
+                                                            <input type="hidden" name="valuationID" value="${val.valuationID}">
+                                                            <button type="submit" name="action" class="btn btn-warning mt-2">Final Evaluate</button>
+                                                        </form>
+                                                    </c:if>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-            </c:if>
-        </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-        <script src="asset/staff.js"></script>
-    </body>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="asset/staff.js"></script>
+</body>
 </html>

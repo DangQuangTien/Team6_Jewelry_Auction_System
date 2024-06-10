@@ -1,118 +1,130 @@
+<%@page import="entity.member.Member"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bidder Registration</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../component/header.css">
-    <link rel="stylesheet" type="text/css" href="../component/footer.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-</head>
-<style>
-    body {
-        background-color: #f8f9fa;
-        font-family: Arial, sans-serif;
-    }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bidder Registration</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../component/header.css">
+        <link rel="stylesheet" type="text/css" href="../component/footer.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    </head>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
 
-    .container {
-        background-color: white;
-        padding: 30px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-    h2, h3, h4 {
-        color: #333;
-    }
+        h2, h3, h4 {
+            color: #333;
+        }
 
-    .hidden {
-        display: none;
-    }
+        .hidden {
+            display: none;
+        }
 
-    .form-section {
-        border: 1px solid #ddd;
-        padding: 15px;
-        border-radius: 5px;
-        margin-bottom: 20px;
-    }
+        .form-section {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
 
-    button[type="submit"] {
-        width: 100%;
-    }
-</style>
-<body>
-    <!-- START OF HEADER -->
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light">
-            <a class="navbar-brand" href="#">Jewelry Auctions</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/home.jsp">Home<span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/upcoming.jsp">Auction</a>
-                    </li>
-                    <c:if test="${role == 'Member' || role == null}">
+        button[type="submit"] {
+            width: 100%;
+        }
+    </style>
+
+    <body>
+        <c:set var="username" value="${sessionScope.USERNAME}" />
+        <c:set var="role" value="${sessionScope.ROLE}" />
+        <!-- START OF HEADER -->
+        <%
+            Member member = (Member) session.getAttribute("INF");
+            String firstName = "";
+            String lastName = "";
+            String phone = "";
+            if (member != null) {
+                firstName = member.getFirstName() != null ? member.getFirstName() : "";
+                lastName = member.getLastName() != null ? member.getLastName() : "";
+                phone = member.getPhoneNumber() != null ? member.getPhoneNumber() : "";
+            }
+        %>
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand" href="#">Jewelry Auctions</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/selling.html">Sell</a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/home.jsp">Home<span class="sr-only">(current)</span></a>
                         </li>
-                    </c:if>
-                    <c:choose>
-                        <c:when test="${username == null}">
+                        <li class="nav-item">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/auctions/upcoming.jsp">Auction</a>
+                        </li>
+                        <c:if test="${role == 'Member' || role == null}">
                             <li class="nav-item">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/login.jsp">Login</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/seller/selling.html">Sell</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/register.jsp">Register</a>
-                            </li>
-                        </c:when>
-                        <c:otherwise>
-                            <c:set var="url">
-                                <c:choose>
-                                    <c:when test="${role == 'Member'}">bidder/profile.jsp</c:when>
-                                    <c:when test="${role == 'Staff'}">staff/staff.jsp</c:when>
-                                    <c:when test="${role == 'Manager'}">manager/manager.jsp</c:when>
-                                    <c:otherwise>admin/admin.jsp</c:otherwise>
-                                </c:choose>
-                            </c:set>
-                            <li class="nav-item">
-                                <a class="nav-link" href="${url}">${username}</a>
-                            </li>
-                        </c:otherwise>
-                    </c:choose>
-                    <li class="nav-item">
-                        <a class="nav-link" href="notification.jsp" id="bell-icon"><i class="fas fa-bell"></i></a>
-                    </li>
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search for anything" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            </div>
-        </nav>
-    </header>
-    <!-- END OF HEADER -->
-    <div class="container mt-5">
+                        </c:if>
+                        <c:choose>
+                            <c:when test="${username == null}">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="${pageContext.request.contextPath}/login.jsp">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="${pageContext.request.contextPath}/register.jsp">Register</a>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <c:set var="url">
+                                    <c:choose>
+                                        <c:when test="${role == 'Member'}">bidder/profile.jsp</c:when>
+                                        <c:when test="${role == 'Staff'}">staff/staff.jsp</c:when>
+                                        <c:when test="${role == 'Manager'}">manager/manager.jsp</c:when>
+                                        <c:otherwise>admin/admin.jsp</c:otherwise>
+                                    </c:choose>
+                                </c:set>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="${pageContext.request.contextPath}/${url}">${username}</a>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+                        <li class="nav-item">
+                            <a class="nav-link" href="notification.jsp" id="bell-icon"><i class="fas fa-bell"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- END OF HEADER -->
+         <div class="container mt-5">
         <h2 class="text-center">Bidder Registration</h2>
         <h3 class="text-center">FINE JEWELS & WATCHES</h3>
         <p class="text-center">JUN 3, 2024 AT 12 PM EDT - HO CHI MINH, HCM</p>
-        <form id="registrationForm" class="row needs-validation" novalidate>
+        <form action="MainController" id="registrationForm" class="row needs-validation" novalidate>
             <div class="col-md-6">
                 <div class="form-section mb-4">
                     <h4>USER INFORMATION</h4>
                     <div class="form-group">
                         <label for="firstName">First Name *</label>
-                        <input type="text" class="form-control" id="firstName" name="firstName" required>
+                        <input type="text" class="form-control" id="firstName" name="firstName" value="<%= firstName %>" required>
                         <div class="invalid-feedback">First name is required.</div>
                     </div>
                     <div class="form-group">
                         <label for="lastName">Last Name *</label>
-                        <input type="text" class="form-control" id="lastName" name="lastName" required>
+                        <input type="text" class="form-control" id="lastName" name="lastName" value="<%= lastName %>"  required>
                         <div class="invalid-feedback">Last name is required.</div>
                     </div>
                     <div class="form-group">
@@ -122,7 +134,7 @@
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone *</label>
-                        <input type="tel" class="form-control" id="phone" name="phone" required>
+                        <input type="tel" class="form-control" id="phone" name="phone" value="<%= phone %>" required>
                         <div class="invalid-feedback">Phone number is required.</div>
                     </div>
                 </div>
@@ -164,18 +176,18 @@
                 <div class="form-section mb-4">
                     <h4>CREDIT CARD</h4>
                     <p>Note: Your credit card will be authorized for $1 for verification purposes. This authorization may appear as a charge and immediate refund in your account by your bank.</p>
-                    <p>IMPORTANT: Winning bidders will be charged a Buyer’s Premium IN ADDITION to their winning bid (the Buyer’s Premium is not included in the online bid value).</p>
-                    <p>Buyer’s Premiums are as follows:</p>
+                    <p>IMPORTANT: Winning bidders will be charged a Buyer?s Premium IN ADDITION to their winning bid (the Buyer?s Premium is not included in the online bid value).</p>
+                    <p>Buyer?s Premiums are as follows:</p>
                     <ul>
                         <li>25% on the first $300,000</li>
                         <li>20% from $300,001 to $3,000,000</li>
                         <li>12.5% on the excess over $3,000,000</li>
                     </ul>
-                    <p>For example, if you bid $1,000 on a lot and win, the amount due with the Buyer’s Premium would be $1,250.</p>
+                    <p>For example, if you bid $1,000 on a lot and win, the amount due with the Buyer?s Premium would be $1,250.</p>
                     <p>IMPORTANT: Please note that bids, once placed, cannot be retracted or reduced. Kindly refer to our Terms and Conditions for full details.</p>
                     <div class="form-group">
                         <label for="cardHolderName">Card Holder Name *</label>
-                        <input type="text" class="form-control" id="cardHolderName" name="cardHolderName" required>
+                        <input type="text" class="form-control" id="cardHolderName" name="cardHolderName"  value="<%= firstName + " " + lastName %>" required>
                         <div class="invalid-feedback">Card holder name is required.</div>
                     </div>
                     <div class="form-group">
@@ -247,7 +259,7 @@
                         <div class="invalid-feedback">You must be at least 18 years old.</div>
                     </div>
                 </div>
-                <button type="submit" name="action" value="register" class="btn btn-primary mt-3">Register</button>
+                <input type="submit" name="action" value="Register" class="btn btn-primary mt-3">
             </div>
         </form>
     </div>

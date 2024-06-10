@@ -1,3 +1,4 @@
+<%@page import="entity.member.Member"%>
 <%@page import="entity.product.Category"%>
 <%@page import="entity.product.Jewelry"%>
 <%@page import="java.util.List"%>
@@ -9,16 +10,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Jewelry Auctions Online</title>
-        <link rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     </head>
     <%
-    String auctionID = request.getParameter("auctionID");
-    UserDAOImpl dao = new UserDAOImpl();
-    Auction auction = dao.getAuctionByID(auctionID);
-    List<jewelry> listJewelry = dao.displayCatalog(auctionID);
-        %>
-        <script>
+        String auctionID = request.getParameter("auctionID");
+        UserDAOImpl dao = new UserDAOImpl();
+        Auction auction = dao.getAuctionByID(auctionID);
+        List<Jewelry> listJewelry = dao.displayCatalog(auctionID);
+    %>
+    <script>
         function getTimeDifference(startDate) {
             var now = new Date().getTime();
             var startTime = new Date(startDate).getTime();
@@ -44,107 +44,93 @@
                     getTimeDifference('<%= auction.getStartDate()%>T<%= auction.getStartTime()%>');
                         }, 1000);
     </script>
-        <body>
-            <a href="${pageContext.request.contextPath}/home.jsp">Home</a>
-            <a href="${pageContext.request.contextPath}/login.jsp">Log In</a>
-            <div class="container">
-                <h1 class="mt-4">Fine Jewels & Watches</h1>
-                <h2>Live Auction</h2>
-                <h3>Live bidding begins: <%= (auction.getStartDate() != null) ?
-                    auction.getStartDate() : ""%> at <%= (auction.getStartTime()
-                    != null) ? auction.getStartTime() : ""%></h3>
-                <h3 style="color: orange"><div id="countdown"></div></h3>
-                <a href="registerBid.jsp" class="btn btn-primary">REGISTER TO
-                    BID</a>
-                <hr>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="sortPrice">Sort By:</label>
-                            <select class="form-control" id="sortPrice">
-                                <option value>Select</option>
-                                <option value="lowToHigh">Estimate Low to
-                                    High</option>
-                                <option value="highToLow">Estimate High to
-                                    Low</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="categoryFilter">Category:</label>
-                            <select class="form-control" id="categoryFilter">
-                                <option value>All Categories</option>
-                                <% for (Category category : dao.listCategory())
-                                {%>
-                                <option
-                                    value="<%= category.getCategoryName()%>"><%=
-                                    category.getCategoryName()%></option>
-                                <% } %>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="searchBar">Search By Lots:</label>
-                            <input type="text" class="form-control"
-                                id="searchBar" placeholder="Search Lots">
-                        </div>
-                    </div>
-
-                </div>
-                <hr>
-                <div class="row" id="catalogItems">
-                    <% if (listJewelry != null && !listJewelry.isEmpty()) { %>
-                    <% for (Jewelry j : listJewelry) {
-                    String photos = j.getPhotos();
-                    String[] photoArray = photos.split(";");
-                    %>
-                    <div class="col-md-4 mb-4 catalog-item"
-                        data-category="<%= j.getCategoryName()%>">
-                        <div class="card">
-                            <a
-                                href="itemDetail.jsp?jewelryID=<%= j.getJewelryID()%>&auctionID=<%= request.getParameter("auctionID")%>">
-                                <img class="card-img-top"
-                                    src="${pageContext.request.contextPath}/<%= photoArray[0]%>"
-                                    alt="<%= j.getJewelryName()%>">
-                                <div class="card-body">
-                                    <h5 class="card-title"><%=
-                                        j.getJewelryID()%></h5>
-                                    <h5 class="card-title"><%=
-                                        j.getJewelryName()%></h5>
-                                    Starting Bid: $1500 <br>
-                                    Est. $<span class="min-price"><%=
-                                        j.getMinPrice()%></span> - $<span
-                                        class="max-price"><%=
-                                        j.getMaxPrice()%></span>
-                                    <form
-                                        action="${pageContext.request.contextPath}/auctions/registerBid.jsp"
-                                        method="GET">
-                                        <input type="hidden" name="jewelryID"
-                                            value="<%= j.getJewelryID()%>">
-                                        <input type="submit"
-                                            class="btn btn-primary"
-                                            value="PLACE BID">
-                                    </form>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <% } %>
-                    <% } else { %>
-                    <p>No items available in the catalog.</p>
-                    <% }%>
+    <body>
+    <a href="${pageContext.request.contextPath}/home.jsp">Home</a>
+    <a href="${pageContext.request.contextPath}/login.jsp">Log In</a>
+    <div class="container">
+        <h1 class="mt-4">Fine Jewels & Watches</h1>
+        <h2>Live Auction</h2>
+        <h3>Live bidding begins: <%= (auction.getStartDate() != null) ? auction.getStartDate() : ""%> at <%= (auction.getStartTime() != null) ? auction.getStartTime() : ""%></h3>
+        <h3 style="color: orange"><div id="countdown"></div></h3>
+        <a href="registerBid.jsp" class="btn btn-primary">REGISTER TO BID</a>
+        <hr>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="sortPrice">Sort By:</label>
+                    <select class="form-control" id="sortPrice">
+                        <option value="">Select</option>
+                        <option value="lowToHigh">Estimate Low to High</option>
+                        <option value="highToLow">Estimate High to Low</option>
+                    </select>
                 </div>
             </div>
-            <script
-                src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-            <script
-                src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-            <script
-                src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-            <script>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="categoryFilter">Category:</label>
+                    <select class="form-control" id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <% for (Category category : dao.listCategory()) {%>
+                        <option value="<%= category.getCategoryName()%>"><%= category.getCategoryName()%></option>
+                        <% } %>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="searchBar">Search By Lots:</label>
+                    <input type="text" class="form-control" id="searchBar" placeholder="Search Lots">
+                </div>
+            </div>
+
+        </div>
+        <hr>
+        <div class="row" id="catalogItems">
+            <% if (listJewelry != null && !listJewelry.isEmpty()) { %>
+            <%
+                String userID = (String) session.getAttribute("USERID");
+                Member member = dao.getInformation(userID);
+                int status = 1;
+                if (member != null) {
+                    status = member.getStatus();
+                }
+                for (Jewelry j : listJewelry) {
+                    String photos = j.getPhotos();
+                    String[] photoArray = photos.split(";");
+            %>
+            <div class="col-md-4 mb-4 catalog-item" data-category="<%= j.getCategoryName()%>">
+                <div class="card">
+                    <a href="itemDetail.jsp?jewelryID=<%= j.getJewelryID()%>&auctionID=<%= request.getParameter("auctionID")%>">
+                        <img class="card-img-top" src="${pageContext.request.contextPath}/<%= photoArray[0]%>" alt="<%= j.getJewelryName()%>">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= j.getJewelryID()%></h5>
+                            <h5 class="card-title"><%= j.getJewelryName()%></h5>
+                            Starting Bid: $1500 <br>
+                            Est. $<span class="min-price"><%= j.getMinPrice()%></span> - $<span class="max-price"><%= j.getMaxPrice()%></span>
+                            <% if (status == 0) {%>
+                            <form action="${pageContext.request.contextPath}/auctions/registerBid.jsp" method="GET">
+                                <input type="hidden" name="jewelryID" value="<%= j.getJewelryID()%>">
+                                <input type="submit" class="btn btn-primary" value="PLACE BID">
+                            </form>
+                            <% } else { %>
+                            <br>
+                            <input type="submit" class="btn btn-primary" value="PLACE BID">
+                            <% } %>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <% } %>
+            <% } else { %>
+            <p>No items available in the catalog.</p>
+            <% }%>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
                         document.addEventListener('DOMContentLoaded', function () {
                             function filterItems() {
                                 var selectedCategory = document.getElementById('categoryFilter').value;
@@ -197,5 +183,5 @@
                             document.getElementById('sortPrice').addEventListener('change', filterItems);
                         });
     </script>
-        </body>
-    </html>
+</body>
+</html>

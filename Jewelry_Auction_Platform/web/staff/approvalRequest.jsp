@@ -14,38 +14,42 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Pending Review Page</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-        <link rel="stylesheet" href="approvalRequest.css">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                padding-top: 20px;
+            }
+            .alert-warning {
+                text-align: center;
+            }
+            .submit-btn {
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+            .submit-btn:hover {
+                background-color: #45a049;
+            }
+            .img-thumbnail {
+                width: 100px;
+                height: 100px;
+            }
+        </style>
+        <script>
+            function confirm(event) {
+                if (!confirm("Are you sure you want to send this final valuation?")) {
+                    event.preventDefault();
+                }
+            }
+        </script>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Staff Portal</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/MainController?action=ValuationRequest"><i class="fas fa-file-invoice-dollar"></i> Valuation Request</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/staff/approvalRequest.jsp"><i class="fas fa-thumbs-up"></i> Approval Request</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/staff/finalValuation.jsp"><i class="fas fa-check-double"></i> Final Valuation</a>
-                    </li>
-                    <li class="nav-item">
-                        <form action="${pageContext.request.contextPath}/MainController" method="POST" onsubmit="confirmLogout(event)">
-                            <button type="submit" name="action" class="btn btn-link nav-link" value="Log out"><i class="fas fa-sign-out-alt"></i> Logout</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-            </nav>
-            
-        
         <div class="container">
-            <h1 class="text-center text-primary my-4">Approval Requests</h1>
+            <h1 class="text-center text-primary">Approval Requests</h1>
             <%
                 UserDAOImpl dao = new UserDAOImpl();
                 List<Jewelry> listJewelry = dao.displayApprovedJewelry();
@@ -58,44 +62,56 @@
                             <th>Photo</th>
                             <th>Jewelry Name</th>
                             <th>Artist</th>
+                            <th>Circa</th>
+                            <th>Material</th>
+                            <th>Dial</th>
+                            <th>Bracelet Material</th>
+                            <th>Case Dimensions</th>
+                            <th>Bracelet Size</th>
+                            <th>Serial Number</th>
+                            <th>Reference Number</th>
+                            <th>Caliber</th>
+                            <th>Movement</th>
+                            <th>Condition</th>
+                            <th>Metal</th>
+                            <th>Gemstones</th>
+                            <th>Measurements</th>
+                            <th>Weight</th>
+                            <th>Stamped</th>
+                            <th>Ring Size</th>
+                            <th>Final Price</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% for (Jewelry jewelry : listJewelry) { %>
                         <tr>
-                            <% String[] photoArray = jewelry.getPhotos().split(";"); %>
-                            <td><img class="img-thumbnail" src="${pageContext.request.contextPath}/<%= photoArray[0] %>" alt="Jewelry Image"></td>
-                            <td><%= jewelry.getJewelryName() %></td>
-                            <td><%= jewelry.getArtist() %></td>
+                            <% String[] photoArray = jewelry.getPhotos().split(";");%>
+                            <td><img class="img-thumbnail" src="${pageContext.request.contextPath}/<%= photoArray[0]%>" alt="Jewelry Image"></td>
+                            <td><%= jewelry.getJewelryName()%></td>
+                            <td><%= jewelry.getArtist()%></td>
+                            <td><%= jewelry.getCirca()%></td>
+                            <td><%= jewelry.getMaterial()%></td>
+                            <td><%= jewelry.getDial()%></td>
+                            <td><%= jewelry.getBraceletMaterial()%></td>
+                            <td><%= jewelry.getCaseDimensions()%></td>
+                            <td><%= jewelry.getBraceletSize()%></td>
+                            <td><%= jewelry.getSerialNumber()%></td>
+                            <td><%= jewelry.getReferenceNumber()%></td>
+                            <td><%= jewelry.getCaliber()%></td>
+                            <td><%= jewelry.getMovement()%></td>
+                            <td><%= jewelry.getCondition()%></td>
+                            <td><%= jewelry.getMetal()%></td>
+                            <td><%= jewelry.getGemstones()%></td>
+                            <td><%= jewelry.getMeasurements()%></td>
+                            <td><%= jewelry.getWeight()%></td>
+                            <td><%= jewelry.getStamped()%></td>
+                            <td><%= jewelry.getRingSize()%></td>
+                            <td><%= jewelry.getFinal_Price()%></td>
                             <td>
-                                <button type="button" class="btn btn-info btn-sm view-btn mr-2" data-toggle="modal" data-target="#detailModal" 
-                                    data-photo="<%= photoArray[0] %>" 
-                                    data-name="<%= jewelry.getJewelryName() %>" 
-                                    data-artist="<%= jewelry.getArtist() %>" 
-                                    data-circa="<%= jewelry.getCirca() %>" 
-                                    data-material="<%= jewelry.getMaterial() %>" 
-                                    data-dial="<%= jewelry.getDial() %>" 
-                                    data-braceletmaterial="<%= jewelry.getBraceletMaterial() %>" 
-                                    data-casedimensions="<%= jewelry.getCaseDimensions() %>" 
-                                    data-braceletsize="<%= jewelry.getBraceletSize() %>" 
-                                    data-serialnumber="<%= jewelry.getSerialNumber() %>" 
-                                    data-referencenumber="<%= jewelry.getReferenceNumber() %>" 
-                                    data-caliber="<%= jewelry.getCaliber() %>" 
-                                    data-movement="<%= jewelry.getMovement() %>" 
-                                    data-condition="<%= jewelry.getCondition() %>" 
-                                    data-metal="<%= jewelry.getMetal() %>" 
-                                    data-gemstones="<%= jewelry.getGemstones() %>" 
-                                    data-measurements="<%= jewelry.getMeasurements() %>" 
-                                    data-weight="<%= jewelry.getWeight() %>" 
-                                    data-stamped="<%= jewelry.getStamped() %>" 
-                                    data-ringsize="<%= jewelry.getRingSize() %>"
-                                    data-finalprice="<%= jewelry.getFinal_Price() %>">
-                                    <i class="fas fa-eye"></i> View
-                                </button>
-                                <form action="${pageContext.request.contextPath}/MainController" method="GET" onsubmit="confirmSend(event)" class="d-inline">
-                                    <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID() %>">
-                                    <button type="submit" name="action" class="btn btn-success btn-sm" value="Send to Seller"><i class="fas fa-paper-plane"></i> Send to Seller</button>
+                                <form action="${pageContext.request.contextPath}/MainController" method="GET" onsubmit="confirm(event)">
+                                    <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID()%>">
+                                    <input class="submit-btn" type="submit" name="action" value="Send to Seller">
                                 </form>
                             </td>
                         </tr>
@@ -105,58 +121,10 @@
             </div>
             <% } else { %>
             <p class="alert alert-warning">No jewelry found</p>
-            <% } %>
+            <% }%>
         </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="detailModalLabel">Jewelry Details</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="text-center">
-                            <img id="modal-photo" src="" class="img-thumbnail" alt="Jewelry Image">
-                        </div>
-                        <table class="table table-bordered mt-3">
-                            <tbody>
-                                <tr><th>Jewelry Name</th><td id="modal-name"></td></tr>
-                                <tr><th>Artist</th><td id="modal-artist"></td></tr>
-                                <tr><th>Circa</th><td id="modal-circa"></td></tr>
-                                <tr><th>Material</th><td id="modal-material"></td></tr>
-                                <tr><th>Dial</th><td id="modal-dial"></td></tr>
-                                <tr><th>Bracelet Material</th><td id="modal-braceletmaterial"></td></tr>
-                                <tr><th>Case Dimensions</th><td id="modal-casedimensions"></td></tr>
-                                <tr><th>Bracelet Size</th><td id="modal-braceletsize"></td></tr>
-                                <tr><th>Serial Number</th><td id="modal-serialnumber"></td></tr>
-                                <tr><th>Reference Number</th><td id="modal-referencenumber"></td></tr>
-                                <tr><th>Caliber</th><td id="modal-caliber"></td></tr>
-                                <tr><th>Movement</th><td id="modal-movement"></td></tr>
-                                <tr><th>Condition</th><td id="modal-condition"></td></tr>
-                                <tr><th>Metal</th><td id="modal-metal"></td></tr>
-                                <tr><th>Gemstones</th><td id="modal-gemstones"></td></tr>
-                                <tr><th>Measurements</th><td id="modal-measurements"></td></tr>
-                                <tr><th>Weight</th><td id="modal-weight"></td></tr>
-                                <tr><th>Stamped</th><td id="modal-stamped"></td></tr>
-                                <tr><th>Ring Size</th><td id="modal-ringsize"></td></tr>
-                                <tr><th>Final Price</th><td id="modal-finalprice"></td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="approvalRequest.js"></script>
     </body>
 </html>
