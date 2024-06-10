@@ -1,4 +1,3 @@
-
 <%@page import="entity.product.Jewelry"%>
 <%@page import="java.util.List"%>
 <%@page import="dao.UserDAOImpl"%>
@@ -33,7 +32,6 @@
             background-color: #ffffff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .form-group label {
@@ -126,6 +124,33 @@
         function goToPage(page) {
             document.getElementById('page').value = page;
             document.getElementById('paginationForm').submit();
+        }
+
+        function showJewelryDetails(jewelry) {
+            document.getElementById('modalJewelryName').innerText = jewelry.jewelryName;
+            document.getElementById('modalArtist').innerText = jewelry.artist;
+            document.getElementById('modalCirca').innerText = jewelry.circa;
+            document.getElementById('modalMaterial').innerText = jewelry.material;
+            document.getElementById('modalDial').innerText = jewelry.dial;
+            document.getElementById('modalBraceletMaterial').innerText = jewelry.braceletMaterial;
+            document.getElementById('modalCaseDimensions').innerText = jewelry.caseDimensions;
+            document.getElementById('modalBraceletSize').innerText = jewelry.braceletSize;
+            document.getElementById('modalSerialNumber').innerText = jewelry.serialNumber;
+            document.getElementById('modalReferenceNumber').innerText = jewelry.referenceNumber;
+            document.getElementById('modalCaliber').innerText = jewelry.caliber;
+            document.getElementById('modalMovement').innerText = jewelry.movement;
+            document.getElementById('modalCondition').innerText = jewelry.condition;
+            document.getElementById('modalMetal').innerText = jewelry.metal;
+            document.getElementById('modalGemstones').innerText = jewelry.gemstones;
+            document.getElementById('modalMeasurements').innerText = jewelry.measurements;
+            document.getElementById('modalWeight').innerText = jewelry.weight;
+            document.getElementById('modalStamped').innerText = jewelry.stamped;
+            document.getElementById('modalRingSize').innerText = jewelry.ringSize;
+            document.getElementById('modalMinPrice').innerText = jewelry.minPrice;
+            document.getElementById('modalMaxPrice').innerText = jewelry.maxPrice;
+
+            var modal = new bootstrap.Modal(document.getElementById('jewelryModal'));
+            modal.show();
         }
     </script>
 </head>
@@ -241,56 +266,20 @@
                                 <thead class="table-dark">
                                     <tr>
                                         <th>Select</th>
-                                        <th>Photo</th>
                                         <th>Jewelry Name</th>
                                         <th>Artist</th>
-                                        <th>Circa</th>
-                                        <th>Material</th>
-                                        <th>Dial</th>
-                                        <th>Bracelet Material</th>
-                                        <th>Case Dimensions</th>
-                                        <th>Bracelet Size</th>
-                                        <th>Serial Number</th>
-                                        <th>Reference Number</th>
-                                        <th>Caliber</th>
-                                        <th>Movement</th>
-                                        <th>Condition</th>
-                                        <th>Metal</th>
-                                        <th>Gemstones</th>
-                                        <th>Measurements</th>
-                                        <th>Weight</th>
-                                        <th>Stamped</th>
-                                        <th>Ring Size</th>
-                                        <th>Min Price</th>
-                                        <th>Max Price</th>
+                                        <th>Photo</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <% for (Jewelry jewelry : listJewelry) { %>
                                     <tr>
                                         <td><input type="checkbox" value="<%= jewelry.getJewelryID() %>" onchange="handleCheckboxChange(this)"></td>
-                                        <td><img class="img-thumbnail" src="${pageContext.request.contextPath}/<%= jewelry.getPhotos().split(";")[0] %>" alt="Jewelry Photo"></td>
                                         <td><%= jewelry.getJewelryName() %></td>
                                         <td><%= jewelry.getArtist() %></td>
-                                        <td><%= jewelry.getCirca() %></td>
-                                        <td><%= jewelry.getMaterial() %></td>
-                                        <td><%= jewelry.getDial() %></td>
-                                        <td><%= jewelry.getBraceletMaterial() %></td>
-                                        <td><%= jewelry.getCaseDimensions() %></td>
-                                        <td><%= jewelry.getBraceletSize() %></td>
-                                        <td><%= jewelry.getSerialNumber() %></td>
-                                        <td><%= jewelry.getReferenceNumber() %></td>
-                                        <td><%= jewelry.getCaliber() %></td>
-                                        <td><%= jewelry.getMovement() %></td>
-                                        <td><%= jewelry.getCondition() %></td>
-                                        <td><%= jewelry.getMetal() %></td>
-                                        <td><%= jewelry.getGemstones() %></td>
-                                        <td><%= jewelry.getMeasurements() %></td>
-                                        <td><%= jewelry.getWeight() %></td>
-                                        <td><%= jewelry.getStamped() %></td>
-                                        <td><%= jewelry.getRingSize() %></td>
-                                        <td><%= jewelry.getMinPrice() %></td>
-                                        <td><%= jewelry.getMaxPrice() %></td>
+                                        <td><img class="img-thumbnail" src="${pageContext.request.contextPath}/<%= jewelry.getPhotos().split(";")[0] %>" alt="Jewelry Photo"></td>
+                                        <td><button type="button" class="btn btn-primary" onclick='showJewelryDetails(<%= jewelry %>)'>View</button></td>
                                     </tr>
                                     <% } %>
                                 </tbody>
@@ -319,6 +308,45 @@
         </main>
     </div>
 </div>
+
+<!-- Jewelry Details Modal -->
+<div class="modal fade" id="jewelryModal" tabindex="-1" aria-labelledby="jewelryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="jewelryModalLabel">Jewelry Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Jewelry Name:</strong> <span id="modalJewelryName"></span></p>
+                <p><strong>Artist:</strong> <span id="modalArtist"></span></p>
+                <p><strong>Circa:</strong> <span id="modalCirca"></span></p>
+                <p><strong>Material:</strong> <span id="modalMaterial"></span></p>
+                <p><strong>Dial:</strong> <span id="modalDial"></span></p>
+                <p><strong>Bracelet Material:</strong> <span id="modalBraceletMaterial"></span></p>
+                <p><strong>Case Dimensions:</strong> <span id="modalCaseDimensions"></span></p>
+                <p><strong>Bracelet Size:</strong> <span id="modalBraceletSize"></span></p>
+                <p><strong>Serial Number:</strong> <span id="modalSerialNumber"></span></p>
+                <p><strong>Reference Number:</strong> <span id="modalReferenceNumber"></span></p>
+                <p><strong>Caliber:</strong> <span id="modalCaliber"></span></p>
+                <p><strong>Movement:</strong> <span id="modalMovement"></span></p>
+                <p><strong>Condition:</strong> <span id="modalCondition"></span></p>
+                <p><strong>Metal:</strong> <span id="modalMetal"></span></p>
+                <p><strong>Gemstones:</strong> <span id="modalGemstones"></span></p>
+                <p><strong>Measurements:</strong> <span id="modalMeasurements"></span></p>
+                <p><strong>Weight:</strong> <span id="modalWeight"></span></p>
+                <p><strong>Stamped:</strong> <span id="modalStamped"></span></p>
+                <p><strong>Ring Size:</strong> <span id="modalRingSize"></span></p>
+                <p><strong>Min Price:</strong> <span id="modalMinPrice"></span></p>
+                <p><strong>Max Price:</strong> <span id="modalMaxPrice"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-ON8zOe5tGDr0nsDDZKHL6vU/WP+4mTTx92ef/F91cJmPF5pM7WeAM2U9YRXZGU0V" crossorigin="anonymous"></script>
 </body>
 </html>

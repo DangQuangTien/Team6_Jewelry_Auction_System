@@ -33,9 +33,6 @@
         }
     </script>
 </head>
-<style>
-    
-</style>
 <body>
 <%
     String greeting = "day!";
@@ -122,25 +119,6 @@
                             <tr>
                                 <th>Photo</th>
                                 <th>Jewelry Name</th>
-                                <th>Artist</th>
-                                <th>Circa</th>
-                                <th>Material</th>
-                                <th>Dial</th>
-                                <th>Bracelet Material</th>
-                                <th>Case Dimensions</th>
-                                <th>Bracelet Size</th>
-                                <th>Serial Number</th>
-                                <th>Reference Number</th>
-                                <th>Caliber</th>
-                                <th>Movement</th>
-                                <th>Condition</th>
-                                <th>Metal</th>
-                                <th>Gemstones</th>
-                                <th>Measurements</th>
-                                <th>Weight</th>
-                                <th>Stamped</th>
-                                <th>Ring Size</th>
-                                <th>Final Price</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -151,32 +129,56 @@
                                     <% String[] photoArray = jewelry.getPhotos().split(";"); %>
                                     <td><img class="img-thumbnail" style="width: 100px; height: 100px" src="${pageContext.request.contextPath}/<%= photoArray[0] %>"></td>
                                     <td><%= jewelry.getJewelryName() %></td>
-                                    <td><%= jewelry.getArtist() %></td>
-                                    <td><%= jewelry.getCirca() %></td>
-                                    <td><%= jewelry.getMaterial() %></td>
-                                    <td><%= jewelry.getDial() %></td>
-                                    <td><%= jewelry.getBraceletMaterial() %></td>
-                                    <td><%= jewelry.getCaseDimensions() %></td>
-                                    <td><%= jewelry.getBraceletSize() %></td>
-                                    <td><%= jewelry.getSerialNumber() %></td>
-                                    <td><%= jewelry.getReferenceNumber() %></td>
-                                    <td><%= jewelry.getCaliber() %></td>
-                                    <td><%= jewelry.getMovement() %></td>
-                                    <td><%= jewelry.getCondition() %></td>
-                                    <td><%= jewelry.getMetal() %></td>
-                                    <td><%= jewelry.getGemstones() %></td>
-                                    <td><%= jewelry.getMeasurements() %></td>
-                                    <td><%= jewelry.getWeight() %></td>
-                                    <td><%= jewelry.getStamped() %></td>
-                                    <td><%= jewelry.getRingSize() %></td>
-                                    <td><%= jewelry.getFinalPrice() %></td>
                                     <td>
                                         <input type="hidden" name="action" value="ApproveJewelryAuction">
                                         <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID() %>">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#jewelryModal<%= jewelry.getJewelryID() %>">View</button>
                                         <button type="submit" class="btn btn-success">Confirm</button>
                                     </td>
                                 </tr>
                             </form>
+                            <!-- Modal -->
+                            <div class="modal fade" id="jewelryModal<%= jewelry.getJewelryID() %>" tabindex="-1" aria-labelledby="exampleModalLabel<%= jewelry.getJewelryID() %>" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel<%= jewelry.getJewelryID() %>"><%= jewelry.getJewelryName() %></h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <img class="img-fluid" src="${pageContext.request.contextPath}/<%= photoArray[0] %>" alt="Jewelry Photo">
+                                                </div>
+                                                <div class="col-6">
+                                                    <p><strong>Artist:</strong> <%= jewelry.getArtist() %></p>
+                                                    <p><strong>Circa:</strong> <%= jewelry.getCirca() %></p>
+                                                    <p><strong>Material:</strong> <%= jewelry.getMaterial() %></p>
+                                                    <p><strong>Dial:</strong> <%= jewelry.getDial() %></p>
+                                                    <p><strong>Bracelet Material:</strong> <%= jewelry.getBraceletMaterial() %></p>
+                                                    <p><strong>Case Dimensions:</strong> <%= jewelry.getCaseDimensions() %></p>
+                                                    <p><strong>Bracelet Size:</strong> <%= jewelry.getBraceletSize() %></p>
+                                                    <p><strong>Serial Number:</strong> <%= jewelry.getSerialNumber() %></p>
+                                                    <p><strong>Reference Number:</strong> <%= jewelry.getReferenceNumber() %></p>
+                                                    <p><strong>Caliber:</strong> <%= jewelry.getCaliber() %></p>
+                                                    <p><strong>Movement:</strong> <%= jewelry.getMovement() %></p>
+                                                    <p><strong>Condition:</strong> <%= jewelry.getCondition() %></p>
+                                                    <p><strong>Metal:</strong> <%= jewelry.getMetal() %></p>
+                                                    <p><strong>Gemstones:</strong> <%= jewelry.getGemstones() %></p>
+                                                    <p><strong>Measurements:</strong> <%= jewelry.getMeasurements() %></p>
+                                                    <p><strong>Weight:</strong> <%= jewelry.getWeight() %></p>
+                                                    <p><strong>Stamped:</strong> <%= jewelry.getStamped() %></p>
+                                                    <p><strong>Ring Size:</strong> <%= jewelry.getRingSize() %></p>
+                                                    <p><strong>Final Price:</strong> <%= jewelry.getFinalPrice() %></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <% } %>
                         </tbody>
                     </table>
@@ -190,7 +192,8 @@
 </div>
 
 <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQ+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 </body>
 </html>

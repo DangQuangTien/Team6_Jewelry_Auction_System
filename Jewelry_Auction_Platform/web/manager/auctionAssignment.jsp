@@ -44,7 +44,7 @@ $(document).ready(function() { var table = $('#myTable').DataTable(); $('#myTabl
                             <h6 class="text-white ms-2 d-none d-sm-inline">Admin</h6>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="triggerId">
-                            <a class="dropdown-item" href="adminProfile.jsp">Profile</a>
+                            <a class="dropdown-item" href="managerProfile.jsp">Profile</a>
                             <a class="dropdown-item" href="#">Change Password</a>
                             <a class="dropdown-item" href="#">Logout</a>
                         </div>
@@ -62,7 +62,7 @@ $(document).ready(function() { var table = $('#myTable').DataTable(); $('#myTabl
                                     <th>Auction ID</th>
                                     <th>Auction Name</th>
                                     <th>Aution Brand</th>
-                                    <th>Trạng Thái</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
