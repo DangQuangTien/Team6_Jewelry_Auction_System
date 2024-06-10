@@ -20,7 +20,7 @@
         .main-content {
             padding: 20px;
             background-color: #f8f9fa;
-            height: 100vh;
+            height: 100%;
         }
 
         .title {
