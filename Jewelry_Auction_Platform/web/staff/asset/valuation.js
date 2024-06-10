@@ -1,7 +1,4 @@
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
- */
+
 function showFormFields() {
     var category = document.getElementById("category").value;
     var watchFields = document.getElementById("watchFields");
@@ -20,3 +17,13 @@ window.onload = function () {
     showFormFields();
 }
 
+function confirmValuation(event) {
+    if (!confirm("Are you certain you want to send this appraisal?")) {
+        event.preventDefault();
+    }
+}
+function cancelValuation() {
+    if (confirm("Are you sure you want to cancel this appraisal?")) {
+        window.location.href = "${pageContext.request.contextPath}/ProcessValuationRequest";
+    }
+}
