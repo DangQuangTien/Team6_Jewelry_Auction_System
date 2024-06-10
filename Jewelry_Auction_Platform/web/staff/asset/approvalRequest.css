@@ -18,6 +18,7 @@ body {
     padding: 6px 12px;
     border-radius: 4px;
     transition: background-color 0.3s;
+    margin-right: 10px;
 }
 .view-btn:hover {
     background-color: #138496;
