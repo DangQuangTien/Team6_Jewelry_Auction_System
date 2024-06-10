@@ -1,3 +1,4 @@
+<%@page import="dao.UserDAOImpl"%>
 <%@page import="entity.valuation.Valuation"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.time.LocalTime"%>
@@ -40,7 +41,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/MainController?action=Valuation Request"><i class="fas fa-file-invoice-dollar"></i> Valuation Request</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/MainController?action=ValuationRequest"><i class="fas fa-file-invoice-dollar"></i> Valuation Request</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/staff/approvalRequest.jsp"><i class="fas fa-thumbs-up"></i> Approval Request</a>
@@ -53,7 +54,6 @@
                 </ul>
             </div>
         </nav>
-
         <h3 class="text-center mt-4">Good <%= greeting %> Welcome back, Staff</h3>
 
         <div class="container mt-4">
