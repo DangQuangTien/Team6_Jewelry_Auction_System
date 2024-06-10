@@ -40,3 +40,14 @@ function showDetails(jewelryID) {
     document.getElementById('finalPrice').value = jewelry.finalPrice;
     document.getElementById('jewelryID').value = jewelryID;
 }
+
+function toggleDetails(button) {
+    var row = button.closest('tr').nextElementSibling;
+    if (row.style.display === 'none' || row.style.display === '') {
+        row.style.display = 'table-row';
+        button.textContent = 'Hide Details';
+    } else {
+        row.style.display = 'none';
+        button.textContent = 'Show Details';
+    }
+}

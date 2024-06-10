@@ -1,4 +1,6 @@
-
+.details-row {
+    display: none;
+}
 @keyframes wave {
     0%, 100% {
         transform: translateY(0);
@@ -52,3 +54,4 @@ tr:hover {
 .submit-btn:hover, .action-btn:hover {
     background-color: #45a049;
 }
+
