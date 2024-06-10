@@ -13,9 +13,6 @@
     <link rel="stylesheet" type="text/css" href="../admin/style/styles.css">
     <title>Create Auction</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
 
         .title {
             display: flex;
@@ -38,7 +35,6 @@
 
         .table-container {
             margin-top: 20px;
-            overflow-y: auto;
         }
 
         .table-container table {
@@ -260,9 +256,9 @@
                                 <thead class="table-dark">
                                     <tr>
                                         <th>Select</th>
+                                        <th>Photo</th>
                                         <th>Jewelry Name</th>
                                         <th>Artist</th>
-                                        <th>Photo</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -270,9 +266,9 @@
                                     <% for (Jewelry jewelry : listJewelry) { %>
                                     <tr>
                                         <td><input type="checkbox" value="<%= jewelry.getJewelryID() %>" onchange="handleCheckboxChange(this)"></td>
+                                        <td><img class="img-thumbnail" src="${pageContext.request.contextPath}/<%= jewelry.getPhotos().split(";")[0] %>" alt="Jewelry Photo"></td>
                                         <td><%= jewelry.getJewelryName() %></td>
                                         <td><%= jewelry.getArtist() %></td>
-                                        <td><img class="img-thumbnail" src="${pageContext.request.contextPath}/<%= jewelry.getPhotos().split(";")[0] %>" alt="Jewelry Photo"></td>
                                         <td><button type="button" class="btn btn-primary" onclick='showJewelryDetails(<%= jewelry %>)'>View</button></td>
                                     </tr>
                                     <% } %>
@@ -340,7 +336,8 @@
         </div>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-ON8zOe5tGDr0nsDDZKHL6vU/WP+4mTTx92ef/F91cJmPF5pM7WeAM2U9YRXZGU0V" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQ+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 </body>
 </html>

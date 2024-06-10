@@ -107,7 +107,7 @@
                 </div>
             </div>
             <div class="container light-style flex-grow-1 container-p-y">
-                <h4 class="font-weight-bold py-3 mb-2">Approval Requests</h4>
+                <h2 class="font-weight-bold py-3 mb-2">Approval Requests</h2>
                 <%
                     UserDAOImpl dao = new UserDAOImpl();
                     List<Jewelry> listJewelry = dao.displayAllJewelryForManager();
