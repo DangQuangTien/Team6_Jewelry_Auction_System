@@ -17,12 +17,6 @@
             font-family: Arial, sans-serif;
         }
 
-        .main-content {
-            padding: 20px;
-            background-color: #f8f9fa;
-            height: 100%;
-        }
-
         .title {
             display: flex;
             align-items: center;
