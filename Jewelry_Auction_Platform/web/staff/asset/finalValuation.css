@@ -1,6 +1,16 @@
-.details-row {
-    display: none;
+h3 {
+    font-size: 2em;
+    color: #4CAF50;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #ff6f91, #ff9671, #ffc75f, #f9f871, #d65db1, #845ec2, #2c73d2, #0081cf, #0089ba, #008e9b, #00c9a7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    animation: wave 3s linear infinite;
 }
+
 @keyframes wave {
     0%, 100% {
         transform: translateY(0);
@@ -26,6 +36,7 @@ table {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     border: 1px solid #ddd;
 }
+
 
 th, td {
     padding: 10px;
@@ -54,4 +65,3 @@ tr:hover {
 .submit-btn:hover, .action-btn:hover {
     background-color: #45a049;
 }
-

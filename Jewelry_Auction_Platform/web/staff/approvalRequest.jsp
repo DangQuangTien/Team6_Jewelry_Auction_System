@@ -41,9 +41,7 @@
                     </li>
                 </ul>
             </div>
-            </nav>
-            
-        
+            </nav>     
         <div class="container">
             <h1 class="text-center text-primary my-4">Approval Requests</h1>
             <%
