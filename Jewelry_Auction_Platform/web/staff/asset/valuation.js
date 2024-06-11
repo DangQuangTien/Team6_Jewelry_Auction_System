@@ -28,3 +28,14 @@ function confirmValuation(event) {
 function cancelValuation() {
     window.history.back();
 }
+
+function confirmValuation(event) {
+    if (!confirm("Are you certain you want to send this appraisal?")) {
+        event.preventDefault();
+    }
+}
+function cancelValuation() {
+    if (confirm("Are you sure you want to cancel this appraisal?")) {
+        window.location.href = "${pageContext.request.contextPath}/ProcessValuationRequest";
+    }
+}
