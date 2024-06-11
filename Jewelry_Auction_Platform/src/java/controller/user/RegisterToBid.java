@@ -4,9 +4,11 @@
  */
 package controller.user;
 
+import dao.UserDAOImpl;
 import entity.member.Member;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +22,8 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "RegisterToBid", urlPatterns = {"/RegisterToBid"})
 public class RegisterToBid extends HttpServlet {
-
+    private static final String ERROR_PAGE = "index.htm";
+    private static final String BID_PAGE = "/auctions/upcoming.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,20 +39,29 @@ public class RegisterToBid extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             HttpSession session = request.getSession();
-            Member member = (Member)session.getAttribute("INF");
-            String id = "";
-            if (member != null){
-            id = member.getMemberID();}
-            out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet RegisterToBid</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet RegisterToBid at " + request.getContextPath() + "</h1>");
-            out.println(id);
-            out.println("</body>");
-            out.println("</html>");
+            UserDAOImpl dao = new UserDAOImpl();
+            String userID = (String)session.getAttribute("USERID");
+            Member member = dao.getInformation(userID);
+            String url = ERROR_PAGE;
+            String memberID = member.getMemberID();
+            String country = request.getParameter("country");
+            String state = request.getParameter("state");
+            String city = request.getParameter("city");
+            String address1 = request.getParameter("address1");
+            String address2 = request.getParameter("address2");
+            String zipCode = request.getParameter("zipCode");
+            String cardNumber = request.getParameter("cardNumber");
+            boolean result = dao.insertAddress(country, state, city, address1, address2, zipCode, memberID);
+            if (cardNumber != null || (cardNumber != null && result == true)){
+                boolean updated = dao.registerToBid(memberID);
+                if (updated){
+                    member = dao.getInformation(userID);
+                    url = request.getContextPath() + BID_PAGE;
+                    session.setAttribute("INF", member);
+                }
+            }
+            RequestDispatcher dist = request.getRequestDispatcher(url);
+            dist.forward(request, response);
         }
     }
 

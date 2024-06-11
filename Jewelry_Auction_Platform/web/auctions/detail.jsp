@@ -52,9 +52,7 @@
             if (member != null) {
                 status = member.getStatus();
             }
-            for (Jewelry j : listJewelry) {
-                String photos = j.getPhotos();
-                String[] photoArray = photos.split(";");
+
     %>
     <script>
         function getTimeDifference(startDate) {
@@ -65,12 +63,14 @@
             if (difference <= 0) {
                 document.getElementById("countdown").innerHTML = "Auction started!";
                 clearInterval(countdownInterval);
-        <% if (status == 1) { %>
+        <% if (status == 1 && member != null) { %>
                 document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.html"><img style="width: 50px; height: 50px" src="../images/entrance.png"></a>';
 
-        <% } else { %>
+        <% } else if (status == 0 && member != null) { %>
                 document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/auctions/registerBid.jsp"><img style="width: 50px; height: 50px" src="../images/entrance.png"></a>';
-        <% }%>
+        <% } else {%>
+            document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/login.jsp"><img style="width: 50px; height: 50px" src="../images/entrance.png"></a>';
+            <% } %>
                 document.getElementById("auctionLink").classList.add("blink");
                 return;
             }
@@ -102,8 +102,13 @@
             <h3 style="color: orange"><div id="countdown"></div></h3>
             <div id="auctionLink"></div>
         </div>
-
+        <% if (status == 1 && member != null){ %>
+        <a href="../private/room/live/index.html" class="btn btn-primary">PLACE BID</a>
+        <% } else if (status == 0 && member != null){ %>
         <a href="registerBid.jsp" class="btn btn-primary">REGISTER TO BID</a>
+        <% } else { %>
+        <a href="../login.jsp" class="btn btn-primary">REGISTER TO BID</a>
+        <% } %>
         <hr>
         <div class="row">
             <div class="col-md-4">
@@ -138,7 +143,10 @@
         </div>
         <hr>
         <div class="row" id="catalogItems">
-
+            <% for (Jewelry j : listJewelry) {
+                    String photos = j.getPhotos();
+                    String[] photoArray = photos.split(";");
+            %>
             <div class="col-md-4 mb-4 catalog-item" data-category="<%= j.getCategoryName()%>">
                 <div class="card">
                     <a href="itemDetail.jsp?jewelryID=<%= j.getJewelryID()%>&auctionID=<%= request.getParameter("auctionID")%>">

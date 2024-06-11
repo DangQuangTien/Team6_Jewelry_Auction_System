@@ -85,7 +85,6 @@ select * from Member
 update Member set status_register_to_bid = 0
 CREATE TABLE [Address](
     addressID VARCHAR(50) NOT NULL PRIMARY KEY,
-    street NVARCHAR(255) NOT NULL,
     city NVARCHAR(255) NOT NULL,
     [state] NVARCHAR(255) NOT NULL,
     zipcode VARCHAR(50) NOT NULL,
@@ -94,7 +93,7 @@ CREATE TABLE [Address](
     CONSTRAINT fk_memberID FOREIGN KEY (memberID) REFERENCES [Member](memberID)
 ); 
 GO
-
+select * from Address
 CREATE TABLE category (
     categoryID NVARCHAR(50) NOT NULL PRIMARY KEY,
     categoryName NVARCHAR(255) NOT NULL,
@@ -415,10 +414,10 @@ BEGIN
     FROM inserted;
 END;
 GO
-INSERT INTO [Address] (city, state, zipcode, country, memberID, address1, address2) VALUES (?, ?, ?, ?, ?, ?, ?);
+INSERT INTO [Address] (country, state, city, address1, address2, zipcode, memberID) VALUES ('Viet Nam', null, 'Ha Noi', '12 Dong Da', null, '2000', 'Member1');
 
 select * from Member
-update Member set status_register_to_bid = 0
+update Member set status_register_to_bid = 0 where member
 select * from Member
 alter table Member
 add companyName varchar(255)

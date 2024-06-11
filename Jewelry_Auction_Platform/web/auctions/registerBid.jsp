@@ -177,7 +177,7 @@
                     <div class="form-section mb-4">
                         <h4>CREDIT CARD</h4>
                         <p>Note: Your credit card will be authorized for $1 for verification purposes. This authorization may appear as a charge and immediate refund in your account by your bank.</p>
-                        <font color=#000000>IMPORTANT: Winning bidders will be charged a Buyer's Premium IN ADDITION to their winning bid (the Buyer?s Premium is not included in the online bid value).</font>
+                        <font color=#000000>IMPORTANT: Winning bidders will be charged a Buyer's Premium IN ADDITION to their winning bid (the Buyer's Premium is not included in the online bid value).</font>
                         <p>Buyer's Premiums are as follows:</p>
                         <ul>
                             <li>25% on the first $300,000</li>

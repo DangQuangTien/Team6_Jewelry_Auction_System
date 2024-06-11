@@ -772,10 +772,41 @@ public class UserDAOImpl implements UserDao {
     }
 
     @Override
-    public boolean insertAddress(String country, String state, String city, String address1, String address2, String zipCode) {
-        
+    public boolean insertAddress(String country, String state, String city, String address1, String address2, String zipCode, String memberID) {
+        String query = "INSERT INTO [Address] (country, state, city, address1, address2, zipcode, memberID) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setString(1, country);
+            ps.setString(2, state);
+            ps.setString(3, city);
+            ps.setString(4, address1);
+            ps.setString(5, address2);
+            ps.setString(6, zipCode);
+            ps.setString(7, memberID);
+
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (ClassNotFoundException | SQLException ex) {
+            // Log the exception
+            ex.printStackTrace();
+        }
         return false;
     }
 
+    @Override
+    public boolean registerToBid(String memberID) {
+        String query = "UPDATE Member SET status_register_to_bid = 1 WHERE memberID = ?";
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setString(1, memberID);
+
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (ClassNotFoundException | SQLException ex) {
+            // Log the exception
+            ex.printStackTrace();
+        }
+        return false;
+    }
 
 }

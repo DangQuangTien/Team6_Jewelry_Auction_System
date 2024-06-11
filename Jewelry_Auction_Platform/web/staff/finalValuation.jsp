@@ -9,202 +9,126 @@
 <%@page import="dao.UserDAOImpl"%>
 <%@page import="java.time.LocalTime"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Manager</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <script>
-            function confirmLogout(event) {
-                if (!confirm("Are you sure you want to log out?")) {
-                    event.preventDefault();
-                }
-            }
-            function confirmAuction(event) {
-                if (!confirm("Are you sure you want to send the final valuation?")) {
-                    event.preventDefault();
-                }
-            }
-            function toggleApprovalTable() {
-                var table = document.getElementById("approvalTable");
-                if (table.style.display === "none" || table.style.display === "") {
-                    table.style.display = "table";
-                } else {
-                    table.style.display = "none";
-                }
-            }
-        </script>
-        <style>
-            h3 {
-                font-size: 2em;
-                color: #4CAF50;
-                text-align: center;
-                padding: 20px;
-                border-radius: 10px;
-                background: linear-gradient(135deg, #ff6f91, #ff9671, #ffc75f, #f9f871, #d65db1, #845ec2, #2c73d2, #0081cf, #0089ba, #008e9b, #00c9a7);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-                animation: wave 3s linear infinite;
-            }
-
-            @keyframes wave {
-                0%, 100% {
-                    transform: translateY(0);
-                }
-                25% {
-                    transform: translateY(-5px);
-                }
-                50% {
-                    transform: translateY(0);
-                }
-                75% {
-                    transform: translateY(5px);
-                }
-            }
-            .table-responsive {
-                margin: 20px auto;
-            }
-            table {
-                width: 100%;
-                margin: 20px auto;
-                border-collapse: collapse;
-                background-color: #fff;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-                border: 1px solid #ddd;
-            }
-
-
-            th, td {
-                padding: 10px;
-                text-align: left;
-                border-bottom: 1px solid #ddd;
-                border-right: 1px solid #ddd;
-            }
-
-            th {
-                background-color: #f2f2f2;
-                border-top: 1px solid #ddd;
-            }
-            tr:hover {
-                background-color: #f5f5f5;
-            }
-
-            .submit-btn, .action-btn {
-                background-color: #4CAF50;
-                color: white;
-                border: none;
-                padding: 8px 16px;
-                border-radius: 4px;
-                cursor: pointer;
-                transition: background-color 0.3s;
-            }
-            .submit-btn:hover, .action-btn:hover {
-                background-color: #45a049;
-            }
-        </style>
-    </head>
-    <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Jewelry Auctions</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="auctionManagement.jsp">Auction Management</a>
-                    </li>
-                </ul>
-                <form class="form-inline" action="${pageContext.request.contextPath}/MainController" method="POST" onsubmit="confirmLogout(event)">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="action" value="Log out">Log out</button>
-                </form>
-            </div>
-        </nav>
-    </header>
-
-    <div class="container mt-5">
-        <button class="btn btn-primary mb-3" onclick="toggleApprovalTable()">Final Valuation</button>
-
-        <%
-            UserDAOImpl dao = new UserDAOImpl();
-            List<Jewelry> listJewelry = dao.displayAllJewelryForStaff();
-            if (listJewelry != null && !listJewelry.isEmpty()) {
-        %>
-        <div class="table-responsive">
-            <table id="approvalTable" class="able table-bordered table-hover" style="display:none;">
-                <thead class="thead-light">
-                    <tr>
-                        <th>Photo</th>
-                        <th>Jewelry Name</th>
-                        <th>Artist</th>
-                        <th>Circa</th>
-                        <th>Material</th>
-                        <th>Dial</th>
-                        <th>Bracelet Material</th>
-                        <th>Case Dimensions</th>
-                        <th>Bracelet Size</th>
-                        <th>Serial Number</th>
-                        <th>Reference Number</th>
-                        <th>Caliber</th>
-                        <th>Movement</th>
-                        <th>Condition</th>
-                        <th>Metal</th>
-                        <th>Gemstones</th>
-                        <th>Measurements</th>
-                        <th>Weight</th>
-                        <th>Stamped</th>
-                        <th>Ring Size</th>
-                        <th>Final Price</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% for (Jewelry jewelry : listJewelry) { %>
-                <form action="${pageContext.request.contextPath}/MainController" method="GET" onsubmit="confirmAuction(event)">
-                    <tr>
-                        <% String[] photoArray = jewelry.getPhotos().split(";");%>
-                        <td><img class="img-thumbnail" style="width: 100px; height: 100px" src="${pageContext.request.contextPath}/<%= photoArray[0]%>"></td>
-                        <td><%= jewelry.getJewelryName()%></td>
-                        <td><%= jewelry.getArtist()%></td>
-                        <td><%= jewelry.getCirca()%></td>
-                        <td><%= jewelry.getMaterial()%></td>
-                        <td><%= jewelry.getDial()%></td>
-                        <td><%= jewelry.getBraceletMaterial()%></td>
-                        <td><%= jewelry.getCaseDimensions()%></td>
-                        <td><%= jewelry.getBraceletSize()%></td>
-                        <td><%= jewelry.getSerialNumber()%></td>
-                        <td><%= jewelry.getReferenceNumber()%></td>
-                        <td><%= jewelry.getCaliber()%></td>
-                        <td><%= jewelry.getMovement()%></td>
-                        <td><%= jewelry.getCondition()%></td>
-                        <td><%= jewelry.getMetal()%></td>
-                        <td><%= jewelry.getGemstones()%></td>
-                        <td><%= jewelry.getMeasurements()%></td>
-                        <td><%= jewelry.getWeight()%></td>
-                        <td><%= jewelry.getStamped()%></td>
-                        <td><%= jewelry.getRingSize()%></td>
-                    <form acion="MainController" method="GET">
-                        <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID()%>">
-                        <td><input type="number" name="finalPrice" value="<%= jewelry.getFinal_Price()%>" required></td>
-                        <td><input type="submit" name="action" value="Send"></td>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Manager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="asset/finalValuation.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Staff Portal</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/MainController?action=Valuation Request"><i class="fas fa-file-invoice-dollar"></i> Valuation Request</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/staff/approvalRequest.jsp"><i class="fas fa-thumbs-up"></i> Approval Request</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/staff/finalValuation.jsp"><i class="fas fa-check-double"></i> Final Valuation</a>
+                </li>
+                <li class="nav-item">
+                    <form action="${pageContext.request.contextPath}/MainController" method="POST" onsubmit="confirmLogout(event)">
+                        <button type="submit" name="action" class="btn btn-link nav-link" value="Log out"><i class="fas fa-sign-out-alt"></i> Logout</button>
                     </form>
-                    </tr>
-                </form>
-                <% } %>
-                </tbody>
-            </table>
+                </li>
+            </ul>
         </div>
-        <% } else { %>
-        <p class="alert alert-warning">No jewelry found</p>
-        <% }%>
-    </div>
+        </nav>  
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<div class="container mt-5">
+    <%
+        UserDAOImpl dao = new UserDAOImpl();
+        List<Jewelry> listJewelry = dao.displayAllJewelryForStaff();
+        if (listJewelry != null && !listJewelry.isEmpty()) {
+    %>
+    <div class="table-responsive">
+        <table id="approvalTable" class="table table-bordered table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>Photo</th>
+                    <th>Jewelry Name</th>
+                    <th>Final Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (Jewelry jewelry : listJewelry) { %>
+                <tr>
+                    <% String[] photoArray = jewelry.getPhotos().split(";"); %>
+                    <td>
+                        <img class="img-thumbnail" style="width: 100px; height: 100px" src="${pageContext.request.contextPath}/<%= photoArray[0] %>">
+                    </td>
+                    <td><%= jewelry.getJewelryName() %></td>
+                    <td>
+                        <form action="${pageContext.request.contextPath}/MainController" method="GET" onsubmit="confirmAuction(event)">
+                            <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID() %>">
+                            <input type="number" name="finalPrice" value="<%= jewelry.getFinal_Price() %>" required>
+                            <td>
+                                <input type="submit" name="action" value="Send">
+                                <button type="button" class="btn btn-info btn-sm ml-2" data-toggle="modal" data-target="#detailsModal<%= jewelry.getJewelryID() %>">Details</button>
+                            </td>
+                        </form>
+                    </td>
+                </tr>
+
+                <!-- Modal -->
+                <div class="modal fade" id="detailsModal<%= jewelry.getJewelryID() %>" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel<%= jewelry.getJewelryID() %>" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="detailsModalLabel<%= jewelry.getJewelryID() %>"><%= jewelry.getJewelryName() %> Details</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p><strong>Artist:</strong> <%= jewelry.getArtist() %></p>
+                                <p><strong>Circa:</strong> <%= jewelry.getCirca() %></p>
+                                <p><strong>Material:</strong> <%= jewelry.getMaterial() %></p>
+                                <p><strong>Dial:</strong> <%= jewelry.getDial() %></p>
+                                <p><strong>Bracelet Material:</strong> <%= jewelry.getBraceletMaterial() %></p>
+                                <p><strong>Case Dimensions:</strong> <%= jewelry.getCaseDimensions() %></p>
+                                <p><strong>Bracelet Size:</strong> <%= jewelry.getBraceletSize() %></p>
+                                <p><strong>Serial Number:</strong> <%= jewelry.getSerialNumber() %></p>
+                                <p><strong>Reference Number:</strong> <%= jewelry.getReferenceNumber() %></p>
+                                <p><strong>Caliber:</strong> <%= jewelry.getCaliber() %></p>
+                                <p><strong>Movement:</strong> <%= jewelry.getMovement() %></p>
+                                <p><strong>Condition:</strong> <%= jewelry.getCondition() %></p>
+                                <p><strong>Metal:</strong> <%= jewelry.getMetal() %></p>
+                                <p><strong>Gemstones:</strong> <%= jewelry.getGemstones() %></p>
+                                <p><strong>Measurements:</strong> <%= jewelry.getMeasurements() %></p>
+                                <p><strong>Weight:</strong> <%= jewelry.getWeight() %></p>
+                                <p><strong>Stamped:</strong> <%= jewelry.getStamped() %></p>
+                                <p><strong>Ring Size:</strong> <%= jewelry.getRingSize() %></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    <% } else { %>
+    <p class="alert alert-warning">No jewelry found</p>
+    <% } %>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="asset/finalValuation.js"></script>
 </body>
-</html>
+</html>                              

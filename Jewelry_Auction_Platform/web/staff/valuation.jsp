@@ -1,38 +1,22 @@
-<%@page import="dao.UserDAOImpl"%>
-<%@page import="entity.product.Category"%>
-<%@page import="java.util.ArrayList"%>
-<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%-- 
     Document   : valuation
     Created on : May 23, 2024, 9:20:58 AM
     Author     : User
 --%>
 
+<%@page import="dao.UserDAOImpl"%>
+<%@page import="entity.product.Category"%>
+<%@page import="java.util.ArrayList"%>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Valuation Form</title>
-
-        <script type="text/javascript" src="asset/app.js"></script>
-        <script>
-            function confirmValuation(event) {
-                if (!confirm("Are you certain you want to send this appraisal?")) {
-                    event.preventDefault();
-                }
-            }
-            function cancelValuation() {
-                if (confirm("Are you sure you want to cancel this appraisal?")) {
-                    window.location.href = "${pageContext.request.contextPath}/ProcessValuationRequest";
-                }
-            }
-        </script>   
-        <link rel="stylesheet" type="text/css" href="component/header.css">
-        <link rel="stylesheet" type="text/css" href="component/footer.css">
-        <link rel="stylesheet" type="text/css" href="asset/styles.css">
+        <title>Valuation Form</title>    
+        <link rel="stylesheet" type="text/css" href="asset/valuation.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">  
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     </head>
@@ -41,9 +25,10 @@
     <main class="container my-4 flex-grow-1">
         <div class="row">
             <div class="col-md-6 mb-4">
+                <h2>Jewelry Appraisal</h2>
                 <div class="card product-display">
                     <div class="card-body" style="overflow-y: auto; max-height: 500px;">
-                        <h2>Jewelry Appraisal</h2>
+                        
                         <%
                             String photos = (String) request.getParameter("photoURL");
                             String[] photoArray = photos.split(";");
@@ -67,8 +52,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6 mb-4">
-                <div class="card">
+            <div class="col-md-6 mb-4">         
                     <div class="card-body">
                         <h2 class="card-title">Fill In The Detail</h2>
                         <form action="${pageContext.request.contextPath}/MainController" onsubmit="confirmValuation(event)" method="GET">
@@ -187,10 +171,14 @@
                             <input type="submit" name="action" value="Submit" class="submit-btn">
                             <button type="button" class="cancel-btn" onclick="cancelValuation()">Cancel</button>
                         </form>                    
-                    </div>
-                </div>
-            </div>
-        </div>
+                    </div>          
+               </div>
+          </div>
     </main>
+    
+    <script type="text/javascript" src="asset/valuation.js"></script> 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
