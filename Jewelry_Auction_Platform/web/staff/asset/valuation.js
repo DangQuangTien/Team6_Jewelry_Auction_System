@@ -13,6 +13,30 @@ function showFormFields() {
     }
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    showFormFields();
+});
+
+function showFormFields() {
+    const categorySelect = document.getElementById("category");
+    const watchFields = document.getElementById("watchFields");
+    const braceletFields = document.getElementById("braceletFields");
+
+    // Hide all sections initially
+    watchFields.style.display = "none";
+    braceletFields.style.display = "none";
+
+    // Get the selected category
+    const selectedCategory = categorySelect.options[categorySelect.selectedIndex].text;
+
+    // Show relevant fields based on category
+    if (selectedCategory.toLowerCase().includes("watch")) {
+        watchFields.style.display = "block";
+    } else if (selectedCategory.toLowerCase().includes("bracelet")) {
+        braceletFields.style.display = "block";
+    }
+}
+
 function confirmLogout(event) {
     if (!confirm('Are you sure you want to log out?')) {
         event.preventDefault();
