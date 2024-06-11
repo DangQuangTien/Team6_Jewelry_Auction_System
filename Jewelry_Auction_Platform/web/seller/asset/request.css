@@ -1,0 +1,25 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+main {
+    flex: 1;
+}
+.form-group {
+    margin-bottom: 1.5rem;
+}
+.form-check-label {
+    margin-right: 1.5rem;
+}
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.list-group-item button {
+    margin-left: 1rem;
+}
+.error-message {
+    color: red;
+}
