@@ -79,7 +79,10 @@ CREATE TABLE [Member] (
     CONSTRAINT fk_member_userID FOREIGN KEY (userID) REFERENCES Users(userID)
 );
 GO
-
+alter table [Member]
+add status_register_to_bid bit default 0
+select * from Member
+update Member set status_register_to_bid = 0
 CREATE TABLE [Address](
     addressID VARCHAR(50) NOT NULL PRIMARY KEY,
     street NVARCHAR(255) NOT NULL,
@@ -415,5 +418,8 @@ GO
 INSERT INTO [Address] (city, state, zipcode, country, memberID, address1, address2) VALUES (?, ?, ?, ?, ?, ?, ?);
 
 select * from Member
-update Member set status_register_to_bid = 1
-select * from Jewelry
+update Member set status_register_to_bid = 0
+select * from Member
+alter table Member
+add companyName varchar(255)
+select * from Address

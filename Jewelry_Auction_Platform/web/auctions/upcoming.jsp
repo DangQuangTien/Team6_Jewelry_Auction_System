@@ -10,7 +10,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Jewelry Auctions Online - Upcoming Auctions</title>
+        <title>Upcoming Jewelry and Watch Auctions at Global F'Rankelly 's Premier Jewelry Auction House</title>
+        <link rel="icon" type="image/png" sizes="64x64" href="../images/logo/Logo.png">
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -90,7 +91,7 @@
                     <!-- Form for each auction -->
                     <form action="detail.jsp" method="get">
                         <input type="hidden" name="auctionID" value="<%= auctionID %>">
-                        <button type="submit">View Details</button>
+                        <button type="submit">View Auction Now</button>
                     </form>
                     <!-- JavaScript countdown timer -->
                     <script>

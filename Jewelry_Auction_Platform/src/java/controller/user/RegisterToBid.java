@@ -4,6 +4,7 @@
  */
 package controller.user;
 
+import entity.member.Member;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -33,6 +35,11 @@ public class RegisterToBid extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            HttpSession session = request.getSession();
+            Member member = (Member)session.getAttribute("INF");
+            String id = "";
+            if (member != null){
+            id = member.getMemberID();}
             out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">");
             out.println("<html>");
             out.println("<head>");
@@ -40,6 +47,7 @@ public class RegisterToBid extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet RegisterToBid at " + request.getContextPath() + "</h1>");
+            out.println(id);
             out.println("</body>");
             out.println("</html>");
         }

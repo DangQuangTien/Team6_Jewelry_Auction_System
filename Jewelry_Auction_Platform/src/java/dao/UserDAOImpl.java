@@ -771,5 +771,11 @@ public class UserDAOImpl implements UserDao {
         return null;
     }
 
+    @Override
+    public boolean insertAddress(String country, String state, String city, String address1, String address2, String zipCode) {
+        
+        return false;
+    }
+
 
 }

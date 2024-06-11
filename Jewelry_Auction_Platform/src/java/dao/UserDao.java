@@ -76,4 +76,6 @@ public interface UserDao {
     
     Jewelry getJewelryDetails(String jewelryID);
     
+    boolean insertAddress(String country, String state, String city, String address1, String address2, String zipCode);
+    
 }
