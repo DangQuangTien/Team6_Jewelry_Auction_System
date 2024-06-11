@@ -6,6 +6,7 @@ package dao;
 
 import dto.UserDTO;
 import entity.Auction.Auction;
+import entity.member.Member;
 import entity.product.Category;
 import entity.product.Jewelry;
 import entity.request_shipment.RequestShipment;
@@ -40,6 +41,23 @@ public class UserDAOImpl implements UserDao {
             rs = ps.executeQuery();
             while (rs.next()) {
                 return new UserDTO(rs.getString(1), rs.getString(2), rs.getString(3));
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.getMessage();
+        }
+        return null;
+    }
+
+    @Override
+    public Member getInformation(String userID) {
+        String query = "select m.* from Member m, Users u where m.userID = u.userID and u.userID = ?";
+        try {
+            conn = DBUtils.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, userID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Member(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7), rs.getString(8), rs.getInt(9));
             }
         } catch (ClassNotFoundException | SQLException ex) {
             ex.getMessage();
@@ -752,5 +770,12 @@ public class UserDAOImpl implements UserDao {
         }
         return null;
     }
+
+    @Override
+    public boolean insertAddress(String country, String state, String city, String address1, String address2, String zipCode) {
+        
+        return false;
+    }
+
 
 }

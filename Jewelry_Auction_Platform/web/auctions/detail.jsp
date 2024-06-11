@@ -1,3 +1,4 @@
+<%@page import="entity.member.Member"%>
 <%@page import="entity.product.Category"%>
 <%@page import="entity.product.Jewelry"%>
 <%@page import="java.util.List"%>
@@ -8,14 +9,52 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Jewelry Auctions Online</title>
+        <title>Fine Jewels & Watches | Global F'Rankelly 's Premier Jewelry Auction House</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="icon" type="image/png" sizes="64x64" href="../images/logo/Logo.png">
     </head>
+    <style>
+        .countdown-container {
+            display: flex;
+            align-items: center;
+        }
+        .countdown-container div {
+            margin-right: 10px;
+        }
+        .blink {
+            animation: blink-animation 1s linear infinite;
+        }
+
+        @keyframes blink-animation {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+    </style>
     <%
         String auctionID = request.getParameter("auctionID");
         UserDAOImpl dao = new UserDAOImpl();
         Auction auction = dao.getAuctionByID(auctionID);
         List<Jewelry> listJewelry = dao.displayCatalog(auctionID);
+    %>
+    <% if (listJewelry != null && !listJewelry.isEmpty()) {
+
+            String userID = (String) session.getAttribute("USERID");
+            Member member = dao.getInformation(userID);
+            int status = 1;
+            if (member != null) {
+                status = member.getStatus();
+            }
+            for (Jewelry j : listJewelry) {
+                String photos = j.getPhotos();
+                String[] photoArray = photos.split(";");
     %>
     <script>
         function getTimeDifference(startDate) {
@@ -26,6 +65,13 @@
             if (difference <= 0) {
                 document.getElementById("countdown").innerHTML = "Auction started!";
                 clearInterval(countdownInterval);
+        <% if (status == 1) { %>
+                document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.html"><img style="width: 50px; height: 50px" src="../images/entrance.png"></a>';
+
+        <% } else { %>
+                document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/auctions/registerBid.jsp"><img style="width: 50px; height: 50px" src="../images/entrance.png"></a>';
+        <% }%>
+                document.getElementById("auctionLink").classList.add("blink");
                 return;
             }
             var days = Math.floor(difference / (1000 * 60 * 60 * 24));
@@ -43,14 +89,20 @@
                     getTimeDifference('<%= auction.getStartDate()%>T<%= auction.getStartTime()%>');
                         }, 1000);
     </script>
+
     <body>
+
     <a href="${pageContext.request.contextPath}/home.jsp">Home</a>
     <a href="${pageContext.request.contextPath}/login.jsp">Log In</a>
     <div class="container">
         <h1 class="mt-4">Fine Jewels & Watches</h1>
         <h2>Live Auction</h2>
         <h3>Live bidding begins: <%= (auction.getStartDate() != null) ? auction.getStartDate() : ""%> at <%= (auction.getStartTime() != null) ? auction.getStartTime() : ""%></h3>
-        <h3 style="color: orange"><div id="countdown"></div></h3>
+        <div class="countdown-container">
+            <h3 style="color: orange"><div id="countdown"></div></h3>
+            <div id="auctionLink"></div>
+        </div>
+
         <a href="registerBid.jsp" class="btn btn-primary">REGISTER TO BID</a>
         <hr>
         <div class="row">
@@ -71,7 +123,7 @@
                         <option value="">All Categories</option>
                         <% for (Category category : dao.listCategory()) {%>
                         <option value="<%= category.getCategoryName()%>"><%= category.getCategoryName()%></option>
-                        <% } %>
+                        <% }%>
                     </select>
                 </div>
             </div>
@@ -86,11 +138,7 @@
         </div>
         <hr>
         <div class="row" id="catalogItems">
-            <% if (listJewelry != null && !listJewelry.isEmpty()) { %>
-            <% for (Jewelry j : listJewelry) {
-                    String photos = j.getPhotos();
-                    String[] photoArray = photos.split(";");
-            %>
+
             <div class="col-md-4 mb-4 catalog-item" data-category="<%= j.getCategoryName()%>">
                 <div class="card">
                     <a href="itemDetail.jsp?jewelryID=<%= j.getJewelryID()%>&auctionID=<%= request.getParameter("auctionID")%>">
@@ -100,10 +148,16 @@
                             <h5 class="card-title"><%= j.getJewelryName()%></h5>
                             Starting Bid: $1500 <br>
                             Est. $<span class="min-price"><%= j.getMinPrice()%></span> - $<span class="max-price"><%= j.getMaxPrice()%></span>
+                            <% if (status == 0) {%>
                             <form action="${pageContext.request.contextPath}/auctions/registerBid.jsp" method="GET">
-                                <input type="hidden" name="jewelryID" value="<%= j.getJewelryID()%>">
                                 <input type="submit" class="btn btn-primary" value="PLACE BID">
                             </form>
+                            <% } else { %>
+                            <br>
+                            <form action="../login.jsp" method="POST">
+                                <input type="submit" class="btn btn-primary" value="PLACE BID">
+                            </form>
+                            <% } %>
                         </div>
                     </a>
                 </div>
