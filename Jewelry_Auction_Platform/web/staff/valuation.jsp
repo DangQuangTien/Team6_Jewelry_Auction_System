@@ -53,127 +53,130 @@
             </div>
 
             <div class="col-md-6 mb-4">         
+                
                     <div class="card-body">
                         <h2 class="card-title">Fill In The Detail</h2>
                         <form action="${pageContext.request.contextPath}/MainController" onsubmit="confirmValuation(event)" method="GET">
-                            <div>
+                            <div class="form-group">
                                 <label for="category">Category</label>
-                                <select id="category" name="category" onchange="showFormFields()">
+                                <select class="form-control" id="category" name="category" onchange="showFormFields()">
                                     <% for (Category category : listCategory) {%>
                                     <option value="<%= category.getCategoryID()%>"><%= category.getCategoryName()%></option>
-                                    <% }%>
+                                    <% } %>
                                 </select>
                             </div>
 
-                            <div>
+                            <div class="form-group">
                                 <label for="jewelryName">Jewelry Name</label>
-                                <input type="text" id="jewelryName" name="jewelryName" value="">
+                                <input type="text" class="form-control" id="jewelryName" name="jewelryName" value="">
                             </div>
-                            <div>
+                            <div class="form-group">
                                 <label for="artist">Artist</label>
-                                <input type="text" id="artist" name="artist" value="">
+                                <input type="text" class="form-control" id="artist" name="artist" value="">
                             </div>
 
                             <!-- Watch Fields -->
-                            <div id="watchFields" class="form-section">
+                            <div id="watchFields" class="form-section d-none">
                                 <h3>Watch Details</h3>
-                                <div>
+                                <div class="form-group">
                                     <label for="circa">Circa</label>
-                                    <input type="text" id="circa" name="circa" value="">
+                                    <input type="text" class="form-control" id="circa" name="circa" value="">
                                 </div>
-                                <div>
+                                <div class="form-group">
                                     <label for="material">Case Material</label>
-                                    <input type="text" id="material" name="material" value="">
+                                    <input type="text" class="form-control" id="material" name="material" value="">
                                 </div>
-                                <div>
+                                <div class="form-group">
                                     <label for="dial">Dial</label>
-                                    <input type="text" id="dial" name="dial" value="">
+                                    <input type="text" class="form-control" id="dial" name="dial" value="">
                                 </div>
-                                <div>
+                                <div class="form-group">
                                     <label for="braceletMaterial">Bracelet Material</label>
-                                    <input type="text" id="braceletMaterial" name="braceletMaterial" value="">
+                                    <input type="text" class="form-control" id="braceletMaterial" name="braceletMaterial" value="">
                                 </div>
-                                <div>
+                                <div class="form-group">
                                     <label for="caseDimensions">Case Dimensions</label>
-                                    <input type="text" id="caseDimensions" name="caseDimensions" value="">
+                                    <input type="text" class="form-control" id="caseDimensions" name="caseDimensions" value="">
                                 </div>
-                                <div>
+                                <div class="form-group">
                                     <label for="braceletSize">Bracelet Size</label>
-                                    <input type="text" id="braceletSize" name="braceletSize" value="">
+                                    <input type="text" class="form-control" id="braceletSize" name="braceletSize" value="">
                                 </div>
-                                <div>
+                                <div class="form-group">
                                     <label for="serialNumber">Serial Number</label>
-                                    <input type="text" id="serialNumber" name="serialNumber" value="">
+                                    <input type="text" class="form-control" id="serialNumber" name="serialNumber" value="">
                                 </div>
-                                <div>
+                                <div class="form-group">
                                     <label for="referenceNumber">Reference Number</label>
-                                    <input type="text" id="referenceNumber" name="referenceNumber" value="">
+                                    <input type="text" class="form-control" id="referenceNumber" name="referenceNumber" value="">
                                 </div>
-                                <div>
+                                <div class="form-group">
                                     <label for="caliber">Caliber</label>
-                                    <input type="text" id="caliber" name="caliber" value="">
+                                    <input type="text" class="form-control" id="caliber" name="caliber" value="">
                                 </div>
-                                <div>
+                                <div class="form-group">
                                     <label for="movement">Movement</label>
-                                    <input type="text" id="movement" name="movement" value="">
+                                    <input type="text" class="form-control" id="movement" name="movement" value="">
                                 </div>
-                                <div>
+                                <div class="form-group">
                                     <label for="condition">Condition</label>
-                                    <input type="text" id="condition" name="condition" value="">
+                                    <input type="text" class="form-control" id="condition" name="condition" value="">
                                 </div>
                             </div>
 
                             <!-- Bracelet Fields -->
-                            <div id="braceletFields" class="form-section">
+                            <div id="braceletFields" class="form-section d-none">
                                 <h3>Details</h3>
-                                <div>
+                                <div class="form-group">
                                     <label for="braceletMetal">Metal</label>
-                                    <input type="text" id="braceletMetal" name="metal" value="">
+                                    <input type="text" class="form-control" id="braceletMetal" name="metal" value="">
                                 </div>
-                                <div>
+                                <div class="form-group">
                                     <label for="braceletGemstones">Gemstone(s)</label>
-                                    <input type="text" id="braceletGemstones" name="gemstones" value="">
+                                    <input type="text" class="form-control" id="braceletGemstones" name="gemstones" value="">
                                 </div>
-                                <div>
+                                <div class="form-group">
                                     <label for="braceletMeasurements">Measurements</label>
-                                    <input type="text" id="braceletMeasurements" name="measurements" value="">
+                                    <input type="text" class="form-control" id="braceletMeasurements" name="measurements" value="">
                                 </div>
-                                <div>
+                                <div class="form-group">
                                     <label for="braceletWeight">Weight</label>
-                                    <input type="text" id="braceletWeight" name="weight" value="">
+                                    <input type="text" class="form-control" id="braceletWeight" name="weight" value="">
                                 </div>
-                                <div>
+                                <div class="form-group">
                                     <label for="braceletCondition">Condition</label>
-                                    <input type="text" id="braceletCondition" name="condition" value="">
+                                    <input type="text" class="form-control" id="braceletCondition" name="condition" value="">
                                 </div>
-                                <div>
+                                <div class="form-group">
                                     <label for="braceletStamped">Stamped</label>
-                                    <input type="text" id="braceletStamped" name="stamped" value="">
+                                    <input type="text" class="form-control" id="braceletStamped" name="stamped" value="">
                                 </div>
-                                <div>
+                                <div class="form-group">
                                     <label style="color: red" for="ringSize">Ring Size (for rings)</label>
-                                    <input type="text" id="ringSize" name="ringSize" value="">
+                                    <input type="text" class="form-control" id="ringSize" name="ringSize" value="">
                                 </div>
                             </div>
 
-                            <div>
+                            <div class="form-group">
                                 <label for="Price">Estimate</label>
-                                <input type="number" id="minPrice" name="minPrice" placeholder="Min">
-                                <input type="number" id="maxPrice" name="maxPrice" placeholder="Max">
+                                <div class="d-flex">
+                                    <input type="number" class="form-control mr-2" id="minPrice" name="minPrice" placeholder="Min">
+                                    <input type="number" class="form-control" id="maxPrice" name="maxPrice" placeholder="Max">
+                                </div>
                             </div>
-                            <div>
+                            <div class="form-group">
                                 <label for="tempPrice">Temporary Price</label>
-                                <input type="number" id="tempPrice" name="tempPrice" placeholder="Temporary Price">
+                                <input type="number" class="form-control" id="tempPrice" name="tempPrice" placeholder="Temporary Price">
                             </div>
 
                             <input type="hidden" name="valuationID" value="<%= (String) request.getParameter("valuationID")%>">
                             <input type="hidden" name="photoURL" value="<%= (String) request.getParameter("photoURL")%>">
-                            <input type="submit" name="action" value="Submit" class="submit-btn">
-                            <button type="button" class="cancel-btn" onclick="cancelValuation()">Cancel</button>
+                            <button type="submit" name="action" value="Submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary" onclick="cancelValuation()">Cancel</button>
                         </form>                    
                     </div>          
-               </div>
-          </div>
+            </div>
+        </div>
     </main>
     <script type="text/javascript" src="asset/valuation.js"></script> 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

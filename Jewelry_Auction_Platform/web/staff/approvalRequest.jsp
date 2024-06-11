@@ -18,6 +18,7 @@
         <link rel="stylesheet" href="asset/approvalRequest.css">
     </head>
     <body>
+        
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">Staff Portal</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +42,8 @@
                     </li>
                 </ul>
             </div>
-            </nav>     
+        </nav>
+
         <div class="container">
             <h1 class="text-center text-primary my-4">Approval Requests</h1>
             <%
