@@ -75,14 +75,10 @@ CREATE TABLE [Member] (
     gender NVARCHAR(10),
     dob DATE,
     avatar NVARCHAR(255),
-	status_register_to_bid bit default 0,
     CONSTRAINT fk_member_userID FOREIGN KEY (userID) REFERENCES Users(userID)
 );
 GO
-alter table [Member]
-add status_register_to_bid bit default 0
-select * from Member
-update Member set status_register_to_bid = 0
+
 CREATE TABLE [Address](
     addressID VARCHAR(50) NOT NULL PRIMARY KEY,
     street NVARCHAR(255) NOT NULL,
@@ -181,6 +177,7 @@ CREATE TABLE [Session](
     CONSTRAINT uc_auction_jewelry UNIQUE (auctionID, jewelryID)
 );
 GO
+
 CREATE TABLE Register_Bid(
     registerBidID VARCHAR(50) NOT NULL PRIMARY KEY,
     sessionID VARCHAR(50) NOT NULL,
@@ -398,24 +395,3 @@ delete from Notification;
 delete from Auction;
 delete from [Session];
 */
-drop trigger autogenerate_addressID
-CREATE SEQUENCE addressID_sequence
-    START WITH 0
-    INCREMENT BY 1;
-GO
-CREATE TRIGGER autogenerate_addressID
-ON [Address]
-INSTEAD OF INSERT
-AS 
-BEGIN
-    DECLARE @newaddressID NVARCHAR(50);
-    SET @newaddressID = 'Add' + CAST(NEXT VALUE FOR addressID_sequence AS NVARCHAR(50));
-    INSERT INTO [Address] (addressID, city, state, zipcode, country, memberID, address1, address2)
-    SELECT @newaddressID,  city, state, zipcode, country, memberID, address1, address2
-    FROM inserted;
-END;
-GO
-INSERT INTO [Address] (city, state, zipcode, country, memberID, address1, address2) VALUES (?, ?, ?, ?, ?, ?, ?);
-
-select * from Member
-update Member set status_register_to_bid = 1

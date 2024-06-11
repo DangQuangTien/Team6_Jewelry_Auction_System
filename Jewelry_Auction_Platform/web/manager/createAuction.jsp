@@ -196,7 +196,7 @@
                     <tbody>
                         <% for (Jewelry jewelry : listJewelry) { %>
                         <tr>
-                            <td><input type="checkbox" value="<%= jewelry.getJewelryID() %>" onchange="handleCheckboxChange(this)" required=""></td>
+                            <td><input type="checkbox" value="<%= jewelry.getJewelryID() %>" onchange="handleCheckboxChange(this)"></td>
                             <td><img class="img-thumbnail" src="${pageContext.request.contextPath}/<%= jewelry.getPhotos().split(";")[0] %>" alt="Jewelry Photo"></td>
                             <td><%= jewelry.getJewelryName() %></td>
                             <td><%= jewelry.getArtist() %></td>

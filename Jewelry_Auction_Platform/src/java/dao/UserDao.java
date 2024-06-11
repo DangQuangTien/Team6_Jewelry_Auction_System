@@ -6,7 +6,6 @@ package dao;
 
 import dto.UserDTO;
 import entity.Auction.Auction;
-import entity.member.Member;
 import entity.product.Category;
 import entity.product.Jewelry;
 import entity.request_shipment.RequestShipment;
@@ -21,9 +20,7 @@ import java.util.List;
 public interface UserDao {
 
     UserDTO checkLogin(String username, String password);
-    
-    Member getInformation(String userID);
-    
+
     ArrayList<Category> listCategory();
 
     boolean insertValuationRequest(String name, String email, String phone, String communicationMethod, String photos, String description, String memberID);
@@ -75,5 +72,4 @@ public interface UserDao {
     List<Jewelry> displayCatalog(String auctionID);
     
     Jewelry getJewelryDetails(String jewelryID);
-    
 }
