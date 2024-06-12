@@ -1,140 +1,161 @@
-/* HOME CSS STYLE */
-
-.container-fluid {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.main-card {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -ms-border-radius: 3px;
-    -o-border-radius: 3px;
-}
-
-.card {
-    display: flex;
-    flex-direction: row;
-}
-
-.card-img-top {
-    width: 50%;
-    object-fit: cover;
-}
-
-.card-body {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.slideshow-container {
-    display: flex;
-    position: relative;
-    max-width: 1200px;
-    margin: auto;
-    gap: 20px;
-}
-
-.mySlides {
-    display: inline;
-    justify-content: right;
-    width: 100%;
-    margin: auto;
-    transition: transform 5s ease-in-out, opacity 1s ease-in-out;
-    -webkit-transition: transform 5s ease-in-out, opacity 1s ease-in-out;
-    -moz-transition: transform 5s ease-in-out, opacity 1s ease-in-out;
-    -ms-transition: transform 5s ease-in-out, opacity 1s ease-in-out;
-    -o-transition: transform 5s ease-in-out, opacity 1s ease-in-out;
-}
-
-@keyframes slideInOut {
-    0% {
-        transform: translateX(-100%);
-        opacity: 0;
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        font-family: 'Arial', sans-serif;
+        background-color: #f5eded;
     }
-    30% {
-        transform: translateX(0);
-        opacity: 1;
+
+    .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background-color: #343a40;
+        border-bottom: 3px solid #e4af11;
     }
-    70% {
-        transform: translateX(0);
-        opacity: 1;
+
+    .navbar-brand, .nav-link, .navbar-toggler-icon {
+        color: #ffc107 !important;
     }
-    99.999999999% {
-        transform: translateX(70%);
-        opacity: 0;
+
+    .navbar-brand:hover, .nav-link:hover {
+        color: #0a0800 !important;
     }
-}
 
-.slide {
-    display: block;
-    animation: slideInOut 3s infinite alternate;
-    -webkit-animation: slideInOut 3s infinite alternate;
-}
+    .content {
+        flex: 1;
+        padding: 20px;
+    }
 
-.item-details h3 {
-    margin: 0;
-    font-size: 1.25rem;
-    color: #333;
-}
+    footer {
+        background-color: #343a40;
+        color: #fff;
+        padding: 1rem;
+        text-align: center;
+    }
 
-.item-details p {
-    margin: 5px 0;
-    color: #666;
-}
+    footer a {
+        color: #ffc107;
+        margin: 0 10px;
+    }
 
-button:hover {
-    background-color: #ddc7c7;
-}
+    .content-box {
+        background-color: #fff;
+        padding: 1.5rem;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
 
-.contact {
-    margin-top: 40px;
-    margin-bottom: 40px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid #ccc;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    -ms-border-radius: 8px;
-    -o-border-radius: 8px;
-}
+    .highlight-box {
+        background-color: #f5eded;
+        padding: 1.5rem;
+        border-radius: 5px;
+        border: 1px solid #c6a9a9;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
 
+    .highlight-box h2 {
+        color: #343a40;
+        font-weight: bold;
+    }
 
-/* CATEGORY */
-.category-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around; 
-    gap: 20px; 
-    padding: 20px;
-    background-color: #f0f0f0; 
-}
+    .highlight-box p {
+        color: #666;
+    }
 
-.category-name {
-    font-family: 'Arial, sans-serif';
-    font-size: 24px;
-    color: #333; 
-    background-color: #f9f9f9; 
-    padding: 10px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    flex: 1 1 200px; 
-    max-width: 300px; 
-}
-hr {
-    border: 0;
-    height: 1px;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
-}
+    .carousel-item {
+        justify-content: center;
+    }
+
+    .carousel-item .row {
+        width: 100%;
+    }
+
+    .carousel-item .card {
+        margin: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .card img {
+        max-height: 200px;
+        object-fit: cover;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .card-title {
+        color: #343a40;
+        font-weight: bold;
+    }
+
+    .card-text {
+        color: #666;
+    }
+
+    .banner {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        overflow: hidden;
+    }
+
+    .banner img {
+        width: 100%;
+        height: auto;
+        filter: brightness(0.5);
+    }
+
+    .banner-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    @media (max-width: 768px) {
+        .banner-text {
+            font-size: 14px;
+            padding: 10px;
+        }
+    }
+
+    #viewAuctionButton {
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        font-size: 16px;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    #viewAuctionButton:hover {
+        background-color: #c82333;
+    }
+
+    #viewAuctionButton[disabled] {
+        background-color: #6c757d;
+        cursor: not-allowed;
+    }
+
+    #noAuctionBox {
+        background-color: #ffc107;
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: #343a40;
+        font-weight: bold;
+        margin-left: 10px;
+        display: none;
+    }
+
+    #viewAuctionForm.no-auction #noAuctionBox {
+        display: inline-block;
+    }
+

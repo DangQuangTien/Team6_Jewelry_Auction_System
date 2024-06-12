@@ -22,7 +22,9 @@ import java.util.List;
 public interface UserDao {
 
     UserDTO checkLogin(String username, String password);
-
+    
+    Member getInformation(String userID);
+    
     ArrayList<Category> listCategory();
 
     boolean insertValuationRequest(String name, String email, String phone, String communicationMethod, String photos, String description, String memberID);
@@ -75,10 +77,7 @@ public interface UserDao {
     
     Jewelry getJewelryDetails(String jewelryID);
     
-    //---------------------------------
-    public boolean createBidRegistry(String userID, String country, String address, String city, String state, String zipCode);
+    boolean insertAddress(String country, String state, String city, String address1, String address2, String zipCode,String memberID);
     
-    public List<Session> getSessionByMemberID(String userID);
-    
-    public boolean setNewBidPrice(String userID, Double bidAmount_Current);
+    boolean registerToBid(String memberID);
 }

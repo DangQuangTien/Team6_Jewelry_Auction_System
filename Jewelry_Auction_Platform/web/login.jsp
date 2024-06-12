@@ -2,7 +2,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Log in to Jewelry Auctions Online</title>
+        <title>Login | Global F'Rankelly 's Premier Jewelry Auction House</title>
+        <link rel="icon" type="image/png" sizes="64x64" href="images/logo/Logo.png">
         <link rel="stylesheet" href="component/main.css ">
         <style>
             .error-message {

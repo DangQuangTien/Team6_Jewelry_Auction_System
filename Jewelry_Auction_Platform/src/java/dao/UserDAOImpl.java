@@ -6,7 +6,7 @@ package dao;
 
 import dto.UserDTO;
 import entity.Auction.Auction;
-import entity.Session.Session;
+import entity.member.Member;
 import entity.product.Category;
 import entity.product.Jewelry;
 import entity.request_shipment.RequestShipment;
@@ -43,6 +43,23 @@ public class UserDAOImpl implements UserDao {
             rs = ps.executeQuery();
             while (rs.next()) {
                 return new UserDTO(rs.getString(1), rs.getString(2), rs.getString(3));
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.getMessage();
+        }
+        return null;
+    }
+
+    @Override
+    public Member getInformation(String userID) {
+        String query = "select m.* from Member m, Users u where m.userID = u.userID and u.userID = ?";
+        try {
+            conn = DBUtils.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, userID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Member(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7), rs.getString(8), rs.getInt(9));
             }
         } catch (ClassNotFoundException | SQLException ex) {
             ex.getMessage();
@@ -691,7 +708,7 @@ public class UserDAOImpl implements UserDao {
             ps = conn.prepareStatement(query);
             ps.setString(1, auctionID);
             rs = ps.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 Jewelry jewelry = new Jewelry();
                 jewelry.setJewelryID(rs.getString("jewelryID"));
                 jewelry.setPhotos(rs.getString("photos"));
@@ -702,7 +719,7 @@ public class UserDAOImpl implements UserDao {
                 listJewelry.add(jewelry);
             }
             return listJewelry;
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.getMessage();
         }
         return null;
@@ -869,6 +886,92 @@ public class UserDAOImpl implements UserDao {
             }
         } catch (ClassNotFoundException | SQLException ex) {
             ex.getMessage();
+        }
+        return false;
+    }
+
+    @Override
+    public Jewelry getJewelryDetails(String jewelryID) {
+        String query = "SELECT * FROM JEWELRY j, category c WHERE c.categoryID = j.categoryID and j.jewelryID = ?";
+
+        try {
+            conn = DBUtils.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, jewelryID);
+            rs = ps.executeQuery();
+            Jewelry jewelry = new Jewelry();
+
+            while (rs.next()) {
+                jewelry.setJewelryID(rs.getString("jewelryID"));
+                jewelry.setCategoryName(rs.getString("categoryName"));
+                jewelry.setJewelryName(rs.getString("jewelryName"));
+                jewelry.setArtist(rs.getString("artist"));
+                jewelry.setCirca(rs.getString("circa"));
+                jewelry.setMaterial(rs.getString("material"));
+                jewelry.setDial(rs.getString("dial"));
+                jewelry.setBraceletMaterial(rs.getString("braceletMaterial"));
+                jewelry.setCaseDimensions(rs.getString("caseDimensions"));
+                jewelry.setBraceletSize(rs.getString("braceletSize"));
+                jewelry.setSerialNumber(rs.getString("serialNumber"));
+                jewelry.setReferenceNumber(rs.getString("referenceNumber"));
+                jewelry.setCaliber(rs.getString("caliber"));
+                jewelry.setMovement(rs.getString("movement"));
+                jewelry.setCondition(rs.getString("condition"));
+                jewelry.setMetal(rs.getString("metal"));
+                jewelry.setGemstones(rs.getString("gemstones"));
+                jewelry.setMeasurements(rs.getString("measurements"));
+                jewelry.setWeight(rs.getString("weight"));
+                jewelry.setStamped(rs.getString("stamped"));
+                jewelry.setRingSize(rs.getString("ringSize"));
+                jewelry.setMinPrice(rs.getString("minPrice"));
+                jewelry.setMaxPrice(rs.getString("maxPrice"));
+                jewelry.setValuationId(rs.getString("valuationID"));
+                jewelry.setStatus(rs.getString("status"));
+                jewelry.setFinal_Price(rs.getString("final_Price"));
+                jewelry.setPhotos(rs.getString("photos"));
+            }
+            return jewelry;
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.getMessage();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean insertAddress(String country, String state, String city, String address1, String address2, String zipCode, String memberID) {
+        String query = "INSERT INTO [Address] (country, state, city, address1, address2, zipcode, memberID) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setString(1, country);
+            ps.setString(2, state);
+            ps.setString(3, city);
+            ps.setString(4, address1);
+            ps.setString(5, address2);
+            ps.setString(6, zipCode);
+            ps.setString(7, memberID);
+
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (ClassNotFoundException | SQLException ex) {
+            // Log the exception
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean registerToBid(String memberID) {
+        String query = "UPDATE Member SET status_register_to_bid = 1 WHERE memberID = ?";
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setString(1, memberID);
+
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (ClassNotFoundException | SQLException ex) {
+            // Log the exception
+            ex.printStackTrace();
         }
         return false;
     }
