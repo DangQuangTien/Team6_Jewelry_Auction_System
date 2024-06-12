@@ -2,6 +2,7 @@
 <%@page import="java.util.List"%>
 <%@page import="dao.UserDAOImpl"%>
 <%@page import="java.time.LocalTime"%>
+<%@page import="com.google.gson.Gson"%> 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,6 +56,7 @@
     <main class="container mt-4">
         <div class="container light-style flex-grow-1 container-p-y">
             <h3>Good <%= greeting %> Welcome back, Manager</h3>
+            <h2>Create New Auction</h2>
             <%
                 int currentPage = 1;
                 int pageSize = 3;
