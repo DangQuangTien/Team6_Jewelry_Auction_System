@@ -26,137 +26,136 @@
             greeting = "Evening!";
         }
     } catch (Exception ex) {
-        ex.getMessage();
+        ex.printStackTrace(); // Or use a logger to log the exception
     }
-%
+%>
 <body>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">Jewelry Auctions</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/manager/manager.jsp">Request</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/manager/createAuction.jsp">Create Auction</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/manager/auctionManagement.jsp">Auction Management</a>
-                        </li>
-                    </ul>
-                        <form action="${pageContext.request.contextPath}/MainController" method="POST" onsubmit="confirmLogout(event)">
-                            <button type="submit" name="action" class="btn btn-link nav-link" value="Log out"><i class="fas fa-sign-out-alt"></i> Logout</button>
-                        </form>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Jewelry Auctions</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/manager/manager.jsp">Request</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/manager/createAuction.jsp">Create Auction</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/manager/auctionManagement.jsp">Auction Management</a>
+                </li>
+            </ul>
+            <form action="${pageContext.request.contextPath}/MainController" method="POST" onsubmit="confirmLogout(event)">
+                <button type="submit" name="action" class="btn btn-link nav-link" value="Log out"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </form>
+        </div>
+    </nav>
+    <main class="container mt-4">
+        <div class="container light-style flex-grow-1 container-p-y">
+            <h3>Good <%= greeting %> Welcome back, Manager</h3>
+            <%
+                int currentPage = 1;
+                int pageSize = 3;
+                if (request.getParameter("page") != null) {
+                    currentPage = Integer.parseInt(request.getParameter("page"));
+                }
+
+                UserDAOImpl dao = new UserDAOImpl();
+                List<Jewelry> listJewelry = dao.displayConfirmedJewelry(currentPage, pageSize);
+                int totalItems = dao.getTotalConfirmedJewelryCount();
+                int totalPages = (int) Math.ceil((double) totalItems / pageSize);
+
+                if (listJewelry != null && !listJewelry.isEmpty()) {
+            %>
+            <form method="POST" action="CreateAuctionServlet" onsubmit="updateSelectedJewelryIDs()">
+                <div class="form-group">
+                    <label for="auctionDate">Select Auction Date:</label>
+                    <input type="date" id="auctionDate" name="auctionDate" class="form-control" required>
                 </div>
-            </nav>
-        <main class="container mt-4">
-            <div class="container light-style flex-grow-1 container-p-y">
-                <h3>Good <%= greeting %> Welcome back, Manager</h3>
-            
+                <div class="form-group">
+                    <label for="timeRange">Time Range:</label>
+                    <div class="d-flex">
+                        <input type="time" id="startTime" name="startTime" class="form-control me-2" required>
+                        <input type="time" id="endTime" name="endTime" class="form-control" required>
+                    </div>
+                </div>
+                <input type="hidden" id="selectedJewelryIDsInput" name="selectedJewelryIDs">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Create Auction</button>
+                </div>
+                <div class="table-container">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>Photo</th>
+                                <th>Jewelry Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%
+                                for (Jewelry jewelry : listJewelry) {
+                            %>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="jewelryID" value="<%= jewelry.getJewelryID() %>" onchange="handleCheckboxChange(this)">
+                                </td>
+                                <td>
+                                    <% String[] photoArray = jewelry.getPhotos().split(";"); %>
+                                    <img class="img-thumbnail" style="width: 100px; height: 100px" src="${pageContext.request.contextPath}/<%= photoArray[0] %>">
+                                </td>
+                                <td>
+                                    <%= jewelry.getJewelryName() %>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-info" onclick='showJewelryDetails(<%= new Gson().toJson(jewelry) %>)'>View Details</button>
+                                </td>
+                            </tr>
+                            <%
+                                }
+                            %>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination">
                     <%
-                        int currentPage = 1;
-                        int pageSize = 3;
-                        if (request.getParameter("page") != null) {
-                            currentPage = Integer.parseInt(request.getParameter("page"));
+                        if (currentPage > 1) {
+                    %>
+                    <a href="javascript:goToPage(<%= currentPage - 1 %>)">Previous</a>
+                    <%
                         }
-
-                        UserDAOImpl dao = new UserDAOImpl();
-                        List<Jewelry> listJewelry = dao.displayConfirmedJewelry(currentPage, pageSize);
-                        int totalItems = dao.getTotalConfirmedJewelryCount();
-                        int totalPages = (int) Math.ceil((double) totalItems / pageSize);
-
-                        if (listJewelry != null && !listJewelry.isEmpty()) {
+                        for (int i = 1; i <= totalPages; i++) {
+                            if (i == currentPage) {
                     %>
-                    <form method="POST" action="CreateAuctionServlet" onsubmit="updateSelectedJewelryIDs()">
-                        <div class="form-group">
-                            <label for="auctionDate">Select Auction Date:</label>
-                            <input type="date" id="auctionDate" name="auctionDate" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="timeRange">Time Range:</label>
-                            <div class="d-flex">
-                                <input type="time" id="startTime" name="startTime" class="form-control me-2">
-                                <input type="time" id="endTime" name="endTime" class="form-control">
-                            </div>
-                        </div>
-                        <input type="hidden" id="selectedJewelryIDsInput" name="selectedJewelryIDs">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Create Auction</button>
-                        </div>
-                        <div class="table-container">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Select</th>
-                                        <th>Photo</th>
-                                        <th>Jewelry Name</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <%
-                                        for (Jewelry jewelry : listJewelry) {
-                                    %>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" name="jewelryID" value="<%= jewelry.getJewelryID() %>" onchange="handleCheckboxChange(this)">
-                                        </td>
-                                        <td><% String[] photoArray = jewelry.getPhotos().split(";"); %>
-                                            <img class="img-thumbnail" style="width: 100px; height: 100px" src="${pageContext.request.contextPath}/<%= photoArray[0] %>"></td>
-                                        <td>
-                                            <%= jewelry.getJewelryName() %>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-info" onclick='showJewelryDetails(<%= new Gson().toJson(jewelry) %>)'>View Details</button>
-                                        </td>
-                                    </tr>
-                                    <%
-                                        }
-                                    %>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="pagination">
-                            <%
-                                if (currentPage > 1) {
-                            %>
-                            <a href="javascript:goToPage(<%= currentPage - 1 %>)">Previous</a>
-                            <%
-                                }
-                                for (int i = 1; i <= totalPages; i++) {
-                                    if (i == currentPage) {
-                            %>
-                            <a href="javascript:void(0)" class="active"><%= i %></a>
-                            <%
-                                    } else {
-                            %>
-                            <a href="javascript:goToPage(<%= i %>)"><%= i %></a>
-                            <%
-                                    }
-                                }
-                                if (currentPage < totalPages) {
-                            %>
-                            <a href="javascript:goToPage(<%= currentPage + 1 %>)">Next</a>
-                            <%
-                                }
-                            %>
-                        </div>
-                    </form>
+                    <a href="javascript:void(0)" class="active"><%= i %></a>
                     <%
-                        } else {
+                            } else {
                     %>
-                    <p>No confirmed jewelry found.</p>
+                    <a href="javascript:goToPage(<%= i %>)"><%= i %></a>
+                    <%
+                            }
+                        }
+                        if (currentPage < totalPages) {
+                    %>
+                    <a href="javascript:goToPage(<%= currentPage + 1 %>)">Next</a>
                     <%
                         }
                     %>
                 </div>
-            </div>
-        </main>
-    </div>
-</div>
+            </form>
+            <%
+                } else {
+            %>
+            <p>No confirmed jewelry found.</p>
+            <%
+                }
+            %>
+        </div>
+    </main>
+
 
 <!-- Modal -->
 <div class="modal fade" id="jewelryModal" tabindex="-1" aria-labelledby="jewelryModalLabel" aria-hidden="true">

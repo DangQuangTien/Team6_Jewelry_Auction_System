@@ -136,7 +136,7 @@
                                                     <p><strong>Weight:</strong> <%= jewelry.getWeight() %></p>
                                                     <p><strong>Stamped:</strong> <%= jewelry.getStamped() %></p>
                                                     <p><strong>Ring Size:</strong> <%= jewelry.getRingSize() %></p>
-                                                    <p><strong>Final Price:</strong> <%= jewelry.getFinalPrice() %></p>
+                                                    <p><strong>Final Price:</strong> <%= jewelry.getFinal_Price() %></p>
                                                 </div>
                                             </div>
                                         </div>
