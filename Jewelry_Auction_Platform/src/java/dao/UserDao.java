@@ -7,6 +7,7 @@ package dao;
 import dto.UserDTO;
 import entity.Auction.Auction;
 import entity.Session.Session;
+import entity.member.Member;
 import entity.product.Category;
 import entity.product.Jewelry;
 import entity.request_shipment.RequestShipment;
@@ -80,4 +81,21 @@ public interface UserDao {
     boolean insertAddress(String country, String state, String city, String address1, String address2, String zipCode,String memberID);
     
     boolean registerToBid(String memberID);
+    
+    //---------------------------------
+    
+    List<Session> getSessionByMemberID(String userID);
+    
+    boolean setNewBidPrice(String userID, Double bidAmount_Current);
+    
+    //get all sessions
+    List<String> getAllAuctionID();
+    
+    //checks if session is opened, and open if closed during the designated period
+    boolean isAuctionOpen(String sessionID);
+    
+    //checks if session has ended after confirming opened, if so perform closeSession() to find winner
+    boolean isAuctionEnded(String sessionID);
+    
+    boolean closeSession(String sessionID);
 }
