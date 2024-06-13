@@ -108,20 +108,16 @@
                             <h5 class="card-title"><%= j.getJewelryName()%></h5>
                             Starting Bid: $1500 <br>
                             Est. $<span class="min-price"><%= j.getMinPrice()%></span> - $<span class="max-price"><%= j.getMaxPrice()%></span>
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                                <% if (status == 0) {%>
-                                <button type="button" class="btn btn-primary place-bid-button" data-toggle="modal" data-target="#placeBidModal" data-jewelry-id="<%= j.getJewelryID()%>">
-                                    PLACE BID
-                                </button>
-                                <% } else { %>
-                                <button type="button" class="btn btn-primary place-bid-button" data-toggle="modal" data-target="#placeBidModal" data-jewelry-id="<%= j.getJewelryID()%>">
-                                    PLACE BID
-                                </button>
-                                <% } %>
-                                <button type="button" class="btn btn-secondary register-bid-button" data-toggle="modal" data-target="#registerBidModal" data-jewelry-id="<%= j.getJewelryID()%>">
-                                    REGISTER TO BID
-                                </button>
-                            </div>
+                            <% if (status == 0) {%>
+                            <button type="button" class="btn btn-primary place-bid-button" data-toggle="modal" data-target="#placeBidModal" data-jewelry-id="<%= j.getJewelryID()%>">
+                                PLACE BID
+                            </button>
+                            <% } else { %>
+                            <br>
+                            <button type="button" class="btn btn-primary place-bid-button" data-toggle="modal" data-target="#placeBidModal" data-jewelry-id="<%= j.getJewelryID()%>">
+                                PLACE BID
+                            </button>
+                            <% } %>
                         </div>
                     </a>
                 </div>
@@ -133,7 +129,7 @@
         </div>
     </div>
 
-    <!-- Place Bid Modal -->
+    <!-- Modal -->
     <div class="modal fade" id="placeBidModal" tabindex="-1" aria-labelledby="placeBidModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -143,7 +139,6 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="${pageContext.request.contextPath}/auctions/registerBid.jsp" method="POST">
                     <div class="modal-body">
                         <input type="hidden" id="modalJewelryID" name="jewelryID">
                         <div class="form-group">
@@ -155,30 +150,6 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Place Bid</button>
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Register to Bid Modal -->
-    <div class="modal fade" id="registerBidModal" tabindex="-1" aria-labelledby="registerBidModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="registerBidModalLabel">Register to Bid</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" id="modalRegisterJewelryID" name="jewelryID">
-                    <p>Register to place bids on this item.</p>
-                    <!-- Add any additional fields required for registration -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Register</button>
-                </div>
             </div>
         </div>
     </div>
@@ -239,17 +210,10 @@
             document.getElementById('sortPrice').addEventListener('change', filterItems);
 
             $('#placeBidModal').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget);
-                var jewelryID = button.data('jewelry-id');
+                var button = $(event.relatedTarget); 
+                var jewelryID = button.data('jewelry-id'); 
                 var modal = $(this);
                 modal.find('#modalJewelryID').val(jewelryID);
-            });
-
-            $('#registerBidModal').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget);
-                var jewelryID = button.data('jewelry-id');
-                var modal = $(this);
-                modal.find('#modalRegisterJewelryID').val(jewelryID);
             });
         });
     </script>
