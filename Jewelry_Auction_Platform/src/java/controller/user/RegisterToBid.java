@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "RegisterToBid", urlPatterns = {"/RegisterToBid"})
 public class RegisterToBid extends HttpServlet {
     private static final String ERROR_PAGE = "index.htm";
-    private static final String BID_PAGE = "/auctions/upcoming.jsp";
+    private static final String BID_PAGE = "/auctions/detail.jsp?";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,6 +44,7 @@ public class RegisterToBid extends HttpServlet {
             Member member = dao.getInformation(userID);
             String url = ERROR_PAGE;
             String memberID = member.getMemberID();
+            String auctionID = request.getParameter("auctionID");
             String country = request.getParameter("country");
             String state = request.getParameter("state");
             String city = request.getParameter("city");
@@ -56,12 +57,11 @@ public class RegisterToBid extends HttpServlet {
                 boolean updated = dao.registerToBid(memberID);
                 if (updated){
                     member = dao.getInformation(userID);
-                    url = request.getContextPath() + BID_PAGE;
+                    url = request.getContextPath() + BID_PAGE + "auctionID=" + auctionID;
                     session.setAttribute("INF", member);
                 }
             }
-            RequestDispatcher dist = request.getRequestDispatcher(url);
-            dist.forward(request, response);
+           response.sendRedirect(url);
         }
     }
 
