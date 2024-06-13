@@ -41,7 +41,7 @@
                 </li>
                 <c:if test="${role == 'Member' || role == null}">
                     <li class="nav-item">
-                        <a class="nav-link" href="seller/selling.html"><i class="fas fa-dollar-sign"></i> Sell</a>
+                        <a class="nav-link" href="seller/selling.jsp"><i class="fas fa-dollar-sign"></i> Sell</a>
                     </li>
                 </c:if>
                 <c:choose>

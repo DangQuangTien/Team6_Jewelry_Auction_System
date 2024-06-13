@@ -15,22 +15,22 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #ffffff;
+            background-color: #f5eded;
             color: #000000;
             padding-top: 70px;
         }
 
         .navbar-dark .navbar-nav .nav-link,
         .navbar-dark .navbar-brand {
-            color: gold !important;
+            color: #e4af11 !important;
         }
 
         .navbar-dark .navbar-toggler {
-            border-color: gold;
+            border-color: #e4af11;
         }
 
         .navbar-dark .navbar-toggler-icon {
-            color: gold;
+            color: #e4af11;
         }
 
         @keyframes shimmer {
@@ -45,12 +45,12 @@
         h1.luminous-gold {
             font-weight: bold;
             background: linear-gradient(90deg, 
-                #FFD700 0%, 
-                #FFC700 20%, 
+                #e4af11 0%, 
+                #e4af11 20%, 
                 #FFA500 40%, 
                 #FFC700 60%, 
-                #FFD700 80%, 
-                #FFC700 100%);
+                #e4af11 80%, 
+                #e4af11 100%);
             background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -69,9 +69,11 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
-            background-color: #ffffff;
+            background-color: #ebebe5;
             color: #000000;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            
+            
         }
 
         th, td {
@@ -133,7 +135,7 @@
 
         .modal-title {
             font-size: 1.5rem;
-            color: gold;
+            color: #e4af11;
         }
 
         .close {
@@ -146,12 +148,12 @@
 
         .footer {
             background-color: #343a40;
-            color: gold;
+            color: #e4af11;
             padding: 20px 0;
         }
 
         .footer a {
-            color: gold;
+            color: #e4af11;
             text-decoration: none;
             padding: 0 10px;
         }
@@ -185,8 +187,17 @@
                         <a class="nav-link" href="${pageContext.request.contextPath}/home.jsp"><i class="fas fa-home"></i> Home</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/auctions/upcoming.jsp"><i class="fas fa-gavel"></i> Auction</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/seller/request.jsp"><i class="fas fa-clipboard"></i> Request A Valuation</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/seller/response.jsp">
+                            <i class="fas fa-reply"></i> Response
+                        </a>
+                    </li>
+                    
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/seller/shipmentRequest.jsp"><i class="fas fa-bell"></i> Notification</a>
                     </li>
