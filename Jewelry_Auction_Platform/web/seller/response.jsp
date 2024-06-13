@@ -14,70 +14,188 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="asset/response.css">
     <style>
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding-top: 60px;
-        }
-        .modal-content {
-            background-color: #fff;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 60%;
-            max-width: 700px;
-            box-shadow: 0 5px 15px rgba(0,0,0,.5);
-            border-radius: 10px;
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .table th, .table td {
-            vertical-align: middle;
-        }
-        .img-fluid {
-            max-width: 100px;
-        }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: 70px;
+}
+
+.container {
+    flex: 1;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+    margin-top: auto;
+}
+
+.footer a {
+    color: #ffc107;
+    margin: 0 10px;
+}
+
+.footer a:hover {
+    color: #a98585;
+}
+
+.text-primary {
+    color: #007BFF;
+}
+
+.no-jewelry {
+    text-align: center;
+    font-style: italic;
+    color: #888;
+    margin-top: 20px;
+}
+
+.action-btn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.action-btn:hover {
+    background-color: #0056b3;
+}
+
+.hidden {
+    display: none;
+}
+
+.navbar-nav .nav-link, .navbar-brand {
+    color: gold !important;
+}
+
+.table-responsive {
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #e9ecef;
+    font-size: 1.1em;
+}
+
+td {
+    font-size: 1em;
+}
+
+.thead-light {
+    background-color: #e9ecef;
+}
+
+.text-danger {
+    color: red;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1050;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 800px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.5);
+    border-radius: 10px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.img-fluid {
+    max-width: 100px;
+}
+
     </style>
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Jewelry Auctions</a>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#"><i class="fas fa-gem"></i> Jewelry Auctions</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="collapse navbar-collapse" id="navbarNav">          
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/home.jsp">Home</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/home.jsp">
+                        <i class="fas fa-home"></i> Home
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/seller/request.jsp">Request A Valuation</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/seller/request.jsp">
+                        <i class="fas fa-pencil-alt"></i> Request A Valuation
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/seller/shipmentRequest.jsp">Notification</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/seller/shipmentRequest.jsp">
+                        <i class="fas fa-bell"></i> Notification
+                    </a>
                 </li>
             </ul>
         </div>
     </nav>
-</header>
+    
+
 <div class="container mt-4">
     <h1 class="text-center text-primary">Overall Assessment for your requests</h1>
     <%
@@ -165,8 +283,23 @@
     </div>
 </div>
 
+<footer class="footer mt-auto py-3 bg-dark text-white text-center">
+    <div>
+        <h6>Jewelry Auction</h6>
+        <a href="register.jsp">Register</a> |
+        <a href="login.jsp">Login</a> |
+        <a href="#">Help & FAQ</a> |
+        <a href="#">Support</a> |
+        <a href="#">Sitemap</a>
+    </div>
+    <div>
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> Jewelry Auction. All rights reserved.</span>
+    </div>
+</footer>
+
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="asset/response.js"></script>
 <script>
     $(document).ready(function () {
         // Get the modal
