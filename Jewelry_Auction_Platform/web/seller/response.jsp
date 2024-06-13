@@ -116,7 +116,7 @@ td {
 }
 
 .modal-dialog {
-    max-width: 600px; 
+    max-width: 400px; 
 }
 
 .modal-content {
@@ -240,10 +240,10 @@ td {
                             </form>
                         </td>
                         <% } else if (status.equals("Confirmed")) {%>
-                        <td style="color: red"> <%= finalPrice %> </td>
-                        <td style="color: red">Ready To Auction</td>
+                        <td style="color: rgb(23, 163, 213)"> <%= finalPrice %> </td>
+                        <td style="color: rgb(11, 224, 71)">Ready To Auction</td>
                         <% } else { %>
-                        <td style="color: red">Updating</td>
+                        <td style="color: rgb(215, 218, 33)">Updating</td>
                         <td style="color: red">In Progress</td>
                         <% } %>
                         <td><button class="btn btn-primary details-btn" data-toggle="modal" data-target="#detailsModal" data-jewelry='<%= jewelry %>'>Details</button></td>
@@ -268,7 +268,7 @@ td {
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!-- Jewelry details will be loaded here -->
+                    
                 </div>
             </div>
         </div>
