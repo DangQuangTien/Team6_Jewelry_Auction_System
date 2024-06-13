@@ -85,7 +85,7 @@
                 </div>
                 <input type="hidden" id="selectedJewelryIDsInput" name="selectedJewelryIDs">
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Create Auction</button>
+                    <button type="submit" name="action" class="btn btn-primary" value="Create Auction">Create Auction</button>
                 </div>
                 <div class="table-container">
                     <table class="table table-hover">

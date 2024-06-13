@@ -95,10 +95,10 @@
                                     <td><img class="img-thumbnail" style="width: 100px; height: 100px" src="${pageContext.request.contextPath}/<%= photoArray[0] %>"></td>
                                     <td><%= jewelry.getJewelryName() %></td>
                                     <td>
-                                        <input type="hidden" name="action" value="ApproveJewelryAuction">
+                                        <input type="hidden" name="action" value="Approve">
                                         <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID() %>">
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#jewelryModal<%= jewelry.getJewelryID() %>">View</button>
-                                        <button type="submit" class="btn btn-success">Confirm</button>
+                                        <button type="submit" name="action" value="Approve" class="btn btn-success">Confirm</button>
                                     </td>
                                 </tr>
                             </form>
@@ -142,10 +142,10 @@
                                         </div>
                                         <div class="modal-footer">
                                             <form action="${pageContext.request.contextPath}/MainController" method="GET" onsubmit="confirmAuction(event)">
-                                                <input type="hidden" name="action" value="ApproveJewelryAuction">
+                                                <input type="hidden" name="action" value="Approve">
                                                 <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID() %>">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-success">Confirm</button>
+                                                <button type="submit" name="action" value="Approve" class="btn btn-success">Confirm</button>
                                             </form>
                                         </div>
                                     </div>
