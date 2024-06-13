@@ -204,7 +204,7 @@
         </section>
     </div>
 
-    <footer class="text-center py-3 mt-auto">
+    <footer class="footer mt-auto py-3 bg-dark text-white text-center">
         <div>
             <h6>Jewelry Auction</h6>
             <a href="register.jsp">Register</a> |
@@ -212,6 +212,9 @@
             <a href="#">Help & FAQ</a> |
             <a href="#">Support</a> |
             <a href="#">Sitemap</a>
+        </div>
+        <div>
+            <span>&copy; <script>document.write(new Date().getFullYear())</script> Jewelry Auction. All rights reserved.</span>
         </div>
     </footer>
 
