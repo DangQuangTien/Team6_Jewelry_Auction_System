@@ -13,160 +13,162 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-body {
-    font-family: Arial, sans-serif;
-    background-color: #ffffff; 
-    color: #000000; 
-    padding-top: 70px; 
-}
-.navbar-dark .navbar-nav .nav-link,
-.navbar-dark .navbar-brand {
-    color: gold !important; 
-}
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            padding-top: 70px;
+        }
 
-.navbar-dark .navbar-toggler {
-    border-color: gold; 
-}
+        .navbar-dark .navbar-nav .nav-link,
+        .navbar-dark .navbar-brand {
+            color: gold !important;
+        }
 
-.navbar-dark .navbar-toggler-icon {
-    color: gold; 
-}
+        .navbar-dark .navbar-toggler {
+            border-color: gold;
+        }
 
-@keyframes shimmer {
-    0% {
-        background-position: -500px 0;
-    }
-    100% {
-        background-position: 500px 0;
-    }
-}
+        .navbar-dark .navbar-toggler-icon {
+            color: gold;
+        }
 
-h1.luminous-gold {
-    font-weight: bold; 
-    background: linear-gradient(90deg, 
-        #FFD700 0%, 
-        #FFC700 20%, 
-        #FFA500 40%, 
-        #FFC700 60%, 
-        #FFD700 80%, 
-        #FFC700 100%); 
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 2s infinite linear; 
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.7),
-                 0 0 20px rgba(255, 215, 0, 0.5),
-                 0 0 30px rgba(255, 215, 0, 0.3),
-                 0 0 40px rgba(255, 215, 0, 0.1);
-}
+        @keyframes shimmer {
+            0% {
+                background-position: -500px 0;
+            }
+            100% {
+                background-position: 500px 0;
+            }
+        }
 
-.table-responsive {
-    margin-top: 20px;
-}
+        h1.luminous-gold {
+            font-weight: bold;
+            background: linear-gradient(90deg, 
+                #FFD700 0%, 
+                #FFC700 20%, 
+                #FFA500 40%, 
+                #FFC700 60%, 
+                #FFD700 80%, 
+                #FFC700 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 2s infinite linear;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7),
+                         0 0 20px rgba(255, 215, 0, 0.5),
+                         0 0 30px rgba(255, 215, 0, 0.3),
+                         0 0 40px rgba(255, 215, 0, 0.1);
+        }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-    background-color: #ffffff; 
-    color: #000000; 
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+        .table-responsive {
+            margin-top: 20px;
+        }
 
-th, td {
-    padding: 12px 15px;
-    text-align: left;
-    border: 1px solid #ddd;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            color: #000000;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-th {
-    background-color: #e9ecef; 
-    font-size: 1.1em;
-}
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
 
-td {
-    font-size: 1em;
-}
+        th {
+            background-color: #e9ecef;
+            font-size: 1.1em;
+        }
 
-.thead-light {
-    background-color: #e9ecef; 
-}
+        td {
+            font-size: 1em;
+        }
 
-.text-danger {
-    color: red;
-}
+        .thead-light {
+            background-color: #e9ecef;
+        }
 
-.details-btn {
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
+        .text-danger {
+            color: red;
+        }
 
-.details-btn:hover {
-    background-color: #0056b3;
-}
+        .details-btn {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-.modal-body p {
-    margin-bottom: 10px;
-    color: #000000; 
-}
+        .details-btn:hover {
+            background-color: #0056b3;
+        }
 
-.modal-dialog {
-    max-width: 400px; 
-}
+        .modal-body p {
+            margin-bottom: 10px;
+            color: #000000;
+        }
 
-.modal-content {
-    padding: 20px;
-    background-color: #ffffff; 
-    color: #000000; 
-}
+        /* Modal custom styles */
+        .modal-dialog {
+            max-width: 400px;
+        }
 
-.modal-header {
-    border-bottom: none;
-}
+        .modal-content {
+            padding: 20px;
+            background-color: #ffffff;
+            color: #000000;
+        }
 
-.modal-title {
-    font-size: 1.5rem;
-    color: gold; 
-}
+        .modal-header {
+            border-bottom: none;
+        }
 
-.close {
-    color: #888;
-}
+        .modal-title {
+            font-size: 1.5rem;
+            color: gold;
+        }
 
-.close:hover {
-    color: #000;
-}
+        .close {
+            color: #888;
+        }
 
-.footer {
-    background-color: #343a40; 
-    color: gold;
-    padding: 20px 0;
-}
+        .close:hover {
+            color: #000;
+        }
 
-.footer a {
-    color: gold; 
-    text-decoration: none;
-    padding: 0 10px;
-}
+        .footer {
+            background-color: #343a40;
+            color: gold;
+            padding: 20px 0;
+        }
 
-.footer a:hover {
-    text-decoration: underline;
-}
+        .footer a {
+            color: gold;
+            text-decoration: none;
+            padding: 0 10px;
+        }
 
-.footer h6 {
-    margin: 0;
-    padding-bottom: 10px;
-    font-size: 1.2em;
-}
+        .footer a:hover {
+            text-decoration: underline;
+        }
 
-.footer span {
-    font-size: 0.9em;
-}
+        .footer h6 {
+            margin: 0;
+            padding-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .footer span {
+            font-size: 0.9em;
+        }
 
     </style>
 </head>
@@ -177,7 +179,7 @@ td {
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">          
+            <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/home.jsp"><i class="fas fa-home"></i> Home</a>
@@ -203,7 +205,7 @@ td {
         <div class="table-responsive">
             <table id="jewelryTable" class="table table-bordered table-hover">
                 <thead class="thead-light">
-                    <tr>
+                    <tr id="table">
                         <th>Photo</th>
                         <th>Jewelry Name</th>
                         <th>Artist</th>
@@ -213,33 +215,33 @@ td {
                     </tr>
                 </thead>
                 <tbody id="jewelryTableBody">
-                    <% for (Jewelry jewelry : listJewelry) {%>
+                    <% for (Jewelry jewelry : listJewelry) { %>
                     <tr>
-                        <% String[] photoArray = jewelry.getPhotos().split(";");%>
-                        <td><img class="img-fluid" src="${pageContext.request.contextPath}/<%= photoArray[0]%>" alt="Jewelry Image" style="max-width: 100px; max-height: 100px;"></td>
-                        <td><%= jewelry.getJewelryName()%></td>
-                        <td><%= jewelry.getArtist()%></td>
+                        <% String[] photoArray = jewelry.getPhotos().split(";"); %>
+                        <td><img class="img-fluid" src="${pageContext.request.contextPath}/<%= photoArray[0] %>" alt="Jewelry Image" style="max-width: 100px; max-height: 100px;"></td>
+                        <td><%= jewelry.getJewelryName() %></td>
+                        <td><%= jewelry.getArtist() %></td>
                         <% String status = jewelry.getStatus(); %>
                         <% String finalPrice = (jewelry.getFinal_Price() != null) ? jewelry.getFinal_Price() : "Updating"; %>
-                        <% if (status.equals("Re-Evaluated")) {%>
+                        <% if (status.equals("Re-Evaluated")) { %>
                         <td style="color: red"><%= finalPrice %></td>
                         <td class="text-danger">Waiting for shipment</td>
-                        <% } else if (status.equals("Received")) {%>
+                        <% } else if (status.equals("Received")) { %>
                         <td style="color: red"><%= finalPrice %></td>
                         <td style="color: green">Received</td>
-                        <% } else if (status.equals("Pending Confirm")) {%>
+                        <% } else if (status.equals("Pending Confirm")) { %>
                         <td style="color: red"> <%= finalPrice %> </td>
                         <td style="color: green"><strong>Pending Confirm</strong><br>
                             <form action="${pageContext.request.contextPath}/MainController">
-                                <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID()%>">
-                                <input type="submit" class="btn btn-success btn-sm" name="action" value="Confirm"> 
+                                <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID() %>">
+                                <input type="submit" class="btn btn-success btn-sm" name="action" value="Confirm">
                             </form><br>
                             <form action="${pageContext.request.contextPath}/MainController">
-                                <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID()%>">
-                                <input type="submit" class="btn btn-danger btn-sm" name="action" value="Reject"> 
+                                <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID() %>">
+                                <input type="submit" class="btn btn-danger btn-sm" name="action" value="Reject">
                             </form>
                         </td>
-                        <% } else if (status.equals("Confirmed")) {%>
+                        <% } else if (status.equals("Confirmed")) { %>
                         <td style="color: rgb(23, 163, 213)"> <%= finalPrice %> </td>
                         <td style="color: rgb(11, 224, 71)">Ready To Auction</td>
                         <% } else { %>
@@ -254,7 +256,7 @@ td {
         </div>
         <% } else { %>
         <p class="no-jewelry">No jewelry found</p>
-        <% }%>
+        <% } %>
     </div>
 
     <!-- Modal -->
@@ -268,7 +270,7 @@ td {
                     </button>
                 </div>
                 <div class="modal-body">
-                    
+                    <!-- Jewelry details will be loaded here -->
                 </div>
             </div>
         </div>
@@ -321,9 +323,9 @@ td {
                                         '<form action="${pageContext.request.contextPath}/MainController"><input type="hidden" name="jewelryID" value="' + jewelry.jewelryID + '"><input type="submit" class="btn btn-success btn-sm" name="action" value="Confirm"></form><br>' +
                                         '<form action="${pageContext.request.contextPath}/MainController"><input type="hidden" name="jewelryID" value="' + jewelry.jewelryID + '"><input type="submit" class="btn btn-danger btn-sm" name="action" value="Reject"></form></td>';
                             } else if (status === 'Confirmed') {
-                                statusText = '<td style="color: red">' + finalPrice + '</td><td style="color: red">Ready To Auction</td>';
+                                statusText = '<td style="color: rgb(23, 163, 213)">' + finalPrice + '</td><td style="color: rgb(11, 224, 71)">Ready To Auction</td>';
                             } else {
-                                statusText = '<td style="color: red">Updating</td><td style="color: red">In Progress</td>';
+                                statusText = '<td style="color: rgb(215, 218, 33)">Updating</td><td style="color: red">In Progress</td>';
                             }
 
                             tableBody.append(
@@ -334,7 +336,7 @@ td {
                                     statusText +
                                     '<td><button class="btn btn-primary details-btn" data-toggle="modal" data-target="#detailsModal" data-jewelry=\'' + JSON.stringify(jewelry) + '\'>Details</button></td>' +
                                     '</tr>'
-                                    );
+                            );
                         });
                     }
                 },
