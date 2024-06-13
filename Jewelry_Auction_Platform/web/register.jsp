@@ -25,7 +25,7 @@
             }
             .register-image {
                 width: 50%;
-                background: url('WEB-INF/asset/login.jpg') no-repeat center center;
+                background: url('images/logo/login.jpg') no-repeat center center;
                 background-size: cover;
             }
             .register-form {
