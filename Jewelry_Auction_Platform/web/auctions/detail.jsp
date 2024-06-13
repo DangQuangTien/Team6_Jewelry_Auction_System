@@ -38,11 +38,11 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             getTimeDifference('<%= auction.getStartDate()%>T<%= auction.getStartTime()%>');
-                });
+        });
 
-                var countdownInterval = setInterval(function () {
-                    getTimeDifference('<%= auction.getStartDate()%>T<%= auction.getStartTime()%>');
-                        }, 1000);
+        var countdownInterval = setInterval(function () {
+            getTimeDifference('<%= auction.getStartDate()%>T<%= auction.getStartTime()%>');
+        }, 1000);
     </script>
     <body>
     <a href="${pageContext.request.contextPath}/home.jsp">Home</a>
@@ -109,13 +109,14 @@
                             Starting Bid: $1500 <br>
                             Est. $<span class="min-price"><%= j.getMinPrice()%></span> - $<span class="max-price"><%= j.getMaxPrice()%></span>
                             <% if (status == 0) {%>
-                            <form action="${pageContext.request.contextPath}/auctions/registerBid.jsp" method="GET">
-                                <input type="hidden" name="jewelryID" value="<%= j.getJewelryID()%>">
-                                <input type="submit" class="btn btn-primary" value="PLACE BID">
-                            </form>
+                            <button type="button" class="btn btn-primary place-bid-button" data-toggle="modal" data-target="#placeBidModal" data-jewelry-id="<%= j.getJewelryID()%>">
+                                PLACE BID
+                            </button>
                             <% } else { %>
                             <br>
-                            <input type="submit" class="btn btn-primary" value="PLACE BID">
+                            <button type="button" class="btn btn-primary place-bid-button" data-toggle="modal" data-target="#placeBidModal" data-jewelry-id="<%= j.getJewelryID()%>">
+                                PLACE BID
+                            </button>
                             <% } %>
                         </div>
                     </a>
@@ -127,61 +128,94 @@
             <% }%>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="placeBidModal" tabindex="-1" aria-labelledby="placeBidModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="placeBidModalLabel">Place Your Bid</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="modalJewelryID" name="jewelryID">
+                        <div class="form-group">
+                            <label for="bidAmount">Bid Amount</label>
+                            <input type="number" class="form-control" id="bidAmount" name="bidAmount" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Place Bid</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-                        document.addEventListener('DOMContentLoaded', function () {
-                            function filterItems() {
-                                var selectedCategory = document.getElementById('categoryFilter').value;
-                                var searchQuery = document.getElementById('searchBar').value.trim().toLowerCase();
-                                var sortPrice = document.getElementById('sortPrice').value;
+        document.addEventListener('DOMContentLoaded', function () {
+            function filterItems() {
+                var selectedCategory = document.getElementById('categoryFilter').value;
+                var searchQuery = document.getElementById('searchBar').value.trim().toLowerCase();
+                var sortPrice = document.getElementById('sortPrice').value;
 
-                                console.log('Selected Category:', selectedCategory);
-                                console.log('Search Query:', searchQuery);
-                                console.log('Sort Price:', sortPrice);
+                console.log('Selected Category:', selectedCategory);
+                console.log('Search Query:', searchQuery);
+                console.log('Sort Price:', sortPrice);
 
-                                var catalogItems = Array.from(document.querySelectorAll('.catalog-item'));
+                var catalogItems = Array.from(document.querySelectorAll('.catalog-item'));
 
-                                // Filter by category and search query
-                                catalogItems.forEach(function (item) {
-                                    var itemCategory = item.getAttribute('data-category');
-                                    var itemJewelryID = item.querySelector('.card-title').textContent.toLowerCase();
+                // Filter by category and search query
+                catalogItems.forEach(function (item) {
+                    var itemCategory = item.getAttribute('data-category');
+                    var itemJewelryID = item.querySelector('.card-title').textContent.toLowerCase();
 
-                                    var categoryMatch = (selectedCategory === '' || itemCategory === selectedCategory);
-                                    var searchMatch = (searchQuery === '' || itemJewelryID.includes(searchQuery));
+                    var categoryMatch = (selectedCategory === '' || itemCategory === selectedCategory);
+                    var searchMatch = (searchQuery === '' || itemJewelryID.includes(searchQuery));
 
-                                    if (categoryMatch && searchMatch) {
-                                        item.style.display = 'block';
-                                    } else {
-                                        item.style.display = 'none';
-                                    }
-                                });
+                    if (categoryMatch && searchMatch) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
 
-                                // Sort by price
-                                if (sortPrice !== '') {
-                                    catalogItems.sort(function (a, b) {
-                                        var aMinPrice = parseFloat(a.querySelector('.min-price').textContent);
-                                        var bMinPrice = parseFloat(b.querySelector('.min-price').textContent);
+                // Sort by price
+                if (sortPrice !== '') {
+                    catalogItems.sort(function (a, b) {
+                        var aMinPrice = parseFloat(a.querySelector('.min-price').textContent);
+                        var bMinPrice = parseFloat(b.querySelector('.min-price').textContent);
 
-                                        if (sortPrice === 'lowToHigh') {
-                                            return aMinPrice - bMinPrice;
-                                        } else if (sortPrice === 'highToLow') {
-                                            return bMinPrice - aMinPrice;
-                                        }
-                                    });
+                        if (sortPrice === 'lowToHigh') {
+                            return aMinPrice - bMinPrice;
+                        } else if (sortPrice === 'highToLow') {
+                            return bMinPrice - aMinPrice;
+                        }
+                    });
 
-                                    var catalogContainer = document.getElementById('catalogItems');
-                                    catalogItems.forEach(function (item) {
-                                        catalogContainer.appendChild(item);
-                                    });
-                                }
-                            }
+                    var catalogContainer = document.getElementById('catalogItems');
+                    catalogItems.forEach(function (item) {
+                        catalogContainer.appendChild(item);
+                    });
+                }
+            }
 
-                            document.getElementById('categoryFilter').addEventListener('change', filterItems);
-                            document.getElementById('searchBar').addEventListener('input', filterItems);
-                            document.getElementById('sortPrice').addEventListener('change', filterItems);
-                        });
+            document.getElementById('categoryFilter').addEventListener('change', filterItems);
+            document.getElementById('searchBar').addEventListener('input', filterItems);
+            document.getElementById('sortPrice').addEventListener('change', filterItems);
+
+            $('#placeBidModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); 
+                var jewelryID = button.data('jewelry-id'); 
+                var modal = $(this);
+                modal.find('#modalJewelryID').val(jewelryID);
+            });
+        });
     </script>
 </body>
 </html>
