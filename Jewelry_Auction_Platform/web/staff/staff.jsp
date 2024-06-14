@@ -78,7 +78,7 @@
                             <td>${loop.index + 1}</td>
                             <td>
                                 <c:set var="photoArray" value="${fn:split(val.photo, ';')}" />
-                                <img src="${photoArray[0]}" alt="Photo" class="img-thumbnail" style="max-width: 100px;">
+                                <img src="${pageContext.request.contextPath}/${photoArray[0]}" alt="Photo" class="img-thumbnail" style="max-width: 100px;">
                             </td>
                             <td>${val.name}</td>
                             <td>
