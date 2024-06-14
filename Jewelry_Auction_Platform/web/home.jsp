@@ -145,8 +145,7 @@
                 </a>
             </div>
         </div>
-
-        <div class="about-contact-section container">
+        <div class="about-contact-section container mt-5">
             <div class="row">
                 <div class="col-md-6">
                     <img src="https://images.unsplash.com/photo-1603974372039-adc49044b6bd?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8amV3ZWxsZXJ5fGVufDB8fDB8fHww" alt="About Us Image">
@@ -168,7 +167,50 @@
                 </div>
             </div>
         </div>
+        <div class="content container mt-5">
+            <h2 class="section-title">What Our Customers Say</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card testimonial-card">
+                        <div class="card-body">
+                            <p class="card-text">"I had a wonderful experience at F'Rankelly's auction. The staff was knowledgeable, and the jewelry was exquisite."</p>
+                            <p class="card-text"><strong>- Alice Smith</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card testimonial-card">
+                        <div class="card-body">
+                            <p class="card-text">"I found the perfect piece for my collection. The bidding process was smooth and exciting."</p>
+                            <p class="card-text"><strong>- John Doe</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card testimonial-card">
+                        <div class="card-body">
+                            <p class="card-text">"Great selection and professional service. I highly recommend F'Rankelly's to any jewelry enthusiast."</p>
+                            <p class="card-text"><strong>- Emma Johnson</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         
+        <div class="content container mt-5">
+            <h2 class="section-title">Stay Updated</h2>
+            <p class="section-description">Sign up for our newsletter to get the latest news and updates on upcoming auctions and exclusive offers.</p>
+            <form class="newsletter-form">
+                <div class="form-row">
+                    <div class="col-md-8 mb-3">
+                        <input type="email" class="form-control newsletter-input" placeholder="Enter your email">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <button class="btn btn-primary btn-block newsletter-button" type="submit">Subscribe</button>
+                    </div>
+                </div>
+            </form>
+        </div>
         <footer class="text-center py-3 mt-auto">
             <div>
                 <h6>Jewelry Auction</h6>

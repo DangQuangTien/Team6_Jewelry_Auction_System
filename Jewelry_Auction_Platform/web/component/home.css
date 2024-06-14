@@ -2,7 +2,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Georgia', serif;
     background-color: #f5eded;
 }
 
@@ -39,7 +39,7 @@ footer a {
     margin: 0 10px;
 }
 
-.content-box {
+.content-box, .highlight-box {
     background-color: #fff;
     padding: 1.5rem;
     border-radius: 5px;
@@ -59,10 +59,13 @@ footer a {
 .highlight-box h2 {
     color: #343a40;
     font-weight: bold;
+    margin-bottom: 20px;
 }
 
 .highlight-box p {
     color: #666;
+    font-size: 1rem;
+    line-height: 1.8;
 }
 
 .carousel-inner {
@@ -137,6 +140,7 @@ footer a {
         padding: 10px;
     }
 }
+
 #viewAuctionButton {
     background-color: #dc3545;
     color: #fff;
@@ -169,7 +173,6 @@ footer a {
 #viewAuctionForm.no-auction #noAuctionBox {
     display: inline-block;
 }
-
 
 .about-contact-section {
     margin-top: 50px;
@@ -224,5 +227,77 @@ footer a {
 
     .about-contact-section img {
         margin-bottom: 20px;
+    }
+}
+.section-title {
+    font-family: 'Georgia', serif;
+    font-size: 2rem;
+    color: #343a40;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.section-description {
+    font-size: 1.1rem;
+    color: #666;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.testimonial-card {
+    border: none;
+    background-color: #fdfdfd;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.testimonial-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-card .card-body {
+    padding: 2rem;
+    text-align: center;
+    font-style: italic;
+}
+
+.testimonial-card .card-text {
+    font-size: 1rem;
+    color: #555;
+}
+
+.newsletter-input {
+    border: 2px solid #ccc;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 1rem;
+}
+
+.newsletter-button {
+    background-color: #343a40;
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.newsletter-button:hover {
+    background-color: #e4af11;
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .section-description {
+        font-size: 1rem;
+    }
+
+    .testimonial-card .card-body {
+        padding: 1rem;
     }
 }
