@@ -304,7 +304,7 @@ BEGIN
         metal, gemstones, measurements, [weight], stamped, ringSize, minPrice, maxPrice, temp_Price, valuationId, photos
     )
     SELECT 
-        'Lot' + CAST(NEXT VALUE FOR jewelryID_sequence AS NVARCHAR(50)),
+        'Lot ' + CAST(NEXT VALUE FOR jewelryID_sequence AS NVARCHAR(50)),
         categoryID, jewelryName, artist, circa, material, dial, braceletMaterial, 
         caseDimensions, braceletSize, serialNumber, referenceNumber, caliber, movement, [condition], 
         metal, gemstones, measurements, [weight], stamped, ringSize, minPrice, maxPrice, temp_Price, valuationId, photos
@@ -424,3 +424,9 @@ add companyName varchar(255)
 select * from Address
 
 select * from Role
+SELECT TOP 6 j.photos, j.jewelryName, s.auctionID 
+FROM Jewelry j, Auction auc, Session s where s.auctionID = auc.auctionId and s.jewelryID = j.jewelryID
+ORDER BY NEWID();
+select * from Auction
+select * from Session
+select j.* from Jewelry j, Auction auc, Session s where auc.auctionId = s.sessionID and s.jewelryID = j.jewelryID

@@ -63,7 +63,8 @@
         <c:choose>
             <c:when test="${status == 1 && member != null}">
                 document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.html?auctionID=${auctionID}"><img style="width: 50px; height: 50px" src="../images/entrance.png"></a>';
-                document.getElementById("auctionLink1").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.html?auctionID=${auctionID}">READY TO AUCTION</a>';
+                document.getElementById("auctionLink1").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.html?auctionID=${auctionID}">JOIN AUCTION</a>';
+                document.getElementById("bidForm").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.html?auctionID=${auctionID}">JOIN AUCTION</a>';
             </c:when>
             <c:when test="${status == 0 && member != null}">
                 document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/auctions/registerBid.jsp?auctionID=${auctionID}"><img style="width: 50px; height: 50px" src="../images/entrance.png"></a>';
@@ -103,9 +104,10 @@
             <h3 style="color: orange"><div id="countdown"></div></h3>
             <div id="auctionLink"></div>
         </div>
+        <!-- Notification -->
         <c:choose>
             <c:when test="${status == 1 && member != null}">
-                <div style="color: red" id="auctionLink1"><h2>READY TO AUCTION</h2></div>
+                <div style="color: red" id="auctionLink1"><h2>Coming Soon!</h2></div>
             </c:when>
             <c:when test="${status == 0 && member != null}">
                 <a href="registerBid.jsp?auctionID=${auctionID}" class="btn btn-primary">REGISTER TO BID</a>
@@ -114,6 +116,7 @@
                 <a href="../login.jsp" class="btn btn-primary">REGISTER TO BID</a>
             </c:otherwise>
         </c:choose>
+        <!-- Sort -->
         <hr>
         <div class="row">
             <div class="col-md-4">
@@ -154,27 +157,29 @@
                     <div class="card">
                         <a href="itemDetail.jsp?jewelryID=${j.jewelryID}&auctionID=${auctionID}">
                             <img class="card-img-top" src="${pageContext.request.contextPath}/${photoArray[0]}" alt="${j.jewelryName}">
-                            <div class="card-body">
-                                <h5 class="card-title">${j.jewelryID}</h5>
-                                <h5 class="card-title">${j.jewelryName}</h5>
-                                Starting Bid: $1500 <br>
-                                Est. $<span class="min-price">${j.minPrice}</span> - $<span class="max-price">${j.maxPrice}</span>
-                                <c:choose>
-                                    <c:when test="${status == 0}">
-                                        <form action="${pageContext.request.contextPath}/auctions/registerBid.jsp" method="GET">
-                                            <input type="hidden" name="auctionID" value="${auctionID}">
-                                            <input type="submit" class="btn btn-primary" value="PLACE BID">
-                                        </form>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <br>
-                                        <form action="../login.jsp" method="POST">
-                                            <input type="submit" class="btn btn-primary" value="PLACE BID">
-                                        </form>
-                                    </c:otherwise>
-                                </c:choose>
-                            </div>
                         </a>
+                        <div class="card-body">
+                            <h5 class="card-title">${j.jewelryID}</h5>
+                            <h5 class="card-title">${j.jewelryName}</h5>
+                            Starting Bid: $1500 <br>
+                            Est. $<span class="min-price">${j.minPrice}</span> - $<span class="max-price">${j.maxPrice}</span>
+                            <br>
+                            <c:choose>
+                                <c:when test="${status == 0 && member != null}">
+                                    <form action="${pageContext.request.contextPath}/auctions/registerBid.jsp?auctionID=${auctionID}" method="GET">
+                                        <input type="submit" class="btn btn-primary" value="PLACE BID">
+                                    </form>
+                                </c:when>
+                                <c:when test="${status == 1 && member != null}">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal">PLACE BID</button>
+                                </c:when>
+                                <c:otherwise>
+                                    <form action="../login.jsp" method="POST">
+                                        <input type="submit" class="btn btn-primary" value="PLACE BID">
+                                    </form>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
                     </div>
                 </div>
             </c:forEach>
@@ -183,6 +188,34 @@
             <p>No items available in the catalog.</p>
         </c:if>
     </div>
+    <!-- Modal for bidding -->
+    <div class="modal fade" id="bidModal" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bidModalLabel">Place Your Bid</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="bidForm" action="${pageContext.request.contextPath}/MainController" method="GET">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="bidAmount">Enter your bid amount:</label>
+                            <input type="number" class="form-control" id="bidAmount" name="bidAmount" required>
+                        </div>
+                        <input type="hidden" id="auctionID" name="auctionID" value="${auctionID}">
+                        <input type="hidden" id="jewelryID" name="jewelryID">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Place Bid</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -209,7 +242,6 @@
                                         item.style.display = 'none';
                                     }
                                 });
-
                                 // Sort by price
                                 if (sortPrice !== '') {
                                     catalogItems.sort(function (a, b) {
@@ -233,7 +265,22 @@
                             document.getElementById('categoryFilter').addEventListener('change', filterItems);
                             document.getElementById('searchBar').addEventListener('input', filterItems);
                             document.getElementById('sortPrice').addEventListener('change', filterItems);
+
+                            // Prepare bid modal with correct item information
+                            $('#bidModal').on('show.bs.modal', function (event) {
+                                var button = $(event.relatedTarget); // Button that triggered the modal
+                                var card = button.closest('.card'); // Find the card of the item being bid on
+                                var jewelryID = card.find('.card-title').first().text(); // Extract the jewelryID
+
+                                // Update the modal's hidden input values
+                                var modal = $(this);
+                                modal.find('#jewelryID').val(jewelryID);
+                            });
                         });
+
+                        function submitBid() {
+                            document.getElementById('bidForm').submit();
+                        }
     </script>
 </body>
 </html>

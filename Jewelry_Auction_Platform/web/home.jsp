@@ -65,34 +65,10 @@
                                 </c:choose>
                             </c:set>
                             <li class="nav-item">
-                                <a class="nav-link" href="${url}"><i class="fas fa-user"></i> ${username}</a>
+                                <a class="nav-link" href="${url}"><i class="fas fa-user"></i>${username}</a>
                             </li>
                         </c:otherwise>
                     </c:choose>
-                    <li class="nav-item d-flex align-items-center">
-                        <%
-                            UserDAOImpl _dao = new UserDAOImpl();
-                            Auction auction = null;
-                            try {
-                                List<Auction> auctions = _dao.displayAuction();
-                                if (auctions != null && !auctions.isEmpty()) {
-                                    auction = auctions.get(0);
-                                }
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                            }
-                        %>
-                        <form id="viewAuctionForm" action="auctions/detail.jsp" method="GET" class="d-flex">
-                            <input type="hidden" name="auctionID" value="<%= auction != null ? auction.getAuctionID() : ""%>">
-                            <button type="submit" class="btn btn-danger" id="viewAuctionButton"><%= auction != null ? "View Auction" : "No Auction Available"%></button>
-                        </form>
-                        <% if (auction == null) { %>
-                        <div id="noAuctionBox" class="highlight ml-2"><i class="fas fa-exclamation-circle"></i> No auction available</div>
-                        <% } %>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="seller/shipmentRequest.jsp" id="bell-icon"><i class="fas fa-bell"></i></a>
-                    </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search for anything" aria-label="Search">
@@ -116,6 +92,7 @@
             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <%
+                        UserDAOImpl _dao = new UserDAOImpl();
                         List<RandomJewelry> listJewelry = _dao.displayRandomJewelry();
                         if (listJewelry != null && !listJewelry.isEmpty()) {
                             int itemsPerSlide = 3;
