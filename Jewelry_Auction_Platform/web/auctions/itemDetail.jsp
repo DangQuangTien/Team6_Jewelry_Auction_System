@@ -157,8 +157,13 @@
                         <h2><%= jewelry.getJewelryID()%></h2>
                         <h2><%= jewelry.getJewelryName()%></h2>
                         <div>Estimate: $<%= jewelry.getMinPrice()%> - $<%= jewelry.getMaxPrice()%></div>
-                        <% if (member == null){ %><a href="../login.jsp" class="btn btn-primary">Place Bid</a> <% } %>
-                        <% if (status == 0){ %><a href="registerBid.jsp?auctionID=<%= request.getParameter("auctionID")%>" class="btn btn-primary">Place Bid</a> <% } %>Starting bid: $1500 <br>
+                        <% if (status == 0 && member != null){ %>
+                        <a href="registerBid.jsp?auctionID=<%= request.getParameter("auctionID")%>" class="btn btn-primary">PLACE BID</a>
+                        <% } else if (status == 1 && member != null){ %>
+                        <button class="btn btn-primary">PLACE BID</button>
+                        <% } else { %>
+                        <a href="../login.jsp" class="btn btn-primary">PLACE BID</a>
+                        <% } %>
                         <div>Live Auction</div>
                         <a href="detail.jsp?auctionID=<%= request.getParameter("auctionID")%>">Fine Jewels & Watches</a>
                         <div>Artist</div>

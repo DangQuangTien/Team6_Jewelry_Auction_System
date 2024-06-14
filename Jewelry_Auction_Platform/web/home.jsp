@@ -1,13 +1,9 @@
 <%@page import="entity.product.RandomJewelry"%>
-<%@page import="entity.Auction.Auction" %>
 <%@page import="java.util.List" %>
 <%@page import="dao.UserDAOImpl" %>
-<%@page import="java.util.ArrayList" %>
-<%@page import="entity.product.Category" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -25,10 +21,11 @@
         <c:set var="dao" value="<%= new dao.UserDAOImpl()%>" />
         <c:set var="username" value="${sessionScope.USERNAME}" />
         <c:set var="role" value="${sessionScope.ROLE}" />
-        <c:set var="listCategory" value="${dao.listCategory()}" />
-
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#"><i class="fas fa-gem"></i> Jewelry Auctions</a>
+            <a class="navbar-brand" href="home.jsp">
+                <i class="fas fa-gem"> F'Rankelly</i><br>
+                <span style="font-size: 0.5em;">Auctioneers & Appraisers</span>
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -36,23 +33,23 @@
 
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-home"></i> Home<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="home.jsp"><i class="fas fa-home"></i> HOME<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="auctions/upcoming.jsp"><i class="fas fa-gavel"></i> Auction</a>
+                        <a class="nav-link" href="auctions/upcoming.jsp"><i class="fas fa-gavel"></i> AUCTIONS</a>
                     </li>
                     <c:if test="${role == 'Member' || role == null}">
                         <li class="nav-item">
-                            <a class="nav-link" href="seller/selling.html"><i class="fas fa-dollar-sign"></i> Sell</a>
+                            <a class="nav-link" href="seller/selling.html"><i class="fas fa-dollar-sign"></i> SELLING</a>
                         </li>
                     </c:if>
                     <c:choose>
                         <c:when test="${username == null}">
                             <li class="nav-item">
-                                <a class="nav-link" href="login.jsp"><i class="fas fa-sign-in-alt"></i> Login</a>
+                                <a class="nav-link" href="login.jsp"><i class="fas fa-sign-in-alt"></i> LOGIN</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="register.jsp"><i class="fas fa-user-plus"></i> Register</a>
+                                <a class="nav-link" href="register.jsp"><i class="fas fa-user-plus"></i> REGISTER</a>
                             </li>
                         </c:when>
                         <c:otherwise>
@@ -112,13 +109,13 @@
                                         String[] photoArray = photo.split(";");
                             %>
                             <div class="col-md-4">
-                                <a href="${pageContext.request.contextPath}/auctions/detail.jsp?auctionID=<%= jewelry.getAuctionID() %>">
-                                <div class="card">
-                                    <img src="${pageContext.request.contextPath}/<%= photoArray[0]%>" class="card-img-top" alt="<%= jewelry.getJewelryName()%>">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><%= jewelry.getJewelryName()%></h5>
+                                <a href="${pageContext.request.contextPath}/auctions/detail.jsp?auctionID=<%= jewelry.getAuctionID()%>">
+                                    <div class="card">
+                                        <img src="${pageContext.request.contextPath}/<%= photoArray[0]%>" class="card-img-top" alt="<%= jewelry.getJewelryName()%>">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><%= jewelry.getJewelryName()%></h5>
+                                        </div>
                                     </div>
-                                </div>
                                 </a>
                             </div>
                             <%}
