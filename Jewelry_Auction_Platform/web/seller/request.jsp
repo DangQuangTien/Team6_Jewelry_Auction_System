@@ -13,8 +13,87 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="asset/request.css">
+    <style>
+        body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f5eded;
+}
 
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #343a40;
+    border-bottom: 3px solid #e4af11;
+}
+
+.navbar-brand, .nav-link, .navbar-toggler-icon {
+    color: #ffc107 !important;
+}
+
+.navbar-brand:hover, .nav-link:hover {
+    color: #0a0800 !important;
+}
+
+html, body {
+    height: 100%;
+}
+
+.card-header {
+    background-color: #343a40 !important; 
+}
+
+.card-title, .card-subtitle {
+    color: gold; 
+}
+
+main {
+    flex-grow: 1;
+}
+
+footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+}
+
+footer a {
+    color: #ffc107;
+    margin: 0 10px;
+}
+
+footer a:hover {
+    color: #a98585;
+}
+.error-message {
+    color: red;
+    font-size: 0.9em;
+}
+
+.btn-primary span {
+    color: gold;
+}
+
+.btn-primary {
+    background-color: #343a40 !important;
+    border-color: #000407 !important;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #343a40;
+    border-color: #004085;
+}
+
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+    </style>
 </head>
 
 <body ng-controller="validateCtrl" class="d-flex flex-column min-vh-100">
@@ -166,8 +245,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="asset/request.js"></script>
-
     <script>
     var app = angular.module('valuationApp', []);
     app.controller('validateCtrl', function ($scope, $http) {

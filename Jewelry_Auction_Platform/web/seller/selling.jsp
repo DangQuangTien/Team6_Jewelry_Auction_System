@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="asset/selling.css">
     <style>
         body {
             display: flex;
@@ -257,34 +256,8 @@
     <p>Our Lightning Auctions deliver auction results in just days. This auction format is a first-price sealed-bid auction where a list of pre-qualified bidders, who pay a premium to participate in the auctions, are presented the lots for sale and are allowed to submit their top bid, one time, in a sealed envelope. Once all envelopes have been collected, they are opened and the top bid is taken.</p>
     <div class="example">The owner of the Rolex Daytona “Rainbow” shown here was not happy with the cash offers that he was given by other buyers. He tried the watch once at auction and it did not sell and was then looking for more immediate solutions. He consigned the watch with us and we hosted a Lightning Auction for him. The Watch sold to a private client for $375,000 and the consignor was very pleased.</div>
     <h3>Ready to jump ahead and submit your valuation request or want to learn more first?</h3>
-    <button class="btn-primary-custom mt-3" onclick="showModal()">Request A Valuation</button>
+    <button onclick="myFunction()">Request A Valuation</button>
 </main>
-
-<!-- Modal -->
-<div class="modal fade" id="scrollingWheelModal" tabindex="-1" aria-labelledby="scrollingWheelModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="scrollingWheelModalLabel">Select a Number</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="wheel-container">
-                    <div class="wheel" id="numberWheel">
-                        <!-- Options will be populated by JavaScript -->
-                    </div>
-                    <div class="wheel-overlay"></div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="confirmSelection()">Confirm</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <footer class="footer text-center py-3 mt-auto">
     <div>
@@ -303,29 +276,10 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="asset/selling.js"></script>
 <script>
-    function showModal() {
-        // Populate the number wheel
-        const numberWheel = document.getElementById('numberWheel');
-        numberWheel.innerHTML = '';
-        for (let i = 1; i <= 1000; i++) {
-            const div = document.createElement('div');
-            div.textContent = i;
-            numberWheel.appendChild(div);
-        }
-        // Show the modal
-        $('#scrollingWheelModal').modal('show');
-    }
-
-    function confirmSelection() {
-        // Get the selected number (closest to center)
-        const numberWheel = document.getElementById('numberWheel');
-        const selectedNumber = Math.round((numberWheel.scrollTop + numberWheel.clientHeight / 2) / 100);
-        console.log('Selected number:', selectedNumber);
-        // Navigate to request.jsp
-        window.location.href = 'request.jsp';
-    }
+function myFunction() {
+    window.location = "request.jsp";
+}
 </script>
 </body>
 </html>
