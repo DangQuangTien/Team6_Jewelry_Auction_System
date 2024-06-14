@@ -83,6 +83,7 @@
                             <td><%= jewelry.getJewelryName()%></td>
                             <td><%= jewelry.getArtist()%></td>
                             <td><%= jewelry.getCirca()%></td>
+                            
                             <td><%= jewelry.getMaterial()%></td>
                             <td><%= jewelry.getDial()%></td>
                             <td><%= jewelry.getBraceletMaterial()%></td>

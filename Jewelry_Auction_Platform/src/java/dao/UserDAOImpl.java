@@ -9,6 +9,7 @@ import entity.Auction.Auction;
 import entity.member.Member;
 import entity.product.Category;
 import entity.product.Jewelry;
+import entity.product.RandomJewelry;
 import entity.request_shipment.RequestShipment;
 import entity.valuation.Valuation;
 import java.sql.Connection;
@@ -807,6 +808,29 @@ public class UserDAOImpl implements UserDao {
             ex.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public List<RandomJewelry> displayRandomJewelry() {
+        String query = "SELECT TOP 6 j.photos, j.jewelryName, s.auctionID FROM Jewelry j, Auction auc, Session s where s.auctionID = auc.auctionId and s.jewelryID = j.jewelryID ORDER BY NEWID()";
+        List<RandomJewelry> listJewelry = new ArrayList<>();
+        try {
+            conn = DBUtils.getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                RandomJewelry jewelry = new RandomJewelry();
+                jewelry.setPhoto(rs.getString(1));
+                jewelry.setJewelryName(rs.getString(2));
+                jewelry.setAuctionID(rs.getString(3));
+                listJewelry.add(jewelry);
+            }
+            return listJewelry;
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.getMessage();
+        }
+        return null;
     }
 
 }

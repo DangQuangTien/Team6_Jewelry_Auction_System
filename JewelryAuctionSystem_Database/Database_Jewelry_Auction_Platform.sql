@@ -417,8 +417,10 @@ GO
 INSERT INTO [Address] (country, state, city, address1, address2, zipcode, memberID) VALUES ('Viet Nam', null, 'Ha Noi', '12 Dong Da', null, '2000', 'Member1');
 
 select * from Member
-update Member set status_register_to_bid = 0 where member
-select * from Member
+update Member set status_register_to_bid = 0
+  
 alter table Member
 add companyName varchar(255)
 select * from Address
+
+select * from Role
