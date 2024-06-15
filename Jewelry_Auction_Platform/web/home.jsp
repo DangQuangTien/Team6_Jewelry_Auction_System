@@ -85,7 +85,7 @@
         </section>
 
         <div class="content container mt-5">
-            <h2>Upcoming Auction</h2>
+            <h2><a href="auctions/upcoming.jsp">Upcoming Auction</a></h2>
             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <%

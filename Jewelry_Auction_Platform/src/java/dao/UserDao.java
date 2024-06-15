@@ -82,4 +82,8 @@ public interface UserDao {
     boolean insertAddress(String country, String state, String city, String address1, String address2, String zipCode,String memberID);
     
     boolean registerToBid(String memberID);
+    
+    //Member places bid for jewelry before Auction happens
+    boolean placeBid(String preBid_Amount, String jewelryID, String memberID);
+    boolean editBid(String preBid_Amount, String jewelryID, String memberID);
 }

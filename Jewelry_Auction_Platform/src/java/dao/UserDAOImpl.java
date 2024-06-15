@@ -798,13 +798,10 @@ public class UserDAOImpl implements UserDao {
     public boolean registerToBid(String memberID) {
         String query = "UPDATE Member SET status_register_to_bid = 1 WHERE memberID = ?";
         try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
-
             ps.setString(1, memberID);
-
             int result = ps.executeUpdate();
             return result > 0;
         } catch (ClassNotFoundException | SQLException ex) {
-            // Log the exception
             ex.printStackTrace();
         }
         return false;
@@ -831,6 +828,58 @@ public class UserDAOImpl implements UserDao {
             ex.getMessage();
         }
         return null;
+    }
+
+    @Override
+    public boolean placeBid(String preBid_Amount, String jewelryID, String memberID) {
+        String mainQuery = "INSERT INTO Register_Bid(sessionID, memberID, preBid_Amount) VALUES(?, ?, ?)";
+        String getSessionID = "SELECT s.sessionID FROM Session s JOIN Jewelry j ON s.jewelryID = j.jewelryID WHERE j.jewelryID = ?";
+
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement psGetSessionID = conn.prepareStatement(getSessionID)) {
+
+            psGetSessionID.setString(1, jewelryID);
+            try ( ResultSet rs = psGetSessionID.executeQuery()) {
+                if (rs.next()) {
+                    String sessionID = rs.getString(1);
+
+                    try ( PreparedStatement psMainQuery = conn.prepareStatement(mainQuery)) {
+                        psMainQuery.setString(1, sessionID);
+                        psMainQuery.setString(2, memberID);
+                        psMainQuery.setString(3, preBid_Amount);
+                        int result = psMainQuery.executeUpdate();
+                        return result > 0;
+                    }
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean editBid(String preBid_Amount, String jewelryID, String memberID) {
+        String mainQuery = "UPDATE REGISTER_BID SET PREBID_AMOUNT = ? WHERE MEMBERID = ? AND SESSIONID = ?";
+        String getSessionID = "SELECT s.sessionID FROM Session s JOIN Jewelry j ON s.jewelryID = j.jewelryID WHERE j.jewelryID = ?";
+
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement psGetSessionID = conn.prepareStatement(getSessionID)) {
+            psGetSessionID.setString(1, jewelryID);
+            try ( ResultSet rs = psGetSessionID.executeQuery()) {
+                if (rs.next()) {
+                    String sessionID = rs.getString(1);
+                    try ( PreparedStatement psMainQuery = conn.prepareStatement(mainQuery)) {
+                        psMainQuery.setString(1, preBid_Amount);
+                        psMainQuery.setString(2, memberID);
+                        psMainQuery.setString(3, sessionID);
+                        int result = psMainQuery.executeUpdate();
+                        return result > 0;
+                    }
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 
 }
