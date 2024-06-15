@@ -8,21 +8,107 @@
 <%@page import="dao.UserDAOImpl"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Fine Jewels & Watches | Global F'Rankelly 's Premier Jewelry Auction House</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <link rel="icon" type="image/png" sizes="64x64" href="../images/logo/Logo.png">
-    </head>
+<html lang="en">
+<head>
+    <title>Fine Jewels & Watches | Global F'Rankelly 's Premier Jewelry Auction House</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" type="image/png" sizes="64x64" href="../images/logo/Logo.png">
     <style>
+        .wheel-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 150px; /* Adjusted container height */
+            width: 150px; /* Container width */
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto; /* Center the wheel horizontally */
+        }
+
+        .wheel {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%; /* Match the width of the container */
+            overflow-y: auto;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none; /* For Firefox */
+            -ms-overflow-style: none;  /* For Internet Explorer and Edge */
+        }
+
+        .wheel::-webkit-scrollbar {
+            display: none; /* For Chrome, Safari, and Opera */
+        }
+
+        .wheel div {
+            flex: 0 0 50px; /* Height of each item for larger spacing */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem; /* Font size */
+            scroll-snap-align: center;
+            color: #343a40;
+        }
+
+        .wheel div:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .wheel div:nth-child(odd) {
+            background-color: #e9ecef;
+        }
+
+        .wheel-overlay {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 50px; /* Match the item height */
+            margin-top: -25px; /* Center the overlay */
+            background-color: rgba(255, 255, 255, 0.8);
+            pointer-events: none;
+            border-top: 1px solid #343a40;
+            border-bottom: 1px solid #343a40;
+        }
+
+        .modal-dialog {
+            max-width: 200px; /* Adjust to fit the wheel width with padding */
+            margin: 1.75rem auto;
+        }
+
+        .modal-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%; /* Match the width of the modal dialog */
+        }
+
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 1rem;
+        }
+
         .countdown-container {
             display: flex;
             align-items: center;
         }
+
         .countdown-container div {
             margin-right: 10px;
         }
+
         .blink {
             animation: blink-animation 1s linear infinite;
         }
@@ -39,6 +125,8 @@
             }
         }
     </style>
+</head>
+<body>
     <c:set var="auctionID" value="${param.auctionID}" />
     <c:set var="dao" value="<%= new UserDAOImpl()%>" />
     <c:set var="auction" value="${dao.getAuctionByID(auctionID)}" />
@@ -51,6 +139,7 @@
             <c:set var="status" value="${member.status}" />
         </c:if>
     </c:if>
+
     <script>
         function getTimeDifference(startDate) {
             var now = new Date().getTime();
@@ -60,19 +149,19 @@
             if (difference <= 0) {
                 document.getElementById("countdown").innerHTML = "Auction started!";
                 clearInterval(countdownInterval);
-        <c:choose>
-            <c:when test="${status == 1 && member != null}">
-                document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.html?auctionID=${auctionID}"><img style="width: 50px; height: 50px" src="../images/entrance.png"></a>';
-                document.getElementById("auctionLink1").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.html?auctionID=${auctionID}">JOIN AUCTION</a>';
-                document.getElementById("bidForm").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.html?auctionID=${auctionID}">JOIN AUCTION</a>';
-            </c:when>
-            <c:when test="${status == 0 && member != null}">
-                document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/auctions/registerBid.jsp?auctionID=${auctionID}"><img style="width: 50px; height: 50px" src="../images/entrance.png"></a>';
-            </c:when>
-            <c:otherwise>
-                document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/login.jsp"><img style="width: 50px; height: 50px" src="../images/entrance.png"></a>';
-            </c:otherwise>
-        </c:choose>
+                <c:choose>
+                    <c:when test="${status == 1 && member != null}">
+                        document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.html?auctionID=${auctionID}"><img style="width: 50px; height: 50px" src="../images/entrance.png"></a>';
+                        document.getElementById("auctionLink1").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.html?auctionID=${auctionID}">JOIN AUCTION</a>';
+                        document.getElementById("bidForm").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.html?auctionID=${auctionID}">JOIN AUCTION</a>';
+                    </c:when>
+                    <c:when test="${status == 0 && member != null}">
+                        document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/auctions/registerBid.jsp?auctionID=${auctionID}"><img style="width: 50px; height: 50px" src="../images/entrance.png"></a>';
+                    </c:when>
+                    <c:otherwise>
+                        document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/login.jsp"><img style="width: 50px; height: 50px" src="../images/entrance.png"></a>';
+                    </c:otherwise>
+                </c:choose>
                 document.getElementById("auctionLink").classList.add("blink");
                 return;
             }
@@ -85,14 +174,12 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             getTimeDifference('${auction.startDate}T${auction.startTime}');
-                });
+        });
 
-                var countdownInterval = setInterval(function () {
-                    getTimeDifference('${auction.startDate}T${auction.startTime}');
-                        }, 1000);
+        var countdownInterval = setInterval(function () {
+            getTimeDifference('${auction.startDate}T${auction.startTime}');
+        }, 1000);
     </script>
-
-    <body>
 
     <a href="${pageContext.request.contextPath}/home.jsp">Home</a>
     <a href="${pageContext.request.contextPath}/login.jsp">Log In</a>
@@ -202,7 +289,13 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="bidAmount">Enter your bid amount:</label>
-                            <input type="number" class="form-control" id="bidAmount" name="bidAmount" required>
+                            <input type="number" class="form-control" id="bidAmount" name="bidAmount" required oninput="moveWheelToNumber()">
+                        </div>
+                        <div class="wheel-container">
+                            <div class="wheel" id="numberWheel">
+                                <!-- Options will be populated by JavaScript -->
+                            </div>
+                            <div class="wheel-overlay"></div>
                         </div>
                         <input type="hidden" id="auctionID" name="auctionID" value="${auctionID}">
                         <input type="hidden" id="jewelryID" name="jewelryID">
@@ -220,67 +313,64 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-                        document.addEventListener('DOMContentLoaded', function () {
-                            function filterItems() {
-                                var selectedCategory = document.getElementById('categoryFilter').value;
-                                var searchQuery = document.getElementById('searchBar').value.trim().toLowerCase();
-                                var sortPrice = document.getElementById('sortPrice').value;
+        document.addEventListener('DOMContentLoaded', function () {
+    // Populate the number wheel
+    const numberWheel = document.getElementById('numberWheel');
+    numberWheel.innerHTML = '';
+    for (let i = 0; i <= 1003; i++) { // Start from 0 instead of 1
+        const div = document.createElement('div');
+        div.textContent = i;
+        numberWheel.appendChild(div);
+    }
 
-                                var catalogItems = Array.from(document.querySelectorAll('.catalog-item'));
+    // Update the bid amount input when the wheel is scrolled
+    numberWheel.addEventListener('scroll', function() {
+        const itemHeight = numberWheel.children[0].clientHeight;
+        const scrollTop = numberWheel.scrollTop;
+        const currentIndex = Math.round(scrollTop / itemHeight);
+        const currentValue = currentIndex;
+        document.getElementById('bidAmount').value = currentValue;
+    });
 
-                                // Filter by category and search query
-                                catalogItems.forEach(function (item) {
-                                    var itemCategory = item.getAttribute('data-category');
-                                    var itemJewelryID = item.querySelector('.card-title').textContent.toLowerCase();
+    // Speed up the wheel scrolling
+    numberWheel.addEventListener('wheel', function(event) {
+        event.preventDefault();
+        const delta = Math.sign(event.deltaY) * 50; // Adjusted speed
+        numberWheel.scrollTop += delta;
+    });
 
-                                    var categoryMatch = (selectedCategory === '' || itemCategory === selectedCategory);
-                                    var searchMatch = (searchQuery === '' || itemJewelryID.includes(searchQuery));
+    // Prepare bid modal with correct item information
+    $('#bidModal').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget); // Button that triggered the modal
+        const card = button.closest('.card'); // Find the card of the item being bid on
+        const jewelryID = card.find('.card-title').first().text(); // Extract the jewelryID
 
-                                    if (categoryMatch && searchMatch) {
-                                        item.style.display = 'block';
-                                    } else {
-                                        item.style.display = 'none';
-                                    }
-                                });
-                                // Sort by price
-                                if (sortPrice !== '') {
-                                    catalogItems.sort(function (a, b) {
-                                        var aMinPrice = parseFloat(a.querySelector('.min-price').textContent);
-                                        var bMinPrice = parseFloat(b.querySelector('.min-price').textContent);
+        // Update the modal's hidden input values
+        const modal = $(this);
+        modal.find('#jewelryID').val(jewelryID);
 
-                                        if (sortPrice === 'lowToHigh') {
-                                            return aMinPrice - bMinPrice;
-                                        } else if (sortPrice === 'highToLow') {
-                                            return bMinPrice - aMinPrice;
-                                        }
-                                    });
+        // Start the wheel at number 0
+        const itemHeight = numberWheel.children[0].clientHeight;
+        numberWheel.scrollTop = 0;
+        document.getElementById('bidAmount').value = 0;
+    });
+});
 
-                                    var catalogContainer = document.getElementById('catalogItems');
-                                    catalogItems.forEach(function (item) {
-                                        catalogContainer.appendChild(item);
-                                    });
-                                }
-                            }
+function moveWheelToNumber() {
+    const bidAmountInput = document.getElementById('bidAmount');
+    const numberWheel = document.getElementById('numberWheel');
+    const bidAmount = parseInt(bidAmountInput.value);
 
-                            document.getElementById('categoryFilter').addEventListener('change', filterItems);
-                            document.getElementById('searchBar').addEventListener('input', filterItems);
-                            document.getElementById('sortPrice').addEventListener('change', filterItems);
+    if (!isNaN(bidAmount) && bidAmount >= 0 && bidAmount <= 1000) {
+        const itemHeight = numberWheel.children[0].clientHeight;
+        const scrollTop = bidAmount * itemHeight;
+        numberWheel.scrollTop = scrollTop;
+        document.getElementById('error').style.display = 'none';
+    } else {
+        document.getElementById('error').style.display = 'block';
+    }
+}
 
-                            // Prepare bid modal with correct item information
-                            $('#bidModal').on('show.bs.modal', function (event) {
-                                var button = $(event.relatedTarget); // Button that triggered the modal
-                                var card = button.closest('.card'); // Find the card of the item being bid on
-                                var jewelryID = card.find('.card-title').first().text(); // Extract the jewelryID
-
-                                // Update the modal's hidden input values
-                                var modal = $(this);
-                                modal.find('#jewelryID').val(jewelryID);
-                            });
-                        });
-
-                        function submitBid() {
-                            document.getElementById('bidForm').submit();
-                        }
     </script>
 </body>
 </html>
