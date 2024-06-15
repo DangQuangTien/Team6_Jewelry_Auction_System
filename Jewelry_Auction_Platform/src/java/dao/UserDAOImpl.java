@@ -9,6 +9,7 @@ import entity.Auction.Auction;
 import entity.member.Member;
 import entity.product.Category;
 import entity.product.Jewelry;
+import entity.product.RandomJewelry;
 import entity.request_shipment.RequestShipment;
 import entity.valuation.Valuation;
 import java.sql.Connection;
@@ -771,5 +772,65 @@ public class UserDAOImpl implements UserDao {
         return null;
     }
 
+    @Override
+    public boolean insertAddress(String country, String state, String city, String address1, String address2, String zipCode, String memberID) {
+        String query = "INSERT INTO [Address] (country, state, city, address1, address2, zipcode, memberID) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setString(1, country);
+            ps.setString(2, state);
+            ps.setString(3, city);
+            ps.setString(4, address1);
+            ps.setString(5, address2);
+            ps.setString(6, zipCode);
+            ps.setString(7, memberID);
+
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (ClassNotFoundException | SQLException ex) {
+            // Log the exception
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean registerToBid(String memberID) {
+        String query = "UPDATE Member SET status_register_to_bid = 1 WHERE memberID = ?";
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setString(1, memberID);
+
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (ClassNotFoundException | SQLException ex) {
+            // Log the exception
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public List<RandomJewelry> displayRandomJewelry() {
+        String query = "SELECT TOP 6 j.photos, j.jewelryName, s.auctionID FROM Jewelry j, Auction auc, Session s where s.auctionID = auc.auctionId and s.jewelryID = j.jewelryID ORDER BY NEWID()";
+        List<RandomJewelry> listJewelry = new ArrayList<>();
+        try {
+            conn = DBUtils.getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                RandomJewelry jewelry = new RandomJewelry();
+                jewelry.setPhoto(rs.getString(1));
+                jewelry.setJewelryName(rs.getString(2));
+                jewelry.setAuctionID(rs.getString(3));
+                listJewelry.add(jewelry);
+            }
+            return listJewelry;
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.getMessage();
+        }
+        return null;
+    }
 
 }

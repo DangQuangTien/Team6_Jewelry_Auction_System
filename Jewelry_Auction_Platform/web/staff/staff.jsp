@@ -53,7 +53,6 @@
                         <button type="submit" name="action" class="btn btn-link nav-link" value="Log out"><i class="fas fa-sign-out-alt"></i> Logout</button>
                     </form>
                 </li>
-                
             </ul>
         </div>
     </nav>
@@ -79,7 +78,7 @@
                             <td>${loop.index + 1}</td>
                             <td>
                                 <c:set var="photoArray" value="${fn:split(val.photo, ';')}" />
-                                <img src="${photoArray[0]}" alt="Photo" class="img-thumbnail" style="max-width: 100px;">
+                                <img src="${pageContext.request.contextPath}/${photoArray[0]}" alt="Photo" class="img-thumbnail" style="max-width: 100px;">
                             </td>
                             <td>${val.name}</td>
                             <td>

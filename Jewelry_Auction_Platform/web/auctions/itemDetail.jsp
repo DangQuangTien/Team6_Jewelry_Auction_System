@@ -1,12 +1,19 @@
+<%@page import="entity.member.Member"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page import="dao.UserDAOImpl"%>
 <%@page import="entity.product.Jewelry"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    UserDAOImpl dao = new UserDAOImpl();
+    String jewelryID = request.getParameter("jewelryID");
+    Jewelry jewelry = dao.getJewelryDetails(jewelryID);
+%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Item Detail</title>
+        <title><%= jewelry.getJewelryName()%> | Global F'Rankelly 's Premier Jewelry Auction House</title>
+        <link rel="icon" type="image/png" sizes="64x64" href="../images/logo/Logo.png">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../component/header.css">
         <link rel="stylesheet" type="text/css" href="../component/footer.css">
@@ -123,15 +130,19 @@
             </nav>
         </header>
         <!-- END OF HEADER -->
+
         <%
-            UserDAOImpl dao = new UserDAOImpl();
-            String jewelryID = request.getParameter("jewelryID");
-            Jewelry jewelry = dao.getJewelryDetails(jewelryID);
+            String userID = (String) session.getAttribute("USERID");
+            Member member = dao.getInformation(userID);
+            int status = 1;
+            if (member != null) {
+                status = member.getStatus();
+            }
             if (jewelry != null) {
                 String photos = jewelry.getPhotos();
                 String[] photoArray = photos.split(";");
         %>
-        <div class="container">
+        <div class="container"> 
             <div class="row">
                 <div class="col-md-6">
                     <div class="card">
@@ -146,7 +157,13 @@
                         <h2><%= jewelry.getJewelryID()%></h2>
                         <h2><%= jewelry.getJewelryName()%></h2>
                         <div>Estimate: $<%= jewelry.getMinPrice()%> - $<%= jewelry.getMaxPrice()%></div>
-                        <a href="registerBid.jsp" class="btn btn-primary">Place Bid</a> Starting bid: $1500 <br>
+                        <% if (status == 0 && member != null){ %>
+                        <a href="registerBid.jsp?auctionID=<%= request.getParameter("auctionID")%>" class="btn btn-primary">PLACE BID</a>
+                        <% } else if (status == 1 && member != null){ %>
+                        <button class="btn btn-primary">PLACE BID</button>
+                        <% } else { %>
+                        <a href="../login.jsp" class="btn btn-primary">PLACE BID</a>
+                        <% } %>
                         <div>Live Auction</div>
                         <a href="detail.jsp?auctionID=<%= request.getParameter("auctionID")%>">Fine Jewels & Watches</a>
                         <div>Artist</div>

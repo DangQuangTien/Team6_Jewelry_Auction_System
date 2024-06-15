@@ -9,6 +9,7 @@ import entity.Auction.Auction;
 import entity.member.Member;
 import entity.product.Category;
 import entity.product.Jewelry;
+import entity.product.RandomJewelry;
 import entity.request_shipment.RequestShipment;
 import entity.valuation.Valuation;
 import java.util.ArrayList;
@@ -67,6 +68,8 @@ public interface UserDao {
     List<Jewelry> displayConfirmedJewelry(int page, int pageSize);
 
     boolean createAuction(String auctionDate, String startTime, String endTime, String[] selectedJewelryIDs);
+    
+    List<RandomJewelry> displayRandomJewelry();
 
     List<Auction> displayAuction();
 
@@ -76,4 +79,7 @@ public interface UserDao {
     
     Jewelry getJewelryDetails(String jewelryID);
     
+    boolean insertAddress(String country, String state, String city, String address1, String address2, String zipCode,String memberID);
+    
+    boolean registerToBid(String memberID);
 }

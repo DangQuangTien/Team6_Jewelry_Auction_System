@@ -79,10 +79,12 @@ CREATE TABLE [Member] (
     CONSTRAINT fk_member_userID FOREIGN KEY (userID) REFERENCES Users(userID)
 );
 GO
-
+alter table [Member]
+add status_register_to_bid bit default 0
+select * from Member
+update Member set status_register_to_bid = 0
 CREATE TABLE [Address](
     addressID VARCHAR(50) NOT NULL PRIMARY KEY,
-    street NVARCHAR(255) NOT NULL,
     city NVARCHAR(255) NOT NULL,
     [state] NVARCHAR(255) NOT NULL,
     zipcode VARCHAR(50) NOT NULL,
@@ -91,7 +93,7 @@ CREATE TABLE [Address](
     CONSTRAINT fk_memberID FOREIGN KEY (memberID) REFERENCES [Member](memberID)
 ); 
 GO
-
+select * from Address
 CREATE TABLE category (
     categoryID NVARCHAR(50) NOT NULL PRIMARY KEY,
     categoryName NVARCHAR(255) NOT NULL,
@@ -302,7 +304,7 @@ BEGIN
         metal, gemstones, measurements, [weight], stamped, ringSize, minPrice, maxPrice, temp_Price, valuationId, photos
     )
     SELECT 
-        'Lot' + CAST(NEXT VALUE FOR jewelryID_sequence AS NVARCHAR(50)),
+        'Lot ' + CAST(NEXT VALUE FOR jewelryID_sequence AS NVARCHAR(50)),
         categoryID, jewelryName, artist, circa, material, dial, braceletMaterial, 
         caseDimensions, braceletSize, serialNumber, referenceNumber, caliber, movement, [condition], 
         metal, gemstones, measurements, [weight], stamped, ringSize, minPrice, maxPrice, temp_Price, valuationId, photos
@@ -412,8 +414,19 @@ BEGIN
     FROM inserted;
 END;
 GO
-INSERT INTO [Address] (city, state, zipcode, country, memberID, address1, address2) VALUES (?, ?, ?, ?, ?, ?, ?);
+INSERT INTO [Address] (country, state, city, address1, address2, zipcode, memberID) VALUES ('Viet Nam', null, 'Ha Noi', '12 Dong Da', null, '2000', 'Member1');
 
 select * from Member
-update Member set status_register_to_bid = 1
-select * from Jewelry
+update Member set status_register_to_bid = 0
+  
+alter table Member
+add companyName varchar(255)
+select * from Address
+
+select * from Role
+SELECT TOP 6 j.photos, j.jewelryName, s.auctionID 
+FROM Jewelry j, Auction auc, Session s where s.auctionID = auc.auctionId and s.jewelryID = j.jewelryID
+ORDER BY NEWID();
+select * from Auction
+select * from Session
+select j.* from Jewelry j, Auction auc, Session s where auc.auctionId = s.sessionID and s.jewelryID = j.jewelryID
