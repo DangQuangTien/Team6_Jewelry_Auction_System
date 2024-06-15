@@ -188,12 +188,32 @@ CREATE TABLE Register_Bid(
     bidTime_Current DATETIME,
     preBid_Amount DECIMAL(18,2),
     preBid_Time TIME,
-    [status] BIT,
+    [status] varchar(50) default 'Placed',
     CONSTRAINT fk_sessionID FOREIGN KEY (sessionID) REFERENCES [Session](sessionID),
-    CONSTRAINT fk_Register_Bid_memberID FOREIGN KEY (memberID) REFERENCES [Member](memberID)
+    CONSTRAINT fk_Register_Bid_memberID FOREIGN KEY (memberID) REFERENCES [Member](memberID),
+	CONSTRAINT uc_member_session UNIQUE (memberID, sessionID)
 );
 GO
-
+CREATE SEQUENCE registerBidID_sequence
+    START WITH 0
+    INCREMENT BY 1;
+GO
+CREATE TRIGGER autogenerate_registerBidID 
+ON Register_Bid
+INSTEAD OF INSERT
+AS 
+BEGIN
+    DECLARE @newregisterBidID NVARCHAR(50);
+    SET @newregisterBidID = 'Reg' + CAST(NEXT VALUE FOR registerBidID_sequence AS NVARCHAR(50));
+    INSERT INTO Register_Bid(registerBidID, sessionID, memberID, bidAmount_Current, bidTime_Current, preBid_Amount, preBid_Time, [status])
+    SELECT @newregisterBidID, sessionID, memberID, bidAmount_Current, bidTime_Current, preBid_Amount, CONVERT(TIME, GETDATE()), [status]
+    FROM inserted;
+END;
+GO
+delete from Register_Bid
+select * from Register_Bid
+select * from Auction
+GO
 CREATE TABLE Bid_Track(
     bidID VARCHAR(50) NOT NULL PRIMARY KEY,
     sessionID VARCHAR(50) NOT NULL,
@@ -304,7 +324,7 @@ BEGIN
         metal, gemstones, measurements, [weight], stamped, ringSize, minPrice, maxPrice, temp_Price, valuationId, photos
     )
     SELECT 
-        'Lot ' + CAST(NEXT VALUE FOR jewelryID_sequence AS NVARCHAR(50)),
+        'Lot' + CAST(NEXT VALUE FOR jewelryID_sequence AS NVARCHAR(50)),
         categoryID, jewelryName, artist, circa, material, dial, braceletMaterial, 
         caseDimensions, braceletSize, serialNumber, referenceNumber, caliber, movement, [condition], 
         metal, gemstones, measurements, [weight], stamped, ringSize, minPrice, maxPrice, temp_Price, valuationId, photos
@@ -430,3 +450,5 @@ ORDER BY NEWID();
 select * from Auction
 select * from Session
 select j.* from Jewelry j, Auction auc, Session s where auc.auctionId = s.sessionID and s.jewelryID = j.jewelryID
+select * from RequestValuation
+images/7CBA03CB-D956-4CE8-9504-FB29BA573109.jpeg
