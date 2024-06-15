@@ -9,13 +9,22 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Global F'Rankelly 's Premier Jewelry Auction House</title>
-        <!-- Include Bootstrap CSS -->
+        <title>Global F'Rankelly's Premier Jewelry Auction House</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <link rel="stylesheet" type="text/css" href="component/home.css">
         <link rel="icon" type="image/png" sizes="64x64" href="images/logo/LogoFinal.png">
-
+        <style>
+            .carousel-control-prev, .carousel-control-next {
+                width: 5%;
+            }
+            .carousel-control-prev {
+                left: -5%;
+            }
+            .carousel-control-next {
+                right: -5%;
+            }
+        </style>
     </head>
     <body>
         <c:set var="dao" value="<%= new dao.UserDAOImpl()%>" />
@@ -30,7 +39,6 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="home.jsp"><i class="fas fa-home"></i> HOME<span class="sr-only">(current)</span></a>
@@ -98,7 +106,7 @@
 
                             for (int i = 0; i < numberOfSlides; i++) {
                     %>
-                    <div class="carousel-item <%= (i == 0) ? "active" : ""%>">
+                    <div class="carousel-item <%= (i == 0) ? "active" : "" %>">
                         <div class="row">
                             <%
                                 for (int j = 0; j < itemsPerSlide; j++) {
@@ -109,21 +117,22 @@
                                         String[] photoArray = photo.split(";");
                             %>
                             <div class="col-md-4">
-                                <a href="${pageContext.request.contextPath}/auctions/detail.jsp?auctionID=<%= jewelry.getAuctionID()%>">
+                                <a href="${pageContext.request.contextPath}/auctions/detail.jsp?auctionID=<%= jewelry.getAuctionID() %>">
                                     <div class="card">
-                                        <img src="${pageContext.request.contextPath}/<%= photoArray[0]%>" class="card-img-top" alt="<%= jewelry.getJewelryName()%>">
+                                        <img src="${pageContext.request.contextPath}/<%= photoArray[0] %>" class="card-img-top" alt="<%= jewelry.getJewelryName() %>">
                                         <div class="card-body">
-                                            <h5 class="card-title"><%= jewelry.getJewelryName()%></h5>
+                                            <h5 class="card-title"><%= jewelry.getJewelryName() %></h5>
                                         </div>
                                     </div>
                                 </a>
                             </div>
-                            <%}
-                                }%>
+                            <% }
+                                }
+                            %>
                         </div>
                     </div>
                     <% }
-                    } else {%>
+                    } else { %>
                     <div class="carousel-item active">
                         <div class="row">
                             <div class="col-md-12">
@@ -131,7 +140,7 @@
                             </div>
                         </div>
                     </div>
-                    <% }%>
+                    <% } %>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -142,8 +151,6 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
-
-
 
             <section class="highlight-box mt-5">
                 <h2>About Us</h2>
@@ -174,24 +181,9 @@
             </div>
         </footer>
 
-        <!-- Include Bootstrap JS and dependencies -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var auctionButton = document.getElementById('viewAuctionButton');
-                auctionButton.addEventListener('click', function (event) {
-                    var auctionID = document.querySelector('input[name="auctionID"]').value;
-                    if (!auctionID) {
-                        event.preventDefault();
-                        alert('No auction available');
-                    }
-                });
-            });
-        </script>
-
     </body>
 </html>
