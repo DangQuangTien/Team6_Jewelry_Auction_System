@@ -8,107 +8,40 @@
 <%@page import="dao.UserDAOImpl"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
-<html lang="en">
-<head>
-    <title>Fine Jewels & Watches | Global F'Rankelly 's Premier Jewelry Auction House</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="icon" type="image/png" sizes="64x64" href="../images/logo/Logo.png">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+            />
+        <title>Fine Jewels & Watches | Global F'Rankelly 's Premier Jewelry Auction House</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="icon" type="image/png" sizes="64x64" href="../images/logo/Logo.png">
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="../component//userProfile.css"
+            />
+        <link rel="stylesheet" type="text/css" href="../component/header.css" />
+        <link rel="stylesheet" type="text/css" href="../component/footer.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+            />
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            />
+    </head>
     <style>
-        .wheel-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 150px; /* Adjusted container height */
-            width: 150px; /* Container width */
-            overflow: hidden;
-            position: relative;
-            margin: 0 auto; /* Center the wheel horizontally */
-        }
-
-        .wheel {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            width: 100%; /* Match the width of the container */
-            overflow-y: auto;
-            scroll-snap-type: y mandatory;
-            scrollbar-width: none; /* For Firefox */
-            -ms-overflow-style: none;  /* For Internet Explorer and Edge */
-        }
-
-        .wheel::-webkit-scrollbar {
-            display: none; /* For Chrome, Safari, and Opera */
-        }
-
-        .wheel div {
-            flex: 0 0 50px; /* Height of each item for larger spacing */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5rem; /* Font size */
-            scroll-snap-align: center;
-            color: #343a40;
-        }
-
-        .wheel div:nth-child(even) {
-            background-color: #f8f9fa;
-        }
-
-        .wheel div:nth-child(odd) {
-            background-color: #e9ecef;
-        }
-
-        .wheel-overlay {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 50px; /* Match the item height */
-            margin-top: -25px; /* Center the overlay */
-            background-color: rgba(255, 255, 255, 0.8);
-            pointer-events: none;
-            border-top: 1px solid #343a40;
-            border-bottom: 1px solid #343a40;
-        }
-
-        .modal-dialog {
-            max-width: 200px; /* Adjust to fit the wheel width with padding */
-            margin: 1.75rem auto;
-        }
-
-        .modal-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%; /* Match the width of the modal dialog */
-        }
-
-        .modal-body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            padding: 1rem;
-        }
-
         .countdown-container {
             display: flex;
             align-items: center;
         }
-
         .countdown-container div {
             margin-right: 10px;
         }
-
         .blink {
             animation: blink-animation 1s linear infinite;
         }
@@ -124,9 +57,44 @@
                 opacity: 1;
             }
         }
+        .alert {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #888;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: #343a40 !important;
+            border-bottom: 3px solid #e4af11;
+        }
+
+        .navbar-brand,
+        .nav-link,
+        .navbar-toggler-icon {
+            color: #ffc107 !important;
+        }
+
+        .navbar-brand:hover,
+        .nav-link:hover {
+            color: #0a0800 !important;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
     </style>
-</head>
-<body>
+
     <c:set var="auctionID" value="${param.auctionID}" />
     <c:set var="dao" value="<%= new UserDAOImpl()%>" />
     <c:set var="auction" value="${dao.getAuctionByID(auctionID)}" />
@@ -139,8 +107,16 @@
             <c:set var="status" value="${member.status}" />
         </c:if>
     </c:if>
-
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var statusAlert = document.getElementById('statusAlert');
+            if (statusAlert.innerHTML.trim() !== '') {
+                statusAlert.style.display = 'block';
+                setTimeout(function () {
+                    statusAlert.style.display = 'none';
+                }, 1000);
+            }
+        });
         function getTimeDifference(startDate) {
             var now = new Date().getTime();
             var startTime = new Date(startDate).getTime();
@@ -149,19 +125,20 @@
             if (difference <= 0) {
                 document.getElementById("countdown").innerHTML = "Auction started!";
                 clearInterval(countdownInterval);
-                <c:choose>
-                    <c:when test="${status == 1 && member != null}">
-                        document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.html?auctionID=${auctionID}"><img style="width: 50px; height: 50px" src="../images/entrance.png"></a>';
-                        document.getElementById("auctionLink1").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.html?auctionID=${auctionID}">JOIN AUCTION</a>';
-                        document.getElementById("bidForm").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.html?auctionID=${auctionID}">JOIN AUCTION</a>';
-                    </c:when>
-                    <c:when test="${status == 0 && member != null}">
-                        document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/auctions/registerBid.jsp?auctionID=${auctionID}"><img style="width: 50px; height: 50px" src="../images/entrance.png"></a>';
-                    </c:when>
-                    <c:otherwise>
-                        document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/login.jsp"><img style="width: 50px; height: 50px" src="../images/entrance.png"></a>';
-                    </c:otherwise>
-                </c:choose>
+        <c:choose>
+            <c:when test="${status == 1 && member != null}">
+                document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.jsp?auctionID=${auctionID}"><img style="width: 50px; height: 50px" src="${pageContext.request.contextPath}/images/entrance.png"></a>';
+                document.getElementById("auctionLink1").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.jsp?auctionID=${auctionID}">JOIN AUCTION</a>';
+                document.getElementById("bidForm").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.jsp?auctionID=${auctionID}">JOIN AUCTION</a>';
+                document.getElementById("editBidForm_").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.jsp?auctionID=${auctionID}">JOIN AUCTION</a>';
+            </c:when>
+            <c:when test="${status == 0 && member != null}">
+                document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/auctions/registerBid.jsp?auctionID=${auctionID}"><img style="width: 50px; height: 50px" src="${pageContext.request.contextPath}/images/entrance.png"></a>';
+            </c:when>
+            <c:otherwise>
+                document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/login.jsp"><img style="width: 50px; height: 50px" src="../images/entrance.png"></a>';
+            </c:otherwise>
+        </c:choose>
                 document.getElementById("auctionLink").classList.add("blink");
                 return;
             }
@@ -174,16 +151,98 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             getTimeDifference('${auction.startDate}T${auction.startTime}');
-        });
+                });
 
-        var countdownInterval = setInterval(function () {
-            getTimeDifference('${auction.startDate}T${auction.startTime}');
-        }, 1000);
+                var countdownInterval = setInterval(function () {
+                    getTimeDifference('${auction.startDate}T${auction.startTime}');
+                        }, 1000);
     </script>
-
-    <a href="${pageContext.request.contextPath}/home.jsp">Home</a>
-    <a href="${pageContext.request.contextPath}/login.jsp">Log In</a>
+    <body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#"
+               ><i class="fas fa-gem"></i> Jewelry Auctions</a
+            >
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+                >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            href="${pageContext.request.contextPath}/home.jsp"
+                            ><i class="fas fa-home"></i> Home
+                            <span class="sr-only">(current)</span></a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            href="${pageContext.request.contextPath}/auctions/upcoming.jsp"
+                            ><i class="fas fa-gavel"></i> Auction</a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            href="${pageContext.request.contextPath}/seller/selling.html"
+                            ><i class="fas fa-dollar-sign"></i> Sell</a
+                        >
+                    </li>
+                    <!-- JSTL Conditional Rendering -->
+                    <c:choose>
+                        <c:when test="${empty sessionScope.USERNAME}">
+                            <li class="nav-item">
+                                <a class="nav-link" href="${pageContext.request.contextPath}/login.jsp" ><i class="fas fa-sign-in-alt"></i> Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="${pageContext.request.contextPath}/register.jsp"><i class="fas fa-user-plus"></i> Register</a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle"
+                                   href="#"
+                                   id="userDropdown"
+                                   role="button"
+                                   data-toggle="dropdown"
+                                   aria-haspopup="true"
+                                   aria-expanded="false"
+                                   >
+                                    <i class="fas fa-user"></i> ${sessionScope.USERNAME}
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="userDropdown">
+                                    <a
+                                        class="dropdown-item"
+                                        href="${pageContext.request.contextPath}/bidder/profile.jsp"
+                                        >Profile</a
+                                    >
+                                    <a
+                                        class="dropdown-item"
+                                        href="${pageContext.request.contextPath}/MainController?action=Log out"
+                                        >Logout</a
+                                    >
+                                </div>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+            </div>
+        </nav>
+    </header>
     <div class="container">
+        <% String status = (String) request.getAttribute("PlACEBIDSTATUS");%>
+        <div id="statusAlert" class="alert" style="display: none;">
+            <%= (status != null) ? status : ""%>
+        </div>
         <h1 class="mt-4">Fine Jewels & Watches</h1>
         <h2>Live Auction</h2>
         <h3>Live bidding begins: <c:out value="${auction.startDate}"/> at <c:out value="${auction.startTime}"/></h3>
@@ -242,7 +301,7 @@
                 <c:set var="photoArray" value="${fn:split(photos, ';')}" />
                 <div class="col-md-4 mb-4 catalog-item" data-category="${j.categoryName}">
                     <div class="card">
-                        <a href="itemDetail.jsp?jewelryID=${j.jewelryID}&auctionID=${auctionID}">
+                        <a href="${pageContext.request.contextPath}/auctions/itemDetail.jsp?jewelryID=${j.jewelryID}&auctionID=${auctionID}">
                             <img class="card-img-top" src="${pageContext.request.contextPath}/${photoArray[0]}" alt="${j.jewelryName}">
                         </a>
                         <div class="card-body">
@@ -259,6 +318,8 @@
                                 </c:when>
                                 <c:when test="${status == 1 && member != null}">
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal">PLACE BID</button>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal_">EDIT BID</button>
+
                                 </c:when>
                                 <c:otherwise>
                                     <form action="../login.jsp" method="POST">
@@ -275,6 +336,7 @@
             <p>No items available in the catalog.</p>
         </c:if>
     </div>
+    <% String preBid_Amount = (String) request.getParameter("preBid_Amount");%>
     <!-- Modal for bidding -->
     <div class="modal fade" id="bidModal" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -289,88 +351,120 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="bidAmount">Enter your bid amount:</label>
-                            <input type="number" class="form-control" id="bidAmount" name="bidAmount" required oninput="moveWheelToNumber()">
-                        </div>
-                        <div class="wheel-container">
-                            <div class="wheel" id="numberWheel">
-                                <!-- Options will be populated by JavaScript -->
-                            </div>
-                            <div class="wheel-overlay"></div>
+                            <input type="number" class="form-control" id="bidAmount" name="preBid_Amount" value="<%= (preBid_Amount != null) ? preBid_Amount : ""%>" required>
                         </div>
                         <input type="hidden" id="auctionID" name="auctionID" value="${auctionID}">
                         <input type="hidden" id="jewelryID" name="jewelryID">
+                        <input type="hidden" name="action" value="Place Bid">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Place Bid</button>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-    // Populate the number wheel
-    const numberWheel = document.getElementById('numberWheel');
-    numberWheel.innerHTML = '';
-    for (let i = 0; i <= 1003; i++) { // Start from 0 instead of 1
-        const div = document.createElement('div');
-        div.textContent = i;
-        numberWheel.appendChild(div);
-    }
-
-    // Update the bid amount input when the wheel is scrolled
-    numberWheel.addEventListener('scroll', function() {
-        const itemHeight = numberWheel.children[0].clientHeight;
-        const scrollTop = numberWheel.scrollTop;
-        const currentIndex = Math.round(scrollTop / itemHeight);
-        const currentValue = currentIndex;
-        document.getElementById('bidAmount').value = currentValue;
-    });
-
-    // Speed up the wheel scrolling
-    numberWheel.addEventListener('wheel', function(event) {
-        event.preventDefault();
-        const delta = Math.sign(event.deltaY) * 50; // Adjusted speed
-        numberWheel.scrollTop += delta;
-    });
-
-    // Prepare bid modal with correct item information
-    $('#bidModal').on('show.bs.modal', function (event) {
-        const button = $(event.relatedTarget); // Button that triggered the modal
-        const card = button.closest('.card'); // Find the card of the item being bid on
-        const jewelryID = card.find('.card-title').first().text(); // Extract the jewelryID
-
-        // Update the modal's hidden input values
-        const modal = $(this);
-        modal.find('#jewelryID').val(jewelryID);
-
-        // Start the wheel at number 0
-        const itemHeight = numberWheel.children[0].clientHeight;
-        numberWheel.scrollTop = 0;
-        document.getElementById('bidAmount').value = 0;
-    });
-});
-
-function moveWheelToNumber() {
-    const bidAmountInput = document.getElementById('bidAmount');
-    const numberWheel = document.getElementById('numberWheel');
-    const bidAmount = parseInt(bidAmountInput.value);
-
-    if (!isNaN(bidAmount) && bidAmount >= 0 && bidAmount <= 1000) {
-        const itemHeight = numberWheel.children[0].clientHeight;
-        const scrollTop = bidAmount * itemHeight;
-        numberWheel.scrollTop = scrollTop;
-        document.getElementById('error').style.display = 'none';
-    } else {
-        document.getElementById('error').style.display = 'block';
-    }
-}
-
-    </script>
+    <div class="modal fade" id="bidModal_" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bidModalLabel">Edit Your Bid</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="editBidForm_" action="${pageContext.request.contextPath}/MainController" method="GET">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="editBidAmount">Enter your new bid amount:</label>
+                            <input type="number" class="form-control" id="editBidAmount" name="preBid_Amount" value="<%= (preBid_Amount != null) ? preBid_Amount : ""%>" required>
+                        </div>
+                        <input type="hidden" id="auctionID" name="auctionID" value="${auctionID}">
+                        <input type="hidden" id="jewelryID" name="jewelryID">
+                        <input type="hidden" name="action" value="Edit Bid">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Edit Bid</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            function filterItems() {
+                                var selectedCategory = document.getElementById('categoryFilter').value;
+                                var searchQuery = document.getElementById('searchBar').value.trim().toLowerCase();
+                                var sortPrice = document.getElementById('sortPrice').value;
+
+                                var catalogItems = Array.from(document.querySelectorAll('.catalog-item'));
+
+                                // Filter by category and search query
+                                catalogItems.forEach(function (item) {
+                                    var itemCategory = item.getAttribute('data-category');
+                                    var itemJewelryID = item.querySelector('.card-title').textContent.toLowerCase();
+
+                                    var categoryMatch = (selectedCategory === '' || itemCategory === selectedCategory);
+                                    var searchMatch = (searchQuery === '' || itemJewelryID.includes(searchQuery));
+
+                                    if (categoryMatch && searchMatch) {
+                                        item.style.display = 'block';
+                                    } else {
+                                        item.style.display = 'none';
+                                    }
+                                });
+
+                                // Sort by price
+                                if (sortPrice !== '') {
+                                    catalogItems.sort(function (a, b) {
+                                        var aMinPrice = parseFloat(a.querySelector('.min-price').textContent);
+                                        var bMinPrice = parseFloat(b.querySelector('.min-price').textContent);
+
+                                        if (sortPrice === 'lowToHigh') {
+                                            return aMinPrice - bMinPrice;
+                                        } else if (sortPrice === 'highToLow') {
+                                            return bMinPrice - aMinPrice;
+                                        }
+                                    });
+
+                                    var catalogContainer = document.getElementById('catalogItems');
+                                    catalogItems.forEach(function (item) {
+                                        catalogContainer.appendChild(item);
+                                    });
+                                }
+                            }
+
+                            document.getElementById('categoryFilter').addEventListener('change', filterItems);
+                            document.getElementById('searchBar').addEventListener('input', filterItems);
+                            document.getElementById('sortPrice').addEventListener('change', filterItems);
+
+                            $('#bidModal').on('show.bs.modal', function (event) {
+                                var button = $(event.relatedTarget);
+                                var card = button.closest('.card');
+                                var jewelryID = card.find('.card-title').first().text();
+                                var modal = $(this);
+                                modal.find('#jewelryID').val(jewelryID);
+                            });
+
+                            $('#bidModal_').on('show.bs.modal', function (event) {
+                                var button = $(event.relatedTarget);
+                                var card = button.closest('.card');
+                                var jewelryID = card.find('.card-title').first().text();
+                                var modal = $(this);
+                                modal.find('#jewelryID').val(jewelryID);
+                            });
+
+                            function submitBid() {
+                                document.getElementById('bidForm').submit();
+                            }
+                        });
+
+</script>
 </html>
