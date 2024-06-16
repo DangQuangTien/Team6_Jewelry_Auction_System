@@ -668,7 +668,6 @@ public class UserDAOImpl implements UserDao {
                 auction.setAuctionID(rs.getString(1));
                 auction.setStartDate(rs.getDate(2));
                 auction.setStartTime(LocalTime.parse(rs.getString(3)));
-                auction.setEndTime(LocalTime.parse(rs.getString(5)));
                 listAuction.add(auction);
             }
             return listAuction;
@@ -691,7 +690,6 @@ public class UserDAOImpl implements UserDao {
                 auction.setAuctionID(rs.getString(1));
                 auction.setStartDate(rs.getDate(2));
                 auction.setStartTime(LocalTime.parse(rs.getString(3)));
-                auction.setEndTime(LocalTime.parse(rs.getString(5)));
             }
             return auction;
         } catch (ClassNotFoundException | SQLException ex) {
