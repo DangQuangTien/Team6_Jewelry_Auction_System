@@ -86,4 +86,6 @@ public interface UserDao {
     //Member places bid for jewelry before Auction happens
     boolean placeBid(String preBid_Amount, String jewelryID, String memberID);
     boolean editBid(String preBid_Amount, String jewelryID, String memberID);
+    boolean saveBid(String preBid_Amount, String jewelryID, String memberID);
+    Double getTheHighestBid(String jewelryID);
 }

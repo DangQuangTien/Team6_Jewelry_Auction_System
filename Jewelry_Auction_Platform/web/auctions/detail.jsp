@@ -127,9 +127,10 @@
                 clearInterval(countdownInterval);
         <c:choose>
             <c:when test="${status == 1 && member != null}">
-                document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.html?auctionID=${auctionID}"><img style="width: 50px; height: 50px" src="${pageContext.request.contextPath}/images/entrance.png"></a>';
-                document.getElementById("auctionLink1").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.html?auctionID=${auctionID}">JOIN AUCTION</a>';
-                document.getElementById("bidForm").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.html?auctionID=${auctionID}">JOIN AUCTION</a>';
+                document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.jsp?auctionID=${auctionID}"><img style="width: 50px; height: 50px" src="${pageContext.request.contextPath}/images/entrance.png"></a>';
+                document.getElementById("auctionLink1").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.jsp?auctionID=${auctionID}">JOIN AUCTION</a>';
+                document.getElementById("bidForm").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.jsp?auctionID=${auctionID}">JOIN AUCTION</a>';
+                document.getElementById("editBidForm_").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.jsp?auctionID=${auctionID}">JOIN AUCTION</a>';
             </c:when>
             <c:when test="${status == 0 && member != null}">
                 document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/auctions/registerBid.jsp?auctionID=${auctionID}"><img style="width: 50px; height: 50px" src="${pageContext.request.contextPath}/images/entrance.png"></a>';
@@ -204,14 +205,10 @@
                     <c:choose>
                         <c:when test="${empty sessionScope.USERNAME}">
                             <li class="nav-item">
-                                <a class="nav-link" href="login.jsp"
-                                   ><i class="fas fa-sign-in-alt"></i> Login</a
-                                >
+                                <a class="nav-link" href="${pageContext.request.contextPath}/login.jsp" ><i class="fas fa-sign-in-alt"></i> Login</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="register.jsp"
-                                   ><i class="fas fa-user-plus"></i> Register</a
-                                >
+                                <a class="nav-link" href="${pageContext.request.contextPath}/register.jsp"><i class="fas fa-user-plus"></i> Register</a>
                             </li>
                         </c:when>
                         <c:otherwise>
