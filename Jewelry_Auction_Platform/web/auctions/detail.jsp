@@ -156,10 +156,7 @@
                 var countdownInterval = setInterval(function () {
                     getTimeDifference('${auction.startDate}T${auction.startTime}');
                         }, 1000);
-
-
     </script>
-
     <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">

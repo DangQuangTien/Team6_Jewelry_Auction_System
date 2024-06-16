@@ -53,6 +53,7 @@ public interface UserDao {
 
     List<Jewelry> displayAllJewelryForStaff();
 
+    boolean updateJewelry(Jewelry jewelry);
     boolean updateFinalPrice(String jewelryID, String finalPrice);
 
     boolean approveFinalPrice(String jewelryID);

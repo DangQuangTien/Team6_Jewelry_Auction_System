@@ -388,13 +388,13 @@ public class UserDAOImpl implements UserDao {
     @Override
     public List<Jewelry> displayAllJewelryForStaff() {
         List<Jewelry> listJewelry = new ArrayList<>();
-        String query = "SELECT * FROM JEWELRY WHERE STATUS = 'Received'";
+        String query = "SELECT j.*, c.categoryName FROM JEWELRY j, Category c WHERE STATUS = 'Received' and j.categoryID = c.categoryID";
         try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             try ( ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Jewelry jewelry = new Jewelry();
                     jewelry.setJewelryID(rs.getString("jewelryID"));
-                    jewelry.setCategoryName(rs.getString("categoryID"));
+                    jewelry.setCategoryName(rs.getString("categoryName"));
                     jewelry.setJewelryName(rs.getString("jewelryName"));
                     jewelry.setArtist(rs.getString("artist"));
                     jewelry.setCirca(rs.getString("circa"));
@@ -618,7 +618,7 @@ public class UserDAOImpl implements UserDao {
 
     @Override
     public boolean createAuction(String auctionDate, String startTime, String endTime, String[] selectedJewelryIDs) {
-        String insertAuctionQuery = "INSERT INTO Auction (startDate, startTime) VALUES (?, ?)";
+        String insertAuctionQuery = "INSERT INTO Auction (startDate, startTime, endTime) VALUES (?, ?, ?)";
         String selectAuctionQuery = "SELECT TOP 1 auctionID FROM Auction WHERE status = 0 ORDER BY auctionID DESC";
         String insertSessionQuery = "INSERT INTO [Session] (auctionID, jewelryID) VALUES (?, ?)";
         String updateAuctionStatusQuery = "UPDATE Auction SET status = 1 WHERE auctionID = ?";
@@ -628,6 +628,7 @@ public class UserDAOImpl implements UserDao {
             // Insert auction
             psInsertAuction.setString(1, auctionDate);
             psInsertAuction.setString(2, startTime);
+            psInsertAuction.setString(3, endTime);
             int result = psInsertAuction.executeUpdate();
 
             if (result > 0) {
@@ -667,6 +668,7 @@ public class UserDAOImpl implements UserDao {
                 auction.setAuctionID(rs.getString(1));
                 auction.setStartDate(rs.getDate(2));
                 auction.setStartTime(LocalTime.parse(rs.getString(3)));
+                auction.setEndTime(LocalTime.parse(rs.getString(5)));
                 listAuction.add(auction);
             }
             return listAuction;
@@ -689,6 +691,7 @@ public class UserDAOImpl implements UserDao {
                 auction.setAuctionID(rs.getString(1));
                 auction.setStartDate(rs.getDate(2));
                 auction.setStartTime(LocalTime.parse(rs.getString(3)));
+                auction.setEndTime(LocalTime.parse(rs.getString(5)));
             }
             return auction;
         } catch (ClassNotFoundException | SQLException ex) {
@@ -976,4 +979,44 @@ public class UserDAOImpl implements UserDao {
         return maxBidAmount;
     }
 
+    @Override
+    public boolean updateJewelry(Jewelry jewelry) {
+        String sql = "UPDATE Jewelry SET artist=?, circa=?, material=?, dial=?, braceletMaterial=?, caseDimensions=?, braceletSize=?, " +
+                     "serialNumber=?, referenceNumber=?, caliber=?, movement=?, [condition]=?, metal=?, gemstones=?, measurements=?, " +
+                     "weight=?, stamped=?, ringSize=? WHERE jewelryID=?";
+
+        try (Connection con = DBUtils.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, jewelry.getArtist());
+            ps.setString(2, jewelry.getCirca());
+            ps.setString(3, jewelry.getMaterial());
+            ps.setString(4, jewelry.getDial());
+            ps.setString(5, jewelry.getBraceletMaterial());
+            ps.setString(6, jewelry.getCaseDimensions());
+            ps.setString(7, jewelry.getBraceletSize());
+            ps.setString(8, jewelry.getSerialNumber());
+            ps.setString(9, jewelry.getReferenceNumber());
+            ps.setString(10, jewelry.getCaliber());
+            ps.setString(11, jewelry.getMovement());
+            ps.setString(12, jewelry.getCondition());
+            ps.setString(13, jewelry.getMetal());
+            ps.setString(14, jewelry.getGemstones());
+            ps.setString(15, jewelry.getMeasurements());
+            ps.setString(16, jewelry.getWeight());
+            ps.setString(17, jewelry.getStamped());
+            ps.setString(18, jewelry.getRingSize());
+            ps.setString(19, jewelry.getJewelryID()); // Corrected index to 19
+
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
 }
