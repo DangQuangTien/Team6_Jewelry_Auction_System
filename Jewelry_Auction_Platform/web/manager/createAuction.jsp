@@ -1,247 +1,205 @@
 <%@page import="entity.product.Jewelry"%>
 <%@page import="java.util.List"%>
 <%@page import="dao.UserDAOImpl"%>
+<%@page import="java.time.LocalTime"%>
+<%@page import="com.google.gson.Gson"%> 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="asset/createAuction.css">
     <title>Create Auction</title>
-    <script>
-        var selectedJewelryIDs = [];
-
-        function handleCheckboxChange(checkbox) {
-            var jewelryID = checkbox.value;
-            if (checkbox.checked) {
-                selectedJewelryIDs.push(jewelryID);
-            } else {
-                var index = selectedJewelryIDs.indexOf(jewelryID);
-                if (index !== -1) {
-                    selectedJewelryIDs.splice(index, 1);
-                }
-            }
-        }
-
-        function updateSelectedJewelryIDs() {
-            var selectedJewelryIDsInput = document.getElementById('selectedJewelryIDsInput');
-            selectedJewelryIDsInput.value = selectedJewelryIDs.join(',');
-        }
-
-        function goToPage(page) {
-            document.getElementById('page').value = page;
-            document.getElementById('paginationForm').submit();
-        }
-    </script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        h2 {
-            color: #333;
-        }
-        .form-container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        .table-container {
-            max-height: 500px;
-            overflow-y: auto;
-            margin-top: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 0;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f2f2f2;
-            position: sticky;
-            top: 0;
-            z-index: 1;
-        }
-        .alert {
-            padding: 15px;
-            background-color: #f9edbe;
-            color: #856404;
-            border: 1px solid #ffeeba;
-            border-radius: 5px;
-        }
-        .img-thumbnail {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-        }
-        .submit-btn {
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .submit-btn:hover {
-            background-color: #0056b3;
-        }
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .pagination a {
-            color: black;
-            padding: 8px 16px;
-            text-decoration: none;
-            border: 1px solid #ddd;
-            margin: 0 4px;
-            border-radius: 5px;
-        }
-        .pagination a.active {
-            background-color: #007bff;
-            color: white;
-            border: 1px solid #007bff;
-        }
-        .pagination a:hover {
-            background-color: #ddd;
-        }
-    </style>
 </head>
+<%
+    String greeting = "day!";
+    try {
+        LocalTime now = LocalTime.now();
+        int hour = now.getHour();
+        if (hour < 12) {
+            greeting = "Morning!";
+        } else if (hour < 17) {
+            greeting = "Afternoon!";
+        } else {
+            greeting = "Evening!";
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace(); // Or use a logger to log the exception
+    }
+%>
 <body>
-    <a href="${pageContext.request.contextPath}/manager/manager.jsp"">Home Page</a>
-    <h2>Create Auction</h2>
-    <div class="form-container">
-        <%
-            int currentPage = 1;
-            int pageSize = 3;
-            if (request.getParameter("page") != null) {
-                currentPage = Integer.parseInt(request.getParameter("page"));
-            }
-
-            UserDAOImpl dao = new UserDAOImpl();
-            List<Jewelry> listJewelry = dao.displayConfirmedJewelry(currentPage, pageSize);
-            int totalItems = dao.getTotalConfirmedJewelryCount();
-            int totalPages = (int) Math.ceil((double) totalItems / pageSize);
-
-            if (listJewelry != null && !listJewelry.isEmpty()) {
-        %>
-        <form id="paginationForm" method="POST" action="${pageContext.request.contextPath}/manager/createAuction.jsp">
-            <input type="hidden" id="page" name="page" value="<%= currentPage %>">
-        </form>
-        <form action="${pageContext.request.contextPath}/MainController" method="GET" onsubmit="updateSelectedJewelryIDs()">
-            <div class="form-group">
-                <label for="auctionDate">Select Auction Date:</label>
-                <input type="date" id="auctionDate" name="auctionDate" >
-            </div>
-            <div class="form-group">
-                <label for="startTime">Start Time:</label>
-                <input type="time" id="startTime" name="startTime" >
-            </div>
-            <div class="form-group">
-                <label for="endTime">End Time:</label>
-                <input type="time" id="endTime" name="endTime">
-            </div>
-            <h1>Available Jewelry</h1>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Select</th>
-                            <th>Photo</th>
-                            <th>Jewelry Name</th>
-                            <th>Artist</th>
-                            <th>Circa</th>
-                            <th>Material</th>
-                            <th>Dial</th>
-                            <th>Bracelet Material</th>
-                            <th>Case Dimensions</th>
-                            <th>Bracelet Size</th>
-                            <th>Serial Number</th>
-                            <th>Reference Number</th>
-                            <th>Caliber</th>
-                            <th>Movement</th>
-                            <th>Condition</th>
-                            <th>Metal</th>
-                            <th>Gemstones</th>
-                            <th>Measurements</th>
-                            <th>Weight</th>
-                            <th>Stamped</th>
-                            <th>Ring Size</th>
-                            <th>Min Price</th>
-                            <th>Max Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for (Jewelry jewelry : listJewelry) { %>
-                        <tr>
-                            <td><input type="checkbox" value="<%= jewelry.getJewelryID() %>" onchange="handleCheckboxChange(this)" required=""></td>
-                            <td><img class="img-thumbnail" src="${pageContext.request.contextPath}/<%= jewelry.getPhotos().split(";")[0] %>" alt="Jewelry Photo"></td>
-                            <td><%= jewelry.getJewelryName() %></td>
-                            <td><%= jewelry.getArtist() %></td>
-                            <td><%= jewelry.getCirca() %></td>
-                            <td><%= jewelry.getMaterial() %></td>
-                            <td><%= jewelry.getDial() %></td>
-                            <td><%= jewelry.getBraceletMaterial() %></td>
-                            <td><%= jewelry.getCaseDimensions() %></td>
-                            <td><%= jewelry.getBraceletSize() %></td>
-                            <td><%= jewelry.getSerialNumber() %></td>
-                            <td><%= jewelry.getReferenceNumber() %></td>
-                            <td><%= jewelry.getCaliber() %></td>
-                            <td><%= jewelry.getMovement() %></td>
-                            <td><%= jewelry.getCondition() %></td>
-                            <td><%= jewelry.getMetal() %></td>
-                            <td><%= jewelry.getGemstones() %></td>
-                            <td><%= jewelry.getMeasurements() %></td>
-                            <td><%= jewelry.getWeight() %></td>
-                            <td><%= jewelry.getStamped() %></td>
-                            <td><%= jewelry.getRingSize() %></td>
-                            <td><%= jewelry.getMinPrice() %></td>
-                            <td><%= jewelry.getMaxPrice() %></td>
-                        </tr>
-                        <% } %>
-                    </tbody>
-                </table>
-            </div>
-            <br>
-            <input type="hidden" id="selectedJewelryIDsInput" name="selectedJewelryIDs" value="">
-            <input type="submit" name="action" class="submit-btn" value="Create Auction">
-        </form>
-        <div class="pagination">
-            <% if (currentPage > 1) { %>
-            <a href="javascript:void(0);" onclick="goToPage(<%= currentPage - 1 %>)">&laquo; Previous</a>
-            <% } %>
-            <% for (int i = 1; i <= totalPages; i++) { %>
-            <a href="javascript:void(0);" class="<%= (i == currentPage) ? "active" : "" %>" onclick="goToPage(<%= i %>)"><%= i %></a>
-            <% } %>
-            <% if (currentPage < totalPages) { %>
-            <a href="javascript:void(0);" onclick="goToPage(<%= currentPage + 1 %>)">Next &raquo;</a>
-            <% } %>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Jewelry Auctions</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/manager/manager.jsp">Request</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/manager/createAuction.jsp">Create Auction</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/manager/auctionManagement.jsp">Auction Management</a>
+                </li>
+            </ul>
+            <form action="${pageContext.request.contextPath}/MainController" method="POST" onsubmit="confirmLogout(event)">
+                <button type="submit" name="action" class="btn btn-link nav-link" value="Log out"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </form>
         </div>
-        <% } else { %>
-        <p class="alert">No jewelry found</p>
-        <% } %>
+    </nav>
+    <main class="container mt-4">
+        <div class="container light-style flex-grow-1 container-p-y">
+            <h3>Good <%= greeting %> Welcome back, Manager</h3>
+            <h2>Create New Auction</h2>
+            <%
+                int currentPage = 1;
+                int pageSize = 3;
+                if (request.getParameter("page") != null) {
+                    currentPage = Integer.parseInt(request.getParameter("page"));
+                }
+
+                UserDAOImpl dao = new UserDAOImpl();
+                List<Jewelry> listJewelry = dao.displayConfirmedJewelry(currentPage, pageSize);
+                int totalItems = dao.getTotalConfirmedJewelryCount();
+                int totalPages = (int) Math.ceil((double) totalItems / pageSize);
+
+                if (listJewelry != null && !listJewelry.isEmpty()) {
+            %>
+            <form method="POST" action="${pageContext.request.contextPath}/MainController" onsubmit="updateSelectedJewelryIDs()">
+                <div class="form-group">
+                    <label for="auctionDate">Select Auction Date:</label>
+                    <input type="date" id="auctionDate" name="auctionDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="timeRange">Time Range:</label>
+                    <div class="d-flex">
+                        <input type="time" id="startTime" name="startTime" class="form-control me-2" required>
+                        <input type="time" id="endTime" name="endTime" class="form-control" required>
+                    </div>
+                </div>
+                <input type="hidden" id="selectedJewelryIDsInput" name="selectedJewelryIDs">
+                <div class="form-group">
+                    <button type="submit" name="action" class="btn btn-primary" value="Create Auction">Create Auction</button>
+                </div>
+                <div class="table-container">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>Photo</th>
+                                <th>Jewelry Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%
+                                for (Jewelry jewelry : listJewelry) {
+                            %>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="jewelryID" value="<%= jewelry.getJewelryID() %>" onchange="handleCheckboxChange(this)">
+                                </td>
+                                <td>
+                                    <% String[] photoArray = jewelry.getPhotos().split(";"); %>
+                                    <img class="img-thumbnail" style="width: 100px; height: 100px" src="${pageContext.request.contextPath}/<%= photoArray[0] %>">
+                                </td>
+                                <td>
+                                    <%= jewelry.getJewelryName() %>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-info" onclick='showJewelryDetails(<%= new Gson().toJson(jewelry) %>)'>View Details</button>
+                                </td>
+                            </tr>
+                            <%
+                                }
+                            %>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination">
+                    <%
+                        if (currentPage > 1) {
+                    %>
+                    <a href="javascript:goToPage(<%= currentPage - 1 %>)">Previous</a>
+                    <%
+                        }
+                        for (int i = 1; i <= totalPages; i++) {
+                            if (i == currentPage) {
+                    %>
+                    <a href="javascript:void(0)" class="active"><%= i %></a>
+                    <%
+                            } else {
+                    %>
+                    <a href="javascript:goToPage(<%= i %>)"><%= i %></a>
+                    <%
+                            }
+                        }
+                        if (currentPage < totalPages) {
+                    %>
+                    <a href="javascript:goToPage(<%= currentPage + 1 %>)">Next</a>
+                    <%
+                        }
+                    %>
+                </div>
+            </form>
+            <%
+                } else {
+            %>
+            <p>No confirmed jewelry found.</p>
+            <%
+                }
+            %>
+        </div>
+    </main>
+
+
+<!-- Modal -->
+<div class="modal fade" id="jewelryModal" tabindex="-1" aria-labelledby="jewelryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="jewelryModalLabel">Jewelry Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Name:</strong> <span id="modalJewelryName"></span></p>
+                <p><strong>Artist:</strong> <span id="modalArtist"></span></p>
+                <p><strong>Circa:</strong> <span id="modalCirca"></span></p>
+                <p><strong>Material:</strong> <span id="modalMaterial"></span></p>
+                <p><strong>Dial:</strong> <span id="modalDial"></span></p>
+                <p><strong>Bracelet Material:</strong> <span id="modalBraceletMaterial"></span></p>
+                <p><strong>Case Dimensions:</strong> <span id="modalCaseDimensions"></span></p>
+                <p><strong>Bracelet Size:</strong> <span id="modalBraceletSize"></span></p>
+                <p><strong>Serial Number:</strong> <span id="modalSerialNumber"></span></p>
+                <p><strong>Reference Number:</strong> <span id="modalReferenceNumber"></span></p>
+                <p><strong>Caliber:</strong> <span id="modalCaliber"></span></p>
+                <p><strong>Movement:</strong> <span id="modalMovement"></span></p>
+                <p><strong>Condition:</strong> <span id="modalCondition"></span></p>
+                <p><strong>Metal:</strong> <span id="modalMetal"></span></p>
+                <p><strong>Gemstones:</strong> <span id="modalGemstones"></span></p>
+                <p><strong>Measurements:</strong> <span id="modalMeasurements"></span></p>
+                <p><strong>Weight:</strong> <span id="modalWeight"></span></p>
+                <p><strong>Stamped:</strong> <span id="modalStamped"></span></p>
+                <p><strong>Ring Size:</strong> <span id="modalRingSize"></span></p>
+                <p><strong>Min Price:</strong> <span id="modalMinPrice"></span></p>
+                <p><strong>Max Price:</strong> <span id="modalMaxPrice"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
     </div>
+    </div>
+</div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="asset/createAuction.js"></script>
 </body>
 </html>

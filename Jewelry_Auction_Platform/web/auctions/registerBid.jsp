@@ -260,6 +260,7 @@
                             <div class="invalid-feedback">You must be at least 18 years old.</div>
                         </div>
                     </div>
+                    <input type="hidden" name="auctionID" value="<%= request.getParameter("auctionID") %>">
                     <input type="submit" name="action" value="Register" class="btn btn-primary mt-3">
                 </div>
             </form>

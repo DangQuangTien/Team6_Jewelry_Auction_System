@@ -188,12 +188,29 @@ CREATE TABLE Register_Bid(
     bidTime_Current DATETIME,
     preBid_Amount DECIMAL(18,2),
     preBid_Time TIME,
-    [status] BIT,
+    [status] varchar(50) default 'Placed',
     CONSTRAINT fk_sessionID FOREIGN KEY (sessionID) REFERENCES [Session](sessionID),
-    CONSTRAINT fk_Register_Bid_memberID FOREIGN KEY (memberID) REFERENCES [Member](memberID)
+    CONSTRAINT fk_Register_Bid_memberID FOREIGN KEY (memberID) REFERENCES [Member](memberID),
+	CONSTRAINT uc_member_session UNIQUE (memberID, sessionID)
 );
 GO
-
+CREATE SEQUENCE registerBidID_sequence
+    START WITH 0
+    INCREMENT BY 1;
+GO
+CREATE TRIGGER autogenerate_registerBidID 
+ON Register_Bid
+INSTEAD OF INSERT
+AS 
+BEGIN
+    DECLARE @newregisterBidID NVARCHAR(50);
+    SET @newregisterBidID = 'Reg' + CAST(NEXT VALUE FOR registerBidID_sequence AS NVARCHAR(50));
+    INSERT INTO Register_Bid(registerBidID, sessionID, memberID, bidAmount_Current, bidTime_Current, preBid_Amount, preBid_Time, [status])
+    SELECT @newregisterBidID, sessionID, memberID, bidAmount_Current, bidTime_Current, preBid_Amount, CONVERT(TIME, GETDATE()), [status]
+    FROM inserted;
+END;
+select * from Bid_Track
+GO
 CREATE TABLE Bid_Track(
     bidID VARCHAR(50) NOT NULL PRIMARY KEY,
     sessionID VARCHAR(50) NOT NULL,
@@ -204,7 +221,22 @@ CREATE TABLE Bid_Track(
     CONSTRAINT fk_memberID_live FOREIGN KEY (memberID) REFERENCES [Member](memberID)
 );
 GO
-
+CREATE SEQUENCE bidID_sequence
+    START WITH 0
+    INCREMENT BY 1;
+GO
+CREATE TRIGGER autogenerate_bidID
+ON Bid_Track
+INSTEAD OF INSERT
+AS 
+BEGIN
+    DECLARE @newbidID NVARCHAR(50);
+    SET @newbidID = 'Bid' + CAST(NEXT VALUE FOR bidID_sequence AS NVARCHAR(50));
+    INSERT INTO Bid_Track(bidID, bidAmount, bidTime, sessionID, memberID)
+    SELECT @newbidID, bidAmount, bidTime, sessionID, memberID
+    FROM inserted;
+END;
+GO
 CREATE TABLE Invoice(
     invoiceID VARCHAR(50) NOT NULL PRIMARY KEY,
     registerBidID VARCHAR(50) NOT NULL,
@@ -215,7 +247,6 @@ CREATE TABLE Invoice(
     CONSTRAINT fk_RegisterBid FOREIGN KEY (registerBidID) REFERENCES Register_Bid(registerBidID)
 );    
 GO
-
 -- Create triggers
 CREATE TRIGGER check_unique_username
 ON Users
@@ -337,7 +368,6 @@ BEGIN
     JOIN inserted i ON val.valuationId = i.valuationId;
 END;
 GO
-
 CREATE TRIGGER autogenerate_auctionID
 ON Auction
 INSTEAD OF INSERT
@@ -397,7 +427,6 @@ delete from Notification;
 delete from Auction;
 delete from [Session];
 */
-drop trigger autogenerate_addressID
 CREATE SEQUENCE addressID_sequence
     START WITH 0
     INCREMENT BY 1;
@@ -414,11 +443,5 @@ BEGIN
     FROM inserted;
 END;
 GO
-INSERT INTO [Address] (country, state, city, address1, address2, zipcode, memberID) VALUES ('Viet Nam', null, 'Ha Noi', '12 Dong Da', null, '2000', 'Member1');
-
-select * from Member
-update Member set status_register_to_bid = 0 where member
-select * from Member
-alter table Member
-add companyName varchar(255)
-select * from Address
+update Member set status_register_to_bid = 0
+select * from Bid_Track

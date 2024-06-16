@@ -157,8 +157,14 @@
                         <h2><%= jewelry.getJewelryID()%></h2>
                         <h2><%= jewelry.getJewelryName()%></h2>
                         <div>Estimate: $<%= jewelry.getMinPrice()%> - $<%= jewelry.getMaxPrice()%></div>
-                        <% if (member == null){ %><a href="../login.jsp" class="btn btn-primary">Place Bid</a> <% } %>
-                        <% if (status == 0){ %><a href="registerBid.jsp" class="btn btn-primary">Place Bid</a> <% } %>Starting bid: $1500 <br>
+                        <% if (status == 0 && member != null){ %>
+                        <a href="registerBid.jsp?auctionID=<%= request.getParameter("auctionID")%>" class="btn btn-primary">PLACE BID</a>
+                        <% } else if (status == 1 && member != null){ %>
+                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal">PLACE BID</button>
+                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal_">EDIT BID</button>
+                        <% } else { %>
+                        <a href="../login.jsp" class="btn btn-primary">PLACE BID</a>
+                        <% } %>
                         <div>Live Auction</div>
                         <a href="detail.jsp?auctionID=<%= request.getParameter("auctionID")%>">Fine Jewels & Watches</a>
                         <div>Artist</div>
@@ -233,7 +239,62 @@
             </div>
         </footer>
         <!-- END OF FOOTER -->
+        <% String preBid_Amount = (String) request.getParameter("preBid_Amount");%>
+<div class="modal fade" id="bidModal" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bidModalLabel">Place Your Bid</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="bidForm" action="${pageContext.request.contextPath}/MainController" method="GET">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="bidAmount">Enter your bid amount:</label>
+                            <input type="number" class="form-control" id="bidAmount" name="preBid_Amount" value="<%= (preBid_Amount != null) ? preBid_Amount : ""%>" required>
+                        </div>
+                            <input type="hidden" id="auctionID" name="auctionID" value="<%= request.getParameter("auctionID") %>">
+                        <input type="hidden" id="jewelryID" name="jewelryID" value="<%= request.getParameter("jewelryID") %>">
+                        <input type="hidden" name="action" value="Place Bid">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Place Bid</button>
+                    </div>
+                </form>
 
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="bidModal_" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bidModalLabel">Edit Your Bid</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="editBidForm_" action="${pageContext.request.contextPath}/MainController" method="GET">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="editBidAmount">Enter your new bid amount:</label>
+                            <input type="number" class="form-control" id="editBidAmount" name="preBid_Amount" value="<%= (preBid_Amount != null) ? preBid_Amount : ""%>" required>
+                        </div>
+                        <input type="hidden" id="auctionID" name="auctionID" value="<%= request.getParameter("auctionID") %>">
+                        <input type="hidden" id="jewelryID" name="jewelryID" value="<%= request.getParameter("jewelryID") %>">
+                        <input type="hidden" name="action" value="Edit Bid">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Edit Bid</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
         <!-- Include Bootstrap JS and dependencies -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

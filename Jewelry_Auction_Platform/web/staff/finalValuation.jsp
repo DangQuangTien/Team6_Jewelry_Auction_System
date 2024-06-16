@@ -44,7 +44,6 @@
             </ul>
         </div>
         </nav>  
-
 <div class="container mt-5">
     <%
         UserDAOImpl dao = new UserDAOImpl();
@@ -70,7 +69,7 @@
                     </td>
                     <td><%= jewelry.getJewelryName() %></td>
                     <td>
-                        <form action="${pageContext.request.contextPath}/MainController" method="GET" onsubmit="confirmAuction(event)">
+                        <form action="" method="GET" onsubmit="confirmAuction(event)">
                             <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID() %>">
                             <input type="number" name="finalPrice" value="<%= jewelry.getFinal_Price() %>" required>
                             <td>
@@ -82,41 +81,115 @@
                 </tr>
 
                 <!-- Modal -->
-                <div class="modal fade" id="detailsModal<%= jewelry.getJewelryID() %>" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel<%= jewelry.getJewelryID() %>" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="detailsModalLabel<%= jewelry.getJewelryID() %>"><%= jewelry.getJewelryName() %> Details</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p><strong>Artist:</strong> <%= jewelry.getArtist() %></p>
-                                <p><strong>Circa:</strong> <%= jewelry.getCirca() %></p>
-                                <p><strong>Material:</strong> <%= jewelry.getMaterial() %></p>
-                                <p><strong>Dial:</strong> <%= jewelry.getDial() %></p>
-                                <p><strong>Bracelet Material:</strong> <%= jewelry.getBraceletMaterial() %></p>
-                                <p><strong>Case Dimensions:</strong> <%= jewelry.getCaseDimensions() %></p>
-                                <p><strong>Bracelet Size:</strong> <%= jewelry.getBraceletSize() %></p>
-                                <p><strong>Serial Number:</strong> <%= jewelry.getSerialNumber() %></p>
-                                <p><strong>Reference Number:</strong> <%= jewelry.getReferenceNumber() %></p>
-                                <p><strong>Caliber:</strong> <%= jewelry.getCaliber() %></p>
-                                <p><strong>Movement:</strong> <%= jewelry.getMovement() %></p>
-                                <p><strong>Condition:</strong> <%= jewelry.getCondition() %></p>
-                                <p><strong>Metal:</strong> <%= jewelry.getMetal() %></p>
-                                <p><strong>Gemstones:</strong> <%= jewelry.getGemstones() %></p>
-                                <p><strong>Measurements:</strong> <%= jewelry.getMeasurements() %></p>
-                                <p><strong>Weight:</strong> <%= jewelry.getWeight() %></p>
-                                <p><strong>Stamped:</strong> <%= jewelry.getStamped() %></p>
-                                <p><strong>Ring Size:</strong> <%= jewelry.getRingSize() %></p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
+<!-- Modal -->
+<div class="modal fade" id="detailsModal<%= jewelry.getJewelryID() %>" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel<%= jewelry.getJewelryID() %>" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="${pageContext.request.contextPath}/UpdateJewelry" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailsModalLabel<%= jewelry.getJewelryID() %>"><%= jewelry.getJewelryName() %> Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Include hidden field for Jewelry ID -->
+                    <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID() %>">
+                    <!-- Group 1: General Information -->
+                    <h6>General Information</h6>
+                    <div class="form-group">
+                        <label for="artist<%= jewelry.getJewelryID() %>">Artist:</label>
+                        <input type="text" class="form-control" id="artist<%= jewelry.getJewelryID() %>" name="artist" value="<%= jewelry.getArtist() %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="circa<%= jewelry.getJewelryID() %>">Circa:</label>
+                        <input type="text" class="form-control" id="circa<%= jewelry.getJewelryID() %>" name="circa" value="<%= jewelry.getCirca() %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="condition<%= jewelry.getJewelryID() %>">Condition:</label>
+                        <input type="text" class="form-control" id="condition<%= jewelry.getJewelryID() %>" name="condition" value="<%= jewelry.getCondition() %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="stamped<%= jewelry.getJewelryID() %>">Stamped:</label>
+                        <input type="text" class="form-control" id="stamped<%= jewelry.getJewelryID() %>" name="stamped" value="<%= jewelry.getStamped() %>">
+                    </div>
+
+                    <!-- Group 2: Material Information -->
+                    <h6>Material Information</h6>
+                    <div class="form-group">
+                        <label for="material<%= jewelry.getJewelryID() %>">Material:</label>
+                        <input type="text" class="form-control" id="material<%= jewelry.getJewelryID() %>" name="material" value="<%= jewelry.getMaterial() %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="metal<%= jewelry.getJewelryID() %>">Metal:</label>
+                        <input type="text" class="form-control" id="metal<%= jewelry.getJewelryID() %>" name="metal" value="<%= jewelry.getMetal() %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="gemstones<%= jewelry.getJewelryID() %>">Gemstones:</label>
+                        <input type="text" class="form-control" id="gemstones<%= jewelry.getJewelryID() %>" name="gemstones" value="<%= jewelry.getGemstones() %>">
+                    </div>
+
+                    <!-- Group 3: Size and Weight -->
+                    <h6>Size and Weight</h6>
+                    <div class="form-group">
+                        <label for="measurements<%= jewelry.getJewelryID() %>">Measurements:</label>
+                        <input type="text" class="form-control" id="measurements<%= jewelry.getJewelryID() %>" name="measurements" value="<%= jewelry.getMeasurements() %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="weight<%= jewelry.getJewelryID() %>">Weight:</label>
+                        <input type="text" class="form-control" id="weight<%= jewelry.getJewelryID() %>" name="weight" value="<%= jewelry.getWeight() %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="ringSize<%= jewelry.getJewelryID() %>">Ring Size:</label>
+                        <input type="text" class="form-control" id="ringSize<%= jewelry.getJewelryID() %>" name="ringSize" value="<%= jewelry.getRingSize() %>">
+                    </div>
+
+                    <!-- Group 4: Bracelet/Watch Details (if applicable) -->
+                    <h6>Bracelet/Watch Details</h6>
+                    <div class="form-group">
+                        <label for="dial<%= jewelry.getJewelryID() %>">Dial:</label>
+                        <input type="text" class="form-control" id="dial<%= jewelry.getJewelryID() %>" name="dial" value="<%= jewelry.getDial() %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="braceletMaterial<%= jewelry.getJewelryID() %>">Bracelet Material:</label>
+                        <input type="text" class="form-control" id="braceletMaterial<%= jewelry.getJewelryID() %>" name="braceletMaterial" value="<%= jewelry.getBraceletMaterial() %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="braceletSize<%= jewelry.getJewelryID() %>">Bracelet Size:</label>
+                        <input type="text" class="form-control" id="braceletSize<%= jewelry.getJewelryID() %>" name="braceletSize" value="<%= jewelry.getBraceletSize() %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="caseDimensions<%= jewelry.getJewelryID() %>">Case Dimensions:</label>
+                        <input type="text" class="form-control" id="caseDimensions<%= jewelry.getJewelryID() %>" name="caseDimensions" value="<%= jewelry.getCaseDimensions() %>">
+                    </div>
+
+                    <!-- Group 5: Additional Information -->
+                    <h6>Additional Information</h6>
+                    <div class="form-group">
+                        <label for="serialNumber<%= jewelry.getJewelryID() %>">Serial Number:</label>
+                        <input type="text" class="form-control" id="serialNumber<%= jewelry.getJewelryID() %>" name="serialNumber" value="<%= jewelry.getSerialNumber() %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="referenceNumber<%= jewelry.getJewelryID() %>">Reference Number:</label>
+                        <input type="text" class="form-control" id="referenceNumber<%= jewelry.getJewelryID() %>" name="referenceNumber" value="<%= jewelry.getReferenceNumber() %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="caliber<%= jewelry.getJewelryID() %>">Caliber:</label>
+                        <input type="text" class="form-control" id="caliber<%= jewelry.getJewelryID() %>" name="caliber" value="<%= jewelry.getCaliber() %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="movement<%= jewelry.getJewelryID() %>">Movement:</label>
+                        <input type="text" class="form-control" id="movement<%= jewelry.getJewelryID() %>" name="movement" value="<%= jewelry.getMovement() %>">
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
                 <% } %>
             </tbody>
         </table>
