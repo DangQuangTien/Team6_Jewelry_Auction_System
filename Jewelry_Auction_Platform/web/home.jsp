@@ -383,6 +383,9 @@ footer a {
                             <li class="nav-item">
                                 <a class="nav-link" href="seller/shipmentRequest.jsp"><i class="fas fa-bell"></i> Notification</a>
                             </li>
+                            <li>
+                                <a class="nav-link" id="logout-link"href="${pageContext.request.contextPath}/MainController?action=Log out" ><i class="fas fa-sign-out-alt"></i>LOG OUT</a                                                
+                            </li>
                         </c:otherwise>
                     </c:choose>
                 </ul>
@@ -398,7 +401,7 @@ footer a {
             <div class="banner">
                 <img src="https://png.pngtree.com/thumb_back/fw800/background/20190223/ourmid/pngtree-beautiful-romantic-golden-jewelry-banner-background-spheresmall-golden-ballgold-image_83218.jpg" alt="Banner Image">
                 <div class="banner-text">
-                    <h2>Welcome to Jewelry Auction</h2>
+                    <h2>Welcome to F'Rankelly Auction</h2>
                     <p>We're delighted to have you explore our curated selection of fine jewelry. Each piece is a treasure waiting to be discovered. Join our community of connoisseurs and start your bidding journey today.</p>
                 </div>
             </div>

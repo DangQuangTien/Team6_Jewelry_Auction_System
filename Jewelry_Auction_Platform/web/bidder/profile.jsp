@@ -59,11 +59,12 @@
     <c:set var="userID" value="${sessionScope.USERID}" />
     <c:set var="member" value="${dao.getInformation(userID)}" />
     <body>
-        <header>
+        
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#"
-                   ><i class="fas fa-gem"></i> Jewelry Auctions</a
-                >
+                <a class="navbar-brand" href="home.jsp">
+                    <i class="fas fa-gem"> F'Rankelly</i><br>
+                    <span style="font-size: 0.5em;">Auctioneers & Appraisers</span>
+                </a>
                 <button
                     class="navbar-toggler"
                     type="button"
@@ -166,7 +167,6 @@
                     </form>
                 </div>
             </nav>
-        </header>
 
         <main>
             <div class="container light-style flex-grow-1 container-p-y">
