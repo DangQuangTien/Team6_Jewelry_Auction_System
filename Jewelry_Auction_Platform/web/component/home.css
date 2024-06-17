@@ -1,161 +1,315 @@
-    body {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        font-family: 'Arial', sans-serif;
-        background-color: #f5eded;
-    }
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Georgia', serif;
+    background-color: #f5eded;
+}
 
-    .navbar {
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        background-color: #343a40;
-        border-bottom: 3px solid #e4af11;
-    }
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #343a40;
+    border-bottom: 3px solid #e4af11;
+}
 
-    .navbar-brand, .nav-link, .navbar-toggler-icon {
-        color: #ffc107 !important;
-    }
+.navbar-brand, .nav-link, .navbar-toggler-icon {
+    color: #ffc107 !important;
+}
 
-    .navbar-brand:hover, .nav-link:hover {
-        color: #0a0800 !important;
-    }
+.navbar-brand:hover, .nav-link:hover {
+    color: #0a0800 !important;
+}
 
-    .content {
-        flex: 1;
-        padding: 20px;
-    }
+.content {
+    flex: 1;
+    padding: 20px;
+}
 
-    footer {
-        background-color: #343a40;
-        color: #fff;
-        padding: 1rem;
-        text-align: center;
-    }
+footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+}
 
-    footer a {
-        color: #ffc107;
-        margin: 0 10px;
-    }
+footer a {
+    color: #ffc107;
+    margin: 0 10px;
+}
 
-    .content-box {
-        background-color: #fff;
-        padding: 1.5rem;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
+.content-box, .highlight-box {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
 
-    .highlight-box {
-        background-color: #f5eded;
-        padding: 1.5rem;
-        border-radius: 5px;
-        border: 1px solid #c6a9a9;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
+.highlight-box {
+    background-color: #f5eded;
+    padding: 1.5rem;
+    border-radius: 5px;
+    border: 1px solid #c6a9a9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
 
-    .highlight-box h2 {
-        color: #343a40;
-        font-weight: bold;
-    }
+.highlight-box h2 {
+    color: #343a40;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
 
-    .highlight-box p {
-        color: #666;
-    }
+.highlight-box p {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.8;
+}
 
-    .carousel-item {
-        justify-content: center;
-    }
+.carousel-inner {
+    margin-top: 30px;
+}
 
-    .carousel-item .row {
-        width: 100%;
-    }
+.carousel-item {                
+    justify-content: center;
+}
 
-    .carousel-item .card {
-        margin: 0.5rem;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    }
+.carousel-item .row {
+    width: 100%;
+    justify-content: center;
+}
 
-    .card img {
-        max-height: 200px;
-        object-fit: cover;
-        border-bottom: 1px solid #ddd;
-    }
+.carousel-item .card {
+    margin: 10px;
+    border: none;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
 
-    .card-title {
-        color: #343a40;
-        font-weight: bold;
-    }
+.carousel-item .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
 
-    .card-text {
-        color: #666;
-    }
+.card img {
+    max-height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    border-bottom: 1px solid #ddd;
+}
 
-    .banner {
-        position: relative;
-        width: 100%;
-        height: 300px;
-        overflow: hidden;
-    }
+.card-title {
+    color: #343a40;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
 
-    .banner img {
-        width: 100%;
-        height: auto;
-        filter: brightness(0.5);
-    }
+.card-body {
+    padding: 10px;
+}
 
+.banner {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
+
+.banner img {
+    width: 100%;
+    height: auto;
+    filter: brightness(0.5);
+}
+
+.banner-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 768px) {
     .banner-text {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: #fff;
-        text-align: center;
-        padding: 20px;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+#viewAuctionButton {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#viewAuctionButton:hover {
+    background-color: #c82333;
+}
+
+#viewAuctionButton[disabled] {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+#noAuctionBox {
+    background-color: #ffc107;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #343a40;
+    font-weight: bold;
+    margin-left: 10px;
+    display: none;
+}
+
+#viewAuctionForm.no-auction #noAuctionBox {
+    display: inline-block;
+}
+
+.about-contact-section {
+    margin-top: 50px;
+    padding: 20px 0;
+}
+
+.about-contact-section .row {
+    margin-bottom: 50px;
+}
+
+.about-contact-section img {
+    width: 100%;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.about-contact-section img:hover {
+    transform: scale(1.05);
+}
+
+.about-contact-section h2 {
+    font-size: 2.5rem;
+    color: #222;
+    margin-bottom: 20px;
+}
+
+.about-contact-section p.lead {
+    font-size: 1.25rem;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.about-contact-section p {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+    .banner-text {
+        font-size: 14px;
+        padding: 10px;
     }
 
-    @media (max-width: 768px) {
-        .banner-text {
-            font-size: 14px;
-            padding: 10px;
-        }
+    .about-contact-section .row {
+        flex-direction: column;
     }
 
-    #viewAuctionButton {
-        background-color: #dc3545;
-        color: #fff;
-        border: none;
-        font-size: 16px;
-        padding: 10px 20px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
+    .about-contact-section .order-md-1, .about-contact-section .order-md-2 {
+        order: initial;
     }
 
-    #viewAuctionButton:hover {
-        background-color: #c82333;
+    .about-contact-section img {
+        margin-bottom: 20px;
+    }
+}
+
+.section-title {
+    font-family: 'Georgia', serif;
+    font-size: 2rem;
+    color: #343a40;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.section-description {
+    font-size: 1.1rem;
+    color: #666;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.testimonial-card {
+    border: none;
+    background-color: #fdfdfd;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.testimonial-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-card .card-body {
+    padding: 2rem;
+    text-align: center;
+    font-style: italic;
+}
+
+.testimonial-card .card-text {
+    font-size: 1rem;
+    color: #555;
+}
+
+.newsletter-input {
+    border: 2px solid #ccc;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 1rem;
+}
+
+.newsletter-button {
+    background-color: #343a40;
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    padding: 7px 20px;
+    border-radius: 30px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.newsletter-button:hover {
+    background-color: #e4af11;
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.5rem;
     }
 
-    #viewAuctionButton[disabled] {
-        background-color: #6c757d;
-        cursor: not-allowed;
+    .section-description {
+        font-size: 1rem;
     }
 
-    #noAuctionBox {
-        background-color: #ffc107;
-        padding: 5px 10px;
-        border-radius: 5px;
-        color: #343a40;
-        font-weight: bold;
-        margin-left: 10px;
-        display: none;
+    .testimonial-card .card-body {
+        padding: 1rem;
     }
+}
 
-    #viewAuctionForm.no-auction #noAuctionBox {
-        display: inline-block;
-    }
+.carousel-control-prev, .carousel-control-next {
+    width: 5%;
+}
 
+.carousel-control-prev {
+    left: -5%;
+}
+
+.carousel-control-next {
+    right: -5%;
+}
