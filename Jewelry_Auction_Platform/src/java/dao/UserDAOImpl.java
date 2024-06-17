@@ -1069,44 +1069,6 @@ public class UserDAOImpl implements UserDao {
         }
         return false;
     }
-    
-//    public boolean createAuction(String auctionDate, String startTime, String endTime, String[] selectedJewelryIDs) {
-//        String insertAuctionQuery = "INSERT INTO Auction (startDate, startTime, endTime) VALUES (?, ?, ?)";
-//        String selectAuctionQuery = "SELECT TOP 1 auctionID FROM Auction WHERE status = 0 ORDER BY auctionID DESC";
-//        String insertSessionQuery = "INSERT INTO [Session] (auctionID, jewelryID) VALUES (?, ?)";
-//        String updateAuctionStatusQuery = "UPDATE Auction SET status = 1 WHERE auctionID = ?";
-//
-//        try (Connection conn = DBUtils.getConnection(); PreparedStatement psInsertAuction = conn.prepareStatement(insertAuctionQuery); PreparedStatement psSelectAuction = conn.prepareStatement(selectAuctionQuery); PreparedStatement psInsertSession = conn.prepareStatement(insertSessionQuery); PreparedStatement psUpdateAuctionStatus = conn.prepareStatement(updateAuctionStatusQuery)) {
-//
-//            // Insert auction
-//            psInsertAuction.setString(1, auctionDate);
-//            psInsertAuction.setString(2, startTime);
-//            psInsertAuction.setString(3, endTime);
-//            int result = psInsertAuction.executeUpdate();
-//
-//            if (result > 0) {
-//                // Get the latest auction ID
-//                try (ResultSet rs = psSelectAuction.executeQuery()) {
-//                    if (rs.next()) {
-//                        String auctionID = rs.getString("auctionID");
-//                        // Insert selected jewelry into session
-//                        for (String id : selectedJewelryIDs) {
-//                            psInsertSession.setString(1, auctionID);
-//                            psInsertSession.setString(2, id);
-//                            psInsertSession.executeUpdate();
-//                        }
-//                        // Update auction status
-//                        psUpdateAuctionStatus.setString(1, auctionID);
-//                        int updated = psUpdateAuctionStatus.executeUpdate();
-//                        return updated > 0;
-//                    }
-//                }
-//            }
-//        } catch (SQLException | ClassNotFoundException ex) {
-//            ex.printStackTrace(); // Handle or log the exception properly
-//        }
-//        return false;
-//    }
 
     @Override
     public boolean checkDuplicateUsername(String username) {
@@ -1126,9 +1088,10 @@ public class UserDAOImpl implements UserDao {
 
 //    @Override
 //    public boolean createInvoice (String registerBidID, Double totalAmount, String paymentMethod, String shippingAddress){
-//        String getWinnerSql = "SELECT winnerID, sessionID FROM Session WHERE sessionID = ?";
+//        String getWinnerSql = "SELECT registerBidID FROM  WHERE sessionID = ?";
 //        String getWinnerBidSql = "SELECT bidAmount_Current FROM Register_Bid WHERE sessionID = ? and memberID = ?";
 //        String createInvoiceSql = "INSERT INTO Invoice (registerBidID, invoiceDate, totalAmount, paymentMethod, shippingAddress";
-//
+//        
+//        return false;
 //    }
 }

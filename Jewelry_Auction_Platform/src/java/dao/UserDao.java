@@ -87,11 +87,13 @@ public interface UserDao {
     boolean registerToBid(String memberID);
     
     //---------------------------------
+    //User register
     boolean registerUser(String firstName, String lastName, String email, String username, String password);
     
+    //check if duplicated username
     boolean checkDuplicateUsername(String username);
     
-    //boolean createInvoice(String registerBidID, Double totalAmount, String paymentMethod, String shippingAddress);
+//    boolean createInvoice(String registerBidID, Double totalAmount, String paymentMethod, String shippingAddress);
     //Member places bid for jewelry before Auction happens
     boolean placeBid(String preBid_Amount, String jewelryID, String memberID);
     boolean editBid(String preBid_Amount, String jewelryID, String memberID);
