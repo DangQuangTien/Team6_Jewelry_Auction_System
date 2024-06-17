@@ -10,20 +10,327 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Global F'Rankelly's Premier Jewelry Auction House</title>
+        <!-- Include Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <link rel="stylesheet" type="text/css" href="component/home.css">
         <link rel="icon" type="image/png" sizes="64x64" href="images/logo/LogoFinal.png">
         <style>
-            .carousel-control-prev, .carousel-control-next {
-                width: 5%;
-            }
-            .carousel-control-prev {
-                left: -5%;
-            }
-            .carousel-control-next {
-                right: -5%;
-            }
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Georgia', serif;
+    background-color: #f5eded;
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #343a40;
+    border-bottom: 3px solid #e4af11;
+}
+
+.navbar-brand, .nav-link, .navbar-toggler-icon {
+    color: #ffc107 !important;
+}
+
+.navbar-brand:hover, .nav-link:hover {
+    color: #0a0800 !important;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+}
+
+footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+}
+
+footer a {
+    color: #ffc107;
+    margin: 0 10px;
+}
+
+.content-box, .highlight-box {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.highlight-box {
+    background-color: #f5eded;
+    padding: 1.5rem;
+    border-radius: 5px;
+    border: 1px solid #c6a9a9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.highlight-box h2 {
+    color: #343a40;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.highlight-box p {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+.carousel-inner {
+    margin-top: 30px;
+}
+
+.carousel-item {                
+    justify-content: center;
+}
+
+.carousel-item .row {
+    width: 100%;
+    justify-content: center;
+}
+
+.carousel-item .card {
+    margin: 10px;
+    border: none;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.carousel-item .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+    max-height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.card-title {
+    color: #343a40;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.card-body {
+    padding: 10px;
+}
+
+.banner {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
+
+.banner img {
+    width: 100%;
+    height: auto;
+    filter: brightness(0.5);
+}
+
+.banner-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 768px) {
+    .banner-text {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+#viewAuctionButton {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#viewAuctionButton:hover {
+    background-color: #c82333;
+}
+
+#viewAuctionButton[disabled] {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+#noAuctionBox {
+    background-color: #ffc107;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #343a40;
+    font-weight: bold;
+    margin-left: 10px;
+    display: none;
+}
+
+#viewAuctionForm.no-auction #noAuctionBox {
+    display: inline-block;
+}
+
+.about-contact-section {
+    margin-top: 50px;
+    padding: 20px 0;
+}
+
+.about-contact-section .row {
+    margin-bottom: 50px;
+}
+
+.about-contact-section img {
+    width: 100%;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.about-contact-section img:hover {
+    transform: scale(1.05);
+}
+
+.about-contact-section h2 {
+    font-size: 2.5rem;
+    color: #222;
+    margin-bottom: 20px;
+}
+
+.about-contact-section p.lead {
+    font-size: 1.25rem;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.about-contact-section p {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+    .banner-text {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .about-contact-section .row {
+        flex-direction: column;
+    }
+
+    .about-contact-section .order-md-1, .about-contact-section .order-md-2 {
+        order: initial;
+    }
+
+    .about-contact-section img {
+        margin-bottom: 20px;
+    }
+}
+
+.section-title {
+    font-family: 'Georgia', serif;
+    font-size: 2rem;
+    color: #343a40;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.section-description {
+    font-size: 1.1rem;
+    color: #666;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.testimonial-card {
+    border: none;
+    background-color: #fdfdfd;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.testimonial-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-card .card-body {
+    padding: 2rem;
+    text-align: center;
+    font-style: italic;
+}
+
+.testimonial-card .card-text {
+    font-size: 1rem;
+    color: #555;
+}
+
+.newsletter-input {
+    border: 2px solid #ccc;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 1rem;
+}
+
+.newsletter-button {
+    background-color: #343a40;
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    padding: 7px 20px;
+    border-radius: 30px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.newsletter-button:hover {
+    background-color: #e4af11;
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .section-description {
+        font-size: 1rem;
+    }
+
+    .testimonial-card .card-body {
+        padding: 1rem;
+    }
+}
+
+.carousel-control-prev, .carousel-control-next {
+    width: 5%;
+}
+
+.carousel-control-prev {
+    left: -5%;
+}
+
+.carousel-control-next {
+    right: -5%;
+}
         </style>
     </head>
     <body>
@@ -39,6 +346,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
+
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="home.jsp"><i class="fas fa-home"></i> HOME<span class="sr-only">(current)</span></a>
@@ -103,44 +411,45 @@
                             int itemsPerSlide = 3;
                             int totalItems = listJewelry.size();
                             int numberOfSlides = (int) Math.ceil((double) totalItems / itemsPerSlide);
-
+        
                             for (int i = 0; i < numberOfSlides; i++) {
                     %>
                     <div class="carousel-item <%= (i == 0) ? "active" : "" %>">
                         <div class="row">
                             <%
                                 for (int j = 0; j < itemsPerSlide; j++) {
-                                    int index = (i * itemsPerSlide) + j;
-                                    if (index < totalItems) {
-                                        RandomJewelry jewelry = listJewelry.get(index);
-                                        String photo = jewelry.getPhoto();
-                                        String[] photoArray = photo.split(";");
+                                    int currentIndex = i * itemsPerSlide + j;
+                                    if (currentIndex >= totalItems) break;
+                                    RandomJewelry jewelry = listJewelry.get(currentIndex);
                             %>
                             <div class="col-md-4">
-                                <a href="${pageContext.request.contextPath}/auctions/detail.jsp?auctionID=<%= jewelry.getAuctionID() %>">
-                                    <div class="card">
-                                        <img src="${pageContext.request.contextPath}/<%= photoArray[0] %>" class="card-img-top" alt="<%= jewelry.getJewelryName() %>">
-                                        <div class="card-body">
-                                            <h5 class="card-title"><%= jewelry.getJewelryName() %></h5>
-                                        </div>
+                                <div class="card">
+                                    <img src="<%= jewelry.getPhoto() %>" class="card-img-top" alt="Jewelry Image">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><%= jewelry.getJewelryName() %></h5>
+                                        <a href="${pageContext.request.contextPath}/auctions/detail.jsp?auctionID=<%= jewelry.getAuctionID() %>" class="btn btn-primary">Bid Now</a>
                                     </div>
-                                </a>
+                                </div>
                             </div>
-                            <% }
+                            <%
                                 }
                             %>
                         </div>
                     </div>
-                    <% }
-                    } else { %>
+                    <%
+                            }
+                        } else {
+                    %>
                     <div class="carousel-item active">
                         <div class="row">
                             <div class="col-md-12">
-                                <p>No jewelry items available.</p>
+                                <p>No upcoming auctions at the moment. Please check back later.</p>
                             </div>
                         </div>
                     </div>
-                    <% } %>
+                    <%
+                        }
+                    %>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -151,25 +460,74 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
-
-            <section class="highlight-box mt-5">
-                <h2>About Us</h2>
-                <div class="content-box">
-                    <p>Welcome to Jewelry Auctioned! We offer a wide range of discounted jewelry and gemstones directly from verified manufacturers worldwide. Shop top-quality pieces at a fraction of the price. Our sellers meet high standards through a rigorous application process.</p>
-                </div>
-            </section>
-
-            <section class="highlight-box mt-5">
-                <h2>Contact</h2>
-                <div class="content-box">
-                    <p>We welcome your feedback and encourage you to share your thoughts. Feel free to ask questions, tell us what you like, and let us know how we can improve. Your input is valuable to us!</p>
-                    <p>Phone Support: +849872539999 (Available 7 days a week, 9:00 am - 5:30 pm EST)</p>
-                    <p>Email Support: support@jewelryauction.com</p>
-                    <p>Fill out the form below for more assistance.</p>
-                </div>
-            </section>
         </div>
-
+        
+        <div class="about-contact-section container mt-5">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="./images/z5546462796989_1ff9a9b729be11624975ca5db8d58b64.jpg" alt="About Us Image">
+                </div>
+                <div class="col-md-6">
+                    <h2>About Us</h2>
+                    <p class="lead">F'Rankelly's Premier Jewelry Auction House</p>
+                    <p>At F'Rankelly, we pride ourselves on offering the finest jewelry at auction. Our commitment to quality and excellence is unmatched, ensuring that every piece we present is of the highest standard. Join us in discovering the timeless beauty and elegance of our collections.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 order-md-2">
+                    <img src="./images/z5546463061579_b12c3929fc6aa94bff2cbf559a6d5acd.jpg" alt="Contact Us Image">
+                </div>
+                <div class="col-md-6 order-md-1">
+                    <h2>Contact Us</h2>
+                    <p class="lead">Get in Touch with Our Team</p>
+                    <p>Whether you have a question about our auctions, need assistance with a purchase, or simply want to learn more about our services, our team is here to help. Reach out to us through our contact page or visit us at our showroom for a personal consultation.</p>
+                </div>
+            </div>
+        </div>
+        <div class="content container mt-5">
+            <h2 class="section-title">What Our Customers Say</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card testimonial-card">
+                        <div class="card-body">
+                            <p class="card-text">"I had a wonderful experience at F'Rankelly's auction. The staff was knowledgeable, and the jewelry was exquisite."</p>
+                            <p class="card-text"><strong>- Alice Smith</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card testimonial-card">
+                        <div class="card-body">
+                            <p class="card-text">"I found the perfect piece for my collection. The bidding process was smooth and exciting."</p>
+                            <p class="card-text"><strong>- John Doe</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card testimonial-card">
+                        <div class="card-body">
+                            <p class="card-text">"Great selection and professional service. I highly recommend F'Rankelly's to any jewelry enthusiast."</p>
+                            <p class="card-text"><strong>- Emma Johnson</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content container mt-5">
+            <h2 class="section-title">Stay Updated</h2>
+            <p class="section-description">Sign up for our newsletter to get the latest news and updates on upcoming auctions and exclusive offers.</p>
+            <form class="newsletter-form">
+                <div class="form-row">
+                    <div class="col-md-8 mb-3">
+                        <input type="email" class="form-control newsletter-input" placeholder="Enter your email">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <button class="btn btn-primary btn-block newsletter-button" type="submit">Subscribe</button>
+                    </div>
+                </div>
+            </form>
+        </div>
         <footer class="text-center py-3 mt-auto">
             <div>
                 <h6>Jewelry Auction</h6>
@@ -181,9 +539,21 @@
             </div>
         </footer>
 
+        <!-- Include Bootstrap JS and dependencies -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var auctionButton = document.getElementById('viewAuctionButton');
+                auctionButton.addEventListener('click', function (event) {
+                    var auctionID = document.querySelector('input[name="auctionID"]').value;
+                    if (!auctionID) {
+                        event.preventDefault();
+                        alert('No auction available');
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
