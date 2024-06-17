@@ -10,11 +10,21 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Global F'Rankelly's Premier Jewelry Auction House</title>
-        <!-- Include Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <link rel="stylesheet" type="text/css" href="component/home.css">
         <link rel="icon" type="image/png" sizes="64x64" href="images/logo/LogoFinal.png">
+        <style>
+            .carousel-control-prev, .carousel-control-next {
+                width: 5%;
+            }
+            .carousel-control-prev {
+                left: -5%;
+            }
+            .carousel-control-next {
+                right: -5%;
+            }
+        </style>
     </head>
     <body>
         <c:set var="dao" value="<%= new dao.UserDAOImpl()%>" />
@@ -29,7 +39,6 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="home.jsp"><i class="fas fa-home"></i> HOME<span class="sr-only">(current)</span></a>
@@ -97,42 +106,41 @@
 
                             for (int i = 0; i < numberOfSlides; i++) {
                     %>
-                    <div class="carousel-item <%= (i == 0) ? "active" : ""%>">
+                    <div class="carousel-item <%= (i == 0) ? "active" : "" %>">
                         <div class="row">
                             <%
                                 for (int j = 0; j < itemsPerSlide; j++) {
-                                    int currentIndex = i * itemsPerSlide + j;
-                                    if (currentIndex >= totalItems) break;
-                                    RandomJewelry jewelry = listJewelry.get(currentIndex);
+                                    int index = (i * itemsPerSlide) + j;
+                                    if (index < totalItems) {
+                                        RandomJewelry jewelry = listJewelry.get(index);
+                                        String photo = jewelry.getPhoto();
+                                        String[] photoArray = photo.split(";");
                             %>
                             <div class="col-md-4">
-                                <div class="card">
-                                    <img src="<%= jewelry.getPhoto()%>" class="card-img-top" alt="Jewelry Image">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><%= jewelry.getJewelryName()%></h5>
-                                        <a href="#" class="btn btn-primary">Bid Now</a>
+                                <a href="${pageContext.request.contextPath}/auctions/detail.jsp?auctionID=<%= jewelry.getAuctionID() %>">
+                                    <div class="card">
+                                        <img src="${pageContext.request.contextPath}/<%= photoArray[0] %>" class="card-img-top" alt="<%= jewelry.getJewelryName() %>">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><%= jewelry.getJewelryName() %></h5>
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
-                            <%
+                            <% }
                                 }
                             %>
                         </div>
                     </div>
-                    <%
-                            }
-                        } else {
-                    %>
+                    <% }
+                    } else { %>
                     <div class="carousel-item active">
                         <div class="row">
                             <div class="col-md-12">
-                                <p>No upcoming auctions at the moment. Please check back later.</p>
+                                <p>No jewelry items available.</p>
                             </div>
                         </div>
                     </div>
-                    <%
-                        }
-                    %>
+                    <% } %>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -143,73 +151,25 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
+
+            <section class="highlight-box mt-5">
+                <h2>About Us</h2>
+                <div class="content-box">
+                    <p>Welcome to Jewelry Auctioned! We offer a wide range of discounted jewelry and gemstones directly from verified manufacturers worldwide. Shop top-quality pieces at a fraction of the price. Our sellers meet high standards through a rigorous application process.</p>
+                </div>
+            </section>
+
+            <section class="highlight-box mt-5">
+                <h2>Contact</h2>
+                <div class="content-box">
+                    <p>We welcome your feedback and encourage you to share your thoughts. Feel free to ask questions, tell us what you like, and let us know how we can improve. Your input is valuable to us!</p>
+                    <p>Phone Support: +849872539999 (Available 7 days a week, 9:00 am - 5:30 pm EST)</p>
+                    <p>Email Support: support@jewelryauction.com</p>
+                    <p>Fill out the form below for more assistance.</p>
+                </div>
+            </section>
         </div>
-        <div class="about-contact-section container mt-5">
-            <div class="row">
-                <div class="col-md-6">
-                    <img src="./images/logo/image1.jpg" alt="About Us Image">
-                </div>
-                <div class="col-md-6">
-                    <h2>About Us</h2>
-                    <p class="lead">F'Rankelly's Premier Jewelry Auction House</p>
-                    <p>At F'Rankelly, we pride ourselves on offering the finest jewelry at auction. Our commitment to quality and excellence is unmatched, ensuring that every piece we present is of the highest standard. Join us in discovering the timeless beauty and elegance of our collections.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 order-md-2">
-                    <img src="./images/logo/image2.jpg" alt="Contact Us Image">
-                </div>
-                <div class="col-md-6 order-md-1">
-                    <h2>Contact Us</h2>
-                    <p class="lead">Get in Touch with Our Team</p>
-                    <p>Whether you have a question about our auctions, need assistance with a purchase, or simply want to learn more about our services, our team is here to help. Reach out to us through our contact page or visit us at our showroom for a personal consultation.</p>
-                </div>
-            </div>
-        </div>
-        <div class="content container mt-5">
-            <h2 class="section-title">What Our Customers Say</h2>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card testimonial-card">
-                        <div class="card-body">
-                            <p class="card-text">"I had a wonderful experience at F'Rankelly's auction. The staff was knowledgeable, and the jewelry was exquisite."</p>
-                            <p class="card-text"><strong>- Alice Smith</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card testimonial-card">
-                        <div class="card-body">
-                            <p class="card-text">"I found the perfect piece for my collection. The bidding process was smooth and exciting."</p>
-                            <p class="card-text"><strong>- John Doe</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card testimonial-card">
-                        <div class="card-body">
-                            <p class="card-text">"Great selection and professional service. I highly recommend F'Rankelly's to any jewelry enthusiast."</p>
-                            <p class="card-text"><strong>- Emma Johnson</strong></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="content container mt-5">
-            <h2 class="section-title">Stay Updated</h2>
-            <p class="section-description">Sign up for our newsletter to get the latest news and updates on upcoming auctions and exclusive offers.</p>
-            <form class="newsletter-form">
-                <div class="form-row">
-                    <div class="col-md-8 mb-3">
-                        <input type="email" class="form-control newsletter-input" placeholder="Enter your email">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <button class="btn btn-primary btn-block newsletter-button" type="submit">Subscribe</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+
         <footer class="text-center py-3 mt-auto">
             <div>
                 <h6>Jewelry Auction</h6>
@@ -221,21 +181,9 @@
             </div>
         </footer>
 
-        <!-- Include Bootstrap JS and dependencies -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var auctionButton = document.getElementById('viewAuctionButton');
-                auctionButton.addEventListener('click', function (event) {
-                    var auctionID = document.querySelector('input[name="auctionID"]').value;
-                    if (!auctionID) {
-                        event.preventDefault();
-                        alert('No auction available');
-                    }
-                });
-            });
-        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     </body>
 </html>
