@@ -13,12 +13,47 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5eded;
-            color: #000000;
-            padding-top: 70px;
-        }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5eded;
+    color: #000000;
+    padding-top: 70px;
+    min-height: 100vh; /* Ensure the body takes at least the full viewport height */
+    position: relative; /* Needed for the footer to be positioned relative to the body */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    padding-bottom: 100px; /* Add padding to the bottom to ensure content is not covered by the footer */
+}
+
+.footer {
+    background-color: #343a40;
+    color: #e4af11;
+    padding: 20px 0;
+    position: absolute; /* Position the footer at the bottom */
+    bottom: 0; /* Align the footer to the bottom */
+    width: 100%;
+    text-align: center;
+}
+
+.footer a {
+    color: #e4af11;
+    text-decoration: none;
+    padding: 0 10px;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.footer h6 {
+    margin: 0;
+    padding-bottom: 10px;
+    font-size: 1.2em;
+}
+
+.footer span {
+    font-size: 0.9em;
+}
+
 
         .navbar-dark .navbar-nav .nav-link,
         .navbar-dark .navbar-brand {
@@ -72,8 +107,6 @@
             background-color: #ebebe5;
             color: #000000;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            
-            
         }
 
         th, td {
@@ -144,33 +177,6 @@
         .close:hover {
             color: #000;
         }
-
-        .footer {
-            background-color: #343a40;
-            color: #e4af11;
-            padding: 20px 0;
-        }
-
-        .footer a {
-            color: #e4af11;
-            text-decoration: none;
-            padding: 0 10px;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        .footer h6 {
-            margin: 0;
-            padding-bottom: 10px;
-            font-size: 1.2em;
-        }
-
-        .footer span {
-            font-size: 0.9em;
-        }
-
     </style>
 </head>
 <body>
