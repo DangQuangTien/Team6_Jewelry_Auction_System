@@ -34,6 +34,8 @@ public class MainController extends HttpServlet {
     private static final String REJECT_TO_AUCTION_CONTROLLER = "RejectToAuctionController";
     private static final String CREATE_AUCTION_CONTROLLER = "CreateAuctionController";
     private static final String REGISTER_TO_BID_CONTROLLER = "RegisterToBid";
+    private static final String PLACE_BID_CONTROLLER = "PlaceBidController";
+    private static final String EDIT_BID_CONTROLLER = "EditBidController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -95,6 +97,12 @@ public class MainController extends HttpServlet {
                     break;
                 case "Register":
                     url = REGISTER_TO_BID_CONTROLLER;
+                    break;
+                case "Place Bid":
+                    url = PLACE_BID_CONTROLLER;
+                    break;
+                case "Edit Bid":
+                    url = EDIT_BID_CONTROLLER;
                     break;
                 default:
                     break;

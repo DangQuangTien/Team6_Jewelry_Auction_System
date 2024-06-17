@@ -50,12 +50,16 @@ public class LoginController extends HttpServlet {
             String username = request.getParameter("email");
             String password = request.getParameter("password");
             String url = ERROR_PAGE;
-
             UserDAOImpl dao = new UserDAOImpl();
             try {
                 UserDTO user = dao.checkLogin(username, password);
                 if (user != null) {
                     url = determinePageByRole(user.getRole());
+                    if ("Member".equals(user.getRole())) {
+                        Member member = dao.getInformation(user.getUserID());
+                        HttpSession session = request.getSession();
+                        session.setAttribute("INF", member);
+                    }
                     initializeSession(request, user);
                 }
             } catch (Exception ex) {

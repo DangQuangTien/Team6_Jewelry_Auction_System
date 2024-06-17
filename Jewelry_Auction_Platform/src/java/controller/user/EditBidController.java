@@ -20,48 +20,54 @@ import javax.servlet.http.HttpSession;
  *
  * @author User
  */
-@WebServlet(name = "RegisterToBid", urlPatterns = {"/RegisterToBid"})
-public class RegisterToBid extends HttpServlet {
-    private static final String ERROR_PAGE = "index.htm";
-    private static final String BID_PAGE = "/auctions/detail.jsp?";
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+@WebServlet(name = "EditBidController", urlPatterns = {"/EditBidController"})
+public class EditBidController extends HttpServlet {
+ private static final String ERROR_PAGE = "/index.htm";
+  private static final String DETAIL_PAGE = "/auctions/detail.jsp";
+    private static final String AUCTION_PARAM = "auctionID";
+   
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            HttpSession session = request.getSession();
-            UserDAOImpl dao = new UserDAOImpl();
-            String userID = (String)session.getAttribute("USERID");
+             HttpSession session = request.getSession();
+        UserDAOImpl dao = new UserDAOImpl();
+        String url = ERROR_PAGE;
+        String userID = (String) session.getAttribute("USERID");
+        try {
             Member member = dao.getInformation(userID);
-            String url = ERROR_PAGE;
-            String memberID = member.getMemberID();
-            String auctionID = request.getParameter("auctionID");
-            String country = request.getParameter("country");
-            String state = request.getParameter("state");
-            String city = request.getParameter("city");
-            String address1 = request.getParameter("address1");
-            String address2 = request.getParameter("address2");
-            String zipCode = request.getParameter("zipCode");
-            String cardNumber = request.getParameter("cardNumber");
-            boolean result = dao.insertAddress(country, state, city, address1, address2, zipCode, memberID);
-            if (cardNumber != null || (cardNumber != null && result == true)){
-                boolean updated = dao.registerToBid(memberID);
-                if (updated){
-                    member = dao.getInformation(userID);
-                    url = request.getContextPath() + BID_PAGE + "auctionID=" + auctionID;
-                    session.setAttribute("INF", member);
+
+            if (member != null) {
+                String preBidAmount = request.getParameter("preBid_Amount");
+                String auctionID = request.getParameter("auctionID");
+                String jewelryID = request.getParameter("jewelryID");
+
+                if (preBidAmount != null && auctionID != null && jewelryID != null) {
+                    try {
+                        boolean check = dao.editBid(preBidAmount, jewelryID, member.getMemberID());
+                        if (!check) {
+                            String message = "Please place bid first!";
+                            request.setAttribute("PlACEBIDSTATUS", message);
+                        } else {
+                            String message = "UPDATE BID SUCCESSFULLY!";
+                            request.setAttribute("PlACEBIDSTATUS", message);
+                        }
+                        url = DETAIL_PAGE + "?" + AUCTION_PARAM + "=" + auctionID;
+                    } catch (Exception ex) {
+                        ex.printStackTrace(); // Proper logging should be implemented
+                    }
+                } else {
+                    System.err.println("Invalid parameters received in request.");
                 }
+            } else {
+                System.err.println("Member information not found for userID: " + userID);
             }
-           response.sendRedirect(url);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Proper logging should be implemented
+        }
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+        dispatcher.forward(request, response);
         }
     }
 
