@@ -380,9 +380,13 @@ footer a {
                             <li class="nav-item">
                                 <a class="nav-link" href="${url}"><i class="fas fa-user"></i>${username}</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="seller/shipmentRequest.jsp"><i class="fas fa-bell"></i> Notification</a>
+                            </li>
                         </c:otherwise>
                     </c:choose>
                 </ul>
+
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search for anything" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i> Search</button>
