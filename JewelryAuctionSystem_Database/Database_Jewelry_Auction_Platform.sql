@@ -159,7 +159,6 @@ CREATE TABLE Jewelry (
     FOREIGN KEY (categoryID) REFERENCES category(categoryID)
 );
 GO
-select * from Jewelry
 
 CREATE TABLE Auction (
     auctionId VARCHAR(50) PRIMARY KEY NOT NULL,
@@ -382,11 +381,6 @@ BEGIN
     FROM inserted;
 END;
 GO
-drop trigger autogenerate_auctionID
-alter table Auction
-add endTime TIME;
-select * from Auction
-GO
 CREATE TRIGGER autogenerate_sessionID
 ON [Session]
 INSTEAD OF INSERT
@@ -399,7 +393,7 @@ BEGIN
     FROM inserted;
 END;
 GO
-SELECT j.*, c.categoryName FROM JEWELRY j, Category c WHERE STATUS = 'Received' and j.categoryID = c.categoryID
+
 /* Testing and data manipulation queries 
 -- Select queries
 select * from Users;   
@@ -451,5 +445,4 @@ END;
 GO
 update Member set status_register_to_bid = 0
 select * from Bid_Track
-select * from Auction
-alter
+select * from Register_Bid

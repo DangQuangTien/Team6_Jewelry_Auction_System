@@ -618,7 +618,7 @@ public class UserDAOImpl implements UserDao {
 
     @Override
     public boolean createAuction(String auctionDate, String startTime, String endTime, String[] selectedJewelryIDs) {
-        String insertAuctionQuery = "INSERT INTO Auction (startDate, startTime) VALUES (?, ?)";
+        String insertAuctionQuery = "INSERT INTO Auction (startDate, startTime, endTime) VALUES (?, ?, ?)";
         String selectAuctionQuery = "SELECT TOP 1 auctionID FROM Auction WHERE status = 0 ORDER BY auctionID DESC";
         String insertSessionQuery = "INSERT INTO [Session] (auctionID, jewelryID) VALUES (?, ?)";
         String updateAuctionStatusQuery = "UPDATE Auction SET status = 1 WHERE auctionID = ?";
@@ -628,6 +628,7 @@ public class UserDAOImpl implements UserDao {
             // Insert auction
             psInsertAuction.setString(1, auctionDate);
             psInsertAuction.setString(2, startTime);
+            psInsertAuction.setString(3, endTime);
             int result = psInsertAuction.executeUpdate();
 
             if (result > 0) {

@@ -39,17 +39,17 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/manager/manager.jsp"><i class="fas fa-clipboard-list"></i> Request</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/manager/manager.jsp">Request</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/manager/createAuction.jsp"><i class="fas fa-plus-circle"></i> Create Auction</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/manager/createAuction.jsp">Create Auction</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/manager/auctionManagement.jsp"><i class="fas fa-cogs"></i> Auction Management</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/manager/auctionManagement.jsp">Auction Management</a>
                 </li>
             </ul>
-            <form action="${pageContext.request.contextPath}/MainController" method="POST" onsubmit="confirmLogout(event)" class="form-inline my-2 my-lg-0">
-                <button type="submit" name="action" class="btn btn-outline-danger my-2 my-sm-0" value="Log out"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            <form action="${pageContext.request.contextPath}/MainController" method="POST" onsubmit="confirmLogout(event)">
+                <button type="submit" name="action" class="btn btn-link nav-link" value="Log out"><i class="fas fa-sign-out-alt"></i> Logout</button>
             </form>
         </div>
     </nav>
@@ -158,92 +158,48 @@
         </div>
     </main>
 
-    <!-- Modal -->
-    <div class="modal fade" id="jewelryModal" tabindex="-1" aria-labelledby="jewelryModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="jewelryModalLabel">Jewelry Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Name:</strong> <span id="modalJewelryName"></span></p>
-                    <p><strong>Artist:</strong> <span id="modalArtist"></span></p>
-                    <p><strong>Circa:</strong> <span id="modalCirca"></span></p>
-                    <p><strong>Material:</strong> <span id="modalMaterial"></span></p>
-                    <p><strong>Dial:</strong> <span id="modalDial"></span></p>
-                    <p><strong>Bracelet Material:</strong> <span id="modalBraceletMaterial"></span></p>
-                    <p><strong>Case Dimensions:</strong> <span id="modalCaseDimensions"></span></p>
-                    <p><strong>Bracelet Size:</strong> <span id="modalBraceletSize"></span></p>
-                    <p><strong>Serial Number:</strong> <span id="modalSerialNumber"></span></p>
-                    <p><strong>Reference Number:</strong> <span id="modalReferenceNumber"></span></p>
-                    <p><strong>Caliber:</strong> <span id="modalCaliber"></span></p>
-                    <p><strong>Movement:</strong> <span id="modalMovement"></span></p>
-                    <p><strong>Condition:</strong> <span id="modalCondition"></span></p>
-                    <p><strong>Metal:</strong> <span id="modalMetal"></span></p>
-                    <p><strong>Gemstones:</strong> <span id="modalGemstones"></span></p>
-                    <p><strong>Measurements:</strong> <span id="modalMeasurements"></span></p>
-                    <p><strong>Weight:</strong> <span id="modalWeight"></span></p>
-                    <p><strong>Stamped:</strong> <span id="modalStamped"></span></p>
-                    <p><strong>Ring Size:</strong> <span id="modalRingSize"></span></p>
-                    <p><strong>Min Price:</strong> <span id="modalMinPrice"></span></p>
-                    <p><strong>Max Price:</strong> <span id="modalMaxPrice"></span></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
+<!-- Modal -->
+<div class="modal fade" id="jewelryModal" tabindex="-1" aria-labelledby="jewelryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="jewelryModalLabel">Jewelry Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Name:</strong> <span id="modalJewelryName"></span></p>
+                <p><strong>Artist:</strong> <span id="modalArtist"></span></p>
+                <p><strong>Circa:</strong> <span id="modalCirca"></span></p>
+                <p><strong>Material:</strong> <span id="modalMaterial"></span></p>
+                <p><strong>Dial:</strong> <span id="modalDial"></span></p>
+                <p><strong>Bracelet Material:</strong> <span id="modalBraceletMaterial"></span></p>
+                <p><strong>Case Dimensions:</strong> <span id="modalCaseDimensions"></span></p>
+                <p><strong>Bracelet Size:</strong> <span id="modalBraceletSize"></span></p>
+                <p><strong>Serial Number:</strong> <span id="modalSerialNumber"></span></p>
+                <p><strong>Reference Number:</strong> <span id="modalReferenceNumber"></span></p>
+                <p><strong>Caliber:</strong> <span id="modalCaliber"></span></p>
+                <p><strong>Movement:</strong> <span id="modalMovement"></span></p>
+                <p><strong>Condition:</strong> <span id="modalCondition"></span></p>
+                <p><strong>Metal:</strong> <span id="modalMetal"></span></p>
+                <p><strong>Gemstones:</strong> <span id="modalGemstones"></span></p>
+                <p><strong>Measurements:</strong> <span id="modalMeasurements"></span></p>
+                <p><strong>Weight:</strong> <span id="modalWeight"></span></p>
+                <p><strong>Stamped:</strong> <span id="modalStamped"></span></p>
+                <p><strong>Ring Size:</strong> <span id="modalRingSize"></span></p>
+                <p><strong>Min Price:</strong> <span id="modalMinPrice"></span></p>
+                <p><strong>Max Price:</strong> <span id="modalMaxPrice"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+    </div>
+    </div>
+</div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <script>
-        function confirmLogout(event) {
-            if (!confirm("Are you sure you want to log out?")) {
-                event.preventDefault();
-            }
-        }
-
-        function handleCheckboxChange(checkbox) {
-            // Implement your logic for handling checkbox changes
-        }
-
-        function updateSelectedJewelryIDs() {
-            // Implement your logic for updating selected jewelry IDs
-        }
-
-        function showJewelryDetails(jewelry) {
-            $('#modalJewelryName').text(jewelry.jewelryName);
-            $('#modalArtist').text(jewelry.artist);
-            $('#modalCirca').text(jewelry.circa);
-            $('#modalMaterial').text(jewelry.material);
-            $('#modalDial').text(jewelry.dial);
-            $('#modalBraceletMaterial').text(jewelry.braceletMaterial);
-            $('#modalCaseDimensions').text(jewelry.caseDimensions);
-            $('#modalBraceletSize').text(jewelry.braceletSize);
-            $('#modalSerialNumber').text(jewelry.serialNumber);
-            $('#modalReferenceNumber').text(jewelry.referenceNumber);
-            $('#modalCaliber').text(jewelry.caliber);
-            $('#modalMovement').text(jewelry.movement);
-            $('#modalCondition').text(jewelry.condition);
-            $('#modalMetal').text(jewelry.metal);
-            $('#modalGemstones').text(jewelry.gemstones);
-            $('#modalMeasurements').text(jewelry.measurements);
-            $('#modalWeight').text(jewelry.weight);
-            $('#modalStamped').text(jewelry.stamped);
-            $('#modalRingSize').text(jewelry.ringSize);
-            $('#modalMinPrice').text(jewelry.minPrice);
-            $('#modalMaxPrice').text(jewelry.maxPrice);
-
-            $('#jewelryModal').modal('show');
-        }
-
-        function goToPage(page) {
-            window.location.href = '?page=' + page;
-        }
-    </script>
+    <script src="asset/createAuction.js"></script>
 </body>
 </html>
