@@ -445,3 +445,4 @@ END;
 GO
 update Member set status_register_to_bid = 0
 select * from Bid_Track
+select * from Register_Bid

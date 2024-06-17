@@ -13,10 +13,29 @@
         <link rel="icon" type="image/png" sizes="64x64" href="../images/logo/Logo.png">
     </head>
     <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: Arial, sans-serif;
-        }
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        font-family: 'Arial', sans-serif;
+        background-color: #f5eded;
+    }
+
+    .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background-color: #343a40;
+        border-bottom: 3px solid #e4af11;
+    }
+
+    .navbar-brand, .nav-link, .navbar-toggler-icon {
+        color: #ffc107 !important;
+    }
+
+    .navbar-brand:hover, .nav-link:hover {
+        color: #0a0800 !important;
+    }
 
         .container {
             background-color: white;
@@ -43,6 +62,17 @@
         button[type="submit"] {
             width: 100%;
         }
+        footer {
+        background-color: #343a40;
+        color: #fff;
+        padding: 1rem;
+        text-align: center;
+    }
+
+    footer a {
+        color: #ffc107;
+        margin: 0 10px;
+    }
     </style>
 
     <body>
@@ -60,55 +90,70 @@
                 phone = member.getPhoneNumber() != null ? member.getPhoneNumber() : "";
             }
         %>
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-light">
-                <a class="navbar-brand" href="#">Jewelry Auctions</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav mr-auto">
+
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="navbar-brand" href="#"><i class="fas fa-gem"></i> Jewelry Auctions</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/home.jsp">
+                            <i class="fas fa-home"></i> Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/auctions/upcoming.jsp">
+                            <i class="fas fa-gavel"></i> Auction
+                        </a>
+                    </li>
+                    <c:if test="${role == 'Member' || role == null}">
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/home.jsp">Home<span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/seller/selling.html">
+                                <i class="fas fa-dollar-sign"></i> Sell
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/auctions/upcoming.jsp">Auction</a>
-                        </li>
-                        <c:if test="${role == 'Member' || role == null}">
+                    </c:if>
+                    <c:choose>
+                        <c:when test="${username == null}">
                             <li class="nav-item">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/seller/selling.html">Sell</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/login.jsp">
+                                    <i class="fas fa-sign-in-alt"></i> Login
+                                </a>
                             </li>
-                        </c:if>
-                        <c:choose>
-                            <c:when test="${username == null}">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="${pageContext.request.contextPath}/login.jsp">Login</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="${pageContext.request.contextPath}/register.jsp">Register</a>
-                                </li>
-                            </c:when>
-                            <c:otherwise>
-                                <c:set var="url">
-                                    <c:choose>
-                                        <c:when test="${role == 'Member'}">bidder/profile.jsp</c:when>
-                                        <c:when test="${role == 'Staff'}">staff/staff.jsp</c:when>
-                                        <c:when test="${role == 'Manager'}">manager/manager.jsp</c:when>
-                                        <c:otherwise>admin/admin.jsp</c:otherwise>
-                                    </c:choose>
-                                </c:set>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="${pageContext.request.contextPath}/${url}">${username}</a>
-                                </li>
-                            </c:otherwise>
-                        </c:choose>
-                        <li class="nav-item">
-                            <a class="nav-link" href="notification.jsp" id="bell-icon"><i class="fas fa-bell"></i></a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
+                            <li class="nav-item">
+                                <a class="nav-link" href="${pageContext.request.contextPath}/register.jsp">
+                                    <i class="fas fa-user-plus"></i> Register
+                                </a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="url">
+                                <c:choose>
+                                    <c:when test="${role == 'Member'}">bidder/profile.jsp</c:when>
+                                    <c:when test="${role == 'Staff'}">staff/staff.jsp</c:when>
+                                    <c:when test="${role == 'Manager'}">manager/manager.jsp</c:when>
+                                    <c:otherwise>admin/admin.jsp</c:otherwise>
+                                </c:choose>
+                            </c:set>
+                            <li class="nav-item">
+                                <a class="nav-link" href="${pageContext.request.contextPath}/${url}">
+                                    <i class="fas fa-user"></i> ${username}
+                                </a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                    <li class="nav-item">
+                        <a class="nav-link" href="notification.jsp" id="bell-icon">
+                            <i class="fas fa-bell"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        
         <!-- END OF HEADER -->
         <div class="container mt-5">
             <h2 class="text-center">Bidder Registration</h2>

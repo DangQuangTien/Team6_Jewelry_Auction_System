@@ -69,7 +69,7 @@
                     </td>
                     <td><%= jewelry.getJewelryName() %></td>
                     <td>
-                        <form action="" method="GET" onsubmit="confirmAuction(event)">
+                        <form action="${pageContext.request.contextPath}/MainController" method="POST" onsubmit="confirmAuction(event)">
                             <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID() %>">
                             <input type="number" name="finalPrice" value="<%= jewelry.getFinal_Price() %>" required>
                             <td>

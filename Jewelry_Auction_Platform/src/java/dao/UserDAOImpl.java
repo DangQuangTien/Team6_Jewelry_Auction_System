@@ -618,7 +618,7 @@ public class UserDAOImpl implements UserDao {
 
     @Override
     public boolean createAuction(String auctionDate, String startTime, String endTime, String[] selectedJewelryIDs) {
-        String insertAuctionQuery = "INSERT INTO Auction (startDate, startTime, endTime) VALUES (?, ?, ?)";
+        String insertAuctionQuery = "INSERT INTO Auction (startDate, startTime) VALUES (?, ?)";
         String selectAuctionQuery = "SELECT TOP 1 auctionID FROM Auction WHERE status = 0 ORDER BY auctionID DESC";
         String insertSessionQuery = "INSERT INTO [Session] (auctionID, jewelryID) VALUES (?, ?)";
         String updateAuctionStatusQuery = "UPDATE Auction SET status = 1 WHERE auctionID = ?";
@@ -628,7 +628,6 @@ public class UserDAOImpl implements UserDao {
             // Insert auction
             psInsertAuction.setString(1, auctionDate);
             psInsertAuction.setString(2, startTime);
-            psInsertAuction.setString(3, endTime);
             int result = psInsertAuction.executeUpdate();
 
             if (result > 0) {
@@ -668,7 +667,6 @@ public class UserDAOImpl implements UserDao {
                 auction.setAuctionID(rs.getString(1));
                 auction.setStartDate(rs.getDate(2));
                 auction.setStartTime(LocalTime.parse(rs.getString(3)));
-                auction.setEndTime(LocalTime.parse(rs.getString(5)));
                 listAuction.add(auction);
             }
             return listAuction;
@@ -691,7 +689,6 @@ public class UserDAOImpl implements UserDao {
                 auction.setAuctionID(rs.getString(1));
                 auction.setStartDate(rs.getDate(2));
                 auction.setStartTime(LocalTime.parse(rs.getString(3)));
-                auction.setEndTime(LocalTime.parse(rs.getString(5)));
             }
             return auction;
         } catch (ClassNotFoundException | SQLException ex) {
