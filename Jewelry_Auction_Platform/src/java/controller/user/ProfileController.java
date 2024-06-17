@@ -4,6 +4,7 @@
  */
 package controller.user;
 
+import dao.UserDAOImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -38,7 +39,7 @@ public class ProfileController extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             String username = request.getParameter("username");
             String url = ERROR_PAGE;
-//            UserDAO dao = new UserDAO();
+//            UserDAOImpl dao = new UserDAOImpl();
 //            try {
 //                User user = dao.getInformation(username);
 //                if (user != null){

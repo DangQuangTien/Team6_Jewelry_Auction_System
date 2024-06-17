@@ -36,6 +36,7 @@ public class MainController extends HttpServlet {
     private static final String REGISTER_TO_BID_CONTROLLER = "RegisterToBid";
     private static final String PLACE_BID_CONTROLLER = "PlaceBidController";
     private static final String EDIT_BID_CONTROLLER = "EditBidController";
+    private static final String REGISTER_USER_CONTROLLER = "RegisterUserController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -104,6 +105,9 @@ public class MainController extends HttpServlet {
                 case "Edit Bid":
                     url = EDIT_BID_CONTROLLER;
                     break;
+                case "Register User":
+                    url = REGISTER_USER_CONTROLLER;
+                    break; 
                 default:
                     break;
             }

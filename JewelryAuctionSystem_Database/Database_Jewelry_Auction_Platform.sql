@@ -248,6 +248,7 @@ CREATE TABLE Invoice(
 );    
 GO
 -- Create triggers
+DROP TRIGGER check_unique_username
 CREATE TRIGGER check_unique_username
 ON Users
 INSTEAD OF INSERT
@@ -267,6 +268,20 @@ BEGIN
         SELECT @new_userID, username, email, [password], GETDATE(), roleID
         FROM inserted;
     END
+END;
+GO
+
+DROP TRIGGER autogenerate_userID
+CREATE TRIGGER autogenerate_userID
+ON Users
+INSTEAD OF INSERT
+AS
+BEGIN
+        DECLARE @new_userID VARCHAR(50);
+        SET @new_userID = 'User' + CAST(NEXT VALUE FOR userID_sequence AS VARCHAR(50));
+        INSERT INTO Users (userID, username, email, [password], joined_at, roleID)
+        SELECT @new_userID, username, email, [password], GETDATE(), roleID
+        FROM inserted;
 END;
 GO
 
@@ -445,3 +460,26 @@ END;
 GO
 update Member set status_register_to_bid = 0
 select * from Bid_Track
+
+CREATE SEQUENCE memberID_sequence
+    START WITH 0
+    INCREMENT BY 1;
+GO
+
+CREATE TRIGGER autogenerate_memberID
+ON Member
+INSTEAD OF INSERT
+AS
+BEGIN
+	DECLARE @newmemberID VARCHAR(50);
+	SET @newmemberID = 'Member' + CAST(NEXT VALUE FOR memberID_sequence AS VARCHAR(50));
+	INSERT INTO Member (memberID, userID, firstName, lastName, phoneNumber, gender, dob, avatar, status_register_to_bid, companyName)
+	SELECT @newmemberID, userID, firstName, lastName, phoneNumber, gender, dob, avatar, status_register_to_bid, companyName
+	FROM inserted;
+END;
+GO
+
+
+
+INSERT INTO Users (username, email, [password], roleID, joined_at) VALUES ('trung', 'Trung123@gmail.com', '123', 'Role01', GETDATE());
+INSERT INTO Member (userID, firstName, lastName) VALUES ('User15', 'Trung', 'Hoang');

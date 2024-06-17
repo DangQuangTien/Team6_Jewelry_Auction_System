@@ -1,3 +1,7 @@
+<% 
+    String username = request.getParameter("username");
+    String password = request.getParameter("password");
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -131,8 +135,6 @@
                 <p>Explore the World of Auctions with Us</p>
                 <%
                     String error = (String) request.getAttribute("LOGIN_ERROR");
-                    String username = (String) request.getAttribute("username");
-                    String password = (String) request.getAttribute("password");
                 %>
                 <% if (error != null) { %>
                 <div id="error-message" class="error-message">
