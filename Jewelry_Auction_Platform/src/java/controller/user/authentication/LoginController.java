@@ -75,6 +75,8 @@ public class LoginController extends HttpServlet {
             UserDTO user = dao.checkLogin(username, password);
             if (user == null){
                 request.setAttribute("error", "Username or password invalid!");
+                request.setAttribute("username", username);
+                request.setAttribute("password", password);
             request.getRequestDispatcher("login.jsp").forward(request, response);
             }
             else {
