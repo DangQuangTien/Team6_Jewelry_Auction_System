@@ -14,6 +14,52 @@
     <link rel="stylesheet" type="text/css" href="asset/createAuction.css">
     <title>Create Auction</title>
 </head>
+<style>
+    /* Sidebar */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 250px;
+        background-color: #343a40;
+        padding-top: 20px;
+        overflow-y: auto;
+        z-index: 1000;
+        color: #fff;
+        transition: width 0.3s;
+    }
+    .sidebar:hover {
+        width: 280px;
+    }
+    .sidebar-brand {
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+        color: #fff;
+    }
+    .nav-link {
+        color: #adb5bd;
+        transition: color 0.3s;
+    }
+    .nav-link:hover {
+        color: #fff;
+        text-decoration: none;
+    }
+    .nav-link.active {
+        color: #fff;
+        font-weight: bold;
+    }
+    .nav-item {
+        margin-bottom: 10px;
+    }
+    .sidebar .nav-item .nav-link i {
+        width: 24px;
+        text-align: center;
+        margin-right: 10px;
+    }
+</style>
 <%
     String greeting = "day!";
     try {
@@ -31,27 +77,30 @@
     }
 %>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Jewelry Auctions</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/manager/manager.jsp">Request</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/manager/createAuction.jsp">Create Auction</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/manager/auctionManagement.jsp">Auction Management</a>
-                </li>
-            </ul>
-            <form action="${pageContext.request.contextPath}/MainController" method="POST" onsubmit="confirmLogout(event)">
-                <button type="submit" name="action" class="btn btn-link nav-link" value="Log out"><i class="fas fa-sign-out-alt"></i> Logout</button>
-            </form>
-        </div>
+    <nav class="sidebar">
+        <div class="sidebar-brand">Manager Portal</div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="${pageContext.request.contextPath}/manager/manager.jsp">
+                    <i class="fas fa-chart-line"></i> Approval Request
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/manager/createAuction.jsp">
+                    <i class="fas fa-gavel"></i> Create Auction
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/manager/auctionManagement.jsp">
+                    <i class="fas fa-tasks"></i> Auction Management
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/logout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </li>
+        </ul>
     </nav>
     <main class="container mt-4">
         <div class="container light-style flex-grow-1 container-p-y">
