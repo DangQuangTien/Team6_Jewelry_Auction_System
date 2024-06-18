@@ -24,6 +24,26 @@ body {
     padding-bottom: 100px; /* Add padding to the bottom to ensure content is not covered by the footer */
 }
 
+h1.luminous-gold {
+    margin-top: 20px; /* Add margin-top to move the h1 down from the navbar */
+    font-weight: bold;
+    background: linear-gradient(90deg, 
+        #e4af11 0%, 
+        #e4af11 20%, 
+        #FFA500 40%, 
+        #FFC700 60%, 
+        #e4af11 80%, 
+        #e4af11 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 2s infinite linear;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.7),
+                 0 0 20px rgba(255, 215, 0, 0.5),
+                 0 0 30px rgba(255, 215, 0, 0.3),
+                 0 0 40px rgba(255, 215, 0, 0.1);
+}
+
 .footer {
     background-color: #343a40;
     color: #e4af11;
@@ -54,133 +74,113 @@ body {
     font-size: 0.9em;
 }
 
+.navbar-dark .navbar-nav .nav-link,
+.navbar-dark .navbar-brand {
+    color: #e4af11 !important;
+}
 
-        .navbar-dark .navbar-nav .nav-link,
-        .navbar-dark .navbar-brand {
-            color: #e4af11 !important;
-        }
+.navbar-dark .navbar-toggler {
+    border-color: #e4af11;
+}
 
-        .navbar-dark .navbar-toggler {
-            border-color: #e4af11;
-        }
+.navbar-dark .navbar-toggler-icon {
+    color: #e4af11;
+}
 
-        .navbar-dark .navbar-toggler-icon {
-            color: #e4af11;
-        }
+@keyframes shimmer {
+    0% {
+        background-position: -500px 0;
+    }
+    100% {
+        background-position: 500px 0;
+    }
+}
 
-        @keyframes shimmer {
-            0% {
-                background-position: -500px 0;
-            }
-            100% {
-                background-position: 500px 0;
-            }
-        }
+.table-responsive {
+    margin-top: 20px;
+}
 
-        h1.luminous-gold {
-            font-weight: bold;
-            background: linear-gradient(90deg, 
-                #e4af11 0%, 
-                #e4af11 20%, 
-                #FFA500 40%, 
-                #FFC700 60%, 
-                #e4af11 80%, 
-                #e4af11 100%);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shimmer 2s infinite linear;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7),
-                         0 0 20px rgba(255, 215, 0, 0.5),
-                         0 0 30px rgba(255, 215, 0, 0.3),
-                         0 0 40px rgba(255, 215, 0, 0.1);
-        }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: #ebebe5;
+    color: #000000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-        .table-responsive {
-            margin-top: 20px;
-        }
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            background-color: #ebebe5;
-            color: #000000;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+th {
+    background-color: #e9ecef;
+    font-size: 1.1em;
+}
 
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
+td {
+    font-size: 1em;
+}
 
-        th {
-            background-color: #e9ecef;
-            font-size: 1.1em;
-        }
+.thead-light {
+    background-color: #e9ecef;
+}
 
-        td {
-            font-size: 1em;
-        }
+.text-danger {
+    color: red;
+}
 
-        .thead-light {
-            background-color: #e9ecef;
-        }
+.details-btn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
-        .text-danger {
-            color: red;
-        }
+.details-btn:hover {
+    background-color: #0056b3;
+}
 
-        .details-btn {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+.modal-body p {
+    margin-bottom: 10px;
+    color: #000000;
+}
 
-        .details-btn:hover {
-            background-color: #0056b3;
-        }
+.modal-dialog {
+    max-width: 400px;
+}
 
-        .modal-body p {
-            margin-bottom: 10px;
-            color: #000000;
-        }
+.modal-content {
+    padding: 20px;
+    background-color: #ffffff;
+    color: #000000;
+}
 
-        .modal-dialog {
-            max-width: 400px;
-        }
+.modal-header {
+    border-bottom: none;
+}
 
-        .modal-content {
-            padding: 20px;
-            background-color: #ffffff;
-            color: #000000;
-        }
+.modal-title {
+    font-size: 1.5rem;
+    color: #e4af11;
+}
 
-        .modal-header {
-            border-bottom: none;
-        }
+.close {
+    color: #888;
+}
 
-        .modal-title {
-            font-size: 1.5rem;
-            color: #e4af11;
-        }
-
-        .close {
-            color: #888;
-        }
-
-        .close:hover {
-            color: #000;
-        }
+.close:hover {
+    color: #000;
+}
     </style>
 </head>
 <body>
-    <header>
+
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <a class="navbar-brand" href="home.jsp">
                 <i class="fas fa-gem"> F'Rankelly</i><br>
@@ -209,7 +209,7 @@ body {
                 </ul>
             </div>
         </nav>
-    </header>
+
     <div class="container">
         <h1 class="text-center luminous-gold">Overall Assessment for your requests</h1>
         <%
