@@ -90,7 +90,7 @@
                             <c:set var="url">
                                 <c:choose>
                                     <c:when test="${role == 'Member'}">${pageContext.request.contextPath}/profile</c:when>
-                                    <c:when test="${role == 'Staff'}">staff/staff.jsp</c:when>
+                                    <c:when test="${role == 'Staff'}">staff</c:when>
                                     <c:when test="${role == 'Manager'}">manager/manager.jsp</c:when>
                                     <c:otherwise>admin/admin.jsp</c:otherwise>
                                 </c:choose>

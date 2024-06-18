@@ -2,12 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.staff;
+package jewelryauction.controller.staff;
 
 import dao.UserDAOImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,11 +17,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author User
  */
-@WebServlet(name = "ConfirmReceiptController", urlPatterns = {"/ConfirmReceiptController"})
-public class ConfirmReceiptController extends HttpServlet {
+@WebServlet(name = "InsertJewelryController", urlPatterns = {"/insert"})
+public class InsertJewelryController extends HttpServlet {
 
     private static final String ERROR_PAGE = "index.htm";
-    private static final String STAFF_PAGE = "ProcessValuationRequest";
+    private static final String STAFF_PAGE = "request";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,20 +37,51 @@ public class ConfirmReceiptController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             String url = ERROR_PAGE;
+            String category = request.getParameter("category");
+            String jewelryName = request.getParameter("jewelryName");
+            String artist = request.getParameter("artist");
+            String circa = request.getParameter("circa");
+            String material = request.getParameter("material");
+            String dial = request.getParameter("dial");
+            String braceletMaterial = request.getParameter("braceletMaterial");
+            String caseDimensions = request.getParameter("caseDimensions");
+            String braceletSize = request.getParameter("braceletSize");
+            String serialNumber = request.getParameter("serialNumber");
+            String referenceNumber = request.getParameter("referenceNumber");
+            String caliber = request.getParameter("caliber");
+            String movement = request.getParameter("movement");
+            String condition = request.getParameter("condition");
+            String metal = request.getParameter("metal");
+            String gemstones = request.getParameter("gemstones");
+            String measurements = request.getParameter("measurements");
+            String weight = request.getParameter("weight");
+            String stamped = request.getParameter("stamped");
+            String ringSize = request.getParameter("ringSize");
+            String minPrice = request.getParameter("minPrice");
+            String maxPrice = request.getParameter("maxPrice");
+            String tempPrice = request.getParameter("tempPrice");
             String valuationID = request.getParameter("valuationID");
+            String photos = request.getParameter("photoURL");
+            UserDAOImpl dao = new UserDAOImpl();
             try {
-                UserDAOImpl dao = new UserDAOImpl();
-                boolean result = dao.confirmReceipt(valuationID);
+                boolean result = dao.insertJewelry(category, jewelryName, artist,
+                        circa, material, dial,
+                        braceletMaterial, caseDimensions,
+                        braceletSize, serialNumber,
+                        referenceNumber, caliber, movement,
+                        condition, metal, gemstones,
+                        measurements, weight, stamped,
+                        ringSize, minPrice, maxPrice,
+                        tempPrice, valuationID, photos);
                 if (result) {
                     url = STAFF_PAGE;
                 }
             } catch (Exception ex) {
-                ex.getMessage();
+                ex.printStackTrace();
             } finally {
-                RequestDispatcher dist = request.getRequestDispatcher(url);
-                dist.forward(request, response);
-
+                response.sendRedirect(url);
             }
+
         }
     }
 

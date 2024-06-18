@@ -17,8 +17,8 @@ import java.io.PrintWriter;
 @WebServlet(name = "LoginController", urlPatterns = {"/login"})
 public class LoginController extends HttpServlet {
 
-    private static final String ADMIN_PAGE = "/admin/admin.jsp";
-    private static final String STAFF_PAGE = "/staff/staff.jsp";
+    private static final String ADMIN_PAGE = "/admin";
+    private static final String STAFF_PAGE = "/staff";
     private static final String MANAGER_PAGE = "/manager/manager.jsp";
     private static final String HOME_PAGE = "/home";
     private static final String ERROR_PAGE = "index.htm";
@@ -26,7 +26,7 @@ public class LoginController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
@@ -73,13 +73,12 @@ public class LoginController extends HttpServlet {
         UserDAOImpl dao = new UserDAOImpl();
         try {
             UserDTO user = dao.checkLogin(username, password);
-            if (user == null){
+            if (user == null) {
                 request.setAttribute("error", "Username or password invalid!");
                 request.setAttribute("username", username);
                 request.setAttribute("password", password);
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-            }
-            else {
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            } else {
                 url = determinePageByRole(user.getRole());
                 if ("Member".equals(user.getRole())) {
                     Member member = dao.getInformation(user.getUserID());

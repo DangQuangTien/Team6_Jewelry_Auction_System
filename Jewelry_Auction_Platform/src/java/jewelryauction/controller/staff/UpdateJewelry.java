@@ -1,4 +1,4 @@
-package controller.staff;
+package jewelryauction.controller.staff;
 
 import dao.UserDAOImpl;
 import entity.product.Jewelry;
@@ -60,7 +60,7 @@ public class UpdateJewelry extends HttpServlet {
 
         boolean result = dao.updateJewelry(jewelry);
         if (result) {
-            response.sendRedirect(request.getContextPath() + "/staff/finalValuation.jsp");
+            response.sendRedirect(request.getContextPath() + "/final");
         } else {
             response.sendRedirect("index.htm");
         }
