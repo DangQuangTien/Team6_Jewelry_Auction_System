@@ -814,7 +814,7 @@ public class UserDAOImpl implements UserDao {
 
     @Override
     public List<RandomJewelry> displayRandomJewelry() {
-        String query = "SELECT TOP 6 j.photos, j.jewelryName, s.auctionID FROM Jewelry j, Auction auc, Session s where s.auctionID = auc.auctionId and s.jewelryID = j.jewelryID ORDER BY NEWID()";
+        String query = "SELECT TOP 10 j.photos, j.jewelryName, s.auctionID FROM Jewelry j, Auction auc, Session s where s.auctionID = auc.auctionId and s.jewelryID = j.jewelryID ORDER BY NEWID()";
         List<RandomJewelry> listJewelry = new ArrayList<>();
         try {
             conn = DBUtils.getConnection();
@@ -1064,4 +1064,7 @@ public class UserDAOImpl implements UserDao {
         }
         return false;
     }
+
+    //Auction happens from 5days to 10days.
+    
 }

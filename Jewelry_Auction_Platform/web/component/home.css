@@ -1,161 +1,189 @@
-    body {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        font-family: 'Arial', sans-serif;
-        background-color: #f5eded;
-    }
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+    background-color: #f5eded;
+    scroll-behavior: smooth;
+}
 
-    .navbar {
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        background-color: #343a40;
-        border-bottom: 3px solid #e4af11;
-    }
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #000;
+    border-bottom: 3px solid #e4af11;
+    transition: background-color 0.3s ease;
+}
 
-    .navbar-brand, .nav-link, .navbar-toggler-icon {
-        color: #ffc107 !important;
-    }
+.navbar-brand, .nav-link {
+    color: #fff !important;
+    transition: color 0.3s ease;
+}
 
-    .navbar-brand:hover, .nav-link:hover {
-        color: #0a0800 !important;
-    }
+.navbar-brand:hover, .nav-link:hover {
+    color: #e4af11 !important;
+}
 
-    .content {
-        flex: 1;
-        padding: 20px;
-    }
+.navbar-nav {
+    flex-direction: row;
+}
 
-    footer {
-        background-color: #343a40;
-        color: #fff;
-        padding: 1rem;
-        text-align: center;
-    }
+.nav-item {
+    padding-left: 15px;
+    padding-right: 15px;
+}
 
-    footer a {
-        color: #ffc107;
-        margin: 0 10px;
-    }
+.nav-item.dropdown .dropdown-menu {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
 
-    .content-box {
-        background-color: #fff;
-        padding: 1.5rem;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
 
-    .highlight-box {
-        background-color: #f5eded;
-        padding: 1.5rem;
-        border-radius: 5px;
-        border: 1px solid #c6a9a9;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
+.brand-name {
+    font-size: 1.5em;
+    font-weight: bold;
+}
 
-    .highlight-box h2 {
-        color: #343a40;
-        font-weight: bold;
-    }
+.content {
+    flex: 1;
+    padding: 20px;
+}
 
-    .highlight-box p {
-        color: #666;
-    }
+footer {
+    background-color: #000;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+}
 
-    .carousel-item {
-        justify-content: center;
-    }
+footer a {
+    color: #e4af11;
+    margin: 0 10px;
+}
 
-    .carousel-item .row {
-        width: 100%;
-    }
+.content-box {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
 
-    .carousel-item .card {
-        margin: 0.5rem;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    }
+.highlight-box {
+    background-color: #f5eded;
+    padding: 1.5rem;
+    border-radius: 5px;
+    border: 1px solid #c6a9a9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
 
-    .card img {
-        max-height: 200px;
-        object-fit: cover;
-        border-bottom: 1px solid #ddd;
-    }
+.highlight-box h2 {
+    color: #000;
+    font-weight: bold;
+}
 
-    .card-title {
-        color: #343a40;
-        font-weight: bold;
-    }
+.highlight-box p {
+    color: #666;
+}
 
-    .card-text {
-        color: #666;
-    }
+.carousel-item {
+    justify-content: center;
+}
 
-    .banner {
-        position: relative;
-        width: 100%;
-        height: 300px;
-        overflow: hidden;
-    }
+.carousel-item .row {
+    width: 100%;
+}
 
-    .banner img {
-        width: 100%;
-        height: auto;
-        filter: brightness(0.5);
-    }
+.carousel-item .card {
+    margin: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
 
+.card img {
+    max-height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+}
+
+.card-title {
+    color: #000;
+    font-weight: bold;
+}
+
+.card-text {
+    color: #666;
+}
+
+.banner {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
+
+.banner img {
+    width: 100%;
+    height: auto;
+    filter: brightness(0.5);
+}
+
+.banner-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 768px) {
     .banner-text {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: #fff;
-        text-align: center;
-        padding: 20px;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        font-size: 14px;
+        padding: 10px;
     }
+}
 
-    @media (max-width: 768px) {
-        .banner-text {
-            font-size: 14px;
-            padding: 10px;
-        }
-    }
+#viewAuctionButton {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
-    #viewAuctionButton {
-        background-color: #dc3545;
-        color: #fff;
-        border: none;
-        font-size: 16px;
-        padding: 10px 20px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
+#viewAuctionButton:hover {
+    background-color: #c82333;
+}
 
-    #viewAuctionButton:hover {
-        background-color: #c82333;
-    }
+#viewAuctionButton[disabled] {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
 
-    #viewAuctionButton[disabled] {
-        background-color: #6c757d;
-        cursor: not-allowed;
-    }
+#noAuctionBox {
+    background-color: #ffc107;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #343a40;
+    font-weight: bold;
+    margin-left: 10px;
+    display: none;
+}
 
-    #noAuctionBox {
-        background-color: #ffc107;
-        padding: 5px 10px;
-        border-radius: 5px;
-        color: #343a40;
-        font-weight: bold;
-        margin-left: 10px;
-        display: none;
-    }
-
-    #viewAuctionForm.no-auction #noAuctionBox {
-        display: inline-block;
-    }
-
+#viewAuctionForm.no-auction #noAuctionBox {
+    display: inline-block;
+}

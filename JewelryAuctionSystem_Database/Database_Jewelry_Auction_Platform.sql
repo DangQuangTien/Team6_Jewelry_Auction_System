@@ -169,6 +169,11 @@ CREATE TABLE Auction (
     [status] BIT DEFAULT 0
 );
 GO
+SELECT TOP 1*
+FROM Auction
+WHERE startDate >= DATEADD(DAY, 5, GETDATE()) AND startDate <= DATEADD(DAY, 10, GETDATE());
+
+
 
 CREATE TABLE [Session](
     sessionID VARCHAR(50) NOT NULL PRIMARY KEY,
@@ -470,3 +475,5 @@ BEGIN
 	FROM inserted;
 END;
 GO
+
+select * from 
