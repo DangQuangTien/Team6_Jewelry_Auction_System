@@ -381,6 +381,7 @@ BEGIN
     SELECT 'Auc' + CAST(NEXT VALUE FOR auctionID_sequence AS NVARCHAR(50)), startDate, startTime, endTime
     FROM inserted;
 END;
+select * from Auction
 GO
 drop trigger autogenerate_auctionID
 alter table Auction
@@ -451,5 +452,21 @@ END;
 GO
 update Member set status_register_to_bid = 0
 select * from Bid_Track
-select * from Auction
-alter
+
+CREATE SEQUENCE memberID_sequence
+    START WITH 0
+    INCREMENT BY 1;
+GO
+
+CREATE TRIGGER autogenerate_memberID
+ON Member
+INSTEAD OF INSERT
+AS
+BEGIN
+	DECLARE @newmemberID VARCHAR(50);
+	SET @newmemberID = 'Member' + CAST(NEXT VALUE FOR memberID_sequence AS VARCHAR(50));
+	INSERT INTO Member (memberID, userID, firstName, lastName, phoneNumber, gender, dob, avatar, status_register_to_bid, companyName)
+	SELECT @newmemberID, userID, firstName, lastName, phoneNumber, gender, dob, avatar, status_register_to_bid, companyName
+	FROM inserted;
+END;
+GO

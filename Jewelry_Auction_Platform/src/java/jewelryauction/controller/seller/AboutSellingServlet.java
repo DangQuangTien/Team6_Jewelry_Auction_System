@@ -2,28 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.user;
+package jewelryauction.controller.seller;
 
-import dao.UserDAOImpl;
-import entity.member.Member;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author User
  */
-@WebServlet(name = "RegisterToBid", urlPatterns = {"/RegisterToBid"})
-public class RegisterToBid extends HttpServlet {
-    private static final String ERROR_PAGE = "index.htm";
-    private static final String BID_PAGE = "/auctions/detail.jsp?";
+@WebServlet(name = "AboutSellingServlet", urlPatterns = {"/selling"})
+public class AboutSellingServlet extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,30 +33,7 @@ public class RegisterToBid extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            HttpSession session = request.getSession();
-            UserDAOImpl dao = new UserDAOImpl();
-            String userID = (String)session.getAttribute("USERID");
-            Member member = dao.getInformation(userID);
-            String url = ERROR_PAGE;
-            String memberID = member.getMemberID();
-            String auctionID = request.getParameter("auctionID");
-            String country = request.getParameter("country");
-            String state = request.getParameter("state");
-            String city = request.getParameter("city");
-            String address1 = request.getParameter("address1");
-            String address2 = request.getParameter("address2");
-            String zipCode = request.getParameter("zipCode");
-            String cardNumber = request.getParameter("cardNumber");
-            boolean result = dao.insertAddress(country, state, city, address1, address2, zipCode, memberID);
-            if (cardNumber != null || (cardNumber != null && result == true)){
-                boolean updated = dao.registerToBid(memberID);
-                if (updated){
-                    member = dao.getInformation(userID);
-                    url = request.getContextPath() + BID_PAGE + "auctionID=" + auctionID;
-                    session.setAttribute("INF", member);
-                }
-            }
-           response.sendRedirect(url);
+            request.getRequestDispatcher("/seller/selling.html").forward(request, response);
         }
     }
 
@@ -78,6 +50,7 @@ public class RegisterToBid extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
     }
 
     /**
