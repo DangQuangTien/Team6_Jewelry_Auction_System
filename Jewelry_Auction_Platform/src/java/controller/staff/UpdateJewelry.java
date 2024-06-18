@@ -37,7 +37,6 @@ public class UpdateJewelry extends HttpServlet {
         String weight = request.getParameter("weight");
         String stamped = request.getParameter("stamped");
         String ringSize = request.getParameter("ringSize");
-
         Jewelry jewelry = new Jewelry();
         jewelry.setJewelryID(jewelryID);
         jewelry.setArtist(artist != null ? artist : "");

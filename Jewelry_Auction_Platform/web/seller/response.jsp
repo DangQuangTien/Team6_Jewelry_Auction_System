@@ -195,7 +195,7 @@
                         <a class="nav-link" href="${pageContext.request.contextPath}/seller/response.jsp"> <i class="fas fa-reply"></i> Response</a>                                                  
                    </li>                   
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/seller/shipmentRequest.jsp"><i class="fas fa-bell"></i> Notification</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/notification"><i class="fas fa-bell"></i> Notification</a>
                     </li>
                 </ul>
             </div>

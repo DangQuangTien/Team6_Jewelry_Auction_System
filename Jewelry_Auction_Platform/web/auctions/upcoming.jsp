@@ -71,31 +71,30 @@
         <div class="container">
             <h1>Upcoming Auctions</h1>
             <%
-                UserDAOImpl dao = new UserDAOImpl();
-                List<Auction> listAuction = dao.displayAuction();
+                List<Auction> listAuction = (List<Auction>) request.getAttribute("AUCTIONS");
             %>
             <% if (!listAuction.isEmpty()) { %>
             <ul>
                 <% for (Auction auction : listAuction) {
-                    String auctionID = auction.getAuctionID();
-                    Date startDate = auction.getStartDate();
-                    LocalTime startTime = auction.getStartTime();
+                        String auctionID = auction.getAuctionID();
+                        Date startDate = auction.getStartDate();
+                        LocalTime startTime = auction.getStartTime();
                 %>
                 <li>
                     <div class="auction-details">
-                        <h2>Auction ID: <%= auctionID %></h2>
-                        <p>Start Date: <%= startDate %></p>
-                        <p>Start Time: <%= startTime %></p>
+                        <h2>Auction ID: <%= auctionID%></h2>
+                        <p>Start Date: <%= startDate%></p>
+                        <p>Start Time: <%= startTime%></p>
                     </div>
-                    <div id="countdown_<%= auctionID %>" class="countdown"></div>
+                    <div id="countdown_<%= auctionID%>" class="countdown"></div>
                     <!-- Form for each auction -->
-                    <form action="detail.jsp" method="get">
-                        <input type="hidden" name="auctionID" value="<%= auctionID %>">
+                    <form action="detail" method="POST">
+                        <input type="hidden" name="auctionID" value="<%= auctionID%>">
                         <button type="submit">View Auction Now</button>
                     </form>
                     <!-- JavaScript countdown timer -->
                     <script>
-                        (function(auctionID, startDate, startTime) {
+                        (function (auctionID, startDate, startTime) {
                             function getTimeDifference(startDateTime, elementID) {
                                 var now = new Date().getTime();
                                 var startTime = new Date(startDateTime).getTime();
@@ -130,7 +129,7 @@
                             window[elementID] = setInterval(function () {
                                 getTimeDifference(startDateTime, elementID);
                             }, 1000);
-                        })('<%= auctionID %>', '<%= startDate %>', '<%= startTime %>');
+                        })('<%= auctionID%>', '<%= startDate%>', '<%= startTime%>');
                     </script>
                 </li>
                 <% } %>

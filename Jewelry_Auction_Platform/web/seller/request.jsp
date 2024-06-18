@@ -113,7 +113,7 @@
                         <a class="nav-link" href="${pageContext.request.contextPath}/auctions/upcoming.jsp"><i class="fas fa-gavel"></i> Auction</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/seller/request.jsp"><i class="fas fa-clipboard"></i> Request A Valuation</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/request"><i class="fas fa-clipboard"></i> Request A Valuation</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/seller/response.jsp"><i class="fas fa-reply"></i> Response</a>                                   
@@ -266,7 +266,7 @@
                                             formData.append('files', $scope.files[i]);
                                         }
 
-                                        $http.post('${pageContext.request.contextPath}/ValuationRequestServlet', formData, {
+                                        $http.post('${pageContext.request.contextPath}/process', formData, {
                                             transformRequest: angular.identity,
                                             headers: {'Content-Type': undefined}
                                         }).then(function (response) {

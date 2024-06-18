@@ -381,6 +381,7 @@ BEGIN
     SELECT 'Auc' + CAST(NEXT VALUE FOR auctionID_sequence AS NVARCHAR(50)), startDate, startTime, endTime
     FROM inserted;
 END;
+select * from Auction
 GO
 drop trigger autogenerate_auctionID
 alter table Auction

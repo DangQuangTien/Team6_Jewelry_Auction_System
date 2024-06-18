@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller.user.authentication;
 
 import dao.UserDAOImpl;
@@ -9,7 +5,6 @@ import dto.UserDTO;
 import entity.member.Member;
 import utils.RoleConstants;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,56 +14,20 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-/**
- *
- * @author User
- */
-@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
+@WebServlet(name = "LoginController", urlPatterns = {"/login"})
 public class LoginController extends HttpServlet {
 
     private static final String ADMIN_PAGE = "/admin/admin.jsp";
     private static final String STAFF_PAGE = "/staff/staff.jsp";
     private static final String MANAGER_PAGE = "/manager/manager.jsp";
-    private static final String HOME_PAGE = "home.jsp";
+    private static final String HOME_PAGE = "/home";
     private static final String ERROR_PAGE = "index.htm";
-    private static final String REDIRECT_PAGE = "redirect.jsp";
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            response.setContentType("text/html;charset=UTF-8");
-            String username = request.getParameter("email");
-            String password = request.getParameter("password");
-            String url = ERROR_PAGE;
-            UserDAOImpl dao = new UserDAOImpl();
-            try {
-                UserDTO user = dao.checkLogin(username, password);
-                if (user != null) {
-                    url = determinePageByRole(user.getRole());
-                    if ("Member".equals(user.getRole())) {
-                        Member member = dao.getInformation(user.getUserID());
-                        HttpSession session = request.getSession();
-                        session.setAttribute("INF", member);
-                    }
-                    initializeSession(request, user);
-                }
-            } catch (Exception ex) {
-                log("LoginController Exception: " + ex.getMessage(), ex);
-            } finally {
-                RequestDispatcher dispatcher = request.getRequestDispatcher(REDIRECT_PAGE);
-                request.setAttribute("targetUrl", url);
-                dispatcher.forward(request, response);
-            }
+        try (PrintWriter out = response.getWriter()) {
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
 
@@ -99,37 +58,42 @@ public class LoginController extends HttpServlet {
         return "LoginController handles user authentication and role-based redirection.";
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String username = request.getParameter("email");
+        String password = request.getParameter("password");
+        String url = ERROR_PAGE;
+        UserDAOImpl dao = new UserDAOImpl();
+        try {
+            UserDTO user = dao.checkLogin(username, password);
+            if (user == null){
+                request.setAttribute("error", "Username or password invalid!");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+            }
+            else {
+                url = determinePageByRole(user.getRole());
+                if ("Member".equals(user.getRole())) {
+                    Member member = dao.getInformation(user.getUserID());
+                    HttpSession session = request.getSession();
+                    session.setAttribute("INF", member);
+                }
+                initializeSession(request, user);
+            }
+        } catch (Exception ex) {
+            log("LoginController Exception: " + ex.getMessage(), ex);
+        } finally {
+            if (url.equals(ERROR_PAGE)) {
+                request.getRequestDispatcher(url).forward(request, response);
+            } else {
+                response.sendRedirect(request.getContextPath() + url);
+            }
+        }
     }
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
 }

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.user;
+package jewelryauction.controller.seller;
 
 import dao.UserDAOImpl;
 import java.io.File;
@@ -28,11 +28,11 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  *
  * @author User
  */
-@WebServlet(name = "ValuationRequestServlet", urlPatterns = {"/ValuationRequestServlet"})
+@WebServlet(name = "ValuationRequestServlet", urlPatterns = {"/process"})
 public class ValuationRequestServlet extends HttpServlet {
 
     private static final String ERROR_PAGE = "/WEB-INF/jsp/index.jsp";
-    private static final String HOME_PAGE = "/seller/request.jsp";
+    private static final String HOME_PAGE = "request";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

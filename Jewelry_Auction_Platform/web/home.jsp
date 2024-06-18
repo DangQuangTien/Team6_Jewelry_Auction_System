@@ -1,24 +1,19 @@
-<%@page import="entity.product.RandomJewelry"%>
-<%@page import="java.util.List" %>
-<%@page import="dao.UserDAOImpl" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Global F'Rankelly 's Premier Jewelry Auction House</title>
-        <!-- Include Bootstrap CSS -->
+        <title>Global F'Rankelly's Premier Jewelry Auction House</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <link rel="stylesheet" type="text/css" href="component/home.css">
         <link rel="icon" type="image/png" sizes="64x64" href="images/logo/LogoFinal.png">
-
     </head>
     <body>
-        <c:set var="dao" value="<%= new dao.UserDAOImpl()%>" />
         <c:set var="username" value="${sessionScope.USERNAME}" />
         <c:set var="role" value="${sessionScope.ROLE}" />
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -30,23 +25,22 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="home.jsp"><i class="fas fa-home"></i> HOME<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="home"><i class="fas fa-home"></i> HOME<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="auctions/upcoming.jsp"><i class="fas fa-gavel"></i> AUCTIONS</a>
+                        <a class="nav-link" href="auctions"><i class="fas fa-gavel"></i> AUCTIONS</a>
                     </li>
                     <c:if test="${role == 'Member' || role == null}">
                         <li class="nav-item">
-                            <a class="nav-link" href="seller/selling.html"><i class="fas fa-dollar-sign"></i> SELLING</a>
+                            <a class="nav-link" href="seller"><i class="fas fa-dollar-sign"></i> SELLING</a>
                         </li>
                     </c:if>
                     <c:choose>
                         <c:when test="${username == null}">
                             <li class="nav-item">
-                                <a class="nav-link" href="login.jsp"><i class="fas fa-sign-in-alt"></i> LOGIN</a>
+                                <a class="nav-link" href="login"><i class="fas fa-sign-in-alt"></i> LOGIN</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="register.jsp"><i class="fas fa-user-plus"></i> REGISTER</a>
@@ -85,53 +79,42 @@
         </section>
 
         <div class="content container mt-5">
-            <h2><a href="auctions/upcoming.jsp">Upcoming Auction</a></h2>
+            <h2><a href="all">Upcoming Auction</a></h2>
             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
-                    <%
-                        UserDAOImpl _dao = new UserDAOImpl();
-                        List<RandomJewelry> listJewelry = _dao.displayRandomJewelry();
-                        if (listJewelry != null && !listJewelry.isEmpty()) {
-                            int itemsPerSlide = 3;
-                            int totalItems = listJewelry.size();
-                            int numberOfSlides = (int) Math.ceil((double) totalItems / itemsPerSlide);
-
-                            for (int i = 0; i < numberOfSlides; i++) {
-                    %>
-                    <div class="carousel-item <%= (i == 0) ? "active" : ""%>">
-                        <div class="row">
-                            <%
-                                for (int j = 0; j < itemsPerSlide; j++) {
-                                    int index = (i * itemsPerSlide) + j;
-                                    if (index < totalItems) {
-                                        RandomJewelry jewelry = listJewelry.get(index);
-                                        String photo = jewelry.getPhoto();
-                                        String[] photoArray = photo.split(";");
-                            %>
-                            <div class="col-md-4">
-                                <a href="${pageContext.request.contextPath}/auctions/detail.jsp?auctionID=<%= jewelry.getAuctionID()%>">
-                                    <div class="card">
-                                        <img src="${pageContext.request.contextPath}/<%= photoArray[0]%>" class="card-img-top" alt="<%= jewelry.getJewelryName()%>">
-                                        <div class="card-body">
-                                            <h5 class="card-title"><%= jewelry.getJewelryName()%></h5>
-                                        </div>
+                    <c:choose>
+                        <c:when test="${not empty listJewelry}">
+                            <c:forEach var="slide" begin="0" end="${fn:length(listJewelry) / 3}" step="1">
+                                <div class="carousel-item ${slide == 0 ? 'active' : ''}">
+                                    <div class="row">
+                                        <c:forEach var="jewelry" items="${listJewelry}" begin="${slide * 3}" end="${slide * 3 + 2}" varStatus="status">
+                                            <c:if test="${status.index < fn:length(listJewelry)}">
+                                                <div class="col-md-4">
+                                                    <a href="${pageContext.request.contextPath}/auction?auctionID=${jewelry.auctionID}">
+                                                        <div class="card">
+                                                            <img src="${pageContext.request.contextPath}/${fn:split(jewelry.photo, ';')[0]}" class="card-img-top" alt="${jewelry.jewelryName}">
+                                                            <div class="card-body">
+                                                                <h5 class="card-title">${jewelry.jewelryName}</h5>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </c:if>
+                                        </c:forEach>
                                     </div>
-                                </a>
+                                </div>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="carousel-item active">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p>No jewelry items available.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <%}
-                                }%>
-                        </div>
-                    </div>
-                    <% }
-                    } else {%>
-                    <div class="carousel-item active">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p>No jewelry items available.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <% }%>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -142,8 +125,6 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
-
-
 
             <section class="highlight-box mt-5">
                 <h2>About Us</h2>
@@ -168,30 +149,12 @@
                 <h6>Jewelry Auction</h6>
                 <a href="register.jsp">Register</a> |
                 <a href="login.jsp">Login</a> |
-                <a href="#">Help & FAQ</a> |
-                <a href="#">Support</a> |
-                <a href="#">Sitemap</a>
+                <a href="#">Auctions</a> |
+                <a href="#">Selling</a>
             </div>
         </footer>
-
-        <!-- Include Bootstrap JS and dependencies -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var auctionButton = document.getElementById('viewAuctionButton');
-                auctionButton.addEventListener('click', function (event) {
-                    var auctionID = document.querySelector('input[name="auctionID"]').value;
-                    if (!auctionID) {
-                        event.preventDefault();
-                        alert('No auction available');
-                    }
-                });
-            });
-        </script>
-
     </body>
 </html>

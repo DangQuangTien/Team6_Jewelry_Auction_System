@@ -133,7 +133,7 @@
                                         >
                                         <a
                                             class="dropdown-item"
-                                            href="${pageContext.request.contextPath}/MainController?action=Log out"
+                                            href="${pageContext.request.contextPath}/logout"
                                             >Logout</a
                                         >
                                     </div>
@@ -184,7 +184,7 @@
                                 <a
                                     id="logout-link"
                                     class="list-group-item list-group-item-action"
-                                    href="${pageContext.request.contextPath}/MainController?action=Log out"
+                                    href="${pageContext.request.contextPath}/logout"
                                     >Log out</a
                                 >
                             </div>

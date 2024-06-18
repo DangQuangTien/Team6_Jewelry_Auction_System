@@ -1,10 +1,5 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@page import="entity.member.Member"%>
-<%@page import="entity.product.Category"%>
-<%@page import="entity.product.Jewelry"%>
-<%@page import="java.util.List"%>
-<%@page import="entity.Auction.Auction"%>
 <%@page import="dao.UserDAOImpl"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
@@ -94,14 +89,13 @@
             padding: 20px;
         }
     </style>
-
-    <c:set var="auctionID" value="${param.auctionID}" />
-    <c:set var="dao" value="<%= new UserDAOImpl()%>" />
-    <c:set var="auction" value="${dao.getAuctionByID(auctionID)}" />
-    <c:set var="listJewelry" value="${dao.displayCatalog(auctionID)}" />
-    <c:if test="${listJewelry != null && !listJewelry.isEmpty()}">
+    <c:set var = "dao" value="<%= new UserDAOImpl()%>"/>
+    <c:set var="auction" value="${requestScope.AUCTION}" /> <!-- Get auction by ID -->
+    <c:set var="listJewelry" value="${requestScope.CATALOG}" /> <!-- Display catalog of auction -->
+    <c:set var="auctionID" value="${requestScope.AUCTIONID}" /> <!-- Get auctionID -->
+    <c:if test="${listJewelry != null && !listJewelry.isEmpty()}"> 
         <c:set var="userID" value="${sessionScope.USERID}" />
-        <c:set var="member" value="${dao.getInformation(userID)}" />
+        <c:set var="member" value="${requestScope.MEMBER}" />
         <c:set var="status" value="1" />
         <c:if test="${member != null}">
             <c:set var="status" value="${member.status}" />
@@ -133,10 +127,10 @@
                 document.getElementById("editBidForm_").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.jsp?auctionID=${auctionID}">JOIN AUCTION</a>';
             </c:when>
             <c:when test="${status == 0 && member != null}">
-                document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/auctions/registerBid.jsp?auctionID=${auctionID}"><img style="width: 50px; height: 50px" src="${pageContext.request.contextPath}/images/entrance.png"></a>';
+                document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/registerbid?auctionID=${auctionID}"><img style="width: 50px; height: 50px" src="${pageContext.request.contextPath}/images/entrance.png"></a>';
             </c:when>
             <c:otherwise>
-                document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/login.jsp"><img style="width: 50px; height: 50px" src="../images/entrance.png"></a>';
+                document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/login"><img style="width: 50px; height: 50px" src="${pageContext.request.contextPath}/images/entrance.png"></a>';
             </c:otherwise>
         </c:choose>
                 document.getElementById("auctionLink").classList.add("blink");
@@ -179,7 +173,7 @@
                     <li class="nav-item">
                         <a
                             class="nav-link"
-                            href="${pageContext.request.contextPath}/home.jsp"
+                            href="${pageContext.request.contextPath}/home"
                             ><i class="fas fa-home"></i> Home
                             <span class="sr-only">(current)</span></a
                         >
@@ -187,14 +181,14 @@
                     <li class="nav-item">
                         <a
                             class="nav-link"
-                            href="${pageContext.request.contextPath}/auctions/upcoming.jsp"
+                            href="${pageContext.request.contextPath}/all"
                             ><i class="fas fa-gavel"></i> Auction</a
                         >
                     </li>
                     <li class="nav-item">
                         <a
                             class="nav-link"
-                            href="${pageContext.request.contextPath}/seller/selling.html"
+                            href="${pageContext.request.contextPath}/seller"
                             ><i class="fas fa-dollar-sign"></i> Sell</a
                         >
                     </li>
@@ -202,7 +196,7 @@
                     <c:choose>
                         <c:when test="${empty sessionScope.USERNAME}">
                             <li class="nav-item">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/login.jsp" ><i class="fas fa-sign-in-alt"></i> Login</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/login" ><i class="fas fa-sign-in-alt"></i> Login</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/register.jsp"><i class="fas fa-user-plus"></i> Register</a>
@@ -256,10 +250,10 @@
                 <div style="color: red" id="auctionLink1"><h2>Coming Soon!</h2></div>
             </c:when>
             <c:when test="${status == 0 && member != null}">
-                <a href="registerBid.jsp?auctionID=${auctionID}" class="btn btn-primary">REGISTER TO BID</a>
+                <a href="registerbid?auctionID=${auctionID}" class="btn btn-primary">REGISTER TO BID</a>
             </c:when>
             <c:otherwise>
-                <a href="../login.jsp" class="btn btn-primary">REGISTER TO BID</a>
+                <a href="${pageContext.request.contextPath}/login" class="btn btn-primary">REGISTER TO BID</a>
             </c:otherwise>
         </c:choose>
         <!-- Sort -->
@@ -312,9 +306,7 @@
                             <br>
                             <c:choose>
                                 <c:when test="${status == 0 && member != null}">
-                                    <form action="${pageContext.request.contextPath}/auctions/registerBid.jsp?auctionID=${auctionID}" method="GET">
-                                        <input type="submit" class="btn btn-primary" value="PLACE BID">
-                                    </form>
+                                    <a href="${pageContext.request.contextPath}/registerbid?auctionID=${auctionID}"><button class="btn btn-primary">PLACE BID</button</a>
                                 </c:when>
                                 <c:when test="${status == 1 && member != null}">
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal">PLACE BID</button>
@@ -322,7 +314,7 @@
 
                                 </c:when>
                                 <c:otherwise>
-                                    <form action="../login.jsp" method="POST">
+                                    <form action="${pageContext.request.contextPath}/login">
                                         <input type="submit" class="btn btn-primary" value="PLACE BID">
                                     </form>
                                 </c:otherwise>

@@ -114,7 +114,7 @@
             <h2 class="text-center">Bidder Registration</h2>
             <h3 class="text-center">FINE JEWELS & WATCHES</h3>
             <p class="text-center">JUN 3, 2024 AT 12 PM EDT - HO CHI MINH, HCM</p>
-            <form action="${pageContext.request.contextPath}/MainController" id="registrationForm" class="row needs-validation" novalidate>
+            <form action="${pageContext.request.contextPath}/registerbid" id="registrationForm" method="POST" class="row needs-validation" novalidate>
                 <div class="col-md-6">
                     <div class="form-section mb-4">
                         <h4>USER INFORMATION</h4>
