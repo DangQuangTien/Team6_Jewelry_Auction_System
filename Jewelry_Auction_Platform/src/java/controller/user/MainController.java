@@ -37,6 +37,7 @@ public class MainController extends HttpServlet {
     private static final String PLACE_BID_CONTROLLER = "PlaceBidController";
     private static final String EDIT_BID_CONTROLLER = "EditBidController";
     private static final String REGISTER_USER_CONTROLLER = "RegisterUserController";
+    private static final String CONFIRM_INVOICE_CONTROLLER = "ConfirmInvoiceController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -108,6 +109,9 @@ public class MainController extends HttpServlet {
                 case "Register User":
                     url = REGISTER_USER_CONTROLLER;
                     break; 
+                case "CONFIRM INVOICE":
+                    url = CONFIRM_INVOICE_CONTROLLER;
+                    break;
                 default:
                     break;
             }

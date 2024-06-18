@@ -7,6 +7,8 @@ package dao;
 import dto.UserDTO;
 import entity.Auction.Auction;
 import entity.Session.Session;
+import entity.bidding.WinningRegister_Bid;
+import entity.invoice.Invoice;
 import entity.member.Member;
 import entity.product.Category;
 import entity.product.Jewelry;
@@ -20,7 +22,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -1051,15 +1052,16 @@ public class UserDAOImpl implements UserDao {
             int rowsAffected1 = ps1.executeUpdate();
             if (rowsAffected1 > 0) {
                 ps2.setString(1, username);
-                try(ResultSet rs = ps2.executeQuery()){
+                try (ResultSet rs = ps2.executeQuery()) {
                     if (rs.next()) {
                         String userID = rs.getString("userID");
                         ps3.setString(1, userID);
                         ps3.setString(2, firstName);
                         ps3.setString(3, lastName);
                         int rowsAffected2 = ps3.executeUpdate();
-                        if (rowsAffected2 > 0)
+                        if (rowsAffected2 > 0) {
                             return true;
+                        }
                     }
                 }
             }
@@ -1085,13 +1087,141 @@ public class UserDAOImpl implements UserDao {
         }
         return false;
     }
+    
+    
+    
+    //them 1 trang ben manager/staff de? hien? thi. cac' registerbid thang' cuo.c de? chon. va` tao. invoice gui? qua cho ben member? (giong' tick jewelry de? tao. auction???
 
-//    @Override
-//    public boolean createInvoice (String registerBidID, Double totalAmount, String paymentMethod, String shippingAddress){
-//        String getWinnerSql = "SELECT registerBidID FROM  WHERE sessionID = ?";
-//        String getWinnerBidSql = "SELECT bidAmount_Current FROM Register_Bid WHERE sessionID = ? and memberID = ?";
-//        String createInvoiceSql = "INSERT INTO Invoice (registerBidID, invoiceDate, totalAmount, paymentMethod, shippingAddress";
-//        
-//        return false;
-//    }
+    @Override
+    public List<WinningRegister_Bid> displayWonRegisterBid(int currentPage, int pageSize) {
+        String query = "SELECT rb.registerBidID, rb.memberID, rb.bidAmount_Current, rb.bidTime_Current, s.jewelryID, j.jewelryName"
+                + "FROM Register_Bid rb, Session s, Jewelry j"
+                + "WHERE rb.status = 1 AND rb.sessionID = s.sessionID AND s.jewelryID = j.jewelryID"
+                + "ORDER BY rb.memberID";
+        List<WinningRegister_Bid> listWinningBid = new ArrayList();
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, (currentPage - 1) * pageSize); // Calculate the offset
+            ps.setInt(2, pageSize); // Set the number of rows to fetch
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    WinningRegister_Bid registerBid = new WinningRegister_Bid();
+                    registerBid.setRegisterBidID(rs.getString("registerBidID"));
+                    registerBid.setMemberID(rs.getString("memberID"));
+                    registerBid.setBidAmount_Current(rs.getDouble("bidAmount_Current"));
+                    registerBid.setBidTime_Current(LocalDateTime.parse(rs.getString("bidTime_Current")));
+                    registerBid.setJewelryID(rs.getString("jewelryID"));
+                    registerBid.setJewelryName(rs.getString("jewelryName"));
+                    listWinningBid.add(registerBid);
+                }
+                return listWinningBid;
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+    
+    
+    
+    //tao. 1 table InvoiceDetails trung gian cho register_Bid voi' Invoice de? chua' dc nhie`u register_Bid cua? cu`ng 1 member
+    
+    @Override
+    public boolean createInvoice(String[] selectedRegisterBidID) {
+        String selectRegisterBidQuery = "SELECT bidAmount_Current FROM Register_Bid WHERE status = 1 AND registerBidID = ?";
+        String insertInvoiceQuery = "INSERT INTO Invoice (invoiceDate, totalAmount) VALUES (GETDATE(), ?)";
+        //invoiceDetails to store multiple registerBidID in 1 invoice
+        String insertInvoiceDetailsQuery = "INSERT INTO InvoiceDetails (invoiceID, registerBidID) VALUES (?, ?)";
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps1 = conn.prepareStatement(selectRegisterBidQuery); PreparedStatement ps2 = conn.prepareStatement(insertInvoiceQuery, Statement.RETURN_GENERATED_KEYS); PreparedStatement ps3 = conn.prepareStatement(insertInvoiceDetailsQuery)) {
+
+            double totalAmount = 0.0;
+
+            // Loop through each selected registerBidID
+            for (String bidID : selectedRegisterBidID) {
+                ps1.setString(1, bidID);
+                try (ResultSet rs1 = ps1.executeQuery()) {
+                    if (rs.next()) {
+                        double bidAmount = rs.getDouble("bidAmount_Current");
+                        totalAmount += bidAmount;
+                    }
+                }
+            }
+
+            // Now insert into Invoice
+            ps2.setDouble(1, totalAmount);
+            int rowsAffected1 = ps2.executeUpdate();
+            int rowsAffected2 = 0;
+
+            // Get the generated invoiceID
+            try (ResultSet rs2 = ps2.getGeneratedKeys()) {
+                if (rs2.next()) {
+                    String invoiceID = rs2.getString(1);
+
+                    // Insert each registerBidID into InvoiceDetails
+                    for (String bidID : selectedRegisterBidID) {
+                        ps3.setString(1, invoiceID);
+                        ps3.setString(2, bidID);
+                        rowsAffected2 = +ps3.executeUpdate();
+                    }
+                }
+            }
+            if (rowsAffected1 > 0 && rowsAffected2 > 0) {
+                return true;
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return false;
+    }
+
+    
+    
+    //1 trang trung gian de? hien? thi. cac' invoice staff da gui? qua cho member????
+    
+    @Override
+    public List<Invoice> displayInvoiceForUser(String userID) {
+        List<Invoice> invoiceList = new ArrayList<>();
+        String getUserInvoiceQuery = "SELECT i.invoiceID, i.invoiceDate, i.totalAmount FROM Invoice i"
+                + "JOIN InvoiceDetails id ON i.invoiceID = id.invoiceID"
+                + "JOIN Register_Bid rb ON id.registerBidID = rb.registerBidID"
+                + "JOIN Member m ON rb.memberID = m.memberID"
+                + "WHERE m.userID = ?";
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(getUserInvoiceQuery)) {
+            ps.setString(1, userID);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Invoice invoice = new Invoice();
+                    invoice.setInvoiceID(rs.getString("invoiceID"));
+                    invoice.setInvoiceDate(LocalDateTime.parse(rs.getString("invoiceDate")));
+                    invoice.setTotalAmount(rs.getDouble("totalAmount"));
+                    invoiceList.add(invoice);
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+           ex.printStackTrace();
+        }
+        return invoiceList;
+    }
+
+    
+    
+    //user se chon. paymentMethod va` die`n shippingAddress de? hoa`n tha`nh invoice
+    @Override
+    public boolean userConfirmInvoice(String invoiceID, String paymentMethod, String shippingAddress) {
+        String confirmInvoiceQuery = "UPDATE Invoice SET paymentMethod = ?, shippingAddress = ? WHERE invoiceID = ?";
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(confirmInvoiceQuery)) {
+
+            ps.setString(3, invoiceID);
+            ps.setString(1, paymentMethod);
+            ps.setString(2, shippingAddress);
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0)
+                return true;
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
 }

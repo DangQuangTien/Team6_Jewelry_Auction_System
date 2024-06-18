@@ -7,6 +7,8 @@ package dao;
 import dto.UserDTO;
 import entity.Auction.Auction;
 import entity.Session.Session;
+import entity.bidding.WinningRegister_Bid;
+import entity.invoice.Invoice;
 import entity.member.Member;
 import entity.product.Category;
 import entity.product.Jewelry;
@@ -68,7 +70,7 @@ public interface UserDao {
 
     boolean rejectToAuction(String jewelryID);
 
-    List<Jewelry> displayConfirmedJewelry(int page, int pageSize);
+    List<Jewelry> displayConfirmedJewelry(int currentPage, int pageSize);
 
     boolean createAuction(String auctionDate, String startTime, String endTime, String[] selectedJewelryIDs);
     
@@ -93,7 +95,19 @@ public interface UserDao {
     //check if duplicated username
     boolean checkDuplicateUsername(String username);
     
-//    boolean createInvoice(String registerBidID, Double totalAmount, String paymentMethod, String shippingAddress);
+    //display won register bids to staff/manage
+    List<WinningRegister_Bid> displayWonRegisterBid(int currentPage, int pageSize);
+    
+    //staff create invoice
+    boolean createInvoice(String[] selectedRegisterBidID);
+    
+    //display invoice to user
+    List<Invoice> displayInvoiceForUser(String userID);
+    
+    //user insert paymentmethod and shippingaddress to confirm payment
+    boolean userConfirmInvoice(String invoiceID, String paymentMethod, String shippingAddress);
+    
+    //---------------
     //Member places bid for jewelry before Auction happens
     boolean placeBid(String preBid_Amount, String jewelryID, String memberID);
     boolean editBid(String preBid_Amount, String jewelryID, String memberID);
