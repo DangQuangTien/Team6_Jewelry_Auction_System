@@ -2,24 +2,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.user;
+package jewelryauction.controller.web.auction;
 
+import dao.UserDAOImpl;
+import entity.Auction.Auction;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author User
  */
-@WebServlet(name = "LogoutController", urlPatterns = {"/LogoutController"})
-public class LogoutController extends HttpServlet {
+@WebServlet(name = "ShowAllAuctionsServlet", urlPatterns = {"/auctions"})
+public class ShowAllAuctionsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,9 +35,11 @@ public class LogoutController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            session.invalidate();
-            response.sendRedirect(request.getContextPath() + "/home.jsp");
+            /* TODO output your page here. You may use following sample code. */
+            UserDAOImpl dao = new UserDAOImpl();
+            List<Auction> listAuction = dao.displayAuction();
+            request.setAttribute("AUCTIONS", listAuction);
+            request.getRequestDispatcher("/auctions/upcoming.jsp").forward(request, response);
         }
     }
 

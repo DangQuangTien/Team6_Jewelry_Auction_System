@@ -89,4 +89,9 @@ public interface UserDao {
     boolean editBid(String preBid_Amount, String jewelryID, String memberID);
     boolean saveBid(String preBid_Amount, String jewelryID, String memberID);
     Double getTheHighestBid(String jewelryID);
+     //User register
+    boolean registerUser(String firstName, String lastName, String email, String username, String password);
+    
+    //check if duplicated username
+    boolean checkDuplicateUsername(String username);
 }

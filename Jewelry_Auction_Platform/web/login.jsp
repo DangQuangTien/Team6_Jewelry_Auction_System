@@ -130,7 +130,7 @@
                 </a>
                 <p>Explore the World of Auctions with Us</p>
                 <%
-                    String error = (String) request.getAttribute("LOGIN_ERROR");
+                    String error = (String) request.getAttribute("error");
                     String username = (String) request.getAttribute("username");
                     String password = (String) request.getAttribute("password");
                 %>
@@ -140,7 +140,7 @@
                     <button class="close-btn" onclick="closeErrorMessage()">X</button>
                 </div>
                 <% } %>
-                <form action="MainController" method="POST">
+                <form action="login" method="POST">
                     <input type="text" name="email" placeholder="Phone number/ Username/ Email" required="required" value="<%= (username != null) ? username : "" %>" />
                     <input type="password" name="password" placeholder="Password" required="required" value="<%= (password != null) ? password : "" %>" />
                     <br><br>

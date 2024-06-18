@@ -1,6 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html lang="en">
-
 <head>
     <title>Maximize Your Jewelry and Watch Sales with Jewelry Auction Online</title>
     <meta charset="UTF-8">
@@ -12,163 +11,73 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            background-color: #f5eded;
-            font-family: 'Open Sans', sans-serif;
+            background-color: #f5f5f5;
         }
 
         .navbar {
-            background-color: #343a40;
-            position: fixed;
+            position: sticky;
             top: 0;
-            width: 100%;
             z-index: 1000;
+            background-color: #343a40;
+            border-bottom: 3px solid #e4af11;
         }
 
-        .navbar-brand,
-        .nav-link {
+        .navbar-brand, .nav-link, .navbar-toggler-icon {
             color: #ffc107 !important;
         }
 
-        .navbar-brand:hover,
-        .nav-link:hover {
-            color: #000 !important;
-        }
-
-        .hero {
-            background-color: #f5eded;
-            color: #ffc107 ;
-            text-align: center;
-            padding: 100px 20px;
-            margin-top: 56px;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 1.5rem;
-            max-width: 700px;
-            margin: 0 auto;
+        .navbar-brand:hover, .nav-link:hover {
+            color: #fff !important;
         }
 
         main {
-            flex: 1;
             padding: 40px 20px;
             max-width: 900px;
-            margin: -50px auto 0;
-            z-index: 10;
-            position: relative;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #selling-content h1, #selling-content h2, #selling-content h3 {
+            color: #333;
+            text-align: center;
+        }
+
+        #selling-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
         }
 
         #selling-content h2 {
-            color: #dc3545;
             font-size: 2rem;
+            border-bottom: 2px solid #dc3545;
+            padding-bottom: 5px;
             margin-bottom: 30px;
-            text-align: center;
         }
 
         #selling-content p {
             margin-bottom: 20px;
             text-align: justify;
             font-size: 1.1rem;
-            line-height: 1.8;
+            line-height: 1.6;
         }
 
-        .highlight,
-        .example {
+        #selling-content .highlight {
+            background-color: #f8d7da;
+            padding: 15px;
+            border-left: 5px solid #dc3545;
             margin-bottom: 20px;
             border-radius: 4px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
         }
 
-        .highlight {
-            background-color: #fff3cd;
-            border-left: 5px solid #ffc107;
-        }
-
-        .example {
-            background-color: #e2e3e5;
+        #selling-content .example {
+            background-color: #e9ecef;
+            padding: 15px;
             border-left: 5px solid #6c757d;
-        }
-
-        .highlight img,
-        .example img {
-            width: 100px;
-            height: auto;
+            margin-bottom: 20px;
+            font-style: italic;
             border-radius: 4px;
-            margin-right: 20px;
-        }
-
-        .highlight h5,
-        .example h5 {
-            color: #333;
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-        }
-
-        .highlight p,
-        .example p {
-            margin: 0;
-            font-size: 1rem;
-        }
-
-        .highlight,
-        .example {
-            display: flex;
-            align-items: center;
-        }
-
-        .highlight-text {
-            color: #dc3545;
-            font-weight: bold;
-        }
-
-        .zigzag {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .zigzag-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-left: 20px;
-        }
-
-        .zigzag-item:nth-child(even) {
-            flex-direction: row-reverse;
-        }
-
-        .zigzag-item img {
-            width: 150px;
-            height: auto;
-            border-radius: 8px;
-            margin: 0 20px;
-        }
-
-        .zigzag-item div {
-            flex: 1;
-        }
-
-        .gold-text {
-            color: #ffc107;
-        }
-
-        .black-text {
-            color: #000;
-        }
-
-        .gold-border {
-            border-left: 4px solid #ffc107;
-            padding-left: 15px;
-        }
-
-        .black-border {
-            border-right: 4px solid #000;
-            padding-left: 15px;
         }
 
         #selling-content button {
@@ -180,8 +89,6 @@
             font-size: 1.2em;
             transition: background-color 0.3s ease;
             border-radius: 4px;
-            display: block;
-            margin: 40px auto 0;
         }
 
         #selling-content button:hover {
@@ -191,7 +98,7 @@
         footer {
             background-color: #343a40;
             color: #fff;
-            padding: 1rem 0;
+            padding: 1rem;
             text-align: center;
         }
 
@@ -204,181 +111,82 @@
             color: #fff;
         }
 
-        .why-sell-section {
-            background-color: #f5eded;
-            border-left: 4px solid #dc3545;
-            padding: 20px;
-            margin-bottom: 30px;
-            border-radius: 8px;
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
         }
 
-        .why-sell-section h2 {
-            color: #dc3545;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .why-sell-section p {
-            margin-bottom: 20px;
-            text-align: justify;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #333;
-        }
     </style>
 </head>
-
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand" href="home.jsp">
-            <i class="fas fa-gem"> F'Rankelly</i><br>
-            <span style="font-size: 0.5em;">Auctioneers & Appraisers</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#"><i class="fas fa-gem"></i> Jewelry Auctions</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="collapse navbar-collapse" id="navbarNav">          
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="../home.jsp"><i class="fas fa-home"></i> Home</a>
+                    <a class="nav-link" href="home"><i class="fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
+                </li>                
+                <li class="nav-item">
+                    <a class="nav-link" href="auctions"><i class="fas fa-gavel"></i> Auction</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../auctions/upcoming.jsp"><i class="fas fa-gavel"></i> Auction</a>
+                    <a class="nav-link" href="valuation"><i class="fas fa-clipboard"></i> Request A Valuation</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../seller/request.jsp"><i class="fas fa-clipboard"></i> Request A
-                        Valuation</a>
-                </li>
+                    <a class="nav-link" href="response"><i class="fas fa-reply"></i> Response</a>                                   
+                </li>                
                 <li class="nav-item">
-                    <a class="nav-link" href="../seller/response.jsp"><i class="fas fa-reply"></i> Response</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../seller/shipmentRequest.jsp"><i class="fas fa-bell"></i>
-                        Notification</a>
+                    <a class="nav-link" href="notification"><i class="fas fa-bell"></i> Notification</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <div class="hero">
-        <h1>Maximize Your Jewelry and Watch Sales</h1>
-        <p>Discover the best way to sell your valuable jewelry and watches with <span class="highlight-text">Jewelry
-                Auction Online</span>. Our unique approach combines traditional auction methods with modern technology
-            to achieve outstanding results for our clients.</p>
+<main id="selling-content" class="container mt-4 fade-in">          
+    <h1>Selling with Jewelry Auction Online</h1>        
+    <p>With our unique model, we are at the forefront of revolutionizing the industry, merging the tried-and-true methods of traditional auction houses with the dynamism of modern innovative marketplace models, utilizing cutting-edge technology and focusing on an unyielding commitment to customer service.</p>
+    <h2>Why sell with Jewelry Auction Online</h2>
+    <p>We’re committed to setting and upholding the highest standards for our sellers. Selling jewelry and watches can be a challenging and confusing process, but it doesn’t have to be. With us by your side, you can rest assured that your valuable assets are in the best hands possible.</p>
+    <p>We think of ourselves as a torch-bearer on the dimly-lit, pitfall-filled path to selling jewelry and watches.</p>
+    <p>At our core values of integrity, authenticity, accountability, and excellence are at the forefront of everything we do. We believe our values, performance, and reputation set us far apart from our competitors.</p>
+    <div class="highlight">1 of 5: Our Goals Are Aligned With Yours</div>
+    <p>Unlike buyers who seek to purchase your jewelry and watches for as cheap as possible, we are not interested in buying your jewelry at all—we are interested in selling your jewelry for you, to the highest bidder.</p>
+    <p>Additionally, we believe that we should only be paid for our services if we are able to sell your jewelry and watches for the prices that you agree with. We provide fully-insured shipping, cataloging, photography, and marketing of your jewelry and watches, all at our expense.</p>
+    <p>Furthermore, because we are only paid upon success via our premiums (and our premiums are lower than the other major auction houses), the more money that we make you, the more we get paid. Maximizing the value of your jewelry and watches is absolutely in our best interest.</p>
+    <div class="example">The group lot depicted here illustrates the importance of correct pricing. The consignor initially desired to consign the lot with a reserve of $10,000. We agreed that the lot was potentially worth considerably more than $10,000 but requested a lower reserve and starting bid and the consignor agreed. On auction day the lot opened at $5,000 and, as a result of prudent pricing, a bidding war erupted during the live auction and the group of vintage Chanel costume jewelry sold for $25,000.</div>
+    <div class="highlight">2 of 5: We Have Solutions That Others Simply Do Not</div>
+    <p>While many auction houses hold jewelry and watch auctions every few months, we host live and online global auctions every two (2) weeks, allowing us to provide results for you in a much shorter period of time.</p>
+    <p>Need money even sooner? We’ve got a solution for that too.</p>
+    <p>Our Lightning Auctions deliver auction results in just days. This auction format is a first-price sealed-bid auction where a list of pre-qualified bidders, who pay a premium to participate in the auctions, are presented the lots for sale and are allowed to submit their top bid, one time, in a sealed envelope. Once all envelopes have been collected, they are opened and the top bid is taken.</p>
+    <div class="example">The owner of the Rolex Daytona “Rainbow” shown here was not happy with the cash offers that he was given by other buyers. He tried the watch once at auction and it did not sell and was then looking for more immediate solutions. He consigned the watch with us and we hosted a Lightning Auction for him. The Watch sold to a private client for $375,000 and the consignor was very pleased.</div>
+    <h3>Ready to jump ahead and submit your valuation request or want to learn more first?</h3>
+    <button onclick="myFunction()">Request A Valuation</button>
+</main>
+
+<footer class="footer text-center py-3 mt-auto">
+    <div>
+        <h6>Jewelry Auction</h6>
+        <a href="register.jsp">Register</a> |
+        <a href="login.jsp">Login</a> |
+        <a href="#">Help & FAQ</a> |
+        <a href="#">Support</a> |
+        <a href="#">Sitemap</a>
     </div>
+    <div>
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> Jewelry Auction. All rights reserved.</span>
+    </div>
+</footer>
 
-    <main id="selling-content" class="container mt-4 fade-in">
-        <div class="why-sell-section">
-            <h2>Why Sell with Jewelry Auction Online</h2>
-            <p>We are dedicated to setting and upholding the highest standards for our sellers. Selling jewelry and
-                watches can be a challenging and confusing process, but it doesn’t have to be. With us by your side, you
-                can rest assured that your valuable assets are in the best hands possible.</p>
-
-            <p>At our core, values of <span class="highlight-text">integrity</span>, <span
-                    class="highlight-text">authenticity</span>, <span class="highlight-text">accountability</span>, and
-                <span class="highlight-text">excellence</span> are at the forefront of everything we do. These values,
-                coupled with our performance and reputation, set us far apart from our competitors. We believe in
-                complete transparency and ethical practices, ensuring that you feel confident and secure throughout the
-                entire process.By choosing Jewelry Auction Online.
-            </p>
-
-            <p>Our auction platform is designed to maximize exposure and attract serious buyers, providing you with the
-                best opportunity to achieve top dollar for your jewelry and watches. We handle all aspects of the sale,
-                from professional photography and detailed descriptions to targeted marketing campaigns and seamless
-                transaction management.</p>
-        </div>
-
-        <div class="zigzag">
-            <div class="zigzag-item gold-border">
-                <img src="../images/1913588.jpg" alt="Our Goals Are Aligned With Yours">
-                <div>
-                    <h4 class="gold-text"><u>1 of 5: Our Goals Are Aligned With Yours</u></h4>
-                    <p>Unlike buyers who seek to purchase your jewelry and watches for as cheap as possible, we are not
-                        interested in buying your jewelry at all—we are interested in selling your jewelry for you, to
-                        the highest bidder.</p>
-                </div>
-            </div>
-
-            <div class="zigzag-item black-border">
-                <img src="../images/OIPO.jpg" alt="Vintage Chanel Costume Jewelry">
-                <div>
-                    <h4 class="black-text"><u>2 of 5: Vintage Chanel Costume Jewelry</u></h4>
-                    <p>The group lot depicted here illustrates the importance of correct pricing. The consignor
-                        initially desired to consign the lot with a reserve of $10,000. We agreed that the lot was
-                        potentially worth considerably more than $10,000 but requested a lower reserve and starting bid,
-                        and the consignor agreed. On auction day, the lot opened at $5,000 and, as a result of prudent
-                        pricing, a bidding war erupted during the live auction. The group of vintage Chanel costume
-                        jewelry ultimately sold for $25,000.</p>
-                </div>
-            </div>
-
-            <div class="zigzag-item gold-border">
-                <img src="../images/1913584.jpg" alt="We Have Solutions That Others Simply Do Not">
-                <div>
-                    <h4 class="gold-text"><u>3 of 5: We Have Solutions That Others Simply Do Not</u></h4>
-                    <p>While many auction houses hold jewelry and watch auctions every few months, we host live and
-                        online global auctions every two (2) weeks, allowing us to provide results for you in a much
-                        shorter period of time.</p>
-                </div>
-            </div>
-
-            <div class="zigzag-item black-border">
-                <img src="../images/OIP.jpg" alt="Rolex Daytona Rainbow">
-                <div>
-                    <h4 class="black-text"><u>4 of 5: Rolex Daytona Rainbow</u></h4>
-                    <p>The owner of the Rolex Daytona “Rainbow” shown here was not happy with the cash offers he was
-                        given by other buyers. He tried the watch once at auction, and it did not sell. Seeking more
-                        immediate solutions, he consigned the watch with us. We hosted a Lightning Auction for him, and
-                        the watch sold to a private client for $375,000. The consignor was very pleased with the result.
-                    </p>
-                </div>
-            </div>
-
-            <div class="zigzag-item gold-border">
-                <img src="../images/1913581.jpg" alt="Marketing That Reaches the Right Buyers">
-                <div>
-                    <h4 class="gold-text"><u>5 of 5: Marketing That Reaches the Right Buyers</u></h4>
-                    <p>We utilize advanced marketing strategies that include targeted advertising, social media
-                        campaigns, and partnerships with luxury publications to ensure your jewelry and watches are seen
-                        by the right audience. Our marketing efforts are designed to attract serious buyers who
-                        appreciate the value of your items and are willing to pay top dollar.</p>
-                </div>
-            </div>
-        </div>
-
-        <h3>Ready to jump ahead and submit your valuation request or want to learn more first?</h3>
-        <button onclick="myFunction()">Request A Valuation</button>
-    </main>
-
-    <footer class="footer text-center py-3 mt-auto">
-        <div>
-            <h6>Jewelry Auction</h6>
-            <a href="register.jsp">Register</a> |
-            <a href="login.jsp">Login</a> |
-            <a href="#">Help & FAQ</a> |
-            <a href="#">Support</a> |
-            <a href="#">Sitemap</a>
-        </div>
-        <div>
-            <span>&copy;
-                <script>
-                    document.write(new Date().getFullYear())
-                </script> Jewelry Auction. All rights reserved.
-            </span>
-        </div>
-    </footer>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        function myFunction() {
-            window.location = "request.jsp";
-        }
-    </script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+function myFunction() {
+    window.location = "valuation";
+}
+</script>
 </body>
-
 </html>

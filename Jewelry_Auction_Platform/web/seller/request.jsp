@@ -110,19 +110,19 @@
             <div class="collapse navbar-collapse" id="navbarNav">          
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/home.jsp"><i class="fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/home"><i class="fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
                     </li>                
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/auctions/upcoming.jsp"><i class="fas fa-gavel"></i> Auction</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/auctions"><i class="fas fa-gavel"></i> Auction</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/seller/request.jsp"><i class="fas fa-clipboard"></i> Request A Valuation</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/valuation"><i class="fas fa-clipboard"></i> Request A Valuation</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/seller/response.jsp"><i class="fas fa-reply"></i> Response</a>                                   
+                        <a class="nav-link" href="${pageContext.request.contextPath}/response"><i class="fas fa-reply"></i> Response</a>                                   
                     </li>                
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/seller/shipmentRequest.jsp"><i class="fas fa-bell"></i> Notification</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/notification"><i class="fas fa-bell"></i> Notification</a>
                     </li>
                 </ul>
             </div>
@@ -269,7 +269,7 @@
                                             formData.append('files', $scope.files[i]);
                                         }
 
-                                        $http.post('${pageContext.request.contextPath}/ValuationRequestServlet', formData, {
+                                        $http.post('${pageContext.request.contextPath}/process', formData, {
                                             transformRequest: angular.identity,
                                             headers: {'Content-Type': undefined}
                                         }).then(function (response) {

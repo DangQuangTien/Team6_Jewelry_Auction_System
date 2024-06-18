@@ -53,21 +53,21 @@ public class MainController extends HttpServlet {
             String action = request.getParameter("action");
             String url = "/WEB-INF/jsp/index.jsp";
             switch (action) {
-                case "Log in":
-                    url = LOGIN_CONTROLLER;
-                    break;
-                case "Log out":
-                    url = LOGOUT_CONTROLLER;
-                    break;
-                case "Profile":
-                    url = PROFILE_CONTROLLER;
-                    break;
-                case "Sell":
-                    url = "/seller/selling.html";
-                    break;
-                case "Valuation Request":
-                    url = PROCESS_VALUATION_CONTROLLER;
-                    break;
+//                case "Log in":
+//                    url = LOGIN_CONTROLLER;
+//                    break;
+//                case "Log out":
+//                    url = LOGOUT_CONTROLLER;
+//                    break;
+//                case "Profile":
+//                    url = PROFILE_CONTROLLER;
+//                    break;
+//                case "Sell":
+//                    url = "/seller/selling.html";
+//                    break;
+//                case "Valuation Request":
+//                    url = PROCESS_VALUATION_CONTROLLER;
+//                    break;
                 case "Submit":
                     url = INSERT_JEWELRY_CONTROLLER;
                     break;
