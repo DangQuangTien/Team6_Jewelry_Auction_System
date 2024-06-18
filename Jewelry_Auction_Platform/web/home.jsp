@@ -389,11 +389,6 @@ footer a {
                         </c:otherwise>
                     </c:choose>
                 </ul>
-
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search for anything" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i> Search</button>
-                </form>
             </div>
         </nav>
 

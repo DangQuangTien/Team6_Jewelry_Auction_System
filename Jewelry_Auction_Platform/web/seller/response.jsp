@@ -18,14 +18,14 @@ body {
     background-color: #f5eded;
     color: #000000;
     padding-top: 70px;
-    min-height: 100vh; /* Ensure the body takes at least the full viewport height */
-    position: relative; /* Needed for the footer to be positioned relative to the body */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-    padding-bottom: 100px; /* Add padding to the bottom to ensure content is not covered by the footer */
+    min-height: 100vh; 
+    position: relative; 
+    box-sizing: border-box; 
+    padding-bottom: 100px; 
 }
 
 h1.luminous-gold {
-    margin-top: 20px; /* Add margin-top to move the h1 down from the navbar */
+    margin-top: 20px;
     font-weight: bold;
     background: linear-gradient(90deg, 
         #e4af11 0%, 
@@ -48,8 +48,8 @@ h1.luminous-gold {
     background-color: #343a40;
     color: #e4af11;
     padding: 20px 0;
-    position: absolute; /* Position the footer at the bottom */
-    bottom: 0; /* Align the footer to the bottom */
+    position: absolute; 
+    bottom: 0; 
     width: 100%;
     text-align: center;
 }
