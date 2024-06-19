@@ -28,16 +28,71 @@ body {
     position: sticky;
     top: 0;
     z-index: 1000;
-    background-color: #343a40;
+    background: linear-gradient(90deg, #343a40 0%, #1c1c1c 100%);
     border-bottom: 3px solid #e4af11;
 }
 
 .navbar-brand, .nav-link, .navbar-toggler-icon {
     color: #ffc107 !important;
+    transition: color 0.3s;
 }
 
 .navbar-brand:hover, .nav-link:hover {
-    color: #0a0800 !important;
+    color: #e4af11 !important;
+}
+
+.navbar-nav .nav-item {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.user-dropdown {
+    margin-right: 20px; 
+}
+
+.nav-item .dropdown-menu {
+    background-color: #343a40;
+    border: none;
+}
+
+.nav-item .dropdown-item {
+    color: #ffc107 !important;
+    transition: color 0.3s;
+}
+
+.nav-item .dropdown-item:hover {
+    color: #e4af11 !important;
+    background-color: transparent;
+}
+
+.dropdown-divider {
+    border-top: 1px solid #ffc107;
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.nav-item:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+}
+
+@media (max-width: 768px) {
+    .navbar-nav {
+        text-align: center;
+    }
+    .navbar-nav .nav-item {
+        margin: 5px 0;
+    }
+    .navbar-nav .dropdown-menu {
+        width: 100%;
+        text-align: center;
+    }
+    .navbar-nav .dropdown-menu .dropdown-item {
+        width: 100%;
+        display: inline-block;
+    }
 }
 
 .content {
@@ -331,34 +386,62 @@ footer a {
 .carousel-control-next {
     right: -5%;
 }
+
+.content .btn-primary {
+    background-color: #343a40;
+    color: #ffc107;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.content .btn-primary:hover {
+    background-color: #1c1c1c;
+    color: #e4af11;
+}
+
         </style>
     </head>
     <body>
         <c:set var="dao" value="<%= new dao.UserDAOImpl()%>" />
         <c:set var="username" value="${sessionScope.USERNAME}" />
         <c:set var="role" value="${sessionScope.ROLE}" />
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+        <nav class="navbar navbar-expand-lg navbar-dark">
             <a class="navbar-brand" href="home.jsp">
-                <i class="fas fa-gem"> F'Rankelly</i><br>
+                <i class="fas fa-gem"></i> F'Rankelly<br>
                 <span style="font-size: 0.5em;">Auctioneers & Appraisers</span>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-
-                <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="home.jsp"><i class="fas fa-home"></i> HOME<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="home.jsp"><i class="fas fa-home"></i> HOME</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="auctionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-gavel"></i> AUCTION
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="auctionDropdown">
+                            <a class="dropdown-item" href="auctions/upcoming.jsp"><i class="fas fa-calendar-alt"></i> Upcoming</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="sellingDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-dollar-sign"></i> SELLING
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="sellingDropdown">
+                            <a class="dropdown-item" href="seller/selling.html"><i class="fas fa-hand-holding-usd"></i> Selling</a>
+                            <a class="dropdown-item" href="seller/request.jsp"><i class="fas fa-clipboard-list"></i> Request A Valuation</a>
+                        </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="auctions/upcoming.jsp"><i class="fas fa-gavel"></i> AUCTIONS</a>
+                        <a class="nav-link" href="#about"><i class="fas fa-info-circle"></i> ABOUT</a>
                     </li>
-                    <c:if test="${role == 'Member' || role == null}">
-                        <li class="nav-item">
-                            <a class="nav-link" href="seller/selling.html"><i class="fas fa-dollar-sign"></i> SELLING</a>
-                        </li>
-                    </c:if>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact"><i class="fas fa-address-book"></i> CONTACT</a>
+                    </li>
                     <c:choose>
                         <c:when test="${username == null}">
                             <li class="nav-item">
@@ -369,29 +452,24 @@ footer a {
                             </li>
                         </c:when>
                         <c:otherwise>
-                            <c:set var="url">
-                                <c:choose>
-                                    <c:when test="${role == 'Member'}">bidder/profile.jsp</c:when>
-                                    <c:when test="${role == 'Staff'}">staff/staff.jsp</c:when>
-                                    <c:when test="${role == 'Manager'}">manager/manager.jsp</c:when>
-                                    <c:otherwise>admin/admin.jsp</c:otherwise>
-                                </c:choose>
-                            </c:set>
-                            <li class="nav-item">
-                                <a class="nav-link" href="${url}"><i class="fas fa-user"></i>${username}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="seller/shipmentRequest.jsp"><i class="fas fa-bell"></i> Notification</a>
-                            </li>
-                            <li>
-                                <a class="nav-link" id="logout-link"href="${pageContext.request.contextPath}/MainController?action=Log out" ><i class="fas fa-sign-out-alt"></i>LOG OUT</a                                                
+                            <li class="nav-item dropdown user-dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-user"></i> ${username}
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="seller/shipmentRequest.jsp"><i class="fas fa-bell"></i> Notification</a>
+                                    <a class="dropdown-item" href="${url}"><i class="fas fa-user-circle"></i> Profile</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="${pageContext.request.contextPath}/MainController?action=Log out"><i class="fas fa-sign-out-alt"></i> LOG OUT</a>
+                                </div>
                             </li>
                         </c:otherwise>
                     </c:choose>
                 </ul>
             </div>
         </nav>
-
+        
+                        
         <section class="welcome-section">
             <div class="banner">
                 <img src="https://png.pngtree.com/thumb_back/fw800/background/20190223/ourmid/pngtree-beautiful-romantic-golden-jewelry-banner-background-spheresmall-golden-ballgold-image_83218.jpg" alt="Banner Image">
@@ -464,7 +542,7 @@ footer a {
             </div>
         </div>
         
-        <div class="about-contact-section container mt-5">
+        <section id="about" class="about-contact-section container mt-5">
             <div class="row">
                 <div class="col-md-6">
                     <img src="./images/z5546462796989_1ff9a9b729be11624975ca5db8d58b64.jpg" alt="About Us Image">
@@ -475,6 +553,9 @@ footer a {
                     <p>At F'Rankelly, we pride ourselves on offering the finest jewelry at auction. Our commitment to quality and excellence is unmatched, ensuring that every piece we present is of the highest standard. Join us in discovering the timeless beauty and elegance of our collections.</p>
                 </div>
             </div>
+        </section>
+        
+        <section id="contact" class="about-contact-section container mt-5">
             <div class="row">
                 <div class="col-md-6 order-md-2">
                     <img src="./images/z5546463061579_b12c3929fc6aa94bff2cbf559a6d5acd.jpg" alt="Contact Us Image">
@@ -485,7 +566,8 @@ footer a {
                     <p>Whether you have a question about our auctions, need assistance with a purchase, or simply want to learn more about our services, our team is here to help. Reach out to us through our contact page or visit us at our showroom for a personal consultation.</p>
                 </div>
             </div>
-        </div>
+        </section>
+            
         <div class="content container mt-5">
             <h2 class="section-title">What Our Customers Say</h2>
             <div class="row">
@@ -555,7 +637,18 @@ footer a {
                         alert('No auction available');
                     }
                 });
-            });
+            });           
         </script>
+<script>
+    document.querySelectorAll('a.nav-link[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
+    
     </body>
 </html>
