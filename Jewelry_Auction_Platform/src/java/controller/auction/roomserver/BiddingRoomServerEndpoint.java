@@ -33,30 +33,37 @@ public class BiddingRoomServerEndpoint {
     public void onMessage(String message, Session session) {
         try {
             JSONObject json = new JSONObject(message);
+            if (json.has("status") && "finished".equals(json.getString("status"))) {
+                String selectedJewelryID = json.getString("selectedJewelryID");
+                dao.closeSession(selectedJewelryID);
+                return;
+            }
+
             String jewelryID = json.getString("jewelryID");
             String bid = json.getString("bid");
             String memberID = json.getString("member");
             String auctionID = (String) session.getUserProperties().get("auctionID");
-            Double TheHighestBid = dao.getTheHighestBid(jewelryID);
-            Double bid_Current = Double.parseDouble(bid);
-            if (bid_Current > TheHighestBid) {
+            Double theHighestBid = dao.getTheHighestBid(jewelryID);
+            Double bidCurrent = Double.parseDouble(bid);
+
+            if (bidCurrent > theHighestBid) {
                 boolean result = dao.saveBid(bid, jewelryID, memberID);
                 if (!result) {
                     dao.placeBid(bid, jewelryID, memberID);
                 }
-                sendMessageToClient(session, "You are winning with $" + bid_Current);
+                sendMessageToClient(session, "You are winning with $" + bidCurrent);
             } else {
-                sendMessageToClient(session, "Your bid must be higher than the current highest bid: $" + TheHighestBid);
+                sendMessageToClient(session, "Your bid must be higher than the current highest bid: $" + theHighestBid);
             }
+
             JSONObject bidMessage = new JSONObject();
             bidMessage.put("Floor Bid", bid);
             bidMessage.put("Time", Timestamp.valueOf(LocalDateTime.now()));
             broadcastBid(auctionID, bidMessage);
+
         } catch (JSONException e) {
-            e.printStackTrace();
             sendMessageToClient(session, "Invalid JSON message format: " + message);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NumberFormatException e) {
             sendMessageToClient(session, "Error processing message: " + message);
         }
     }
@@ -83,7 +90,6 @@ public class BiddingRoomServerEndpoint {
         try {
             session.getBasicRemote().sendText(message);
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -94,7 +100,6 @@ public class BiddingRoomServerEndpoint {
                 try {
                     session.getBasicRemote().sendText(bidMessage.toString());
                 } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         }

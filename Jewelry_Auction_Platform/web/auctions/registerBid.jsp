@@ -62,6 +62,7 @@
         button[type="submit"] {
             width: 100%;
         }
+<<<<<<< HEAD
         footer {
         background-color: #343a40;
         color: #fff;
@@ -154,6 +155,115 @@
             </div>
         </nav>
         
+=======
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        nav {
+            background-color: white;
+            color: #000000;
+            padding: 10px 20px;
+        }
+
+        nav a {
+            color: #000000;
+            text-decoration: none;
+            margin-right: 10px;
+            padding: 8px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: rgba(85, 85, 85, 0.5);
+            color: white;
+        }
+        .button {
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+  padding-block: 0.5rem;
+  padding-inline: 1.25rem;
+  background-color: rgb(0 107 179);
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ffff;
+  gap: 10px;
+  font-weight: bold;
+  border: 3px solid #ffffff4d;
+  outline: none;
+  overflow: hidden;
+  font-size: 15px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  transition: all 0.3s ease-in-out;
+}
+
+.button:hover {
+  transform: scale(1.05);
+  border-color: #fff9;
+}
+
+.button:hover .icon {
+  transform: translate(4px);
+}
+
+.button:hover::before {
+  animation: shine 1.5s ease-out infinite;
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 100%;
+  background-image: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0) 70%
+  );
+  top: 0;
+  left: -100px;
+  opacity: 0.6;
+}
+
+@keyframes shine {
+  0% {
+    left: -100px;
+  }
+
+  60% {
+    left: 100%;
+  }
+
+  to {
+    left: 100%;
+  }
+}
+
+    </style>
+
+    <body>
+        <c:set var="member" value="${sessionScope.MEMBER}" />
+        <nav>
+            <a style="text-decoration: none;" href="${pageContext.request.contextPath}/home">HOME</a>
+            <a style="text-decoration: none;"href="${pageContext.request.contextPath}/auctions">AUCTIONS</a>
+            <a style="text-decoration: none;"href="${pageContext.request.contextPath}/selling">SELLING</a>
+            <a style="text-decoration: none;"href="#">EXPLORE</a>
+            <a style="text-decoration: none;"href="#">ABOUT</a>
+            <a style="text-decoration: none;"href="#">CONTACT</a>
+        </nav>       
+>>>>>>> bennguyendev_03
         <!-- END OF HEADER -->
         <div class="container mt-5">
             <h2 class="text-center">Bidder Registration</h2>
@@ -165,12 +275,12 @@
                         <h4>USER INFORMATION</h4>
                         <div class="form-group">
                             <label for="firstName">First Name *</label>
-                            <input type="text" class="form-control" id="firstName" name="firstName" value="<%= firstName%>" required>
+                            <input type="text" class="form-control" id="firstName" name="firstName" value="${member.firstName}" required>
                             <div class="invalid-feedback">First name is required.</div>
                         </div>
                         <div class="form-group">
                             <label for="lastName">Last Name *</label>
-                            <input type="text" class="form-control" id="lastName" name="lastName" value="<%= lastName%>"  required>
+                            <input type="text" class="form-control" id="lastName" name="lastName" value="${member.lastName}"  required>
                             <div class="invalid-feedback">Last name is required.</div>
                         </div>
                         <div class="form-group">
@@ -180,7 +290,7 @@
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone *</label>
-                            <input type="tel" class="form-control" id="phone" name="phone" value="<%= phone%>" required>
+                            <input type="tel" class="form-control" id="phone" name="phone" value="${member.phoneNumber}" required>
                             <div class="invalid-feedback">Phone number is required.</div>
                         </div>
                     </div>
@@ -233,7 +343,7 @@
                         <p>IMPORTANT: Please note that bids, once placed, cannot be retracted or reduced. Kindly refer to our Terms and Conditions for full details.</p>
                         <div class="form-group">
                             <label for="cardHolderName">Card Holder Name *</label>
-                            <input type="text" class="form-control" id="cardHolderName" name="cardHolderName"  value="<%= firstName + " " + lastName%>" required>
+                            <input type="text" class="form-control" id="cardHolderName" name="cardHolderName"  value="${member.firstName} ${member.lastName}" required/>
                             <div class="invalid-feedback">Card holder name is required.</div>
                         </div>
                         <div class="form-group">
@@ -305,8 +415,17 @@
                             <div class="invalid-feedback">You must be at least 18 years old.</div>
                         </div>
                     </div>
-                    <input type="hidden" name="auctionID" value="<%= request.getParameter("auctionID") %>">
-                    <input type="submit" name="action" value="Register" class="btn btn-primary mt-3">
+                    <input type="hidden" name="auctionID" value="<%= request.getParameter("auctionID")%>">
+                    <button type="submit" class="button">
+  Apply Now
+  <svg fill="currentColor" viewBox="0 0 24 24" class="icon">
+    <path
+      clip-rule="evenodd"
+      d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z"
+      fill-rule="evenodd"
+    ></path>
+  </svg>
+</button>
                 </div>
             </form>
         </div>
@@ -321,7 +440,7 @@
                 <a href="#">Sitemap</a>
 
             </div>
-            
+
         </footer>
         <!-- END OF FOOTER -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

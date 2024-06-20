@@ -33,7 +33,6 @@ public class UpdateJewelryServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to retrieve jewelry data.");
             return;
         }
-
         String json = new Gson().toJson(listJewelry);
         response.getWriter().write(json);
     }

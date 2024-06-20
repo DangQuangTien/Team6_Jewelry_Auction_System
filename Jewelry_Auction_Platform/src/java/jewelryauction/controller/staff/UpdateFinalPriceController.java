@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UpdateFinalPriceController extends HttpServlet {
 
     private static final String ERROR_PAGE = "index.htm";
-    private static final String STAFF_PAGE = "/staff/finalValuation.jsp";
+    private static final String STAFF_PAGE = "/finalValuation";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

@@ -6,28 +6,15 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-            />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <title>Fine Jewels & Watches | Global F'Rankelly 's Premier Jewelry Auction House</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="icon" type="image/png" sizes="64x64" href="../images/logo/Logo.png">
-        <link
-            rel="stylesheet"
-            type="text/css"
-            href="../component//userProfile.css"
-            />
+        <link rel="stylesheet" type="text/css" href="../component//userProfile.css"/>
         <link rel="stylesheet" type="text/css" href="../component/header.css" />
         <link rel="stylesheet" type="text/css" href="../component/footer.css" />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-            />
-        <link
-            rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-            />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
     </head>
     <style>
         .countdown-container {
@@ -36,21 +23,6 @@
         }
         .countdown-container div {
             margin-right: 10px;
-        }
-        .blink {
-            animation: blink-animation 1s linear infinite;
-        }
-
-        @keyframes blink-animation {
-            0% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
         }
         .alert {
             display: none;
@@ -65,29 +37,218 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             z-index: 1000;
         }
-        .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background-color: #343a40 !important;
-            border-bottom: 3px solid #e4af11;
-        }
-
-        .navbar-brand,
-        .nav-link,
-        .navbar-toggler-icon {
-            color: #ffc107 !important;
-        }
-
-        .navbar-brand:hover,
-        .nav-link:hover {
-            color: #0a0800 !important;
-        }
 
         .content {
             flex: 1;
             padding: 20px;
         }
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%; 
+            padding: 10px 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        nav a {
+            color: #000000;
+            text-decoration: none;
+            margin-right: 10px;
+            padding: 8px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: rgba(85, 85, 85, 0.5);
+            color: white;
+        }
+
+        .btn-custom {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #fff;
+            color: orangered;
+            border: 2px solid orangered;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .btn-custom:hover {
+            background-color: orangered;
+            color: #fff;
+        }
+
+        .card-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-title {
+            margin-bottom: 10px;
+        }
+
+        .min-price, .max-price {
+            font-weight: bold;
+        }
+        .btn-primary {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: black;
+            background-color: white;
+            border: 2px solid #000000;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #000;
+            color: #fff;
+        }
+.loader {
+  width: 100px;
+  height: 100px;
+  border: solid 4px rgba(231, 231, 231, 0);
+  border-top: solid 5px rgb(241, 68, 68);
+  border-radius: 50%;
+  transition: all 0.5s;
+  animation: rotation_51512 1.2s infinite cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+@keyframes rotation_51512 {
+  70% {
+    box-shadow: 0px 0px 10px 50px rgba(241, 57, 57, 0.526);
+  }
+
+  90% {
+    box-shadow: 0px 0px 10px 50px rgba(241, 57, 57, 0.04);
+  }
+
+  100% {
+    opacity: 0.5;
+    transform: rotate(360deg);
+  }
+}
+.animated-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 16px 36px;
+  border: 4px solid;
+  border-color: transparent;
+  font-size: 16px;
+  border-radius: 100px;
+  font-weight: 600;
+  color: #1f387e;
+  box-shadow: 0 0 0 2px #ffffff;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button svg {
+  position: absolute;
+  width: 24px;
+  fill: #1f387e;
+  z-index: 9;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button .arr-1 {
+  right: 16px;
+}
+
+.animated-button .arr-2 {
+  left: -25%;
+}
+
+.animated-button .circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background-color: #c5e5e4;
+  border-radius: 50%;
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button .text {
+  position: relative;
+  z-index: 1;
+  transform: translateX(-12px);
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button:hover {
+  box-shadow: 0 0 0 12px transparent;
+  color: #212121;
+  border-radius: 12px;
+}
+
+.animated-button:hover .arr-1 {
+  right: -25%;
+}
+
+.animated-button:hover .arr-2 {
+  left: 16px;
+}
+
+.animated-button:hover .text {
+  transform: translateX(12px);
+}
+
+.animated-button:hover svg {
+  fill: #1f387e;
+}
+
+.animated-button:active {
+  scale: 0.95;
+  box-shadow: 0 0 0 4px greenyellow;
+}
+
+.animated-button:hover .circle {
+  width: 220px;
+  height: 220px;
+  opacity: 1;
+}
+
     </style>
     <c:set var = "dao" value="<%= new UserDAOImpl()%>"/>
     <c:set var="auction" value="${requestScope.AUCTION}" /> <!-- Get auction by ID -->
@@ -117,23 +278,22 @@
             var difference = startTime - now;
 
             if (difference <= 0) {
-                document.getElementById("countdown").innerHTML = "Auction started!";
+                document.getElementById("countdown").innerHTML = "ALREADY STARTED";
                 clearInterval(countdownInterval);
         <c:choose>
             <c:when test="${status == 1 && member != null}">
-                document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.jsp?auctionID=${auctionID}"><img style="width: 50px; height: 50px" src="${pageContext.request.contextPath}/images/entrance.png"></a>';
-                document.getElementById("auctionLink1").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.jsp?auctionID=${auctionID}">JOIN AUCTION</a>';
-                document.getElementById("bidForm").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.jsp?auctionID=${auctionID}">JOIN AUCTION</a>';
-                document.getElementById("editBidForm_").innerHTML = '<a href="${pageContext.request.contextPath}/private/room/live/index.jsp?auctionID=${auctionID}">JOIN AUCTION</a>';
+                document.getElementById("auctionLink").innerHTML ='<a href="${pageContext.request.contextPath}/room?auctionID=${param.auctionID}"><div class="loader"></div><div class="loader2"></div></a>';
+                document.getElementById("auctionLink1").innerHTML = '<a style="text-decoration: none;" href="${pageContext.request.contextPath}/room?auctionID=${param.auctionID}"><button type="submit" class="animated-button"><svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path></svg><span class="text">E N T R Y</span><span class="circle"></span><svg xmlns="http://www.w3.org/2000/svg" class="arr-1" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path></svg></button></a>';
+                document.getElementById("bidForm").innerHTML = '';
+                document.getElementById("editBidForm_").innerHTML = '';
             </c:when>
             <c:when test="${status == 0 && member != null}">
-                document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/registerbid?auctionID=${auctionID}"><img style="width: 50px; height: 50px" src="${pageContext.request.contextPath}/images/entrance.png"></a>';
+                document.getElementById("auctionLink").innerHTML = '<form action="${pageContext.request.contextPath}/registerbid?auctionID=${param.auctionID}"><button type="submit" class="animated-button"><svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path></svg><span class="text">E N T R Y</span><span class="circle"></span><svg xmlns="http://www.w3.org/2000/svg" class="arr-1" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path></svg></button></form>';
             </c:when>
             <c:otherwise>
-                document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/login"><img style="width: 50px; height: 50px" src="${pageContext.request.contextPath}/images/entrance.png"></a>';
+                document.getElementById("auctionLink").innerHTML = '<form action="${pageContext.request.contextPath}/login"><button type="submit" class="animated-button"><svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path></svg><span class="text">E N T R Y</span><span class="circle"></span><svg xmlns="http://www.w3.org/2000/svg" class="arr-1" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path></svg></button></form>';
             </c:otherwise>
         </c:choose>
-                document.getElementById("auctionLink").classList.add("blink");
                 return;
             }
             var days = Math.floor(difference / (1000 * 60 * 60 * 24));
@@ -144,116 +304,44 @@
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            getTimeDifference('${auction.startDate}T${auction.startTime}');
+            getTimeDifference('${auction.endDate}T${auction.startTime}');
                 });
 
                 var countdownInterval = setInterval(function () {
-                    getTimeDifference('${auction.startDate}T${auction.startTime}');
+                    getTimeDifference('${auction.endDate}T${auction.startTime}');
                         }, 1000);
     </script>
     <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#"
-               ><i class="fas fa-gem"></i> Jewelry Auctions</a
-            >
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarNav"
-                aria-controls="navbarNav"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-                >
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a
-                            class="nav-link"
-                            href="${pageContext.request.contextPath}/home"
-                            ><i class="fas fa-home"></i> Home
-                            <span class="sr-only">(current)</span></a
-                        >
-                    </li>
-                    <li class="nav-item">
-                        <a
-                            class="nav-link"
-                            href="${pageContext.request.contextPath}/all"
-                            ><i class="fas fa-gavel"></i> Auction</a
-                        >
-                    </li>
-                    <li class="nav-item">
-                        <a
-                            class="nav-link"
-                            href="${pageContext.request.contextPath}/seller"
-                            ><i class="fas fa-dollar-sign"></i> Sell</a
-                        >
-                    </li>
-                    <!-- JSTL Conditional Rendering -->
-                    <c:choose>
-                        <c:when test="${empty sessionScope.USERNAME}">
-                            <li class="nav-item">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/login" ><i class="fas fa-sign-in-alt"></i> Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/register.jsp"><i class="fas fa-user-plus"></i> Register</a>
-                            </li>
-                        </c:when>
-                        <c:otherwise>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle"
-                                   href="#"
-                                   id="userDropdown"
-                                   role="button"
-                                   data-toggle="dropdown"
-                                   aria-haspopup="true"
-                                   aria-expanded="false"
-                                   >
-                                    <i class="fas fa-user"></i> ${sessionScope.USERNAME}
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="userDropdown">
-                                    <a
-                                        class="dropdown-item"
-                                        href="${pageContext.request.contextPath}/bidder/profile.jsp"
-                                        >Profile</a
-                                    >
-                                    <a
-                                        class="dropdown-item"
-                                        href="${pageContext.request.contextPath}/MainController?action=Log out"
-                                        >Logout</a
-                                    >
-                                </div>
-                            </li>
-                        </c:otherwise>
-                    </c:choose>
-            </div>
-        </nav>
-    </header>
+
+    <nav>
+        <a style="text-decoration: none;" href="${pageContext.request.contextPath}/home">Home</a>
+        <a style="text-decoration: none;"href="${pageContext.request.contextPath}/auctions">Auctions</a>
+        <a style="text-decoration: none;"href="${pageContext.request.contextPath}/selling">My Bids</a>
+        <a style="text-decoration: none;" href="${pageContext.request.contextPath}/profile">Profile</a>
+        <a>Search</a>
+    </nav>
     <div class="container">
         <% String status = (String) request.getAttribute("PlACEBIDSTATUS");%>
         <div id="statusAlert" class="alert" style="display: none;">
             <%= (status != null) ? status : ""%>
         </div>
-        <h1 class="mt-4">Fine Jewels & Watches</h1>
+        <h1>Fine Jewels & Watches</h1>
         <h2>Live Auction</h2>
-        <h3>Live bidding begins: <c:out value="${auction.startDate}"/> at <c:out value="${auction.startTime}"/></h3>
+        <h3>Live bidding begins: <c:out value="${auction.endDate}"/> at <c:out value="${auction.startTime}"/></h3>
         <div class="countdown-container">
-            <h3 style="color: orange"><div id="countdown"></div></h3>
+            <h3 style="color: orangered"><div id="countdown"></div></h3>
             <div id="auctionLink"></div>
         </div>
         <!-- Notification -->
         <c:choose>
             <c:when test="${status == 1 && member != null}">
-                <div style="color: red" id="auctionLink1"><h2>Coming Soon!</h2></div>
+                <div id="auctionLink1"><h3>COMING SOON</h3></div>
             </c:when>
             <c:when test="${status == 0 && member != null}">
-                <a href="registerbid?auctionID=${auctionID}" class="btn btn-primary">REGISTER TO BID</a>
+                <a style=" text-decoration: none;" href="registerbid?auctionID=${param.auctionID}" class="btn-custom">REGISTER TO BID</a>
             </c:when>
             <c:otherwise>
-                <a href="${pageContext.request.contextPath}/login" class="btn btn-primary">REGISTER TO BID</a>
+                <a style=" text-decoration: none;" href="${pageContext.request.contextPath}/login" class="btn-custom">REGISTER TO BID</a>
             </c:otherwise>
         </c:choose>
         <!-- Sort -->
@@ -294,31 +382,32 @@
                 <c:set var="photos" value="${j.photos}" />
                 <c:set var="photoArray" value="${fn:split(photos, ';')}" />
                 <div class="col-md-4 mb-4 catalog-item" data-category="${j.categoryName}">
-                    <div class="card">
-                        <a href="${pageContext.request.contextPath}/auctions/itemDetail.jsp?jewelryID=${j.jewelryID}&auctionID=${auctionID}">
-                            <img class="card-img-top" src="${pageContext.request.contextPath}/${photoArray[0]}" alt="${j.jewelryName}">
-                        </a>
-                        <div class="card-body">
-                            <h5 class="card-title">${j.jewelryID}</h5>
-                            <h5 class="card-title">${j.jewelryName}</h5>
-                            Starting Bid: $1500 <br>
-                            Est. $<span class="min-price">${j.minPrice}</span> - $<span class="max-price">${j.maxPrice}</span>
-                            <br>
-                            <c:choose>
-                                <c:when test="${status == 0 && member != null}">
-                                    <a href="${pageContext.request.contextPath}/registerbid?auctionID=${auctionID}"><button class="btn btn-primary">PLACE BID</button</a>
-                                </c:when>
-                                <c:when test="${status == 1 && member != null}">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal">PLACE BID</button>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal_">EDIT BID</button>
-
-                                </c:when>
-                                <c:otherwise>
-                                    <form action="${pageContext.request.contextPath}/login">
-                                        <input type="submit" class="btn btn-primary" value="PLACE BID">
-                                    </form>
-                                </c:otherwise>
-                            </c:choose>
+                    <div style="border-radius: 12px" class="card-wrapper">
+                        <div style="border-radius: 12px" class="card">
+                            <a href="${pageContext.request.contextPath}/auctions/itemDetail.jsp?jewelryID=${j.jewelryID}&auctionID=${param.auctionID}">
+                                <img style="border-radius: 12px" class="card-img-top" src="${pageContext.request.contextPath}/${photoArray[0]}" alt="${j.jewelryName}">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">${j.jewelryID}</h5>
+                                <h5 class="card-title">${j.jewelryName}</h5>
+                                Starting Bid: $1500 <br>
+                                Est. $<span class="min-price">${j.minPrice}</span> - $<span class="max-price">${j.maxPrice}</span>
+                                <br>
+                                <c:choose>
+                                    <c:when test="${status == 0 && member != null}">
+                                        <a href="${pageContext.request.contextPath}/registerbid?auctionID=${param.auctionID}"><button class="btn btn-primary">PLACE BID</button</a>
+                                    </c:when>
+                                    <c:when test="${status == 1 && member != null}">
+                                        <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal">PLACE BID</button>
+                                        <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal_">EDIT BID</button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <form action="${pageContext.request.contextPath}/login">
+                                            <input type="submit" class="btn btn-primary" value="PLACE BID">
+                                        </form>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -339,18 +428,18 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="bidForm" action="${pageContext.request.contextPath}/MainController" method="GET">
+                <form id="bidForm" action="${pageContext.request.contextPath}/placebid">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="bidAmount">Enter your bid amount:</label>
                             <input type="number" class="form-control" id="bidAmount" name="preBid_Amount" value="<%= (preBid_Amount != null) ? preBid_Amount : ""%>" required>
                         </div>
-                        <input type="hidden" id="auctionID" name="auctionID" value="${auctionID}">
+                            <input type="hidden" id="auctionID" name="auctionID" value="${param.auctionID}">
                         <input type="hidden" id="jewelryID" name="jewelryID">
                         <input type="hidden" name="action" value="Place Bid">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Place Bid</button>
                     </div>
                 </form>
@@ -367,18 +456,18 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="editBidForm_" action="${pageContext.request.contextPath}/MainController" method="GET">
+                <form id="editBidForm_" action="${pageContext.request.contextPath}/editbid" method="POST">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="editBidAmount">Enter your new bid amount:</label>
                             <input type="number" class="form-control" id="editBidAmount" name="preBid_Amount" value="<%= (preBid_Amount != null) ? preBid_Amount : ""%>" required>
                         </div>
-                        <input type="hidden" id="auctionID" name="auctionID" value="${auctionID}">
+                            <input type="hidden" id="auctionID" name="auctionID" value="${param.auctionID}">
                         <input type="hidden" id="jewelryID" name="jewelryID">
                         <input type="hidden" name="action" value="Edit Bid">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Edit Bid</button>
                     </div>
                 </form>

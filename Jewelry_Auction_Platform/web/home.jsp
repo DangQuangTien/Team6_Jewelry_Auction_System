@@ -131,6 +131,17 @@
             .card-text {
                 color: #666;
             }
+            .card {
+                position: relative;
+                overflow: hidden;
+                border-radius: 10px;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+
+            .card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            }
 
             footer {
                 background-color: #000;
@@ -153,6 +164,7 @@
     </head>
     <body>
         <c:set var="username" value="${sessionScope.USERNAME}" />
+        <c:set var="member" value="${sessionScope.MEMBER}" />
         <c:set var="role" value="${sessionScope.ROLE}" />
         <!-- Nav bar -->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
@@ -211,7 +223,7 @@
                                     </c:choose>
                                 </c:set>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> ${username}</a>
+                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> ${member.firstName}</a>
                                     <div class="dropdown-menu" aria-labelledby="userDropdown">
                                         <a class="dropdown-item" href="${url}">Profile</a>
                                         <a class="dropdown-item" href="${pageContext.request.contextPath}/logout">Logout</a>
@@ -223,14 +235,6 @@
                 </div>
             </div>
         </nav>
-
-        <!-- End Navbar -->
-
-        <!-- Banner -->
-
-        <!-- End Banner -->
-
-        <!-- Content -->
         <div class="content container mt-5">
             <h2>Newest Listing 2024</h2>
             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
@@ -243,7 +247,7 @@
                                         <c:forEach var="jewelry" items="${listJewelry}" begin="${slide * 3}" end="${slide * 3 + 2}" varStatus="status">
                                             <c:if test="${status.index < fn:length(listJewelry)}">
                                                 <div class="col-md-4">
-                                                    <a href="${pageContext.request.contextPath}/auction?auctionID=${jewelry.auctionID}">
+                                                    <a style="text-decoration: none" href="${pageContext.request.contextPath}/auction?auctionID=${jewelry.auctionID}">
                                                         <div class="card">
                                                             <img src="${pageContext.request.contextPath}/${fn:split(jewelry.photo, ';')[0]}" class="card-img-top" alt="${jewelry.jewelryName}">
                                                             <div class="card-body">
@@ -300,13 +304,7 @@
 
         <!-- Footer -->
         <footer class="text-center py-3 mt-auto">
-            <div>
-                <h6>Jewelry Auction</h6>
-                <a href="${pageContext.request.contextPath}/register">Register</a> |
-                <a href="${pageContext.request.contextPath}/login">Login</a> |
-                <a href="#">Auctions</a> |
-                <a href="#">Selling</a>
-            </div>
+            
         </footer>
         <!-- End Footer -->
         <!-- Scripts -->

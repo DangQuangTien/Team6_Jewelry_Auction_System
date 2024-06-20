@@ -1,22 +1,39 @@
-<%@page import="java.time.LocalTime"%>
-<%@page import="java.util.Date"%>
-<%@page import="java.util.List"%>
-<%@page import="java.time.LocalDateTime"%>
-<%@page import="entity.Auction.Auction"%>
-<%@page import="dao.UserDAOImpl"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Upcoming Jewelry and Watch Auctions at Global F'Rankelly 's Premier Jewelry Auction House</title>
+        <title>Upcoming Auctions</title>
         <link rel="icon" type="image/png" sizes="64x64" href="../images/logo/Logo.png">
         <style>
             body {
                 font-family: Arial, sans-serif;
                 margin: 0;
                 padding: 0;
+                background-color: #f9f9f9;
+            }
+            nav {
+                background-color: white;
+                color: #000000;
+                padding: 10px 20px;
+            }
+
+            nav a {
+                color: #000000;
+                text-decoration: none;
+                margin-right: 10px;
+                padding: 8px;
+                border-radius: 5px;
+                transition: background-color 0.3s ease;
+            }
+
+            nav a:hover {
+                background-color: rgba(85, 85, 85, 0.5);
+                color: white;
             }
             .container {
                 max-width: 800px;
@@ -24,119 +41,194 @@
                 padding: 20px;
                 border: 1px solid #ccc;
                 border-radius: 5px;
-                background-color: #f9f9f9;
+                background-color: #fff;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             }
+
             h1 {
                 text-align: center;
-                color: #333;
+                color: #000;
+                font-size: 36px;
+                font-weight: normal;
+                text-transform: uppercase;
+                margin-bottom: 20px;
+                letter-spacing: 1px;
             }
-            ul {
-                list-style: none;
-                padding: 0;
-            }
-            li {
+
+            .auction {
+                display: flex;
                 margin-bottom: 20px;
                 padding: 20px;
                 border: 1px solid #ddd;
                 border-radius: 5px;
-                background-color: #fff;
+                background-color: #fafafa;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                overflow: hidden;
             }
+
+            .auction:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            .image-container {
+                width: 40%;
+                margin-right: 20px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .image-container img {
+                width: 100%;
+                height: auto;
+                border-radius: 5px;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease, opacity 0.3s ease;
+            }
+
+            .image-container:hover img {
+                transform: scale(1.05);
+            }
+
             .auction-details {
-                margin-bottom: 10px;
+                flex: 1;
+                opacity: 0;
+                transition: opacity 0.5s ease;
+                padding: 10px;
             }
+
+            .auction:hover .auction-details {
+                opacity: 1;
+            }
+
             .countdown {
-                font-size: 18px;
+                text-align: center;
+                font-size: 32px;
                 color: #333;
+                padding: 20px;
+                border-radius: 10px;
+                background-color: #f8f9fa;
+                display: inline-block;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
             }
-            form {
-                display: flex;
-                justify-content: center;
-                align-items: center;
+
+
+            .countdown-text {
+                font-weight: bold;
+                margin-bottom: 6px;
             }
+
+            .countdown-number {
+                font-size: 48px;
+            }
+
+            .countdown-unit {
+                font-size: 18px;
+                color: #666;
+                margin-left: 4px;
+            }
+
+            .button-container {
+                text-align: center;
+                margin-top: 10px;
+            }
+
             button {
                 padding: 10px 20px;
                 font-size: 16px;
-                color: #fff;
-                background-color: #007bff;
-                border: none;
-                border-radius: 5px;
+                color: black;
+                background-color: white;
+                border: 2px solid #000000;
+                border-radius: 100px;
                 cursor: pointer;
+                transition: background-color 0.3s ease, color 0.3s ease;
             }
+
             button:hover {
-                background-color: #0056b3;
+                background-color: #000;
+                color: #fff;
             }
         </style>
     </head>
     <body>
+        <nav>
+            <a href="${pageContext.request.contextPath}/home">HOME</a>
+            <a href="${pageContext.request.contextPath}/auctions">AUCTIONS</a>
+            <a href="${pageContext.request.contextPath}/selling">SELLING</a>
+            <a href="#">EXPLORE</a>
+            <a href="#">ABOUT</a>
+            <a href="#">CONTACT</a>
+        </nav>
         <div class="container">
             <h1>Upcoming Auctions</h1>
-            <%
-                List<Auction> listAuction = (List<Auction>) request.getAttribute("AUCTIONS");
-            %>
-            <% if (!listAuction.isEmpty()) { %>
-            <ul>
-                <% for (Auction auction : listAuction) {
-                        String auctionID = auction.getAuctionID();
-                        Date startDate = auction.getStartDate();
-                        LocalTime startTime = auction.getStartTime();
-                %>
-                <li>
-                    <div class="auction-details">
-                        <h2>Auction ID: <%= auctionID%></h2>
-                        <p>Start Date: <%= startDate%></p>
-                        <p>Start Time: <%= startTime%></p>
-                    </div>
-                    <div id="countdown_<%= auctionID%>" class="countdown"></div>
-                    <!-- Form for each auction -->
-                    <form action="detail" method="POST">
-                        <input type="hidden" name="auctionID" value="<%= auctionID%>">
-                        <button type="submit">View Auction Now</button>
-                    </form>
-                    <!-- JavaScript countdown timer -->
-                    <script>
-                        (function (auctionID, startDate, startTime) {
-                            function getTimeDifference(startDateTime, elementID) {
-                                var now = new Date().getTime();
-                                var startTime = new Date(startDateTime).getTime();
-                                var difference = startTime - now;
+            <c:choose>
+                <c:when test="${not empty AUCTIONS}">
+                    <c:forEach var="auction" items="${AUCTIONS}">
+                        <div class="auction">
+                            <div class="image-container">
+                                <img src="https://www.fortunaauction.com/wp-content/uploads/2024/06/1122-collection-image-1500.jpg" alt="Auction Image"><br>
+                                <div class="countdown" id="countdown_${auction.auctionID}"></div>
+                            </div>
+                            <div class="auction-details">
+                                <h2>Auction ID: ${auction.auctionID}</h2>
+                                <p>COMING SOON ? Bidding Open from 
+                                    <fmt:formatDate value="${auction.startDate}" pattern="dd MMM"/> 
+                                    to 
+                                    <fmt:formatDate value="${auction.endDate}" pattern="dd MMM"/>
+                                </p>
 
-                                if (difference <= 0) {
-                                    // If the start date is in the past or the countdown reaches zero
-                                    document.getElementById(elementID).innerHTML = "Auction started!";
-                                    clearInterval(window[elementID]); // Stop the interval
-                                    return;
+                                <p>(Live Sale Conclusion on 
+                                    <fmt:formatDate value="${auction.endDate}" pattern="dd MMM"/> 
+                                    Starting at ${auction.startTime} ET)
+                                </p>
+                                <div class="button-container">
+                                    <form action="auction" method="POST">
+                                        <input type="hidden" name="auctionID" value="${auction.auctionID}">
+                                        <button type="submit">View Lots</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            (function (auctionID, endDate, startTime) {
+                                function getTimeDifference(endDateTime, startTime, elementID) {
+                                    var now = new Date().getTime();
+                                    var endTime = new Date(endDateTime + ' ' + startTime).getTime();
+                                    var difference = endTime - now;
+
+                                    if (difference <= 0) {
+                                        document.getElementById(elementID).innerHTML = "ALREADY STARTED";
+                                        clearInterval(window[elementID]);
+                                        return;
+                                    }
+
+                                    var days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                                    var hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                    var minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                                    var seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                                    document.getElementById(elementID).innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
                                 }
 
-                                // Calculate days, hours, minutes, and seconds
-                                var days = Math.floor(difference / (1000 * 60 * 60 * 24));
-                                var hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                var minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-                                var seconds = Math.floor((difference % (1000 * 60)) / 1000);
+                                var elementID = "countdown_" + auctionID;
+                                var endDateTime = "${auction.endDate}";
 
-                                // Display the countdown timer
-                                document.getElementById(elementID).innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s " + "left";
-                            }
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    getTimeDifference(endDateTime, "${auction.startTime}", elementID);
+                                });
 
-                            var elementID = "countdown_" + auctionID;
-                            var startDateTime = startDate + "T" + startTime;
-
-                            // Call getTimeDifference when the page loads
-                            document.addEventListener('DOMContentLoaded', function () {
-                                getTimeDifference(startDateTime, elementID);
-                            });
-
-                            // Update the timer every second
-                            window[elementID] = setInterval(function () {
-                                getTimeDifference(startDateTime, elementID);
-                            }, 1000);
-                        })('<%= auctionID%>', '<%= startDate%>', '<%= startTime%>');
-                    </script>
-                </li>
-                <% } %>
-            </ul>
-            <% } else { %>
-            <p>No upcoming auctions.</p>
-            <% }%>
+                                window[elementID] = setInterval(function () {
+                                    getTimeDifference(endDateTime, "${auction.startTime}", elementID);
+                                }, 1000);
+                            })('${auction.auctionID}', '${auction.endDate}', '${auction.startTime}');
+                        </script>
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <p>No upcoming auctions.</p>
+                </c:otherwise>
+            </c:choose>
         </div>
     </body>
 </html>

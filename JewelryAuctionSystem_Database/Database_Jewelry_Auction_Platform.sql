@@ -79,10 +79,6 @@ CREATE TABLE [Member] (
     CONSTRAINT fk_member_userID FOREIGN KEY (userID) REFERENCES Users(userID)
 );
 GO
-alter table [Member]
-add status_register_to_bid bit default 0
-select * from Member
-update Member set status_register_to_bid = 0
 CREATE TABLE [Address](
     addressID VARCHAR(50) NOT NULL PRIMARY KEY,
     city NVARCHAR(255) NOT NULL,
@@ -93,7 +89,6 @@ CREATE TABLE [Address](
     CONSTRAINT fk_memberID FOREIGN KEY (memberID) REFERENCES [Member](memberID)
 ); 
 GO
-select * from Address
 CREATE TABLE category (
     categoryID NVARCHAR(50) NOT NULL PRIMARY KEY,
     categoryName NVARCHAR(255) NOT NULL,
@@ -159,8 +154,6 @@ CREATE TABLE Jewelry (
     FOREIGN KEY (categoryID) REFERENCES category(categoryID)
 );
 GO
-select * from Jewelry
-
 CREATE TABLE Auction (
     auctionId VARCHAR(50) PRIMARY KEY NOT NULL,
     startDate DATE,
@@ -169,12 +162,6 @@ CREATE TABLE Auction (
     [status] BIT DEFAULT 0
 );
 GO
-SELECT TOP 1*
-FROM Auction
-WHERE startDate >= DATEADD(DAY, 5, GETDATE()) AND startDate <= DATEADD(DAY, 10, GETDATE());
-
-
-
 CREATE TABLE [Session](
     sessionID VARCHAR(50) NOT NULL PRIMARY KEY,
     auctionID VARCHAR(50) NOT NULL,
@@ -216,7 +203,6 @@ BEGIN
     SELECT @newregisterBidID, sessionID, memberID, bidAmount_Current, bidTime_Current, preBid_Amount, CONVERT(TIME, GETDATE()), [status]
     FROM inserted;
 END;
-select * from Bid_Track
 GO
 CREATE TABLE Bid_Track(
     bidID VARCHAR(50) NOT NULL PRIMARY KEY,
@@ -382,16 +368,10 @@ AS
 BEGIN
     DECLARE @newauctionID NVARCHAR(50);
 
-    INSERT INTO Auction (auctionID, startDate, startTime, endTime)
-    SELECT 'Auc' + CAST(NEXT VALUE FOR auctionID_sequence AS NVARCHAR(50)), startDate, startTime, endTime
+    INSERT INTO Auction (auctionID, startDate, endDate, startTime, endTime)
+    SELECT 'Auc' + CAST(NEXT VALUE FOR auctionID_sequence AS NVARCHAR(50)), startDate, endDate, startTime, endTime
     FROM inserted;
 END;
-select * from Auction
-GO
-drop trigger autogenerate_auctionID
-alter table Auction
-add endTime TIME;
-select * from Auction
 GO
 CREATE TRIGGER autogenerate_sessionID
 ON [Session]
@@ -456,7 +436,6 @@ BEGIN
 END;
 GO
 update Member set status_register_to_bid = 0
-select * from Bid_Track
 
 CREATE SEQUENCE memberID_sequence
     START WITH 0
@@ -475,5 +454,3 @@ BEGIN
 	FROM inserted;
 END;
 GO
-
-select * from 

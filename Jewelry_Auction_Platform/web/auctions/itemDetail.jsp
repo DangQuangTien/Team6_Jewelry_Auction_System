@@ -21,7 +21,28 @@
         <style>
             body {
                 font-family: Arial, sans-serif;
-                background-color: #f8f9fa;
+                margin: 0;
+                padding: 0;
+                background-color: #f9f9f9;
+            }
+            nav {
+                background-color: white;
+                color: #000000;
+                padding: 10px 20px;
+            }
+
+            nav a {
+                color: #000000;
+                text-decoration: none;
+                margin-right: 10px;
+                padding: 8px;
+                border-radius: 5px;
+                transition: background-color 0.3s ease;
+            }
+
+            nav a:hover {
+                background-color: rgba(85, 85, 85, 0.5);
+                color: white;
             }
             .container {
                 margin-top: 20px;
@@ -68,69 +89,33 @@
                 border-radius: 5px;
             }
             .btn-primary {
-                margin-top: 10px;
+                padding: 10px 20px;
+                font-size: 16px;
+                color: black;
+                background-color: white;
+                border: 2px solid #000000;
+                border-radius: 100px;
+                cursor: pointer;
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+            .btn-primary :hover {
+                background-color: #000;
+                color: #fff;
             }
         </style>
     </head>
     <body>
+        <c:set var="member" value="${sessionScope.MEMBER}" />
+        <nav>
+            <a style="text-decoration: none" href="${pageContext.request.contextPath}/home">Home</a>
+            <a style="text-decoration: none" href="${pageContext.request.contextPath}/auctions">Auctions</a>
+            <a style="text-decoration: none" href="${pageContext.request.contextPath}/auctions">My Bids</a>
+            <a style="text-decoration: none" href="#">Watched Lots</a>
+            <a style="text-decoration: none" href="${pageContext.request.contextPath}/profile">${member.firstName}</a>
+            <a style="text-decoration: none" href="#">Search</a>
+        </nav>
         <c:set var="username" value="${sessionScope.USERNAME}" />
         <c:set var="role" value="${sessionScope.ROLE}" />
-        <!-- START OF HEADER -->
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">Jewelry Auctions</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/home.jsp">Home<span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/auctions/upcoming.jsp">Auction</a>
-                        </li>
-                        <c:if test="${role == 'Member' || role == null}">
-                            <li class="nav-item">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/seller/selling.html">Sell</a>
-                            </li>
-                        </c:if>
-                        <c:choose>
-                            <c:when test="${username == null}">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="${pageContext.request.contextPath}/login.jsp">Login</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="${pageContext.request.contextPath}/register.jsp">Register</a>
-                                </li>
-                            </c:when>
-                            <c:otherwise>
-                                <c:set var="url">
-                                    <c:choose>
-                                        <c:when test="${role == 'Member'}">bidder/profile.jsp</c:when>
-                                        <c:when test="${role == 'Staff'}">staff/staff.jsp</c:when>
-                                        <c:when test="${role == 'Manager'}">manager/manager.jsp</c:when>
-                                        <c:otherwise>admin/admin.jsp</c:otherwise>
-                                    </c:choose>
-                                </c:set>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="${pageContext.request.contextPath}/${url}">${username}</a>
-                                </li>
-                            </c:otherwise>
-                        </c:choose>
-                        <li class="nav-item">
-                            <a class="nav-link" href="notification.jsp" id="bell-icon"><i class="fas fa-bell"></i></a>
-                        </li>
-                    </ul>
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search for anything" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                    </form>
-                </div>
-            </nav>
-        </header>
-        <!-- END OF HEADER -->
-
         <%
             String userID = (String) session.getAttribute("USERID");
             Member member = dao.getInformation(userID);
@@ -147,8 +132,8 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-body">
-                            <img src="${pageContext.request.contextPath}/<%=photoArray[0]%>" class="card-img-top">
-                            <% for (int i = 0; i < photoArray.length; i++) {%><img style="width: 100px; height: 100px" src="${pageContext.request.contextPath}/<%= photoArray[i]%>"><% }%>
+                            <img id="mainImage" src="${pageContext.request.contextPath}/<%=photoArray[0]%>" class="card-img-top">
+                            <% for (int i = 0; i < photoArray.length; i++) {%><img id="smallImage<%=i%>" style="width: 100px; height: 100px" src="${pageContext.request.contextPath}/<%= photoArray[i]%>" onclick="changeMainImage('<%= photoArray[i]%>')"><% }%>
                         </div>
                     </div>
                 </div>
@@ -157,16 +142,16 @@
                         <h2><%= jewelry.getJewelryID()%></h2>
                         <h2><%= jewelry.getJewelryName()%></h2>
                         <div>Estimate: $<%= jewelry.getMinPrice()%> - $<%= jewelry.getMaxPrice()%></div>
-                        <% if (status == 0 && member != null){ %>
+                        <% if (status == 0 && member != null) {%>
                         <a href="registerBid.jsp?auctionID=<%= request.getParameter("auctionID")%>" class="btn btn-primary">PLACE BID</a>
-                        <% } else if (status == 1 && member != null){ %>
-                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal">PLACE BID</button>
-                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal_">EDIT BID</button>
+                        <% } else if (status == 1 && member != null) { %>
+                        <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal">PLACE BID</button>
+                        <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal_">EDIT BID</button>
                         <% } else { %>
-                        <a href="../login.jsp" class="btn btn-primary">PLACE BID</a>
-                        <% } %>
+                        <a href="${pageContext.request.contextPath}/login" class="btn btn-primary">PLACE BID</a>
+                        <% }%>
                         <div>Live Auction</div>
-                        <a href="detail.jsp?auctionID=<%= request.getParameter("auctionID")%>">Fine Jewels & Watches</a>
+                        <a style="text-decoration: none" href="${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>">Fine Jewels & Watches</a>
                         <div>Artist</div>
                         <div style="color: #0089ba"><%= jewelry.getArtist()%></div>
                         <% if ("Watch".equals(jewelry.getCategoryName())) {%>
@@ -240,64 +225,70 @@
         </footer>
         <!-- END OF FOOTER -->
         <% String preBid_Amount = (String) request.getParameter("preBid_Amount");%>
-<div class="modal fade" id="bidModal" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="bidModalLabel">Place Your Bid</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form id="bidForm" action="${pageContext.request.contextPath}/MainController" method="GET">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="bidAmount">Enter your bid amount:</label>
-                            <input type="number" class="form-control" id="bidAmount" name="preBid_Amount" value="<%= (preBid_Amount != null) ? preBid_Amount : ""%>" required>
+        <div class="modal fade" id="bidModal" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="bidModalLabel">Place Your Bid</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="bidForm" action="${pageContext.request.contextPath}/MainController" method="GET">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="bidAmount">Enter your bid amount:</label>
+                                <input type="number" class="form-control" id="bidAmount" name="preBid_Amount" value="<%= (preBid_Amount != null) ? preBid_Amount : ""%>" required>
+                            </div>
+                            <input type="hidden" id="auctionID" name="auctionID" value="<%= request.getParameter("auctionID")%>">
+                            <input type="hidden" id="jewelryID" name="jewelryID" value="<%= request.getParameter("jewelryID")%>">
+                            <input type="hidden" name="action" value="Place Bid">
                         </div>
-                            <input type="hidden" id="auctionID" name="auctionID" value="<%= request.getParameter("auctionID") %>">
-                        <input type="hidden" id="jewelryID" name="jewelryID" value="<%= request.getParameter("jewelryID") %>">
-                        <input type="hidden" name="action" value="Place Bid">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Place Bid</button>
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Place Bid</button>
+                        </div>
+                    </form>
 
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="bidModal_" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="bidModalLabel">Edit Your Bid</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
-                <form id="editBidForm_" action="${pageContext.request.contextPath}/MainController" method="GET">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="editBidAmount">Enter your new bid amount:</label>
-                            <input type="number" class="form-control" id="editBidAmount" name="preBid_Amount" value="<%= (preBid_Amount != null) ? preBid_Amount : ""%>" required>
-                        </div>
-                        <input type="hidden" id="auctionID" name="auctionID" value="<%= request.getParameter("auctionID") %>">
-                        <input type="hidden" id="jewelryID" name="jewelryID" value="<%= request.getParameter("jewelryID") %>">
-                        <input type="hidden" name="action" value="Edit Bid">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Edit Bid</button>
-                    </div>
-                </form>
             </div>
         </div>
-    </div>
+        <div class="modal fade" id="bidModal_" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="bidModalLabel">Edit Your Bid</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="editBidForm_" action="${pageContext.request.contextPath}/MainController" method="GET">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="editBidAmount">Enter your new bid amount:</label>
+                                <input type="number" class="form-control" id="editBidAmount" name="preBid_Amount" value="<%= (preBid_Amount != null) ? preBid_Amount : ""%>" required>
+                            </div>
+                            <input type="hidden" id="auctionID" name="auctionID" value="<%= request.getParameter("auctionID")%>">
+                            <input type="hidden" id="jewelryID" name="jewelryID" value="<%= request.getParameter("jewelryID")%>">
+                            <input type="hidden" name="action" value="Edit Bid">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Edit Bid</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <!-- Include Bootstrap JS and dependencies -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+                                function changeMainImage(imageSrc) {
+                                    document.getElementById('mainImage').src = '${pageContext.request.contextPath}/' + imageSrc;
+                                }
+        </script>
+
     </body>
 </html>

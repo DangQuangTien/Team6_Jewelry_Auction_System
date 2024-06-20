@@ -20,54 +20,52 @@ import javax.servlet.http.HttpSession;
  *
  * @author User
  */
-@WebServlet(name = "EditBidController", urlPatterns = {"/EditBidController"})
+@WebServlet(name = "EditBidController", urlPatterns = {"/editbid"})
 public class EditBidController extends HttpServlet {
- private static final String ERROR_PAGE = "/index.htm";
-  private static final String DETAIL_PAGE = "/auctions/detail.jsp";
-    private static final String AUCTION_PARAM = "auctionID";
-   
+
+    private static final String ERROR_PAGE = "index.htm";
+    private static final String AUCTION_PAGE = "auction?auctionID=";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-             HttpSession session = request.getSession();
-        UserDAOImpl dao = new UserDAOImpl();
-        String url = ERROR_PAGE;
-        String userID = (String) session.getAttribute("USERID");
-        try {
-            Member member = dao.getInformation(userID);
+            HttpSession session = request.getSession();
+            UserDAOImpl dao = new UserDAOImpl();
+            String url = ERROR_PAGE;
+            try {
+                Member member = (Member) session.getAttribute("MEMBER");
+                if (member != null) {
+                    String preBidAmount = request.getParameter("preBid_Amount");
+                    String auctionID = request.getParameter("auctionID");
+                    String jewelryID = request.getParameter("jewelryID");
 
-            if (member != null) {
-                String preBidAmount = request.getParameter("preBid_Amount");
-                String auctionID = request.getParameter("auctionID");
-                String jewelryID = request.getParameter("jewelryID");
-
-                if (preBidAmount != null && auctionID != null && jewelryID != null) {
-                    try {
-                        boolean check = dao.editBid(preBidAmount, jewelryID, member.getMemberID());
-                        if (!check) {
-                            String message = "Please place bid first!";
-                            request.setAttribute("PlACEBIDSTATUS", message);
-                        } else {
-                            String message = "UPDATE BID SUCCESSFULLY!";
-                            request.setAttribute("PlACEBIDSTATUS", message);
+                    if (preBidAmount != null && auctionID != null && jewelryID != null) {
+                        try {
+                            boolean check = dao.editBid(preBidAmount, jewelryID, member.getMemberID());
+                            if (!check) {
+                                String message = "Please place bid first!";
+                                request.setAttribute("PlACEBIDSTATUS", message);
+                            } else {
+                                String message = "UPDATE BID SUCCESSFULLY!";
+                                request.setAttribute("PlACEBIDSTATUS", message);
+                            }
+                            url = AUCTION_PAGE + auctionID;
+                        } catch (Exception ex) {
+                            ex.printStackTrace(); // Proper logging should be implemented
                         }
-                        url = DETAIL_PAGE + "?" + AUCTION_PARAM + "=" + auctionID;
-                    } catch (Exception ex) {
-                        ex.printStackTrace(); // Proper logging should be implemented
+                    } else {
+                        System.err.println("Invalid parameters received in request.");
                     }
                 } else {
-                    System.err.println("Invalid parameters received in request.");
+                    System.err.println("Member information not found");
                 }
-            } else {
-                System.err.println("Member information not found for userID: " + userID);
+            } catch (Exception ex) {
+                ex.printStackTrace(); // Proper logging should be implemented
             }
-        } catch (Exception ex) {
-            ex.printStackTrace(); // Proper logging should be implemented
-        }
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-        dispatcher.forward(request, response);
+            RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+            dispatcher.forward(request, response);
         }
     }
 

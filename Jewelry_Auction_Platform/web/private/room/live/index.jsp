@@ -196,7 +196,6 @@
                 }
             }
         </style>
-
     </head>
     <body>
         <%
@@ -212,7 +211,7 @@
         <div class="chat-header">
             Bidding Room
             <div class="exit-button">
-                <form action="${pageContext.request.contextPath}/auctions/detail.jsp?auctionID=<%= request.getParameter("auctionID")%>" method="post">
+                <form action="${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>" method="post">
                     <button type="submit"><i class="fas fa-sign-out-alt"></i> Exit</button>
                 </form>
             </div>
@@ -222,8 +221,7 @@
             <div class="horizontal-scroll-container" id="jewelryContainer">
                 <%
                     String auctionID = (String) request.getParameter("auctionID");
-                    List<Jewelry> listJewelry = dao.displayCatalog(auctionID);
-
+                    List<Jewelry> listJewelry = dao.displayJewelryInRoom(auctionID);
                     for (Jewelry jewelry : listJewelry) {
                 %>
                 <div class="horizontal-scroll-item">
@@ -266,6 +264,8 @@
             var auctionID = "<%= request.getParameter("auctionID")%>";
             var memberID = "<%= memberID%>";
             var selectedJewelryID = null;
+            var currentIndex = 0;
+            var items = document.querySelectorAll('.horizontal-scroll-item');
 
             var websocketURL = "ws://localhost:8081/Jewelry_Auction_Platform/BiddingRoomServer/" + auctionID;
             var websocket = new WebSocket(websocketURL);
@@ -273,6 +273,7 @@
             websocket.onopen = function (event) {
                 console.log("WebSocket connection opened.");
                 processOpen(event);
+                sendAllItems(); // G?i t?t c? các m?c khi k?t n?i WebSocket m?
             };
 
             websocket.onmessage = function (event) {
@@ -314,23 +315,15 @@
                 var textMessage = document.getElementById('textMessage').value.trim();
                 if (textMessage !== "" && selectedJewelryID !== null) {
                     if (typeof websocket !== 'undefined' && websocket.readyState === WebSocket.OPEN) {
-                        // Construct messageData object with bid information
                         var messageData = {
                             jewelryID: selectedJewelryID,
                             bid: textMessage,
-                            member: memberID  // Ensure memberID is defined correctly
+                            member: memberID
                         };
-
-                        // Send JSON data to server
                         websocket.send(JSON.stringify(messageData));
-
-                        // Clear input field after sending
                         document.getElementById('textMessage').value = "";
-
-                        // Format bid message for display in the chat
                         var bidAmount = '$' + textMessage;
                         var bidMessage = "You just bid: " + bidAmount + " at " + getTime();
-                        // Display user-friendly message in the chat interface
                         appendMessage(bidMessage, false);
                     }
                 }
@@ -344,7 +337,7 @@
                     messageElement.classList.add('from-me');
                 }
                 var messageText = document.createElement('p');
-                messageText.textContent = messageContent; // Display user-friendly message
+                messageText.textContent = messageContent;
                 var messageTime = document.createElement('div');
                 messageTime.classList.add('message-time');
                 messageTime.textContent = getTime();
@@ -379,27 +372,33 @@
                 }
             }
 
-            var currentIndex = 0;
-            function autoSelectItem() {
-                var items = document.querySelectorAll('.horizontal-scroll-item');
+            function sendAllItems() {
                 if (items.length > 0) {
-                    if (currentIndex >= items.length) {
-                        // Redirect to exit page after reaching the last item
-                        window.location.href = "${pageContext.request.contextPath}/auctions/detail.jsp?auctionID=<%= request.getParameter("auctionID")%>";
-                                        return;
-                                    }
-                                    selectItem(items[currentIndex], items[currentIndex].querySelector('.card-title').textContent);
-                                    updateURLParameter();
-                                    currentIndex++;
+                    items.forEach((item, index) => {
+                        setTimeout(() => {
+                            selectItem(item, item.querySelector('.card-title').textContent);
+                            updateURLParameter();
+                            if (typeof websocket !== 'undefined' && websocket.readyState === WebSocket.OPEN) {
+                                var finishedMessage = {
+                                    status: "finished",
+                                    selectedJewelryID: selectedJewelryID
+                                };
+                                console.log("Sending finished message:", finishedMessage);
+                                websocket.send(JSON.stringify(finishedMessage));
+                            }
+                        }, index * 60000);
+                    });
+                    setTimeout(() => {
+                        window.location.href = "${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>";
+                                    }, items.length * 60000);
                                 }
                             }
-
-                            // Automatically select the first item on page load
                             window.onload = function () {
-                                autoSelectItem();
-                                // Update the URL parameter and select a new item every 1 minute
-                                setInterval(autoSelectItem, 60000);
+                                if (websocket.readyState === WebSocket.OPEN) {
+                                    sendAllItems();
+                                }
                             };
         </script>
     </body>
 </html>
+

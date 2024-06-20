@@ -617,8 +617,8 @@ public class UserDAOImpl implements UserDao {
     }
 
     @Override
-    public boolean createAuction(String auctionDate, String startTime, String endTime, String[] selectedJewelryIDs) {
-        String insertAuctionQuery = "INSERT INTO Auction (startDate, startTime, endTime) VALUES (?, ?, ?)";
+    public boolean createAuction(String auctionStartDate, String auctionEndDate, String startTime, String endTime, String[] selectedJewelryIDs) {
+        String insertAuctionQuery = "INSERT INTO Auction (startDate, endDate, startTime, endTime) VALUES (?, ?, ?, ?)";
         String selectAuctionQuery = "SELECT TOP 1 auctionID FROM Auction WHERE status = 0 ORDER BY auctionID DESC";
         String insertSessionQuery = "INSERT INTO [Session] (auctionID, jewelryID) VALUES (?, ?)";
         String updateAuctionStatusQuery = "UPDATE Auction SET status = 1 WHERE auctionID = ?";
@@ -626,9 +626,10 @@ public class UserDAOImpl implements UserDao {
         try ( Connection conn = DBUtils.getConnection();  PreparedStatement psInsertAuction = conn.prepareStatement(insertAuctionQuery);  PreparedStatement psSelectAuction = conn.prepareStatement(selectAuctionQuery);  PreparedStatement psInsertSession = conn.prepareStatement(insertSessionQuery);  PreparedStatement psUpdateAuctionStatus = conn.prepareStatement(updateAuctionStatusQuery)) {
 
             // Insert auction
-            psInsertAuction.setString(1, auctionDate);
-            psInsertAuction.setString(2, startTime);
-            psInsertAuction.setString(3, endTime);
+            psInsertAuction.setString(1, auctionStartDate);
+            psInsertAuction.setString(2, auctionEndDate);
+            psInsertAuction.setString(3, startTime);
+            psInsertAuction.setString(4, endTime);
             int result = psInsertAuction.executeUpdate();
 
             if (result > 0) {
@@ -666,8 +667,10 @@ public class UserDAOImpl implements UserDao {
             while (rs.next()) {
                 Auction auction = new Auction();
                 auction.setAuctionID(rs.getString(1));
-                auction.setStartDate(rs.getDate(2));
-                auction.setStartTime(LocalTime.parse(rs.getString(3)));
+                auction.setStartDate(rs.getDate("startDate"));
+                auction.setEndDate(rs.getDate("endDate"));
+                auction.setStartTime(LocalTime.parse(rs.getString("startTime")));
+                auction.setEndTime(LocalTime.parse(rs.getString("endTime")));
                 listAuction.add(auction);
             }
             return listAuction;
@@ -688,8 +691,11 @@ public class UserDAOImpl implements UserDao {
             rs = ps.executeQuery();
             while (rs.next()) {
                 auction.setAuctionID(rs.getString(1));
-                auction.setStartDate(rs.getDate(2));
-                auction.setStartTime(LocalTime.parse(rs.getString(3)));
+                auction.setStartDate(rs.getDate("startDate"));
+                auction.setEndDate(rs.getDate("endDate"));
+                auction.setStartTime(LocalTime.parse(rs.getString("startTime")));
+                auction.setEndTime(LocalTime.parse(rs.getString("endTime")));
+
             }
             return auction;
         } catch (ClassNotFoundException | SQLException ex) {
@@ -930,7 +936,7 @@ public class UserDAOImpl implements UserDao {
     }
 
     @Override
-     public Double getTheHighestBid(String jewelryID) {
+    public Double getTheHighestBid(String jewelryID) {
         String getSessionIDQuery = "SELECT sessionID FROM Session WHERE jewelryID = ?";
         String getHighestBidQuery = "SELECT MAX(bidAmount_Current) AS maxBidAmount FROM Register_Bid WHERE sessionID = ?";
 
@@ -965,10 +971,18 @@ public class UserDAOImpl implements UserDao {
             Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
-                if (resultSet != null) resultSet.close();
-                if (getHighestBidStatement != null) getHighestBidStatement.close();
-                if (getSessionIDStatement != null) getSessionIDStatement.close();
-                if (connection != null) connection.close();
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (getHighestBidStatement != null) {
+                    getHighestBidStatement.close();
+                }
+                if (getSessionIDStatement != null) {
+                    getSessionIDStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -979,12 +993,11 @@ public class UserDAOImpl implements UserDao {
 
     @Override
     public boolean updateJewelry(Jewelry jewelry) {
-        String sql = "UPDATE Jewelry SET artist=?, circa=?, material=?, dial=?, braceletMaterial=?, caseDimensions=?, braceletSize=?, " +
-                     "serialNumber=?, referenceNumber=?, caliber=?, movement=?, [condition]=?, metal=?, gemstones=?, measurements=?, " +
-                     "weight=?, stamped=?, ringSize=? WHERE jewelryID=?";
+        String sql = "UPDATE Jewelry SET artist=?, circa=?, material=?, dial=?, braceletMaterial=?, caseDimensions=?, braceletSize=?, "
+                + "serialNumber=?, referenceNumber=?, caliber=?, movement=?, [condition]=?, metal=?, gemstones=?, measurements=?, "
+                + "weight=?, stamped=?, ringSize=? WHERE jewelryID=?";
 
-        try (Connection con = DBUtils.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try ( Connection con = DBUtils.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, jewelry.getArtist());
             ps.setString(2, jewelry.getCirca());
@@ -1017,28 +1030,30 @@ public class UserDAOImpl implements UserDao {
             return false;
         }
     }
-     @Override
+
+    @Override
     public boolean registerUser(String firstName, String lastName, String email, String username, String password) {
         String insertUserSql = "INSERT INTO Users (username, email, password, roleID, joined_at) VALUES (?, ?, ?, 'Role01', GETDATE())";
         //String getLastInsertIdSql = "SELECT CAST(SCOPE_IDENTITY() AS VARCHAR(50)) AS lastUserId";
         String selectUserId = "SELECT userID FROM Users WHERE username = ?";
         String insertMemberSql = "INSERT INTO Member (userID, firstName, lastName) VALUES (?, ?, ?)";
-        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps1 = conn.prepareStatement(insertUserSql); PreparedStatement ps2 = conn.prepareStatement(selectUserId); PreparedStatement ps3 = conn.prepareStatement(insertMemberSql)) {
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps1 = conn.prepareStatement(insertUserSql);  PreparedStatement ps2 = conn.prepareStatement(selectUserId);  PreparedStatement ps3 = conn.prepareStatement(insertMemberSql)) {
             ps1.setString(1, username);
             ps1.setString(2, email);
             ps1.setString(3, password);
             int rowsAffected1 = ps1.executeUpdate();
             if (rowsAffected1 > 0) {
                 ps2.setString(1, username);
-                try(ResultSet rs = ps2.executeQuery()){
+                try ( ResultSet rs = ps2.executeQuery()) {
                     if (rs.next()) {
                         String userID = rs.getString("userID");
                         ps3.setString(1, userID);
                         ps3.setString(2, firstName);
                         ps3.setString(3, lastName);
                         int rowsAffected2 = ps3.executeUpdate();
-                        if (rowsAffected2 > 0)
+                        if (rowsAffected2 > 0) {
                             return true;
+                        }
                     }
                 }
             }
@@ -1052,9 +1067,9 @@ public class UserDAOImpl implements UserDao {
     @Override
     public boolean checkDuplicateUsername(String username) {
         String checkQuery = "SELECT * FROM Users WHERE username = ?";
-        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(checkQuery)) {
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(checkQuery)) {
             ps.setString(1, username);
-            try (ResultSet rs = ps.executeQuery()) {
+            try ( ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return true;
                 }
@@ -1065,6 +1080,49 @@ public class UserDAOImpl implements UserDao {
         return false;
     }
 
-    //Auction happens from 5days to 10days.
-    
+    @Override
+    public boolean closeSession(String jewelryID) {
+        String query = "UPDATE  SESSION SET STATUS = 1 WHERE JEWELRYID = ?";
+        try {
+            conn = DBUtils.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, jewelryID);
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.getMessage();
+        }
+        return false;
+    }
+
+    @Override
+    public List<Jewelry> displayJewelryInRoom(String auctionID) {
+        String query = "SELECT J.*, C.CATEGORYNAME "
+                + "FROM JEWELRY J "
+                + "JOIN CATEGORY C ON J.CATEGORYID = C.CATEGORYID "
+                + "JOIN Session S ON J.JEWELRYID = S.JEWELRYID "
+                + "JOIN Auction AUC ON S.AUCTIONID = AUC.AUCTIONID "
+                + "WHERE AUC.AUCTIONID = ? AND S.status = 0";
+        List<Jewelry> listJewelry = new ArrayList<>();
+        try {
+            conn = DBUtils.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, auctionID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Jewelry jewelry = new Jewelry();
+                jewelry.setJewelryID(rs.getString("jewelryID"));
+                jewelry.setPhotos(rs.getString("photos"));
+                jewelry.setJewelryName(rs.getString("jewelryName"));
+                jewelry.setCategoryName(rs.getString("CATEGORYNAME"));
+                jewelry.setMinPrice(rs.getString("minPrice"));
+                jewelry.setMaxPrice(rs.getString("maxPrice"));
+                listJewelry.add(jewelry);
+            }
+            return listJewelry;
+        } catch (Exception ex) {
+            ex.getMessage();
+        }
+        return null;
+    }
 }

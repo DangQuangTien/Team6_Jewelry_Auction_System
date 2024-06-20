@@ -41,7 +41,7 @@ public class AuctionServlet extends HttpServlet {
         request.setAttribute("AUCTION", auction);
         request.setAttribute("CATALOG", listJewelry);
         request.setAttribute("MEMBER", member);
-
+        request.setAttribute("AUCTIONID", auctionID);
         // Forward the request to the detail.jsp page in the auction folder
         request.getRequestDispatcher("/auctions/detail.jsp").forward(request, response);
     }

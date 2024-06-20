@@ -19,7 +19,7 @@ public class LoginController extends HttpServlet {
 
     private static final String ADMIN_PAGE = "/admin";
     private static final String STAFF_PAGE = "/staff";
-    private static final String MANAGER_PAGE = "/manager/manager.jsp";
+    private static final String MANAGER_PAGE = "/manager";
     private static final String HOME_PAGE = "/home";
     private static final String ERROR_PAGE = "index.htm";
 
@@ -48,6 +48,11 @@ public class LoginController extends HttpServlet {
 
     private void initializeSession(HttpServletRequest request, UserDTO user) {
         HttpSession session = request.getSession(true);
+        UserDAOImpl dao = new UserDAOImpl();
+        Member member = dao.getInformation(user.getUserID());
+        if (member != null){
+            session.setAttribute("MEMBER", member);
+        }
         session.setAttribute("USERNAME", user.getUsername());
         session.setAttribute("USERID", user.getUserID());
         session.setAttribute("ROLE", user.getRole());
@@ -80,11 +85,6 @@ public class LoginController extends HttpServlet {
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             } else {
                 url = determinePageByRole(user.getRole());
-                if ("Member".equals(user.getRole())) {
-                    Member member = dao.getInformation(user.getUserID());
-                    HttpSession session = request.getSession();
-                    session.setAttribute("INF", member);
-                }
                 initializeSession(request, user);
             }
         } catch (Exception ex) {
@@ -93,7 +93,7 @@ public class LoginController extends HttpServlet {
             if (url.equals(ERROR_PAGE)) {
                 request.getRequestDispatcher(url).forward(request, response);
             } else {
-                response.sendRedirect(request.getContextPath() + url);
+                request.getRequestDispatcher(url).forward(request, response);
             }
         }
     }

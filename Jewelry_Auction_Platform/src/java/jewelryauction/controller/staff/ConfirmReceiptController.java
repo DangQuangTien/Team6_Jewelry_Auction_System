@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ConfirmReceiptController extends HttpServlet {
 
     private static final String ERROR_PAGE = "index.htm";
-    private static final String STAFF_PAGE = "requestValuation";
+    private static final String STAFF_PAGE = "requestList";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
