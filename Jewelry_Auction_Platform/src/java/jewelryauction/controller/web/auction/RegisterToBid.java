@@ -16,14 +16,19 @@ import java.io.PrintWriter;
 public class RegisterToBid extends HttpServlet {
 
     private static final String ERROR_PAGE = "index.htm";
-    private static final String BID_PAGE = "/detail?auctionID=";
+    private static final String BID_PAGE = "/auction?auctionID=";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            HttpSession session = request.getSession();
+            String userID = (String)session.getAttribute("USERID");
+            UserDAOImpl dao = new UserDAOImpl();
             String auctionID = request.getParameter("auctionID");
             request.setAttribute("AUCTIONID", auctionID);
+            Member member = dao.getInformation(userID);
+            request.setAttribute("INF", member);
             request.getRequestDispatcher("/auctions/registerBid.jsp").forward(request, response);
         }
     }

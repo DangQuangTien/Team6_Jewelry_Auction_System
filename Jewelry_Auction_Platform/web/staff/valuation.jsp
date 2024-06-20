@@ -20,18 +20,41 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">  
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     </head>
+    <style>
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        .form-section {
+            margin-bottom: 20px;
+        }
+        .submit-btn {
+            margin-top: 10px;
+        }
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+        }
+        .back-button {
+            margin-bottom: 20px;
+        }
+
+    </style>
     <body>
     <main class="container my-4 flex-grow-1">
+        <a href="${pageContext.request.contextPath}/requestList" class="btn btn-secondary back-button"><i class="fas fa-chevron-left"></i> Back</a>
+        <div align="center"><h2 class="card-title">Preliminary Assessment</h2></div><hr>
         <div class="row">
             <div class="col-md-6 mb-4">
-                <h2>Jewelry Appraisal</h2>
                 <div class="card product-display">
                     <div class="card-body" style="overflow-y: auto; max-height: 500px;">
-
                         <%
                             String photos = (String) request.getParameter("photoURL");
                             String[] photoArray = photos.split(";");
-
                             ArrayList<Category> listCategory = new ArrayList<>();
                             try {
                                 UserDAOImpl dao = new UserDAOImpl();
@@ -52,8 +75,7 @@
             </div>
             <div class="col-md-6 mb-4">         
                 <div class="card-body">
-                    <h2 class="card-title">Fill In The Detail</h2>
-                    <form action="${pageContext.request.contextPath}/insert" onsubmit="confirmValuation(event)" method="POST">
+                    <form action="${pageContext.request.contextPath}/evaluate" onsubmit="confirmValuation(event)" method="POST">
                         <div>
                             <label for="category">Category</label>
                             <select id="category" name="category" onchange="showFormFields()">
@@ -62,7 +84,6 @@
                                 <% }%>
                             </select>
                         </div>
-
                         <div>
                             <label for="jewelryName">Jewelry Name</label>
                             <input type="text" id="jewelryName" name="jewelryName" value="">
@@ -163,11 +184,9 @@
                             <label for="tempPrice">Temporary Price</label>
                             <input type="number" id="tempPrice" name="tempPrice" placeholder="Temporary Price">
                         </div>
-
                         <input type="hidden" name="valuationID" value="<%= (String) request.getParameter("valuationID")%>">
                         <input type="hidden" name="photoURL" value="<%= (String) request.getParameter("photoURL")%>">
                         <input type="submit" name="action" value="Submit" class="submit-btn">
-                        <button type="button" class="cancel-btn" onclick="cancelValuation()">Cancel</button>
                     </form>                    
                 </div>          
             </div>
@@ -177,12 +196,5 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-    function cancelValuation() {
-        if (confirm("Are you sure you want to cancel this appraisal?")) {
-            window.location.href = "${pageContext.request.contextPath}/requestList";
-        }
-    }
-</script>
 </body>
 </html>

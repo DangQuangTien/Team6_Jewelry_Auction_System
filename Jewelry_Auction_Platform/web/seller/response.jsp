@@ -325,8 +325,8 @@
                                             statusText = '<td style="color: red">' + finalPrice + '</td><td style="color: green">Received</td>';
                                         } else if (status === 'Pending Confirm') {
                                             statusText = '<td style="color: red">' + finalPrice + '</td><td style="color: green"><strong>Pending Confirm</strong><br>' +
-                                                    '<form action="${pageContext.request.contextPath}/MainController"><input type="hidden" name="jewelryID" value="' + jewelry.jewelryID + '"><input type="submit" class="btn btn-success btn-sm" name="action" value="Confirm"></form><br>' +
-                                                    '<form action="${pageContext.request.contextPath}/MainController"><input type="hidden" name="jewelryID" value="' + jewelry.jewelryID + '"><input type="submit" class="btn btn-danger btn-sm" name="action" value="Reject"></form></td>';
+                                                    '<form action="${pageContext.request.contextPath}/confirm"><input type="hidden" name="jewelryID" value="' + jewelry.jewelryID + '"><input type="submit" class="btn btn-success btn-sm" name="action" value="Confirm"></form><br>' +
+                                                    '<form action="${pageContext.request.contextPath}/reject"><input type="hidden" name="jewelryID" value="' + jewelry.jewelryID + '"><input type="submit" class="btn btn-danger btn-sm" name="action" value="Reject"></form></td>';
                                         } else if (status === 'Confirmed') {
                                             statusText = '<td style="color: rgb(23, 163, 213)">' + finalPrice + '</td><td style="color: rgb(11, 224, 71)">Ready To Auction</td>';
                                         } else {
@@ -356,7 +356,7 @@
                         fetchJewelryData();
 
                         // Set interval to fetch jewelry data periodically (every minute)
-                        setInterval(fetchJewelryData, 60000);
+                        setInterval(fetchJewelryData, 5000);
 
                         // Load jewelry details into the modal
                         $('#detailsModal').on('show.bs.modal', function (event) {

@@ -60,7 +60,7 @@ public class UpdateJewelry extends HttpServlet {
 
         boolean result = dao.updateJewelry(jewelry);
         if (result) {
-            response.sendRedirect(request.getContextPath() + "/final");
+            response.sendRedirect(request.getContextPath() + "/finalValuation");
         } else {
             response.sendRedirect("index.htm");
         }

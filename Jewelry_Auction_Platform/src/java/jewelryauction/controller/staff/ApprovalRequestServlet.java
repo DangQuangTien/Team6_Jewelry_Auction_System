@@ -37,8 +37,8 @@ public class ApprovalRequestServlet extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             UserDAOImpl dao = new UserDAOImpl();
-           List<Jewelry> listJewelry = dao.displayApprovedJewelry();
-           request.setAttribute("JEWELRYLIST",listJewelry);
+            List<Jewelry> listJewelry = dao.displayApprovedJewelry();
+            request.setAttribute("JEWELRYLIST", listJewelry);
             request.getRequestDispatcher("/staff/approvalRequest.jsp").forward(request, response);
         }
     }

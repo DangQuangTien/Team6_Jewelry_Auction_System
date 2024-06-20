@@ -12,8 +12,10 @@ import java.util.Date;
  * @author User
  */
 public class Auction {
+
     private String auctionID;
     private Date startDate;
+    private Date endDate;
     private LocalTime startTime;
     private LocalTime endTime;
     private int status;
@@ -21,9 +23,10 @@ public class Auction {
     public Auction() {
     }
 
-    public Auction(String auctionID, Date startDate, LocalTime startTime, LocalTime endTime, int status) {
+    public Auction(String auctionID, Date startDate, Date endDate, LocalTime startTime, LocalTime endTime, int status) {
         this.auctionID = auctionID;
         this.startDate = startDate;
+        this.endDate = endDate;
         this.startTime = startTime;
         this.endTime = endTime;
         this.status = status;
@@ -43,6 +46,14 @@ public class Auction {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public LocalTime getStartTime() {
@@ -69,7 +80,4 @@ public class Auction {
         this.status = status;
     }
 
-    
-    
-    
 }

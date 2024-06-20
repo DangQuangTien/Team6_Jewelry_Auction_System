@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.manager;
+package jewelryauction.controller.manager;
 
 import dao.UserDAOImpl;
+import entity.product.Jewelry;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,11 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author User
  */
-@WebServlet(name = "CreateAuctionController", urlPatterns = {"/CreateAuctionController"})
-public class CreateAuctionController extends HttpServlet {
-    
-    private static final String ERROR_PAGE = "index.htm";
-    private static final String MANAGER_PAGE = "/manager/createAuction.jsp";
+@WebServlet(name = "ManagerServlet", urlPatterns = {"/manager"})
+public class ManagerServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,22 +35,11 @@ public class CreateAuctionController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String auctionDate = request.getParameter("auctionDate");
-            String startTime = request.getParameter("startTime");
-            String endTime = request.getParameter("endTime");
-            String[] selectedJewelryIDs = request.getParameter("selectedJewelryIDs").split(",");
-            String url = ERROR_PAGE;
+            /* TODO output your page here. You may use following sample code. */
             UserDAOImpl dao = new UserDAOImpl();
-            try {
-                boolean result = dao.createAuction(auctionDate, startTime, endTime, selectedJewelryIDs);
-                if (result) {
-                    url = request.getContextPath() + MANAGER_PAGE;
-                }
-            } catch (Exception ex) {
-                ex.getMessage();
-            } finally {
-                response.sendRedirect(url);
-            }
+            List<Jewelry> listJewelry = dao.displayAllJewelryForManager();
+            request.setAttribute("JEWELRYLIST", listJewelry);
+           request.getRequestDispatcher("/manager/manager.jsp").forward(request, response);
         }
     }
 

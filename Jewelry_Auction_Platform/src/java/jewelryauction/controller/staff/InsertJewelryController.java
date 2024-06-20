@@ -17,11 +17,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author User
  */
-@WebServlet(name = "InsertJewelryController", urlPatterns = {"/insert"})
+@WebServlet(name = "InsertJewelryController", urlPatterns = {"/evaluate"})
 public class InsertJewelryController extends HttpServlet {
 
     private static final String ERROR_PAGE = "index.htm";
-    private static final String STAFF_PAGE = "request";
+    private static final String STAFF_PAGE = "/requestList";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -79,7 +79,7 @@ public class InsertJewelryController extends HttpServlet {
             } catch (Exception ex) {
                 ex.printStackTrace();
             } finally {
-                response.sendRedirect(url);
+                response.sendRedirect(request.getContextPath() + url);
             }
 
         }

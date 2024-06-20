@@ -4,8 +4,11 @@
  */
 package jewelryauction.controller.staff;
 
+import dao.UserDAOImpl;
+import entity.product.Jewelry;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "FinalValuationServlet", urlPatterns = {"/finalValuation"})
 public class FinalValuationServlet extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,7 +36,10 @@ public class FinalValuationServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-           request.getRequestDispatcher("/staff/finalValuation.jsp").forward(request, response);
+            UserDAOImpl dao = new UserDAOImpl();
+            List<Jewelry> listJewelry = dao.displayAllJewelryForStaff();
+            request.setAttribute("LISTJEWELRY", listJewelry);
+            request.getRequestDispatcher("/staff/finalValuation.jsp").forward(request, response);
         }
     }
 
