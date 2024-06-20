@@ -62,7 +62,6 @@
         button[type="submit"] {
             width: 100%;
         }
-<<<<<<< HEAD
         footer {
         background-color: #343a40;
         color: #fff;
@@ -154,8 +153,7 @@
                 </ul>
             </div>
         </nav>
-        
-=======
+       <style>    
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -263,7 +261,6 @@
             <a style="text-decoration: none;"href="#">ABOUT</a>
             <a style="text-decoration: none;"href="#">CONTACT</a>
         </nav>       
->>>>>>> bennguyendev_03
         <!-- END OF HEADER -->
         <div class="container mt-5">
             <h2 class="text-center">Bidder Registration</h2>
@@ -417,7 +414,7 @@
                     </div>
                     <input type="hidden" name="auctionID" value="<%= request.getParameter("auctionID")%>">
                     <button type="submit" class="button">
-  Apply Now
+                        
   <svg fill="currentColor" viewBox="0 0 24 24" class="icon">
     <path
       clip-rule="evenodd"
