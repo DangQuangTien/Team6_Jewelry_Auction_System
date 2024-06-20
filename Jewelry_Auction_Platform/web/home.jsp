@@ -1,535 +1,273 @@
-<%@page import="entity.product.RandomJewelry"%>
-<%@page import="java.util.List" %>
-<%@page import="dao.UserDAOImpl" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Global F'Rankelly's Premier Jewelry Auction House</title>
-        <!-- Include Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-        <link rel="stylesheet" type="text/css" href="component/home.css">
-        <link rel="icon" type="image/png" sizes="64x64" href="images/logo/LogoFinal.png">
         <style>
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    font-family: 'Georgia', serif;
-    background-color: #f5eded;
-}
-
-.navbar {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    background: linear-gradient(90deg, #343a40 0%, #1c1c1c 100%);
-    border-bottom: 3px solid #e4af11;
-}
-
-.navbar-brand, .nav-link, .navbar-toggler-icon {
-    color: #ffc107 !important;
-    transition: color 0.3s;
-}
-
-.navbar-brand:hover, .nav-link:hover {
-    color: #e4af11 !important;
-}
-
-.navbar-nav .nav-item {
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-.user-dropdown {
-    margin-right: 20px; 
-}
-
-.nav-item .dropdown-menu {
-    background-color: #343a40;
-    border: none;
-}
-
-.nav-item .dropdown-item {
-    color: #ffc107 !important;
-    transition: color 0.3s;
-}
-
-.nav-item .dropdown-item:hover {
-    color: #e4af11 !important;
-    background-color: transparent;
-}
-
-.dropdown-divider {
-    border-top: 1px solid #ffc107;
-}
-
-.navbar-toggler {
-    border: none;
-}
-
-.nav-item:hover .dropdown-menu {
-    display: block;
-    margin-top: 0;
-}
-
-@media (max-width: 768px) {
-    .navbar-nav {
-        text-align: center;
-    }
-    .navbar-nav .nav-item {
-        margin: 5px 0;
-    }
-    .navbar-nav .dropdown-menu {
-        width: 100%;
-        text-align: center;
-    }
-    .navbar-nav .dropdown-menu .dropdown-item {
-        width: 100%;
-        display: inline-block;
-    }
-}
-
-.content {
-    flex: 1;
-    padding: 20px;
-}
-
-footer {
-    background-color: #343a40;
-    color: #fff;
-    padding: 1rem;
-    text-align: center;
-}
-
-footer a {
-    color: #ffc107;
-    margin: 0 10px;
-}
-
-.content-box, .highlight-box {
-    background-color: #fff;
-    padding: 1.5rem;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
-
-.highlight-box {
-    background-color: #f5eded;
-    padding: 1.5rem;
-    border-radius: 5px;
-    border: 1px solid #c6a9a9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
-
-.highlight-box h2 {
-    color: #343a40;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.highlight-box p {
-    color: #666;
-    font-size: 1rem;
-    line-height: 1.8;
-}
-
-.carousel-inner {
-    margin-top: 30px;
-}
-
-.carousel-item {                
-    justify-content: center;
-}
-
-.carousel-item .row {
-    width: 100%;
-    justify-content: center;
-}
-
-.carousel-item .card {
-    margin: 10px;
-    border: none;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-
-.carousel-item .card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-.card img {
-    max-height: 250px;
-    object-fit: cover;
-    border-radius: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-.card-title {
-    color: #343a40;
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
-.card-body {
-    padding: 10px;
-}
-
-.banner {
-    position: relative;
-    width: 100%;
-    height: 300px;
-    overflow: hidden;
-}
-
-.banner img {
-    width: 100%;
-    height: auto;
-    filter: brightness(0.5);
-}
-
-.banner-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff;
-    text-align: center;
-    padding: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-}
-
-@media (max-width: 768px) {
-    .banner-text {
-        font-size: 14px;
-        padding: 10px;
-    }
-}
-
-#viewAuctionButton {
-    background-color: #dc3545;
-    color: #fff;
-    border: none;
-    font-size: 16px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#viewAuctionButton:hover {
-    background-color: #c82333;
-}
-
-#viewAuctionButton[disabled] {
-    background-color: #6c757d;
-    cursor: not-allowed;
-}
-
-#noAuctionBox {
-    background-color: #ffc107;
-    padding: 5px 10px;
-    border-radius: 5px;
-    color: #343a40;
-    font-weight: bold;
-    margin-left: 10px;
-    display: none;
-}
-
-#viewAuctionForm.no-auction #noAuctionBox {
-    display: inline-block;
-}
-
-.about-contact-section {
-    margin-top: 50px;
-    padding: 20px 0;
-}
-
-.about-contact-section .row {
-    margin-bottom: 50px;
-}
-
-.about-contact-section img {
-    width: 100%;
-    border-radius: 10px;
-    transition: transform 0.3s ease-in-out;
-}
-
-.about-contact-section img:hover {
-    transform: scale(1.05);
-}
-
-.about-contact-section h2 {
-    font-size: 2.5rem;
-    color: #222;
-    margin-bottom: 20px;
-}
-
-.about-contact-section p.lead {
-    font-size: 1.25rem;
-    color: #555;
-    margin-bottom: 10px;
-}
-
-.about-contact-section p {
-    color: #666;
-    font-size: 1rem;
-    line-height: 1.8;
-}
-
-@media (max-width: 768px) {
-    .banner-text {
-        font-size: 14px;
-        padding: 10px;
-    }
-
-    .about-contact-section .row {
-        flex-direction: column;
-    }
-
-    .about-contact-section .order-md-1, .about-contact-section .order-md-2 {
-        order: initial;
-    }
-
-    .about-contact-section img {
-        margin-bottom: 20px;
-    }
-}
-
-.section-title {
-    font-family: 'Georgia', serif;
-    font-size: 2rem;
-    color: #343a40;
-    text-align: center;
-    margin-bottom: 1.5rem;
-}
-
-.section-description {
-    font-size: 1.1rem;
-    color: #666;
-    text-align: center;
-    margin-bottom: 1.5rem;
-}
-
-.testimonial-card {
-    border: none;
-    background-color: #fdfdfd;
-    margin-bottom: 1.5rem;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-
-.testimonial-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-}
-
-.testimonial-card .card-body {
-    padding: 2rem;
-    text-align: center;
-    font-style: italic;
-}
-
-.testimonial-card .card-text {
-    font-size: 1rem;
-    color: #555;
-}
-
-.newsletter-input {
-    border: 2px solid #ccc;
-    border-radius: 30px;
-    padding: 10px 20px;
-    font-size: 1rem;
-}
-
-.newsletter-button {
-    background-color: #343a40;
-    color: #fff;
-    border: none;
-    font-size: 1rem;
-    padding: 7px 20px;
-    border-radius: 30px;
-    transition: background-color 0.3s ease-in-out;
-}
-
-.newsletter-button:hover {
-    background-color: #e4af11;
-}
-
-@media (max-width: 768px) {
-    .section-title {
-        font-size: 1.5rem;
-    }
-
-    .section-description {
-        font-size: 1rem;
-    }
-
-    .testimonial-card .card-body {
-        padding: 1rem;
-    }
-}
-
-.carousel-control-prev, .carousel-control-next {
-    width: 5%;
-}
-
-.carousel-control-prev {
-    left: -5%;
-}
-
-.carousel-control-next {
-    right: -5%;
-}
-
-.content .btn-primary {
-    background-color: #343a40;
-    color: #ffc107;
-    border: none;
-    transition: background-color 0.3s ease;
-}
-
-.content .btn-primary:hover {
-    background-color: #1c1c1c;
-    color: #e4af11;
-}
-
+            html {
+                scroll-behavior: smooth;
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f8f9fa;
+                margin: 0;
+                padding: 0;
+            }
+            .navbar {
+                background-color: rgba(255, 255, 255, 0.8);
+                transition: background-color 0.3s, box-shadow 0.3s, padding-top 0.3s, padding-bottom 0.3s;
+                padding-top: 15px;
+                padding-bottom: 15px;
+                z-index: 1000;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            }
+
+            .navbar-scrolled {
+                background-color: white;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
+            .navbar-brand, .nav-link {
+                color: #333 !important;
+                transition: color 0.3s;
+            }
+
+            .navbar-scrolled .navbar-brand,
+            .navbar-scrolled .nav-link {
+                color: black !important;
+            }
+
+
+            .dropdown-menu {
+                background-color: #fff;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+            }
+
+            .dropdown-item {
+                color: #333 !important;
+                transition: background-color 0.3s, color 0.3s;
+            }
+
+            .dropdown-item:hover {
+                background-color: rgba(0, 0, 0, 0.1) !important;
+                color: #ffc107 !important;
+            }
+            .dropdown-menu {
+                display: block !important;
+                opacity: 0;
+                transform: translateY(-20px);
+                transition: opacity 0.3s, transform 0.3s;
+            }
+
+            .dropdown-menu.show {
+                opacity: 0.85;
+                transform: translateY(0);
+            }
+
+            .banner {
+                position: relative;
+                width: 100%;
+                height: 300px;
+                overflow: hidden;
+                margin-bottom: 30px;
+            }
+
+            .banner img {
+                width: 100%;
+                height: auto;
+                object-fit: cover;
+                filter: brightness(0.7);
+            }
+
+            .banner-text {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: #fff;
+                text-align: center;
+                font-size: 24px;
+                font-weight: bold;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .content h2 {
+                color: #333;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
+
+            .card {
+                margin: 15px 0;
+                border: none;
+                border-radius: 0;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .card img {
+                border-radius: 0;
+                border-bottom: 3px solid #e4af11;
+            }
+
+            .card-title {
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            .card-text {
+                color: #666;
+            }
+
+            footer {
+                background-color: #000;
+                color: #fff;
+                text-align: center;
+                padding: 1rem 0;
+                margin-top: 30px;
+            }
+
+            footer a {
+                color: #e4af11;
+                margin: 0 10px;
+                text-decoration: none;
+            }
+
+            footer a:hover {
+                text-decoration: underline;
+            }
         </style>
     </head>
     <body>
-        <c:set var="dao" value="<%= new dao.UserDAOImpl()%>" />
         <c:set var="username" value="${sessionScope.USERNAME}" />
         <c:set var="role" value="${sessionScope.ROLE}" />
-
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="home.jsp">
-                <i class="fas fa-gem"></i> F'Rankelly<br>
-                <span style="font-size: 0.5em;">Auctioneers & Appraisers</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="home.jsp"><i class="fas fa-home"></i> HOME</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="auctionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-gavel"></i> AUCTION
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="auctionDropdown">
-                            <a class="dropdown-item" href="auctions/upcoming.jsp"><i class="fas fa-calendar-alt"></i> Upcoming</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="sellingDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-dollar-sign"></i> SELLING
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="sellingDropdown">
-                            <a class="dropdown-item" href="seller/selling.html"><i class="fas fa-hand-holding-usd"></i> Selling</a>
-                            <a class="dropdown-item" href="seller/request.jsp"><i class="fas fa-clipboard-list"></i> Request A Valuation</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about"><i class="fas fa-info-circle"></i> ABOUT</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contact"><i class="fas fa-address-book"></i> CONTACT</a>
-                    </li>
-                    <c:choose>
-                        <c:when test="${username == null}">
-                            <li class="nav-item">
-                                <a class="nav-link" href="login.jsp"><i class="fas fa-sign-in-alt"></i> LOGIN</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="register.jsp"><i class="fas fa-user-plus"></i> REGISTER</a>
-                            </li>
-                        </c:when>
-                        <c:otherwise>
-                            <li class="nav-item dropdown user-dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-user"></i> ${username}
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="seller/shipmentRequest.jsp"><i class="fas fa-bell"></i> Notification</a>
-                                    <a class="dropdown-item" href="${url}"><i class="fas fa-user-circle"></i> Profile</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="${pageContext.request.contextPath}/MainController?action=Log out"><i class="fas fa-sign-out-alt"></i> LOG OUT</a>
-                                </div>
-                            </li>
-                        </c:otherwise>
-                    </c:choose>
-                </ul>
-            </div>
-        </nav>
-        
-                        
-        <section class="welcome-section">
-            <div class="banner">
-                <img src="https://png.pngtree.com/thumb_back/fw800/background/20190223/ourmid/pngtree-beautiful-romantic-golden-jewelry-banner-background-spheresmall-golden-ballgold-image_83218.jpg" alt="Banner Image">
-                <div class="banner-text">
-                    <h2>Welcome to F'Rankelly Auction</h2>
-                    <p>We're delighted to have you explore our curated selection of fine jewelry. Each piece is a treasure waiting to be discovered. Join our community of connoisseurs and start your bidding journey today.</p>
+        <!-- Nav bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="${pageContext.request.contextPath}/home">
+                    <span class="brand-name">F'Rankelly</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="auctionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">AUCTIONS</a>
+                            <div class="dropdown-menu" aria-labelledby="auctionDropdown">
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/auctions">UPCOMING AUCTIONS</a>
+                                <a class="dropdown-item" href="#">PAST AUCTIONS</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"> BUYING</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="sellingDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">SELLING</a>
+                            <div class="dropdown-menu" aria-labelledby="sellingDropdown">
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/selling">ABOUT SELLING</a>
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/valuation">VALUATION REQUEST</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"> EXPLORE</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"> ABOUT</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"> CONTACT</a>
+                        </li>
+                        <c:choose>
+                            <c:when test="${username == null}">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> USER</a>
+                                    <div class="dropdown-menu" aria-labelledby="userDropdown">
+                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/register">Register</a>
+                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/login">Login</a>
+                                    </div>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <c:set var="url">
+                                    <c:choose>
+                                        <c:when test="${role == 'Member'}">${pageContext.request.contextPath}/profile</c:when>
+                                        <c:when test="${role == 'Staff'}">staff</c:when>
+                                        <c:when test="${role == 'Manager'}">manager/manager.jsp</c:when>
+                                        <c:otherwise>admin/admin.jsp</c:otherwise>
+                                    </c:choose>
+                                </c:set>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> ${username}</a>
+                                    <div class="dropdown-menu" aria-labelledby="userDropdown">
+                                        <a class="dropdown-item" href="${url}">Profile</a>
+                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/logout">Logout</a>
+                                    </div>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+                    </ul>
                 </div>
             </div>
-        </section>
+        </nav>
 
+        <!-- End Navbar -->
+
+        <!-- Banner -->
+
+        <!-- End Banner -->
+
+        <!-- Content -->
         <div class="content container mt-5">
-            <h2>Upcoming Auction</h2>
+            <h2>Newest Listing 2024</h2>
             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
-                    <%
-                        UserDAOImpl _dao = new UserDAOImpl();
-                        List<RandomJewelry> listJewelry = _dao.displayRandomJewelry();
-                        if (listJewelry != null && !listJewelry.isEmpty()) {
-                            int itemsPerSlide = 3;
-                            int totalItems = listJewelry.size();
-                            int numberOfSlides = (int) Math.ceil((double) totalItems / itemsPerSlide);
-        
-                            for (int i = 0; i < numberOfSlides; i++) {
-                    %>
-                    <div class="carousel-item <%= (i == 0) ? "active" : "" %>">
-                        <div class="row">
-                            <%
-                                for (int j = 0; j < itemsPerSlide; j++) {
-                                    int currentIndex = i * itemsPerSlide + j;
-                                    if (currentIndex >= totalItems) break;
-                                    RandomJewelry jewelry = listJewelry.get(currentIndex);
-                            %>
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <img src="<%= jewelry.getPhoto() %>" class="card-img-top" alt="Jewelry Image">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><%= jewelry.getJewelryName() %></h5>
-                                        <a href="${pageContext.request.contextPath}/auctions/detail.jsp?auctionID=<%= jewelry.getAuctionID() %>" class="btn btn-primary">Bid Now</a>
+                    <c:choose>
+                        <c:when test="${not empty listJewelry}">
+                            <c:forEach var="slide" begin="0" end="${fn:length(listJewelry) / 3}" step="1">
+                                <div class="carousel-item ${slide == 0 ? 'active' : ''}">
+                                    <div class="row">
+                                        <c:forEach var="jewelry" items="${listJewelry}" begin="${slide * 3}" end="${slide * 3 + 2}" varStatus="status">
+                                            <c:if test="${status.index < fn:length(listJewelry)}">
+                                                <div class="col-md-4">
+                                                    <a href="${pageContext.request.contextPath}/auction?auctionID=${jewelry.auctionID}">
+                                                        <div class="card">
+                                                            <img src="${pageContext.request.contextPath}/${fn:split(jewelry.photo, ';')[0]}" class="card-img-top" alt="${jewelry.jewelryName}">
+                                                            <div class="card-body">
+                                                                <h5 class="card-title">${jewelry.jewelryName}</h5>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </c:if>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="carousel-item active">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p>No jewelry items available.</p>
                                     </div>
                                 </div>
                             </div>
-                            <%
-                                }
-                            %>
-                        </div>
-                    </div>
-                    <%
-                            }
-                        } else {
-                    %>
-                    <div class="carousel-item active">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p>No upcoming auctions at the moment. Please check back later.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <%
-                        }
-                    %>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -540,115 +278,106 @@ footer a {
                     <span class="sr-only">Next</span>
                 </a>
             </div>
+
+            <section class="highlight-box mt-5">
+                <h2>About Us</h2>
+                <div class="content-box">
+                    <p>Welcome to Jewelry Auctioned! We offer a wide range of discounted jewelry and gemstones directly from verified manufacturers worldwide. Shop top-quality pieces at a fraction of the price. Our sellers meet high standards through a rigorous application process.</p>
+                </div>
+            </section>
+
+            <section class="highlight-box mt-5">
+                <h2>Contact</h2>
+                <div class="content-box">
+                    <p>We welcome your feedback and encourage you to share your thoughts. Feel free to ask questions, tell us what you like, and let us know how we can improve. Your input is valuable to us!</p>
+                    <p>Phone Support: +849872539999 (Available 7 days a week, 9:00 am - 5:30 pm EST)</p>
+                    <p>Email Support: support@jewelryauction.com</p>
+                    <p>Fill out the form below for more assistance.</p>
+                </div>
+            </section>
         </div>
-        
-        <section id="about" class="about-contact-section container mt-5">
-            <div class="row">
-                <div class="col-md-6">
-                    <img src="./images/z5546462796989_1ff9a9b729be11624975ca5db8d58b64.jpg" alt="About Us Image">
-                </div>
-                <div class="col-md-6">
-                    <h2>About Us</h2>
-                    <p class="lead">F'Rankelly's Premier Jewelry Auction House</p>
-                    <p>At F'Rankelly, we pride ourselves on offering the finest jewelry at auction. Our commitment to quality and excellence is unmatched, ensuring that every piece we present is of the highest standard. Join us in discovering the timeless beauty and elegance of our collections.</p>
-                </div>
-            </div>
-        </section>
-        
-        <section id="contact" class="about-contact-section container mt-5">
-            <div class="row">
-                <div class="col-md-6 order-md-2">
-                    <img src="./images/z5546463061579_b12c3929fc6aa94bff2cbf559a6d5acd.jpg" alt="Contact Us Image">
-                </div>
-                <div class="col-md-6 order-md-1">
-                    <h2>Contact Us</h2>
-                    <p class="lead">Get in Touch with Our Team</p>
-                    <p>Whether you have a question about our auctions, need assistance with a purchase, or simply want to learn more about our services, our team is here to help. Reach out to us through our contact page or visit us at our showroom for a personal consultation.</p>
-                </div>
-            </div>
-        </section>
-            
-        <div class="content container mt-5">
-            <h2 class="section-title">What Our Customers Say</h2>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card testimonial-card">
-                        <div class="card-body">
-                            <p class="card-text">"I had a wonderful experience at F'Rankelly's auction. The staff was knowledgeable, and the jewelry was exquisite."</p>
-                            <p class="card-text"><strong>- Alice Smith</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card testimonial-card">
-                        <div class="card-body">
-                            <p class="card-text">"I found the perfect piece for my collection. The bidding process was smooth and exciting."</p>
-                            <p class="card-text"><strong>- John Doe</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card testimonial-card">
-                        <div class="card-body">
-                            <p class="card-text">"Great selection and professional service. I highly recommend F'Rankelly's to any jewelry enthusiast."</p>
-                            <p class="card-text"><strong>- Emma Johnson</strong></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="content container mt-5">
-            <h2 class="section-title">Stay Updated</h2>
-            <p class="section-description">Sign up for our newsletter to get the latest news and updates on upcoming auctions and exclusive offers.</p>
-            <form class="newsletter-form">
-                <div class="form-row">
-                    <div class="col-md-8 mb-3">
-                        <input type="email" class="form-control newsletter-input" placeholder="Enter your email">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <button class="btn btn-primary btn-block newsletter-button" type="submit">Subscribe</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+        <!-- End Content -->
+
+        <!-- Footer -->
         <footer class="text-center py-3 mt-auto">
             <div>
                 <h6>Jewelry Auction</h6>
-                <a href="register.jsp">Register</a> |
-                <a href="login.jsp">Login</a> |
-                <a href="#">Help & FAQ</a> |
-                <a href="#">Support</a> |
-                <a href="#">Sitemap</a>
+                <a href="${pageContext.request.contextPath}/register">Register</a> |
+                <a href="${pageContext.request.contextPath}/login">Login</a> |
+                <a href="#">Auctions</a> |
+                <a href="#">Selling</a>
             </div>
         </footer>
-
-        <!-- Include Bootstrap JS and dependencies -->
+        <!-- End Footer -->
+        <!-- Scripts -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var auctionButton = document.getElementById('viewAuctionButton');
-                auctionButton.addEventListener('click', function (event) {
-                    var auctionID = document.querySelector('input[name="auctionID"]').value;
-                    if (!auctionID) {
+            $(document).ready(function () {
+                $("a").on('click', function (event) {
+                    if (this.hash !== "") {
                         event.preventDefault();
-                        alert('No auction available');
+                        var hash = this.hash;
+                        $('html, body').animate({
+                            scrollTop: $(hash).offset().top
+                        }, 800, function () {
+                            window.location.hash = hash;
+                        });
                     }
                 });
-            });           
-        </script>
-<script>
-    document.querySelectorAll('a.nav-link[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
+
+                $(window).scroll(function () {
+                    if ($(this).scrollTop() > 50) {
+                        $('.navbar').addClass('scrolled');
+                    } else {
+                        $('.navbar').removeClass('scrolled');
+                    }
+                });
             });
-        });
-    });
-</script>
-    
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                window.addEventListener("scroll", function () {
+                    if (window.scrollY > 50) {
+                        document.querySelector(".navbar").classList.add("navbar-scrolled");
+                    } else {
+                        document.querySelector(".navbar").classList.remove("navbar-scrolled");
+                    }
+                });
+            });
+            document.addEventListener("DOMContentLoaded", function () {
+                var dropdowns = document.querySelectorAll('.nav-item.dropdown');
+
+                dropdowns.forEach(function (dropdown) {
+                    dropdown.addEventListener('mouseenter', function () {
+                        var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                        if (dropdownMenu) {
+                            dropdownMenu.classList.add('show');
+                        }
+                    });
+                    dropdown.addEventListener('mouseleave', function () {
+                        var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                        if (dropdownMenu) {
+                            dropdownMenu.classList.remove('show');
+                        }
+                    });
+                });
+            });
+            $(document).ready(function () {
+                $("a.nav-link").on('click', function (event) {
+                    if (this.hash !== "") {
+                        event.preventDefault();
+                        var hash = this.hash;
+                        $('html, body').animate({
+                            scrollTop: $(hash).offset().top
+                        }, 800, function () {
+                            window.location.hash = hash;
+                        });
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.staff;
+package jewelryauction.controller.staff;
 
 import dao.UserDAOImpl;
 import entity.valuation.Valuation;
@@ -20,12 +20,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author User
  */
-@WebServlet(name = "InsertJewelryController", urlPatterns = {"/InsertJewelryController"})
-public class InsertJewelryController extends HttpServlet {
+@WebServlet(name = "ProcessValuationRequest", urlPatterns = {"/requestList"})
+public class ProcessValuationRequest extends HttpServlet {
 
     private static final String ERROR_PAGE = "index.htm";
-    private static final String STAFF_PAGE = "ProcessValuationRequest";
-
+    private static final String STAFF_PAGE = "/staff/staff.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,53 +38,20 @@ public class InsertJewelryController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String url = ERROR_PAGE;
-            String category = request.getParameter("category");
-            String jewelryName = request.getParameter("jewelryName");
-            String artist = request.getParameter("artist");
-            String circa = request.getParameter("circa");
-            String material = request.getParameter("material");
-            String dial = request.getParameter("dial");
-            String braceletMaterial = request.getParameter("braceletMaterial");
-            String caseDimensions = request.getParameter("caseDimensions");
-            String braceletSize = request.getParameter("braceletSize");
-            String serialNumber = request.getParameter("serialNumber");
-            String referenceNumber = request.getParameter("referenceNumber");
-            String caliber = request.getParameter("caliber");
-            String movement = request.getParameter("movement");
-            String condition = request.getParameter("condition");
-            String metal = request.getParameter("metal");
-            String gemstones = request.getParameter("gemstones");
-            String measurements = request.getParameter("measurements");
-            String weight = request.getParameter("weight");
-            String stamped = request.getParameter("stamped");
-            String ringSize = request.getParameter("ringSize");
-            String minPrice = request.getParameter("minPrice");
-            String maxPrice = request.getParameter("maxPrice");
-            String tempPrice = request.getParameter("tempPrice"); // Added tempPrice
-            String valuationID = request.getParameter("valuationID");
-            String photos = request.getParameter("photoURL"); // Changed from "photo" to "photoURL"
             UserDAOImpl dao = new UserDAOImpl();
+            String url = ERROR_PAGE;
             try {
-                boolean result = dao.insertJewelry(category, jewelryName, artist,
-                        circa, material, dial,
-                        braceletMaterial, caseDimensions,
-                        braceletSize, serialNumber,
-                        referenceNumber, caliber, movement,
-                        condition, metal, gemstones,
-                        measurements, weight, stamped,
-                        ringSize, minPrice, maxPrice,
-                        tempPrice, valuationID, photos); // Corrected parameter passing
-                if (result) {
+                ArrayList<Valuation> lst = dao.displayValuationRequest();
+                if (lst != null) {
                     url = STAFF_PAGE;
+                    request.setAttribute("listValuationRequest", lst);
                 }
             } catch (Exception ex) {
-                ex.printStackTrace(); // Print the stack trace for debugging
-                // Handle the exception appropriately, such as logging it
+                ex.getMessage();
             } finally {
-                response.sendRedirect(url);
+                RequestDispatcher dist = request.getRequestDispatcher(url);
+                dist.forward(request, response);
             }
-
         }
     }
 

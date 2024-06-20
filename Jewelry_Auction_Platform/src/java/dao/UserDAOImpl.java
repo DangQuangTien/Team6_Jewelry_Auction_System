@@ -814,7 +814,7 @@ public class UserDAOImpl implements UserDao {
 
     @Override
     public List<RandomJewelry> displayRandomJewelry() {
-        String query = "SELECT TOP 6 j.photos, j.jewelryName, s.auctionID FROM Jewelry j, Auction auc, Session s where s.auctionID = auc.auctionId and s.jewelryID = j.jewelryID ORDER BY NEWID()";
+        String query = "SELECT TOP 10 j.photos, j.jewelryName, s.auctionID FROM Jewelry j, Auction auc, Session s where s.auctionID = auc.auctionId and s.jewelryID = j.jewelryID ORDER BY NEWID()";
         List<RandomJewelry> listJewelry = new ArrayList<>();
         try {
             conn = DBUtils.getConnection();
@@ -1017,4 +1017,54 @@ public class UserDAOImpl implements UserDao {
             return false;
         }
     }
+     @Override
+    public boolean registerUser(String firstName, String lastName, String email, String username, String password) {
+        String insertUserSql = "INSERT INTO Users (username, email, password, roleID, joined_at) VALUES (?, ?, ?, 'Role01', GETDATE())";
+        //String getLastInsertIdSql = "SELECT CAST(SCOPE_IDENTITY() AS VARCHAR(50)) AS lastUserId";
+        String selectUserId = "SELECT userID FROM Users WHERE username = ?";
+        String insertMemberSql = "INSERT INTO Member (userID, firstName, lastName) VALUES (?, ?, ?)";
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps1 = conn.prepareStatement(insertUserSql); PreparedStatement ps2 = conn.prepareStatement(selectUserId); PreparedStatement ps3 = conn.prepareStatement(insertMemberSql)) {
+            ps1.setString(1, username);
+            ps1.setString(2, email);
+            ps1.setString(3, password);
+            int rowsAffected1 = ps1.executeUpdate();
+            if (rowsAffected1 > 0) {
+                ps2.setString(1, username);
+                try(ResultSet rs = ps2.executeQuery()){
+                    if (rs.next()) {
+                        String userID = rs.getString("userID");
+                        ps3.setString(1, userID);
+                        ps3.setString(2, firstName);
+                        ps3.setString(3, lastName);
+                        int rowsAffected2 = ps3.executeUpdate();
+                        if (rowsAffected2 > 0)
+                            return true;
+                    }
+                }
+            }
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkDuplicateUsername(String username) {
+        String checkQuery = "SELECT * FROM Users WHERE username = ?";
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(checkQuery)) {
+            ps.setString(1, username);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return true;
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    //Auction happens from 5days to 10days.
+    
 }
