@@ -54,6 +54,7 @@ public interface UserDao {
     List<Jewelry> displayAllJewelryForStaff();
 
     boolean updateJewelry(Jewelry jewelry);
+    
     boolean updateFinalPrice(String jewelryID, String finalPrice);
 
     boolean approveFinalPrice(String jewelryID);
@@ -68,7 +69,7 @@ public interface UserDao {
 
     List<Jewelry> displayConfirmedJewelry(int page, int pageSize);
 
-    boolean createAuction(String auctionDate, String startTime, String endTime, String[] selectedJewelryIDs);
+    boolean createAuction(String auctionStartDate, String auctionEndDate, String startTime, String endTime, String[] selectedJewelryIDs);
     
     List<RandomJewelry> displayRandomJewelry();
 
@@ -94,4 +95,6 @@ public interface UserDao {
     
     //check if duplicated username
     boolean checkDuplicateUsername(String username);
+    boolean closeSession(String jewelryID);
+    List<Jewelry> displayJewelryInRoom(String auctionID);
 }

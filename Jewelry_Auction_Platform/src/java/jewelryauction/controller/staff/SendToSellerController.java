@@ -1,9 +1,8 @@
-package controller.manager;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+package jewelryauction.controller.staff;
 
 import dao.UserDAOImpl;
 import java.io.IOException;
@@ -19,11 +18,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author User
  */
-@WebServlet(name = "ApproveFinalPriceController", urlPatterns = {"/ApproveFinalPriceController"})
-public class ApproveFinalPriceController extends HttpServlet {
+@WebServlet(name = "SendToSellerController", urlPatterns = {"/sendToSeller"})
+public class SendToSellerController extends HttpServlet {
 
     private static final String ERROR_PAGE = "index.htm";
-    private static final String MANAGER_PAGE = "/manager/manager.jsp";
+    private static final String STAFF_PAGE = "/approvedRequest";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,15 +41,14 @@ public class ApproveFinalPriceController extends HttpServlet {
             String url = ERROR_PAGE;
             try {
                 UserDAOImpl dao = new UserDAOImpl();
-                boolean result = dao.approveFinalPrice(jewelryID);
+                boolean result = dao.sendToSeller(jewelryID);
                 if (result) {
-                    url = MANAGER_PAGE;
+                    url = STAFF_PAGE;
                 }
             } catch (Exception ex) {
                 ex.getMessage();
             } finally {
-                RequestDispatcher dist = request.getRequestDispatcher(url);
-                dist.forward(request, response);
+                response.sendRedirect(request.getContextPath() + STAFF_PAGE);
             }
         }
     }

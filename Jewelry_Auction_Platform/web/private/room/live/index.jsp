@@ -233,7 +233,6 @@
                 }
             }
         </style>
-
     </head>
     <body>
         <%
@@ -249,68 +248,61 @@
         <div class="chat-header">
             Bidding Room
             <div class="exit-button">
-                <form action="${pageContext.request.contextPath}/auctions/detail.jsp?auctionID=<%= request.getParameter("auctionID")%>" method="post">
+                <form action="${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>" method="post">
                     <button type="submit"><i class="fas fa-sign-out-alt"></i> Exit</button>
                 </form>
             </div>
         </div>
-
-        <div class="main-container">
-            <!-- Display catalog of auction -->
-            <div class="container-catalog">
-                <div class="horizontal-scroll-container" id="jewelryContainer">
-                    <%
-                        String auctionID = (String) request.getParameter("auctionID");
-                        List<Jewelry> listJewelry = dao.displayCatalog(auctionID);
-
-                        for (Jewelry jewelry : listJewelry) {
-                    %>
-                    <div class="horizontal-scroll-item" onclick="selectItem(this, '<%= jewelry.getJewelryID()%>', '<%= jewelry.getJewelryName()%>', '<%= jewelry.getPhotos().split(";")[0]%>')">
-                        <div class="card">
-                            <% String photo = jewelry.getPhotos(); %>
-                            <% String[] photoArray = photo.split(";");%>
-                            <img src="${pageContext.request.contextPath}/<%= photoArray[0]%>" class="card-img-top" alt="<%= jewelry.getJewelryName()%>">
-                            <div class="card-body">
-                                <h5 class="card-title"><%= jewelry.getJewelryID()%></h5>
-                                <p class="card-text"><%= jewelry.getJewelryName()%></p>
-                            </div>
+        <!-- Display catalog of auction -->
+        <div class="container">
+            <div class="horizontal-scroll-container" id="jewelryContainer">
+                <%
+                    String auctionID = (String) request.getParameter("auctionID");
+                    List<Jewelry> listJewelry = dao.displayJewelryInRoom(auctionID);
+                    for (Jewelry jewelry : listJewelry) {
+                %>
+                <div class="horizontal-scroll-item">
+                    <div class="card">
+                        <% String photo = jewelry.getPhotos(); %>
+                        <% String[] photoArray = photo.split(";");%>
+                        <img src="${pageContext.request.contextPath}/<%= photoArray[0]%>" class="card-img-top" alt="<%= jewelry.getJewelryName()%>">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= jewelry.getJewelryID()%></h5>
+                            <p class="card-text"><%= jewelry.getJewelryName()%></p>
                         </div>
                     </div>
-                    <%
-                        }
-                    %>
                 </div>
+                <%
+                    }
+                %>
             </div>
-
-            <!-- Selected item display -->
-            <div class="container-selected" id="selectedItemDisplay">
-                <!-- Selected item details will be displayed here -->
-            </div>
-
-            <!-- WebSocket chat section -->
-            <%
-                if (userID != null && memberID != null) { // Check if userID and memberID are not null
-            %>
-            <div class="container-bid">
-                <div class="chat-messages" id="chatMessages">
-                    <!-- Messages will be displayed here -->
-                </div>
-                <div class="chat-input">
-                    <input type="number" id="textMessage" placeholder="Enter your bid...">
-                    <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
-                </div>
-            </div>
-            <% } else { %>
-            <div style="text-align: center; margin-top: 20px;">
-                Please <a href="${pageContext.request.contextPath}/login.jsp">log in</a> to participate in the auction.
-            </div>
-            <% }%>
         </div>
-
+        <%
+            if (userID != null && memberID != null) { // Check if userID and memberID are not null
+        %>
+        <!-- WebSocket chat section -->
+        <div class="container-bid">
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will be displayed here -->
+            </div>
+        </div>
+        <div class="container-bid">
+            <div class="chat-input">
+                <input type="number" id="textMessage" placeholder="Enter your bid...">
+                <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+        <% } else { %>
+        <div style="text-align: center; margin-top: 20px;">
+            Please <a href="${pageContext.request.contextPath}/login.jsp">log in</a> to participate in the auction.
+        </div>
+        <% }%>
         <script>
             var auctionID = "<%= request.getParameter("auctionID")%>";
             var memberID = "<%= memberID%>";
             var selectedJewelryID = null;
+            var currentIndex = 0;
+            var items = document.querySelectorAll('.horizontal-scroll-item');
 
             var websocketURL = "ws://localhost:8080/Jewelry_Auction_Platform/BiddingRoomServer/" + auctionID;
             var websocket = new WebSocket(websocketURL);
@@ -318,6 +310,7 @@
             websocket.onopen = function (event) {
                 console.log("WebSocket connection opened.");
                 processOpen(event);
+                sendAllItems(); // G?i t?t c? c�c m?c khi k?t n?i WebSocket m?
             };
 
             websocket.onmessage = function (event) {
@@ -364,11 +357,8 @@
                             bid: textMessage,
                             member: memberID
                         };
-
                         websocket.send(JSON.stringify(messageData));
-
                         document.getElementById('textMessage').value = "";
-
                         var bidAmount = '$' + textMessage;
                         var bidMessage = "You just bid: " + bidAmount + " at " + getTime();
                         appendMessage(bidMessage, false);
@@ -428,24 +418,33 @@
                 }
             }
 
-            var currentIndex = 0;
-            function autoSelectItem() {
-                var items = document.querySelectorAll('.horizontal-scroll-item');
+            function sendAllItems() {
                 if (items.length > 0) {
-                    if (currentIndex >= items.length) {
-                        window.location.href = "${pageContext.request.contextPath}/auctions/detail.jsp?auctionID=<%= request.getParameter("auctionID")%>";
-                        return;
-                    }
-                    selectItem(items[currentIndex], items[currentIndex].querySelector('.card-title').textContent);
-                    updateURLParameter();
-                    currentIndex++;
-                }
-            }
-
-            window.onload = function () {
-                autoSelectItem();
-                setInterval(autoSelectItem, 60000);
-            };
+                    items.forEach((item, index) => {
+                        setTimeout(() => {
+                            selectItem(item, item.querySelector('.card-title').textContent);
+                            updateURLParameter();
+                            if (typeof websocket !== 'undefined' && websocket.readyState === WebSocket.OPEN) {
+                                var finishedMessage = {
+                                    status: "finished",
+                                    selectedJewelryID: selectedJewelryID
+                                };
+                                console.log("Sending finished message:", finishedMessage);
+                                websocket.send(JSON.stringify(finishedMessage));
+                            }
+                        }, index * 60000);
+                    });
+                    setTimeout(() => {
+                        window.location.href = "${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>";
+                                    }, items.length * 60000);
+                                }
+                            }
+                            window.onload = function () {
+                                if (websocket.readyState === WebSocket.OPEN) {
+                                    sendAllItems();
+                                }
+                            };
         </script>
     </body>
 </html>
+

@@ -31,8 +31,8 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 @WebServlet(name = "ValuationRequestServlet", urlPatterns = {"/process"})
 public class ValuationRequestServlet extends HttpServlet {
 
-    private static final String ERROR_PAGE = "/WEB-INF/jsp/index.jsp";
-    private static final String HOME_PAGE = "valuation";
+    private static final String ERROR_PAGE = "index.htm";
+    private static final String HOME_PAGE = "/valuation";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -115,8 +115,7 @@ public class ValuationRequestServlet extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                RequestDispatcher dist = request.getRequestDispatcher(url);
-                dist.forward(request, response);
+                response.sendRedirect(request.getContextPath() + url);
             }
         }
     }

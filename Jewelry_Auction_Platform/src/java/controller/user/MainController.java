@@ -20,22 +20,22 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "MainController", urlPatterns = {"/MainController"})
 public class MainController extends HttpServlet {
 
-    private static final String LOGIN_CONTROLLER = "LoginController";
-    private static final String LOGOUT_CONTROLLER = "LogoutController";
-    private static final String PROFILE_CONTROLLER = "ProfileController";
-    private static final String PROCESS_VALUATION_CONTROLLER = "ProcessValuationRequest";
-    private static final String INSERT_JEWELRY_CONTROLLER = "InsertJewelryController";
-    private static final String REQUEST_SHIPMENT_CONTROLLER = "RequestShipmentController";
-    private static final String CONFIRM_RECEIPT_CONTROLLER = "ConfirmReceiptController";
-    private static final String UPDATE_FINAL_PRICE_CONTROLLER = "UpdateFinalPriceController";
-    private static final String APPROVE_FINAL_PRICE_CONTROLLER = "ApproveFinalPriceController";
+//    private static final String LOGIN_CONTROLLER = "LoginController";
+//    private static final String LOGOUT_CONTROLLER = "LogoutController";
+//    private static final String PROFILE_CONTROLLER = "ProfileController";
+//    private static final String PROCESS_VALUATION_CONTROLLER = "ProcessValuationRequest";
+//    private static final String INSERT_JEWELRY_CONTROLLER = "InsertJewelryController";
+//    private static final String REQUEST_SHIPMENT_CONTROLLER = "RequestShipmentController";
+//    private static final String CONFIRM_RECEIPT_CONTROLLER = "ConfirmReceiptController";
+//    private static final String UPDATE_FINAL_PRICE_CONTROLLER = "UpdateFinalPriceController";
+//    private static final String APPROVE_FINAL_PRICE_CONTROLLER = "ApproveFinalPriceController";
     private static final String SEND_TO_SELLER_CONTROLLER = "SendToSellerController";
     private static final String CONFIRM_TO_AUCTION_CONTROLLER = "ConfirmToAuctionController";
     private static final String REJECT_TO_AUCTION_CONTROLLER = "RejectToAuctionController";
-    private static final String CREATE_AUCTION_CONTROLLER = "CreateAuctionController";
-    private static final String REGISTER_TO_BID_CONTROLLER = "RegisterToBid";
-    private static final String PLACE_BID_CONTROLLER = "PlaceBidController";
-    private static final String EDIT_BID_CONTROLLER = "EditBidController";
+//    private static final String CREATE_AUCTION_CONTROLLER = "CreateAuctionController";
+//    private static final String REGISTER_TO_BID_CONTROLLER = "RegisterToBid";
+//    private static final String PLACE_BID_CONTROLLER = "PlaceBidController";
+//    private static final String EDIT_BID_CONTROLLER = "EditBidController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -68,42 +68,42 @@ public class MainController extends HttpServlet {
 //                case "Valuation Request":
 //                    url = PROCESS_VALUATION_CONTROLLER;
 //                    break;
-                case "Submit":
-                    url = INSERT_JEWELRY_CONTROLLER;
-                    break;
-                case "Request to Ship":
-                    url = REQUEST_SHIPMENT_CONTROLLER;
-                    break;
-                case "Confirm Receipt":
-                    url = CONFIRM_RECEIPT_CONTROLLER;
-                    break;
-                case "Send":
-                    url = UPDATE_FINAL_PRICE_CONTROLLER;
-                    break;
-                case "Approve":
-                    url = APPROVE_FINAL_PRICE_CONTROLLER;
-                    break;
-                case "Send to Seller":
-                    url = SEND_TO_SELLER_CONTROLLER;
-                    break;
-                case "Confirm":
-                    url = CONFIRM_TO_AUCTION_CONTROLLER;
-                    break;
-                case "Reject":
-                    url = REJECT_TO_AUCTION_CONTROLLER;
-                    break;
-                case "Create Auction":
-                    url = CREATE_AUCTION_CONTROLLER;
-                    break;
-                case "Register":
-                    url = REGISTER_TO_BID_CONTROLLER;
-                    break;
-                case "Place Bid":
-                    url = PLACE_BID_CONTROLLER;
-                    break;
-                case "Edit Bid":
-                    url = EDIT_BID_CONTROLLER;
-                    break;
+//                case "Submit":
+//                    url = INSERT_JEWELRY_CONTROLLER;
+//                    break;
+//                case "Request to Ship":
+//                    url = REQUEST_SHIPMENT_CONTROLLER;
+//                    break;
+//                case "Confirm Receipt":
+//                    url = CONFIRM_RECEIPT_CONTROLLER;
+//                    break;
+//                case "Send":
+//                    url = UPDATE_FINAL_PRICE_CONTROLLER;
+//                    break;
+//                case "Approve":
+//                    url = APPROVE_FINAL_PRICE_CONTROLLER;
+//                    break;
+//                case "Send to Seller":
+//                    url = SEND_TO_SELLER_CONTROLLER;
+//                    break;
+//                case "Confirm":
+//                    url = CONFIRM_TO_AUCTION_CONTROLLER;
+//                    break;
+//                case "Reject":
+//                    url = REJECT_TO_AUCTION_CONTROLLER;
+//                    break;
+//                case "Create Auction":
+//                    url = CREATE_AUCTION_CONTROLLER;
+//                    break;
+//                case "Register":
+//                    url = REGISTER_TO_BID_CONTROLLER;
+//                    break;
+//                case "Place Bid":
+//                    url = PLACE_BID_CONTROLLER;
+//                    break;
+//                case "Edit Bid":
+//                    url = EDIT_BID_CONTROLLER;
+//                    break;
                 default:
                     break;
             }

@@ -2,28 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package jewelryauction.controller.web.auction;
+package jewelryauction.controller.manager;
 
 import dao.UserDAOImpl;
-import entity.Auction.Auction;
-import entity.member.Member;
-import entity.product.Jewelry;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author User
  */
-@WebServlet(name = "DetailAuctionServlet", urlPatterns = {"/detail"})
-public class DetailAuctionServlet extends HttpServlet {
+@WebServlet(name = "CreateAuctionServlet", urlPatterns = {"/createAuction"})
+public class CreateAuctionServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,18 +34,22 @@ public class DetailAuctionServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            HttpSession session = request.getSession();
+            String auctionStartDate = request.getParameter("auctionStartDate");
+            String auctionEndDate = request.getParameter("auctionEndDate");
+            String startTime = request.getParameter("startTime");
+            String endTime = request.getParameter("endTime");
+            String[] selectedJewelryIDs = request.getParameter("selectedJewelryIDs").split(",");
             UserDAOImpl dao = new UserDAOImpl();
-            String userID = (String) session.getAttribute("USERID");
-            String auctionID = request.getParameter("auctionID");
-            Auction auction = dao.getAuctionByID(auctionID);
-            request.setAttribute("AUCTION", auction);
-            List<Jewelry> listJewelry = dao.displayCatalog(auctionID);
-            request.setAttribute("CATALOG", listJewelry);
-            Member member = dao.getInformation(userID);
-            request.setAttribute("MEMBER", member);
-            request.setAttribute("AUCTIONID", auctionID);
-            request.getRequestDispatcher("/auctions/detail.jsp").forward(request, response);
+            String url = null;
+            try {
+                boolean result = dao.createAuction(auctionStartDate, auctionEndDate, startTime, endTime, selectedJewelryIDs);
+                if (result) {
+                    url = request.getContextPath() + "/manager/createAuction.jsp";
+                }
+            } catch (Exception ex) {
+                ex.getMessage();
+            }
+            response.sendRedirect(url);
         }
     }
 
@@ -81,6 +80,7 @@ public class DetailAuctionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+
     }
 
     /**

@@ -292,10 +292,10 @@
                                                                         <!-- Request to Ship Button -->
                                                                         <br><br>
                                                                         <c:if test="${val.status == 1}">
-                                                                            <form action="${pageContext.request.contextPath}/MainController" method="GET">
+                                                                            <form action="${pageContext.request.contextPath}/requestShipment" method="POST">
                                                                                 <input type="hidden" name="valuationID" value="${val.valuationID}">
                                                                                 <input type="hidden" name="name" value="${val.name}">
-                                                                                <button type="submit" name="action" class="btn btn-primary" value="Request to Ship">Request to Ship</button>
+                                                                                <button type="submit" name="action" class="btn btn-primary">Request to Ship</button>
                                                                             </form>
                                                                         </c:if>
                                                                     </c:otherwise>
@@ -357,7 +357,6 @@
                                                                                 $('.modal').on('shown.bs.modal', function (e) {
                                                                                     $(this).find('.modal-dialog').addClass('show');
                                                                                 });
-
                                                                                 $('.modal').on('hidden.bs.modal', function (e) {
                                                                                     $(this).find('.modal-dialog').removeClass('show');
                                                                                 });
