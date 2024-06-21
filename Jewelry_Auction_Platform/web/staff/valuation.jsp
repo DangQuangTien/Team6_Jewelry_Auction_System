@@ -43,6 +43,17 @@
             margin-bottom: 20px;
         }
 
+        #jewelryName, #artist, #watchFields, #braceletFields,
+        label[for="jewelryName"], label[for="artist"],
+        label[for="circa"], label[for="material"], label[for="dial"],
+        label[for="braceletMaterial"], label[for="caseDimensions"], label[for="braceletSize"],
+        label[for="serialNumber"], label[for="referenceNumber"], label[for="caliber"],
+        label[for="movement"], label[for="condition"], label[for="braceletMetal"],
+        label[for="braceletGemstones"], label[for="braceletMeasurements"],
+        label[for="braceletWeight"], label[for="braceletCondition"],
+        label[for="braceletStamped"], label[for="ringSize"] {
+            display: none;
+        }
     </style>
     <body>
     <main class="container my-4 flex-grow-1">
@@ -86,11 +97,11 @@
                         </div>
                         <div>
                             <label for="jewelryName">Jewelry Name</label>
-                            <input type="text" id="jewelryName" name="jewelryName" value="">
+                            <input type="hidden" id="jewelryName" name="jewelryName" value="">
                         </div>
                         <div>
                             <label for="artist">Artist</label>
-                            <input type="text" id="artist" name="artist" value="">
+                            <input type="hidden" id="artist" name="artist" value="">
                         </div>
 
                         <!-- Watch Fields -->
@@ -98,47 +109,47 @@
                             <h3>Watch Details</h3>
                             <div>
                                 <label for="circa">Circa</label>
-                                <input type="text" id="circa" name="circa" value="">
+                                <input type="hidden" id="circa" name="circa" value="">
                             </div>
                             <div>
                                 <label for="material">Case Material</label>
-                                <input type="text" id="material" name="material" value="">
+                                <input type="hidden" id="material" name="material" value="">
                             </div>
                             <div>
                                 <label for="dial">Dial</label>
-                                <input type="text" id="dial" name="dial" value="">
+                                <input type="hidden" id="dial" name="dial" value="">
                             </div>
                             <div>
                                 <label for="braceletMaterial">Bracelet Material</label>
-                                <input type="text" id="braceletMaterial" name="braceletMaterial" value="">
+                                <input type="hidden" id="braceletMaterial" name="braceletMaterial" value="">
                             </div>
                             <div>
                                 <label for="caseDimensions">Case Dimensions</label>
-                                <input type="text" id="caseDimensions" name="caseDimensions" value="">
+                                <input type="hidden" id="caseDimensions" name="caseDimensions" value="">
                             </div>
                             <div>
                                 <label for="braceletSize">Bracelet Size</label>
-                                <input type="text" id="braceletSize" name="braceletSize" value="">
+                                <input type="hidden" id="braceletSize" name="braceletSize" value="">
                             </div>
                             <div>
                                 <label for="serialNumber">Serial Number</label>
-                                <input type="text" id="serialNumber" name="serialNumber" value="">
+                                <input type="hidden" id="serialNumber" name="serialNumber" value="">
                             </div>
                             <div>
                                 <label for="referenceNumber">Reference Number</label>
-                                <input type="text" id="referenceNumber" name="referenceNumber" value="">
+                                <input type="hidden" id="referenceNumber" name="referenceNumber" value="">
                             </div>
                             <div>
                                 <label for="caliber">Caliber</label>
-                                <input type="text" id="caliber" name="caliber" value="">
+                                <input type="hidden" id="caliber" name="caliber" value="">
                             </div>
                             <div>
                                 <label for="movement">Movement</label>
-                                <input type="text" id="movement" name="movement" value="">
+                                <input type="hidden" id="movement" name="movement" value="">
                             </div>
                             <div>
                                 <label for="condition">Condition</label>
-                                <input type="text" id="condition" name="condition" value="">
+                                <input type="hidden" id="condition" name="condition" value="">
                             </div>
                         </div>
 
@@ -147,31 +158,31 @@
                             <h3>Details</h3>
                             <div>
                                 <label for="braceletMetal">Metal</label>
-                                <input type="text" id="braceletMetal" name="metal" value="">
+                                <input type="hidden" id="braceletMetal" name="metal" value="">
                             </div>
                             <div>
                                 <label for="braceletGemstones">Gemstone(s)</label>
-                                <input type="text" id="braceletGemstones" name="gemstones" value="">
+                                <input type="hidden" id="braceletGemstones" name="gemstones" value="">
                             </div>
                             <div>
                                 <label for="braceletMeasurements">Measurements</label>
-                                <input type="text" id="braceletMeasurements" name="measurements" value="">
+                                <input type="hidden" id="braceletMeasurements" name="measurements" value="">
                             </div>
                             <div>
                                 <label for="braceletWeight">Weight</label>
-                                <input type="text" id="braceletWeight" name="weight" value="">
+                                <input type="hidden" id="braceletWeight" name="weight" value="">
                             </div>
                             <div>
                                 <label for="braceletCondition">Condition</label>
-                                <input type="text" id="braceletCondition" name="condition" value="">
+                                <input type="hidden" id="braceletCondition" name="condition" value="">
                             </div>
                             <div>
                                 <label for="braceletStamped">Stamped</label>
-                                <input type="text" id="braceletStamped" name="stamped" value="">
+                                <input type="hidden" id="braceletStamped" name="stamped" value="">
                             </div>
                             <div>
                                 <label style="color: red" for="ringSize">Ring Size (for rings)</label>
-                                <input type="text" id="ringSize" name="ringSize" value="">
+                                <input type="hidden" id="ringSize" name="ringSize" value="">
                             </div>
                         </div>
 
