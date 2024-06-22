@@ -548,57 +548,40 @@
                 <div class="carousel-inner">
                     <c:choose>
                         <c:when test="${not empty listJewelry}">
-                            <c:foreach var="slide" begin="0"
-                                end="${fn:length(listJewelry) / 3}" step="1">
-                                <div
-                                    class="carousel-item ${slide == 0 ? 'active' : ''}">
+                            <c:forEach var="slide" begin="0" end="${fn:length(listJewelry) / 3}" step="1">
+                                <div class="carousel-item ${slide == 0 ? 'active' : ''}">
                                     <div class="row">
-                                        <c:foreach var="jewelry"
-                                            items="${listJewelry}"
-                                            begin="${slide * 3}"
-                                            end="${slide * 3 + 2}"
-                                            varStatus="status">
-                                            <c:if
-                                                test="${status.index < fn:length(listJewelry)}">
+                                        <c:forEach var="jewelry" items="${listJewelry}" begin="${slide * 3}" end="${slide * 3 + 2}" varStatus="status">
+                                            <c:if test="${status.index < fn:length(listJewelry)}">
                                                 <div class="col-md-4">
-                                                    <a
-                                                        style="text-decoration: none"
-                                                        href="${pageContext.request.contextPath}/auction?auctionID=${jewelry.auctionID}">
+                                                    <a style="text-decoration: none" href="${pageContext.request.contextPath}/auction?auctionID=${jewelry.auctionID}">
                                                         <div class="card">
-                                                            <img
-                                                                src="${pageContext.request.contextPath}/${fn:split(jewelry.photo, ';')[0]}"
-                                                                class="card-img-top"
-                                                                alt="${jewelry.jewelryName}">
-                                                            <div
-                                                                class="card-body">
-                                                                <h5
-                                                                    class="card-title">${jewelry.jewelryName}</h5>
-                                                                <a
-                                                                    href="${pageContext.request.contextPath}/auctions/detail.jsp?auctionID=${jewelry.getAuctionID()}"
-                                                                    class="btn btn-primary">Bid
-                                                                    Now</a>
+                                                            <img src="${pageContext.request.contextPath}/${fn:split(jewelry.photo, ';')[0]}" class="card-img-top" alt="${jewelry.jewelryName}">
+                                                            <div class="card-body">
+                                                                <h5 class="card-title">${jewelry.jewelryName}</h5>
+                                                                <a href="${pageContext.request.contextPath}/auctions/detail.jsp?auctionID=${jewelry.getAuctionID()}" class="btn btn-primary">Bid Now</a>
                                                             </div>
                                                         </div>
                                                     </a>
                                                 </div>
                                             </c:if>
-                                        </c:foreach>
+                                        </c:forEach>
                                     </div>
                                 </div>
-                            </c:foreach>
+                            </c:forEach>
                         </c:when>
                         <c:otherwise>
                             <div class="carousel-item active">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <p>No upcoming auctions at the moment.
-                                            Please check back later.</p>
+                                        <p>No upcoming auctions at the moment. Please check back later.</p>
                                     </div>
                                 </div>
                             </div>
                         </c:otherwise>
                     </c:choose>
                 </div>
+                
                 <a class="carousel-control-prev" href="#carouselExampleControls"
                     role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon"
