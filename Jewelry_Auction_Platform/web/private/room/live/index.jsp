@@ -25,7 +25,7 @@
             .main-container {
                 display: flex;
                 flex-direction: column;
-                width: 90%;
+                width: 100%;
                 max-width: 1200px;
                 background-color: #fff;
                 border-radius: 15px;
