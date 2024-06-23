@@ -9,397 +9,409 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Global F'Rankelly's Premier Jewelry Auction House</title>
         <link rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+              href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <style>
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #fff;
-            margin: 0;
-            padding: 0;
-        }
-
-        .navbar {
-            background-color: rgba(0, 0, 0, 0.8);
-            transition: background-color 0.3s, box-shadow 0.3s, padding-top 0.3s, padding-bottom 0.3s;
-            padding-top: 15px;
-            padding-bottom: 15px;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .navbar-scrolled {
-            background-color: black;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            padding-top: 10px;
-            padding-bottom: 10px;
-        }
-
-        .navbar-brand, .nav-link {
-            color: #fff !important;
-            transition: color 0.3s;
-        }
-
-        .navbar-scrolled .navbar-brand,
-        .navbar-scrolled .nav-link {
-            color: #ffc107 !important;
-        }
-
-        .navbar-nav .nav-link {
-            position: relative;
-            transition: color 0.3s;
-        }
-
-        .navbar-nav .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background-color: #ffc107;
-            transition: width 0.3s, left 0.3s;
-            visibility: hidden;
-        }
-
-        .navbar-nav .nav-link:hover::after {
-            width: 100%;
-            left: 0;
-            visibility: visible;
-        }
-
-        .dropdown-menu {
-            background-color: #000;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: fadeIn 0.5s;
-        }
-
-        .dropdown-item {
-            color: #fff !important;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .dropdown-item:hover {
-            background-color: rgba(255, 255, 255, 0.1) !important;
-            color: #ffc107 !important;
-        }
-
-        .dropdown-menu {
-            display: block !important;
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: opacity 0.3s, transform 0.3s;
-        }
-
-        .dropdown-menu.show {
-            opacity: 0.85;
-            transform: translateY(0);
-        }
-
-        .content {
-            padding: 20px;
-        }
-
-        .carousel-control-prev, .carousel-control-next {
-            position: absolute;
-            top: 50%;
-            width: 5%;
-            height: 50px;
-            margin-top: -25px;
-            font-size: 20px;
-            color: #fff;
-            text-align: center;
-            background: rgba(0, 0, 0, 0.5);
-            border: none;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-
-        .carousel-control-prev {
-            left: -5%;
-        }
-
-        .carousel-control-next {
-            right: -5%;
-        }
-
-        .carousel-control-prev:hover, .carousel-control-next:hover {
-            background: rgba(0, 0, 0, 0.8);
-        }
-
-        .content h2 {
-            color: #000;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .card {
-            margin: 15px 0;
-            border: none;
-            border-radius: 0;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .card img {
-            border-radius: 0;
-            border-bottom: 3px solid #e4af11;
-        }
-
-        .card-title {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .card-text {
-            color: #666;
-        }
-
-        .btn-primary {
-            background-color: #000;
-            color: #ffc107;
-            border: none;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background-color: #343a40;
-            color: #e4af11;
-        }
-
-        footer {
-            background-color: #000;
-            color: #fff;
-            text-align: center;
-            padding: 1rem 0;
-            margin-top: 30px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        footer a {
-            color: #ffc107;
-            margin: 0 10px;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-     .img-fluid {
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.img-fluid:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-}
-
-.hover-content {
-    transition: background-color 0.3s, transform 0.3s;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.hover-content:hover {
-    background-color: #f8f9fa;
-    transform: scale(1.02);
-}
-
-
-        .social-icons a {
-            color: #ffc107;
-            margin: 0 10px;
-            text-decoration: none;
-            transition: color 0.3s, transform 0.3s;
-        }
-
-        .social-icons a:hover {
-            color: #e4af11;
-            transform: scale(1.2);
-        }
-
-        .service-box, .gallery-box, .team-box, .about-box, .contact-box {
-            margin-top: 50px;
-        }
-
-        .service-box h2, .gallery-box h2, .team-box h2, .about-box h2, .contact-box h2 {
-            color: #000;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .service-box p, .gallery-box p, .team-box p, .about-box p, .contact-box p {
-            color: #666;
-        }
-
-        .about-box img, .contact-box img {
-            max-width: 100%;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        .icon-box {
-            font-size: 50px;
-            margin-bottom: 20px;
-            color: #ffc107;
-            transition: color 0.3s ease;
-        }
-
-        .icon-box:hover {
-            color: #e4af11;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideInFromLeft {
-            from { transform: translateX(-100%); }
-            to { transform: translateX(0); }
-        }
-
-        @keyframes slideInFromRight {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
-
-        .animated-button {
-            animation: slideInFromLeft 2s ease-in-out;
-        }
-
-        .animated-button-right {
-            animation: slideInFromRight 2s ease-in-out;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
+            html {
+                scroll-behavior: smooth;
             }
-            50% {
+
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #fff;
+                margin: 0;
+                padding: 0;
+            }
+
+            .navbar {
+                background-color: rgba(0, 0, 0, 0.8);
+                transition: background-color 0.3s, box-shadow 0.3s, padding-top 0.3s, padding-bottom 0.3s;
+                padding-top: 15px;
+                padding-bottom: 15px;
+                z-index: 1000;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .navbar-scrolled {
+                background-color: black;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
+            .navbar-brand, .nav-link {
+                color: #fff !important;
+                transition: color 0.3s;
+            }
+
+            .navbar-scrolled .navbar-brand,
+            .navbar-scrolled .nav-link {
+                color: #ffc107 !important;
+            }
+
+            .navbar-nav .nav-link {
+                position: relative;
+                transition: color 0.3s;
+            }
+
+            .navbar-nav .nav-link::after {
+                content: '';
+                position: absolute;
+                bottom: -5px;
+                left: 50%;
+                width: 0;
+                height: 2px;
+                background-color: #ffc107;
+                transition: width 0.3s, left 0.3s;
+                visibility: hidden;
+            }
+
+            .navbar-nav .nav-link:hover::after {
+                width: 100%;
+                left: 0;
+                visibility: visible;
+            }
+
+            .dropdown-menu {
+                background-color: #000;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                animation: fadeIn 0.5s;
+            }
+
+            .dropdown-item {
+                color: #fff !important;
+                transition: background-color 0.3s, color 0.3s;
+            }
+
+            .dropdown-item:hover {
+                background-color: rgba(255, 255, 255, 0.1) !important;
+                color: #ffc107 !important;
+            }
+
+            .dropdown-menu {
+                display: block !important;
+                opacity: 0;
+                transform: translateY(-20px);
+                transition: opacity 0.3s, transform 0.3s;
+            }
+
+            .dropdown-menu.show {
+                opacity: 0.85;
+                transform: translateY(0);
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .carousel-control-prev, .carousel-control-next {
+                position: absolute;
+                top: 50%;
+                width: 5%;
+                height: 50px;
+                margin-top: -25px;
+                font-size: 20px;
+                color: #fff;
+                text-align: center;
+                background: rgba(0, 0, 0, 0.5);
+                border: none;
+                border-radius: 50%;
+                transition: all 0.3s ease;
+            }
+
+            .carousel-control-prev {
+                left: -5%;
+            }
+
+            .carousel-control-next {
+                right: -5%;
+            }
+
+            .carousel-control-prev:hover, .carousel-control-next:hover {
+                background: rgba(0, 0, 0, 0.8);
+            }
+
+            .content h2 {
+                color: #000;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
+
+            .card {
+                margin: 15px 0;
+                border: none;
+                border-radius: 0;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+
+            .card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            }
+
+            .card img {
+                border-radius: 0;
+                border-bottom: 3px solid #e4af11;
+            }
+
+            .card-title {
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            .card-text {
+                color: #666;
+            }
+
+            .btn-primary {
+                background-color: #000;
+                color: #ffc107;
+                border: none;
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+
+            .btn-primary:hover {
+                background-color: #343a40;
+                color: #e4af11;
+            }
+
+            footer {
+                background-color: #000;
+                color: #fff;
+                text-align: center;
+                padding: 1rem 0;
+                margin-top: 30px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            footer a {
+                color: #ffc107;
+                margin: 0 10px;
+                text-decoration: none;
+            }
+
+            footer a:hover {
+                text-decoration: underline;
+            }
+
+            .img-fluid {
+                transition: transform 0.3s, box-shadow 0.3s;
+            }
+
+            .img-fluid:hover {
+                transform: scale(1.05);
+                box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            }
+
+            .hover-content {
+                transition: background-color 0.3s, transform 0.3s;
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+
+            .hover-content:hover {
+                background-color: #f8f9fa;
+                transform: scale(1.02);
+            }
+
+
+            .social-icons a {
+                color: #ffc107;
+                margin: 0 10px;
+                text-decoration: none;
+                transition: color 0.3s, transform 0.3s;
+            }
+
+            .social-icons a:hover {
+                color: #e4af11;
                 transform: scale(1.2);
             }
-        }
 
-        @keyframes slide {
-            0% {
-                left: -100%;
+            .service-box, .gallery-box, .team-box, .about-box, .contact-box {
+                margin-top: 50px;
             }
-            50% {
-                left: 100%;
+
+            .service-box h2, .gallery-box h2, .team-box h2, .about-box h2, .contact-box h2 {
+                color: #000;
+                font-weight: bold;
+                margin-bottom: 20px;
             }
-            100% {
-                left: -100%;
+
+            .service-box p, .gallery-box p, .team-box p, .about-box p, .contact-box p {
+                color: #666;
             }
-        }
 
-        .decorative-diamond {
-            animation: pulse 2s infinite;
-        }
+            .about-box img, .contact-box img {
+                max-width: 100%;
+                border-radius: 10px;
+                margin-bottom: 20px;
+            }
 
-        .banner {
-        position: relative;
-        width: 100%;
-        height: 600px;
-        overflow: hidden;
-        margin-bottom: 30px;
-        margin-top: 60px;
-    }
+            .icon-box {
+                font-size: 50px;
+                margin-bottom: 20px;
+                color: #ffc107;
+                transition: color 0.3s ease;
+            }
 
-    .banner-image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url('https://png.pngtree.com/thumb_back/fw800/background/20190223/ourmid/pngtree-beautiful-romantic-golden-jewelry-banner-background-spheresmall-golden-ballgold-image_83218.jpg') center/cover no-repeat;
-        will-change: transform;
-        transition: transform 0.5s ease;
-    }
+            .icon-box:hover {
+                color: #e4af11;
+            }
 
-    .banner:hover .banner-image {
-        transform: scale(1.1);
-    }
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
 
-    .particle-background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 0;
-        overflow: hidden;
-    }
+            @keyframes slideInFromLeft {
+                from {
+                    transform: translateX(-100%);
+                }
+                to {
+                    transform: translateX(0);
+                }
+            }
 
-    .banner-text {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: #fff;
-        text-align: center;
-        z-index: 1;
-    }
+            @keyframes slideInFromRight {
+                from {
+                    transform: translateX(100%);
+                }
+                to {
+                    transform: translateX(0);
+                }
+            }
 
-    .banner-heading {
-        font-size: 48px;
-        margin-bottom: 20px;
-        opacity: 0;
-        transform: translateY(-20px);
-        animation: slideIn 1s forwards 0.5s;
-        text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    }
+            .animated-button {
+                animation: slideInFromLeft 2s ease-in-out;
+            }
 
-    .banner-subheading {
-        font-size: 24px;
-        margin-bottom: 30px;
-        opacity: 0;
-        transform: translateY(20px);
-        animation: slideIn 1s forwards 0.7s;
-        text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    }
+            .animated-button-right {
+                animation: slideInFromRight 2s ease-in-out;
+            }
 
-    .btn-banner {
-        font-size: 18px;
-        padding: 12px 30px;
-        border-radius: 25px;
-        background-color: #000;
-        color: #ffc107;
-        transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-        opacity: 0;
-        transform: translateY(40px);
-        animation: slideIn 1s forwards 0.9s;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    }
+            @keyframes pulse {
+                0%, 100% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.2);
+                }
+            }
 
-    .btn-banner:hover {
-        background-color: #333;
-        color: #e4af11;
-        transform: scale(1.1);
-    }
+            @keyframes slide {
+                0% {
+                    left: -100%;
+                }
+                50% {
+                    left: 100%;
+                }
+                100% {
+                    left: -100%;
+                }
+            }
 
-    @keyframes slideIn {
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    </style>
+            .decorative-diamond {
+                animation: pulse 2s infinite;
+            }
+
+            .banner {
+                position: relative;
+                width: 100%;
+                height: 600px;
+                overflow: hidden;
+                margin-bottom: 30px;
+                margin-top: 60px;
+            }
+
+            .banner-image {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: url('https://png.pngtree.com/thumb_back/fw800/background/20190223/ourmid/pngtree-beautiful-romantic-golden-jewelry-banner-background-spheresmall-golden-ballgold-image_83218.jpg') center/cover no-repeat;
+                will-change: transform;
+                transition: transform 0.5s ease;
+            }
+
+            .banner:hover .banner-image {
+                transform: scale(1.1);
+            }
+
+            .particle-background {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 0;
+                overflow: hidden;
+            }
+
+            .banner-text {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: #fff;
+                text-align: center;
+                z-index: 1;
+            }
+
+            .banner-heading {
+                font-size: 48px;
+                margin-bottom: 20px;
+                opacity: 0;
+                transform: translateY(-20px);
+                animation: slideIn 1s forwards 0.5s;
+                text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+
+            .banner-subheading {
+                font-size: 24px;
+                margin-bottom: 30px;
+                opacity: 0;
+                transform: translateY(20px);
+                animation: slideIn 1s forwards 0.7s;
+                text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+
+            .btn-banner {
+                font-size: 18px;
+                padding: 12px 30px;
+                border-radius: 25px;
+                background-color: #000;
+                color: #ffc107;
+                transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+                opacity: 0;
+                transform: translateY(40px);
+                animation: slideIn 1s forwards 0.9s;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+
+            .btn-banner:hover {
+                background-color: #333;
+                color: #e4af11;
+                transform: scale(1.1);
+            }
+
+            @keyframes slideIn {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        </style>
     </head>
     <body>
         <c:set var="username" value="${sessionScope.USERNAME}" />
@@ -410,28 +422,28 @@
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
             <div class="container">
                 <a class="navbar-brand"
-                    href="${pageContext.request.contextPath}/home">
+                   href="${pageContext.request.contextPath}/home">
                     <span class="brand-name">F'Rankelly</span>
                 </a>
                 <button class="navbar-toggler" type="button"
-                    data-toggle="collapse" data-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false"
-                    aria-label="Toggle navigation">
+                        data-toggle="collapse" data-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false"
+                        aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#"
-                                id="auctionDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
+                               id="auctionDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">
                                 AUCTIONS <i class="fas fa-caret-down"></i>
                             </a>
                             <div class="dropdown-menu"
-                                aria-labelledby="auctionDropdown">
+                                 aria-labelledby="auctionDropdown">
                                 <a class="dropdown-item"
-                                    href="${pageContext.request.contextPath}/auctions">UPCOMING
+                                   href="${pageContext.request.contextPath}/auctions">UPCOMING
                                     AUCTIONS</a>
                                 <a class="dropdown-item" href="#">PAST
                                     AUCTIONS</a>
@@ -442,18 +454,18 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#"
-                                id="sellingDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
+                               id="sellingDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">
                                 SELLING <i class="fas fa-caret-down"></i>
                             </a>
                             <div class="dropdown-menu"
-                                aria-labelledby="sellingDropdown">
+                                 aria-labelledby="sellingDropdown">
                                 <a class="dropdown-item"
-                                    href="${pageContext.request.contextPath}/selling">ABOUT
+                                   href="${pageContext.request.contextPath}/selling">ABOUT
                                     SELLING</a>
                                 <a class="dropdown-item"
-                                    href="${pageContext.request.contextPath}/valuation">VALUATION
+                                   href="${pageContext.request.contextPath}/valuation">VALUATION
                                     REQUEST</a>
                             </div>
                         </li>
@@ -470,19 +482,19 @@
                             <c:when test="${username == null}">
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#"
-                                        id="userDropdown" role="button"
-                                        data-toggle="dropdown"
-                                        aria-haspopup="true"
-                                        aria-expanded="false">
+                                       id="userDropdown" role="button"
+                                       data-toggle="dropdown"
+                                       aria-haspopup="true"
+                                       aria-expanded="false">
                                         <i class="fas fa-user"></i> USER <i
                                             class="fas fa-caret-down"></i>
                                     </a>
                                     <div class="dropdown-menu"
-                                        aria-labelledby="userDropdown">
+                                         aria-labelledby="userDropdown">
                                         <a class="dropdown-item"
-                                            href="${pageContext.request.contextPath}/register">Register</a>
+                                           href="${pageContext.request.contextPath}/register">Register</a>
                                         <a class="dropdown-item"
-                                            href="${pageContext.request.contextPath}/login">Login</a>
+                                           href="${pageContext.request.contextPath}/login">Login</a>
                                     </div>
                                 </li>
                             </c:when>
@@ -500,20 +512,20 @@
                                 </c:set>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#"
-                                        id="userDropdown" role="button"
-                                        data-toggle="dropdown"
-                                        aria-haspopup="true"
-                                        aria-expanded="false">
+                                       id="userDropdown" role="button"
+                                       data-toggle="dropdown"
+                                       aria-haspopup="true"
+                                       aria-expanded="false">
                                         <i class="fas fa-user"></i>
                                         ${member.firstName} <i
                                             class="fas fa-caret-down"></i>
                                     </a>
                                     <div class="dropdown-menu"
-                                        aria-labelledby="userDropdown">
+                                         aria-labelledby="userDropdown">
                                         <a class="dropdown-item"
-                                            href="${url}">Profile</a>
+                                           href="${url}">Profile</a>
                                         <a class="dropdown-item"
-                                            href="${pageContext.request.contextPath}/logout">Logout</a>
+                                           href="${pageContext.request.contextPath}/logout">Logout</a>
                                     </div>
                                 </li>
                             </c:otherwise>
@@ -544,7 +556,7 @@
         <div class="content container mt-5">
             <h2>Upcoming Auction</h2>
             <div id="carouselExampleControls" class="carousel slide"
-                data-ride="carousel">
+                 data-ride="carousel">
                 <div class="carousel-inner">
                     <c:choose>
                         <c:when test="${not empty listJewelry}">
@@ -581,17 +593,17 @@
                         </c:otherwise>
                     </c:choose>
                 </div>
-                
+
                 <a class="carousel-control-prev" href="#carouselExampleControls"
-                    role="button" data-slide="prev">
+                   role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon"
-                        aria-hidden="true"></span>
+                          aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
                 </a>
                 <a class="carousel-control-next" href="#carouselExampleControls"
-                    role="button" data-slide="next">
+                   role="button" data-slide="next">
                     <span class="carousel-control-next-icon"
-                        aria-hidden="true"></span>
+                          aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </a>
             </div>
@@ -641,19 +653,19 @@
                 <div class="row">
                     <div class="col-md-3">
                         <img src="images/206-1.jpg" class="img-fluid"
-                            alt="Gallery Image">
+                             alt="Gallery Image">
                     </div>
                     <div class="col-md-3">
                         <img src="images/209-4.jpg" class="img-fluid"
-                            alt="Gallery Image">
+                             alt="Gallery Image">
                     </div>
                     <div class="col-md-3">
                         <img src="images/213-1.jpg" class="img-fluid"
-                            alt="Gallery Image">
+                             alt="Gallery Image">
                     </div>
                     <div class="col-md-3">
                         <img src="images/251-5.jpg" class="img-fluid"
-                            alt="Gallery Image">
+                             alt="Gallery Image">
                     </div>
                 </div>
             </section>
@@ -744,22 +756,22 @@
                                 <div class="form-group">
                                     <label for="name">Name:</label>
                                     <input type="text" class="form-control"
-                                        id="name" placeholder="Enter your name">
+                                           id="name" placeholder="Enter your name">
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email:</label>
                                     <input type="email" class="form-control"
-                                        id="email"
-                                        placeholder="Enter your email">
+                                           id="email"
+                                           placeholder="Enter your email">
                                 </div>
                                 <div class="form-group">
                                     <label for="message">Message:</label>
                                     <textarea class="form-control" id="message"
-                                        rows="4"
-                                        placeholder="Enter your message"></textarea>
+                                              rows="4"
+                                              placeholder="Enter your message"></textarea>
                                 </div>
                                 <button type="submit"
-                                    class="btn btn-primary">Submit</button>
+                                        class="btn btn-primary">Submit</button>
                             </form>
                         </div>
                     </div>
@@ -768,7 +780,7 @@
 
         </div>
         <footer class="text-center py-4 mt-auto"
-            style="background-color: #000; color: #fff; position: relative; overflow: hidden;">
+                style="background-color: #000; color: #fff; position: relative; overflow: hidden;">
             <div class="container">
                 <div class="row">
                     <div class="col-md-4">
@@ -803,16 +815,16 @@
                             Street, New York, NY</p>
                         <div class="social-icons mt-3">
                             <a href="#" class="mx-2"
-                                style="color: #ffc107; transition: transform 0.3s;"><i
+                               style="color: #ffc107; transition: transform 0.3s;"><i
                                     class="fab fa-facebook-f"></i></a>
                             <a href="#" class="mx-2"
-                                style="color: #ffc107; transition: transform 0.3s;"><i
+                               style="color: #ffc107; transition: transform 0.3s;"><i
                                     class="fab fa-twitter"></i></a>
                             <a href="#" class="mx-2"
-                                style="color: #ffc107; transition: transform 0.3s;"><i
+                               style="color: #ffc107; transition: transform 0.3s;"><i
                                     class="fab fa-instagram"></i></a>
                             <a href="#" class="mx-2"
-                                style="color: #ffc107; transition: transform 0.3s;"><i
+                               style="color: #ffc107; transition: transform 0.3s;"><i
                                     class="fab fa-linkedin-in"></i></a>
                         </div>
                     </div>
@@ -824,85 +836,85 @@
             <!-- Decorative Elements -->
             <div class="footer-decoration">
                 <div class="footer-diamond"
-                    style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%);">
+                     style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%);">
                     <i class="fas fa-gem"
-                        style="color: #ffc107; font-size: 50px; animation: pulse 2s infinite;"></i>
+                       style="color: #ffc107; font-size: 50px; animation: pulse 2s infinite;"></i>
                 </div>
                 <div class="footer-lines"
-                    style="position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, #ffc107, transparent); animation: slide 10s infinite;"></div>
+                     style="position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, #ffc107, transparent); animation: slide 10s infinite;"></div>
             </div>
         </footer>
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script
-            src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script>
-        $(document).ready(function () {
-            $("a").on('click', function (event) {
-                if (this.hash !== "") {
-                    event.preventDefault();
-                    var hash = this.hash;
-                    $('html, body').animate({
-                        scrollTop: $(hash).offset().top
-                    }, 800, function () {
-                        window.location.hash = hash;
-                    });
-                }
-            });
-
-            $(window).scroll(function () {
-                if ($(this).scrollTop() > 50) {
-                    $('.navbar').addClass('scrolled');
-                } else {
-                    $('.navbar').removeClass('scrolled');
-                }
-            });
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            window.addEventListener("scroll", function () {
-                if (window.scrollY > 50) {
-                    document.querySelector(".navbar").classList.add("navbar-scrolled");
-                } else {
-                    document.querySelector(".navbar").classList.remove("navbar-scrolled");
-                }
-            });
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            var dropdowns = document.querySelectorAll('.nav-item.dropdown');
-
-            dropdowns.forEach(function (dropdown) {
-                dropdown.addEventListener('mouseenter', function () {
-                    var dropdownMenu = dropdown.querySelector('.dropdown-menu');
-                    if (dropdownMenu) {
-                        dropdownMenu.classList.add('show');
+            $(document).ready(function () {
+                $("a").on('click', function (event) {
+                    if (this.hash !== "") {
+                        event.preventDefault();
+                        var hash = this.hash;
+                        $('html, body').animate({
+                            scrollTop: $(hash).offset().top
+                        }, 800, function () {
+                            window.location.hash = hash;
+                        });
                     }
                 });
-                dropdown.addEventListener('mouseleave', function () {
-                    var dropdownMenu = dropdown.querySelector('.dropdown-menu');
-                    if (dropdownMenu) {
-                        dropdownMenu.classList.remove('show');
+
+                $(window).scroll(function () {
+                    if ($(this).scrollTop() > 50) {
+                        $('.navbar').addClass('scrolled');
+                    } else {
+                        $('.navbar').removeClass('scrolled');
                     }
                 });
             });
-        });
 
-        $(document).ready(function () {
-            $("a.nav-link").on('click', function (event) {
-                if (this.hash !== "") {
-                    event.preventDefault();
-                    var hash = this.hash;
-                    $('html, body').animate({
-                        scrollTop: $(hash).offset().top
-                    }, 800, function () {
-                        window.location.hash = hash;
-                    });
-                }
+            document.addEventListener("DOMContentLoaded", function () {
+                window.addEventListener("scroll", function () {
+                    if (window.scrollY > 50) {
+                        document.querySelector(".navbar").classList.add("navbar-scrolled");
+                    } else {
+                        document.querySelector(".navbar").classList.remove("navbar-scrolled");
+                    }
+                });
             });
-        });
-    </script>
+
+            document.addEventListener("DOMContentLoaded", function () {
+                var dropdowns = document.querySelectorAll('.nav-item.dropdown');
+
+                dropdowns.forEach(function (dropdown) {
+                    dropdown.addEventListener('mouseenter', function () {
+                        var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                        if (dropdownMenu) {
+                            dropdownMenu.classList.add('show');
+                        }
+                    });
+                    dropdown.addEventListener('mouseleave', function () {
+                        var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                        if (dropdownMenu) {
+                            dropdownMenu.classList.remove('show');
+                        }
+                    });
+                });
+            });
+
+            $(document).ready(function () {
+                $("a.nav-link").on('click', function (event) {
+                    if (this.hash !== "") {
+                        event.preventDefault();
+                        var hash = this.hash;
+                        $('html, body').animate({
+                            scrollTop: $(hash).offset().top
+                        }, 800, function () {
+                            window.location.hash = hash;
+                        });
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
