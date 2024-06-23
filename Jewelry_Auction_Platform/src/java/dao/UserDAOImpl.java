@@ -706,12 +706,33 @@ public class UserDAOImpl implements UserDao {
 
     @Override
     public List<Jewelry> displayCatalog(String auctionID) {
-        String query = "SELECT J.*, C.CATEGORYNAME \n"
-                + "FROM JEWELRY J \n"
-                + "JOIN CATEGORY C ON J.CATEGORYID = C.CATEGORYID\n"
-                + "JOIN Session S ON J.JEWELRYID = S.JEWELRYID\n"
-                + "JOIN Auction AUC ON S.AUCTIONID = AUC.AUCTIONID\n"
-                + "WHERE AUC.AUCTIONID = ?";
+        String query = "WITH MaxPreBid AS (\n"
+                + "    SELECT \n"
+                + "        S.jewelryID,\n"
+                + "        MAX(RB.preBid_Amount) AS max_preBid_Amount\n"
+                + "    FROM \n"
+                + "        Register_Bid RB\n"
+                + "    JOIN \n"
+                + "        Session S ON RB.sessionID = S.sessionID\n"
+                + "    GROUP BY \n"
+                + "        S.jewelryID\n"
+                + ")\n"
+                + "SELECT \n"
+                + "    J.*, \n"
+                + "    C.CATEGORYNAME, \n"
+                + "    MP.max_preBid_Amount\n"
+                + "FROM \n"
+                + "    JEWELRY J\n"
+                + "JOIN \n"
+                + "    CATEGORY C ON J.CATEGORYID = C.CATEGORYID\n"
+                + "JOIN \n"
+                + "    Session S ON J.jewelryID = S.jewelryID\n"
+                + "JOIN \n"
+                + "    Auction AUC ON S.AUCTIONID = AUC.AUCTIONID\n"
+                + "LEFT JOIN \n"
+                + "    MaxPreBid MP ON J.jewelryID = MP.jewelryID\n"
+                + "WHERE \n"
+                + "    AUC.AUCTIONID = ?;";
         List<Jewelry> listJewelry = new ArrayList<>();
         try {
             conn = DBUtils.getConnection();
@@ -726,6 +747,7 @@ public class UserDAOImpl implements UserDao {
                 jewelry.setCategoryName(rs.getString("CATEGORYNAME"));
                 jewelry.setMinPrice(rs.getString("minPrice"));
                 jewelry.setMaxPrice(rs.getString("maxPrice"));
+                jewelry.setCurrentBid(rs.getDouble("max_preBid_Amount"));
                 listJewelry.add(jewelry);
             }
             return listJewelry;
@@ -1097,12 +1119,33 @@ public class UserDAOImpl implements UserDao {
 
     @Override
     public List<Jewelry> displayJewelryInRoom(String auctionID) {
-        String query = "SELECT J.*, C.CATEGORYNAME "
-                + "FROM JEWELRY J "
-                + "JOIN CATEGORY C ON J.CATEGORYID = C.CATEGORYID "
-                + "JOIN Session S ON J.JEWELRYID = S.JEWELRYID "
-                + "JOIN Auction AUC ON S.AUCTIONID = AUC.AUCTIONID "
-                + "WHERE AUC.AUCTIONID = ? AND S.status = 0";
+        String query = "WITH MaxPreBid AS (\n"
+                + "    SELECT \n"
+                + "        S.jewelryID,\n"
+                + "        MAX(RB.preBid_Amount) AS max_preBid_Amount\n"
+                + "    FROM \n"
+                + "        Register_Bid RB\n"
+                + "    JOIN \n"
+                + "        Session S ON RB.sessionID = S.sessionID\n"
+                + "    GROUP BY \n"
+                + "        S.jewelryID\n"
+                + ")\n"
+                + "SELECT \n"
+                + "    J.*, \n"
+                + "    C.CATEGORYNAME, \n"
+                + "    MP.max_preBid_Amount\n"
+                + "FROM \n"
+                + "    JEWELRY J\n"
+                + "JOIN \n"
+                + "    CATEGORY C ON J.CATEGORYID = C.CATEGORYID\n"
+                + "JOIN \n"
+                + "    Session S ON J.jewelryID = S.jewelryID\n"
+                + "JOIN \n"
+                + "    Auction AUC ON S.AUCTIONID = AUC.AUCTIONID\n"
+                + "LEFT JOIN \n"
+                + "    MaxPreBid MP ON J.jewelryID = MP.jewelryID\n"
+                + "WHERE \n"
+                + "    AUC.AUCTIONID = ? and S.Status = 0";
         List<Jewelry> listJewelry = new ArrayList<>();
         try {
             conn = DBUtils.getConnection();
@@ -1114,9 +1157,7 @@ public class UserDAOImpl implements UserDao {
                 jewelry.setJewelryID(rs.getString("jewelryID"));
                 jewelry.setPhotos(rs.getString("photos"));
                 jewelry.setJewelryName(rs.getString("jewelryName"));
-                jewelry.setCategoryName(rs.getString("CATEGORYNAME"));
-                jewelry.setMinPrice(rs.getString("minPrice"));
-                jewelry.setMaxPrice(rs.getString("maxPrice"));
+                jewelry.setCurrentBid(rs.getDouble("max_preBid_Amount"));
                 listJewelry.add(jewelry);
             }
             return listJewelry;
@@ -1125,4 +1166,22 @@ public class UserDAOImpl implements UserDao {
         }
         return null;
     }
+
+    @Override
+    public boolean checkAvailableSession(String jewelryID) {
+        String query = "SELECT status FROM Session WHERE jewelryID = ?";
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setString(1, jewelryID);
+            try ( ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("status") == 1;
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
 }

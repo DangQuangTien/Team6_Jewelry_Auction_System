@@ -1,4 +1,4 @@
-package controller.auction.roomserver;
+package jewelryauction.controller.web.auction;
 
 import dao.UserDAOImpl;
 import org.json.JSONException;
@@ -7,6 +7,7 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -34,8 +35,7 @@ public class BiddingRoomServerEndpoint {
         try {
             JSONObject json = new JSONObject(message);
             if (json.has("status") && "finished".equals(json.getString("status"))) {
-                String selectedJewelryID = json.getString("selectedJewelryID");
-                dao.closeSession(selectedJewelryID);
+                handleFinishedStatus(json);
                 return;
             }
 
@@ -43,29 +43,57 @@ public class BiddingRoomServerEndpoint {
             String bid = json.getString("bid");
             String memberID = json.getString("member");
             String auctionID = (String) session.getUserProperties().get("auctionID");
-            Double theHighestBid = dao.getTheHighestBid(jewelryID);
-            Double bidCurrent = Double.parseDouble(bid);
 
-            if (bidCurrent > theHighestBid) {
-                boolean result = dao.saveBid(bid, jewelryID, memberID);
-                if (!result) {
-                    dao.placeBid(bid, jewelryID, memberID);
-                }
-                sendMessageToClient(session, "You are winning with $" + bidCurrent);
-            } else {
-                sendMessageToClient(session, "Your bid must be higher than the current highest bid: $" + theHighestBid);
-            }
-
-            JSONObject bidMessage = new JSONObject();
-            bidMessage.put("Floor Bid", bid);
-            bidMessage.put("Time", Timestamp.valueOf(LocalDateTime.now()));
-            broadcastBid(auctionID, bidMessage);
+            processBid(session, jewelryID, bid, memberID, auctionID);
 
         } catch (JSONException e) {
             sendMessageToClient(session, "Invalid JSON message format: " + message);
         } catch (NumberFormatException e) {
-            sendMessageToClient(session, "Error processing message: " + message);
+            sendMessageToClient(session, "Error processing bid value: " + message);
         }
+    }
+
+    private void handleFinishedStatus(JSONObject json) throws JSONException {
+        String selectedJewelryID = json.getString("selectedJewelryID");
+        dao.closeSession(selectedJewelryID);
+        
+    }
+
+    private void processBid(Session session, String jewelryID, String bid, String memberID, String auctionID) {
+        try {
+            boolean isValidSession = dao.checkAvailableSession(jewelryID);
+            if (!isValidSession) {
+                handleValidSession(session, jewelryID, bid, memberID, auctionID);
+            } else {
+                sendMessageToClient(session, "Jewelry no longer exists!");
+            }
+        } catch (SQLException e) {
+            sendMessageToClient(session, "Error checking session for jewelry: " + jewelryID);
+        }
+    }
+
+    private void handleValidSession(Session session, String jewelryID, String bid, String memberID, String auctionID) throws SQLException {
+        Double theHighestBid = dao.getTheHighestBid(jewelryID);
+        Double bidCurrent = Double.parseDouble(bid);
+        if (bidCurrent > theHighestBid) {
+            boolean result = dao.saveBid(bid, jewelryID, memberID);
+            if (!result) {
+                dao.placeBid(bid, jewelryID, memberID);
+                dao.saveBid(bid, jewelryID, memberID);
+            }
+            sendMessageToClient(session, "You are winning with $" + bidCurrent);
+            JSONObject bidMessage = createBidMessage(bid);
+            broadcastBid(auctionID, bidMessage);
+        } else {
+            sendMessageToClient(session, "Your bid must be higher than the current highest bid: $" + theHighestBid);
+        }
+    }
+
+    private JSONObject createBidMessage(String bid) {
+        JSONObject bidMessage = new JSONObject();
+        bidMessage.put("Floor Bid", bid);
+        bidMessage.put("Time", Timestamp.valueOf(LocalDateTime.now()));
+        return bidMessage;
     }
 
     @OnClose
