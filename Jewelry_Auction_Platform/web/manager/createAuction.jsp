@@ -341,53 +341,6 @@
                 window.location.search = urlParams.toString();
             }
 
-<<<<<<< HEAD
-
-<!-- Modal -->
-<div class="modal fade" id="jewelryModal" tabindex="-1" aria-labelledby="jewelryModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="jewelryModalLabel">Jewelry Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p><strong>Name:</strong> <span id="modalJewelryName"></span></p>
-                <p><strong>Artist:</strong> <span id="modalArtist"></span></p>
-                <p><strong>Circa:</strong> <span id="modalCirca"></span></p>
-                <p><strong>Material:</strong> <span id="modalMaterial"></span></p>
-                <p><strong>Dial:</strong> <span id="modalDial"></span></p>
-                <p><strong>Bracelet Material:</strong> <span id="modalBraceletMaterial"></span></p>
-                <p><strong>Case Dimensions:</strong> <span id="modalCaseDimensions"></span></p>
-                <p><strong>Bracelet Size:</strong> <span id="modalBraceletSize"></span></p>
-                <p><strong>Serial Number:</strong> <span id="modalSerialNumber"></span></p>
-                <p><strong>Reference Number:</strong> <span id="modalReferenceNumber"></span></p>
-                <p><strong>Caliber:</strong> <span id="modalCaliber"></span></p>
-                <p><strong>Movement:</strong> <span id="modalMovement"></span></p>
-                <p><strong>Condition:</strong> <span id="modalCondition"></span></p>
-                <p><strong>Metal:</strong> <span id="modalMetal"></span></p>
-                <p><strong>Gemstones:</strong> <span id="modalGemstones"></span></p>
-                <p><strong>Measurements:</strong> <span id="modalMeasurements"></span></p>
-                <p><strong>Weight:</strong> <span id="modalWeight"></span></p>
-                <p><strong>Stamped:</strong> <span id="modalStamped"></span></p>
-                <p><strong>Ring Size:</strong> <span id="modalRingSize"></span></p>
-                <p><strong>Min Price:</strong> <span id="modalMinPrice"></span></p>
-                <p><strong>Max Price:</strong> <span id="modalMaxPrice"></span></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-    </div>
-    </div>
-</div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <script src="asset/createAuction.js"></script>
-</body>
-</html>
-=======
             function updateSelectedJewelryIDs() {
                 const checkboxes = document.querySelectorAll('input[name="jewelryID"]:checked');
                 const selectedIDs = Array.from(checkboxes).map(cb => cb.value);
@@ -396,4 +349,3 @@
         </script>
     </body>
 </html>
->>>>>>> bennguyendev_03

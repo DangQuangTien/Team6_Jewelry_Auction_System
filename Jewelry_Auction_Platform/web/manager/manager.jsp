@@ -11,52 +11,6 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <link rel="stylesheet" type="text/css" href="asset/manager.css">
-        <style>
-            /* Sidebar */
-            .sidebar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                bottom: 0;
-                width: 250px;
-                background-color: #343a40;
-                padding-top: 20px;
-                overflow-y: auto;
-                z-index: 1000;
-                color: #fff;
-                transition: width 0.3s;
-            }
-            .sidebar:hover {
-                width: 280px;
-            }
-            .sidebar-brand {
-                font-size: 1.5rem;
-                font-weight: bold;
-                text-align: center;
-                margin-bottom: 20px;
-                color: #fff;
-            }
-            .nav-link {
-                color: #adb5bd;
-                transition: color 0.3s;
-            }
-            .nav-link:hover {
-                color: #fff;
-                text-decoration: none;
-            }
-            .nav-link.active {
-                color: #fff;
-                font-weight: bold;
-            }
-            .nav-item {
-                margin-bottom: 10px;
-            }
-            .sidebar .nav-item .nav-link i {
-                width: 24px;
-                text-align: center;
-                margin-right: 10px;
-            }
-        </style>
         <script>
             function confirmLogout(event) {
                 if (!confirm("Are you sure you want to log out?")) {
