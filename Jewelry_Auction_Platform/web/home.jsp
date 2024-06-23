@@ -698,6 +698,14 @@
                             <p>Marketing Director</p>
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <div class="content-box text-center">
+                            <div class="icon-box"><i
+                                    class="fas fa-user-cog"></i></div>
+                            <h3>Dang Tien</h3>
+                            <p>Master </p>
+                        </div>
+                    </div>
                 </div>
             </section>
 
