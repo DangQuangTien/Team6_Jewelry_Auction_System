@@ -9,63 +9,104 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Jewelry Auction Platform</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
         <style>
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 margin: 0;
                 padding: 0;
                 background-color: #f8f9fa;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                height: 100vh;
+                overflow: hidden;
             }
-            .container {
-                max-width: 80%;
-                margin: 50px auto;
+            .main-container {
+                display: flex;
+                flex-direction: column;
+                width: 90%;
+                max-width: 1200px;
                 background-color: #fff;
                 border-radius: 15px;
                 box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
                 overflow: hidden;
                 padding: 20px;
+                margin-top: 80px; /* Added margin to accommodate fixed header */
+                height: calc(100vh - 80px);
             }
-            .container-bid {
-                max-width: 50%;
-                margin: 50px auto;
-                background-color: #fff;
-                border-radius: 15px;
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-                overflow: hidden;
+            @media (min-width: 768px) {
+                .main-container {
+                    flex-direction: row;
+                }
+            }
+            .container-catalog, .container-bid, .container-selected {
+                flex: 1;
+                margin: 10px;
                 display: flex;
                 flex-direction: column;
             }
-            .horizontal-scroll-container {
+            .container-catalog {
+                max-width: 100%;
+            }
+            @media (min-width: 768px) {
+                .container-catalog {
+                    max-width: 30%;
+                }
+            }
+            .container-bid {
+                max-width: 100%;
+            }
+            @media (min-width: 768px) {
+                .container-bid {
+                    max-width: 30%;
+                }
+            }
+            .container-selected {
+                max-width: 100%;
+                align-items: center;
+                justify-content: center;
+            }
+            @media (min-width: 768px) {
+                .container-selected {
+                    max-width: 40%;
+                }
+            }
+            .vertical-scroll-container {
                 display: flex;
-                justify-content: center; /* Center the items */
-                gap: 20px; /* Add equal spacing between items */
+                flex-direction: column;
+                width: 250px;
+                gap: 10px;
+                overflow-y: auto;
+                height: 100%;
                 padding: 10px;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                scroll-snap-type: x mandatory;
-                width: 100%; /* Set fixed width */
+                flex-wrap: nowrap;
             }
-            .horizontal-scroll-item {
+            .vertical-scroll-item {
                 flex: 0 0 auto;
-                width: 150px;
-                scroll-snap-align: center;
+                width: 250px;
                 transition: transform 0.3s, width 0.3s, filter 0.3s;
-                filter: blur(2px); /* Default blur for censored effect */
+                filter: blur(2px);
+                cursor: pointer;
+                animation: slideIn 0.5s ease;
             }
-            .horizontal-scroll-item.selected {
+            .vertical-scroll-item.selected {
                 transform: scale(1.2);
-                width: 200px;
-                filter: blur(0); /* Remove blur for selected item */
+                width: 250px;
+                filter: blur(0);
             }
             .card {
                 position: relative;
                 overflow: hidden;
+                height: 150px;
+                width: 250px;
                 border-radius: 10px;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                background-color: #fff;
             }
             .card img {
-                width: 100%;
-                height: 300px; /* Increase height for larger images */
+                width: 125px;
+                height: 150px;
                 object-fit: cover;
             }
             .card-body {
@@ -75,10 +116,11 @@
             .card-title {
                 font-size: 16px;
                 margin: 0;
+                color: #333;
             }
             .card-text {
                 font-size: 14px;
-                color: #555;
+                color: #777;
             }
             .btn {
                 background-color: #4CAF50;
@@ -93,13 +135,16 @@
                 background-color: #388E3C;
             }
             .chat-header {
+                position: fixed;
+                top: 0;
+                width: 100%;
                 background-color: #4CAF50;
                 color: #fff;
                 padding: 15px;
                 text-align: center;
                 font-size: 24px;
                 border-bottom: 2px solid #388E3C;
-                position: relative;
+                z-index: 1000;
             }
             .exit-button {
                 position: absolute;
@@ -126,6 +171,9 @@
                 display: flex;
                 flex-direction: column;
                 gap: 10px;
+                border-top-left-radius: 15px;
+                border-top-right-radius: 15px;
+                animation: fadeIn 0.5s ease;
             }
             .message {
                 max-width: 60%;
@@ -164,6 +212,7 @@
                 padding: 10px;
                 background-color: #f8f9fa;
                 border-top: 1px solid #ddd;
+                border-radius: 0 0 15px 15px;
             }
             .chat-input input[type="number"] {
                 flex: 1;
@@ -185,6 +234,25 @@
             .chat-input button:hover {
                 background-color: #388E3C;
             }
+            .selected-item-display img {
+                width: 250px;
+                height: 250px;
+                object-fit: cover;
+                border-radius: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+            .selected-item-details {
+                text-align: center;
+                margin-top: 20px;
+            }
+            .selected-item-details h5 {
+                font-size: 24px;
+                margin: 0;
+            }
+            .selected-item-details p {
+                font-size: 18px;
+                color: #555;
+            }
             @keyframes fadeIn {
                 from {
                     opacity: 0;
@@ -193,6 +261,16 @@
                 to {
                     opacity: 1;
                     transform: translateY(0);
+                }
+            }
+            @keyframes slideIn {
+                from {
+                    opacity: 0;
+                    transform: translateX(-100px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
                 }
             }
         </style>
@@ -217,63 +295,74 @@
             </div>
         </div>
         <!-- Display catalog of auction -->
-        <div class="container">
-            <div class="horizontal-scroll-container" id="jewelryContainer">
-                <%
-                    String auctionID = (String) request.getParameter("auctionID");
-                    List<Jewelry> listJewelry = dao.displayJewelryInRoom(auctionID);
-                    for (Jewelry jewelry : listJewelry) {
-                %>
-                <div class="horizontal-scroll-item">
-                    <div class="card">
-                        <% String photo = jewelry.getPhotos(); %>
-                        <% String[] photoArray = photo.split(";");%>
-                        <img src="${pageContext.request.contextPath}/<%= photoArray[0]%>" class="card-img-top" alt="<%= jewelry.getJewelryName()%>">
-                        <div class="card-body">
-                            <h5 class="card-title"><%= jewelry.getJewelryID()%></h5>
-                            <p class="card-text"><%= jewelry.getJewelryName()%></p>
+        <div class="container main-container">
+            <div class="container-catalog">
+                <div class="vertical-scroll-container" id="jewelryContainer">
+                    <%
+                        String auctionID = (String) request.getParameter("auctionID");
+                        List<Jewelry> listJewelry = dao.displayJewelryInRoom(auctionID);
+                        for (Jewelry jewelry : listJewelry) {
+                    %>
+                    <div class="vertical-scroll-item" onclick="selectItem(this, '<%= jewelry.getJewelryID() %>', '<%= jewelry.getJewelryName() %>', '<%= jewelry.getPhotos().split(";")[0] %>')">
+                        <div class="card animate__animated animate__fadeIn">
+                            <% String photo = jewelry.getPhotos(); %>
+                            <% String[] photoArray = photo.split(";");%>
+                            <img src="${pageContext.request.contextPath}/<%= photoArray[0]%>" class="card-img-top" alt="<%= jewelry.getJewelryName()%>">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= jewelry.getJewelryID()%></h5>
+                                <p class="card-text"><%= jewelry.getJewelryName()%></p>
+                            </div>
                         </div>
                     </div>
+                    <%
+                        }
+                    %>
                 </div>
-                <%
-                    }
-                %>
             </div>
-        </div>
-        <%
-            if (userID != null && memberID != null) { // Check if userID and memberID are not null
-        %>
-        <!-- WebSocket chat section -->
-        <div class="container-bid">
-            <div class="chat-messages" id="chatMessages">
-                <!-- Messages will be displayed here -->
+            <%
+                if (userID != null && memberID != null) { // Check if userID and memberID are not null
+            %>
+            <!-- Bigger catalog section -->
+             <div class="container-detail">
+                <div id="selectedItemDisplay" class="selected-item-display animate__animated animate__fadeIn">
+                     <!-- Selected item details will be displayed here -->
+                </div>
+             </div>
+            <!-- WebSocket chat section -->
+            <div class="container-bid">
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Messages will be displayed here -->
+                </div>
+                <div class="chat-input">
+                    <input type="number" id="textMessage" placeholder="Enter your bid...">
+                    <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+                </div>
             </div>
-        </div>
-        <div class="container-bid">
-            <div class="chat-input">
-                <input type="number" id="textMessage" placeholder="Enter your bid...">
-                <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+            <div class="container-selected">
+                <div id="selectedItemDisplay" class="selected-item-display animate__animated animate__fadeIn">
+                    <!-- Selected item details will be displayed here -->
+                </div>
             </div>
+            <% } else { %>
+            <div style="text-align: center; margin-top: 20px;">
+                Please <a href="${pageContext.request.contextPath}/login.jsp">log in</a> to participate in the auction.
+            </div>
+            <% }%>
         </div>
-        <% } else { %>
-        <div style="text-align: center; margin-top: 20px;">
-            Please <a href="${pageContext.request.contextPath}/login.jsp">log in</a> to participate in the auction.
-        </div>
-        <% }%>
+        
         <script>
             var auctionID = "<%= request.getParameter("auctionID")%>";
             var memberID = "<%= memberID%>";
             var selectedJewelryID = null;
-            var currentIndex = 0;
-            var items = document.querySelectorAll('.horizontal-scroll-item');
+            var items = document.querySelectorAll('.vertical-scroll-item');
 
-            var websocketURL = "ws://localhost:8081/Jewelry_Auction_Platform/BiddingRoomServer/" + auctionID;
+            var websocketURL = "ws://localhost:8080/Jewelry_Auction_Platform/BiddingRoomServer/" + auctionID;
             var websocket = new WebSocket(websocketURL);
 
             websocket.onopen = function (event) {
                 console.log("WebSocket connection opened.");
                 processOpen(event);
-                sendAllItems(); // G?i t?t c? các m?c khi k?t n?i WebSocket m?
+                sendAllItems(); // Send all items when WebSocket connection opens
             };
 
             websocket.onmessage = function (event) {
@@ -354,14 +443,21 @@
                 return hours + ':' + minutes;
             }
 
-            function selectItem(element, jewelryID) {
-                // Remove 'selected' class from all items
-                document.querySelectorAll('.horizontal-scroll-item').forEach(item => {
+            function selectItem(element, jewelryID, jewelryName, jewelryPhoto) {
+                document.querySelectorAll('.vertical-scroll-item').forEach(item => {
                     item.classList.remove('selected');
                 });
-                // Add 'selected' class to the clicked item
                 element.classList.add('selected');
                 selectedJewelryID = jewelryID;
+
+                var selectedItemDisplay = document.getElementById('selectedItemDisplay');
+                selectedItemDisplay.innerHTML = `
+                    <img src="${pageContext.request.contextPath}/${jewelryPhoto}" alt="${jewelryName}">
+                    <div class="selected-item-details">
+                        <h5>${jewelryID}</h5>
+                        <p>${jewelryName}</p>
+                    </div>
+                `;
             }
 
             function updateURLParameter() {
@@ -390,15 +486,15 @@
                     });
                     setTimeout(() => {
                         window.location.href = "${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>";
-                                    }, items.length * 60000);
-                                }
-                            }
-                            window.onload = function () {
-                                if (websocket.readyState === WebSocket.OPEN) {
-                                    sendAllItems();
-                                }
-                            };
+                    }, items.length * 60000);
+                }
+            }
+
+            window.onload = function () {
+                if (websocket.readyState === WebSocket.OPEN) {
+                    sendAllItems();
+                }
+            };
         </script>
     </body>
 </html>
-

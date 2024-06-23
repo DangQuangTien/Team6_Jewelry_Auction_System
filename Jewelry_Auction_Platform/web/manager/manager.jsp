@@ -11,29 +11,65 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <link rel="stylesheet" type="text/css" href="asset/manager.css">
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <style>
+            /* Sidebar */
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 250px;
+                background-color: #343a40;
+                padding-top: 20px;
+                overflow-y: auto;
+                z-index: 1000;
+                color: #fff;
+                transition: width 0.3s;
+            }
+            .sidebar:hover {
+                width: 280px;
+            }
+            .sidebar-brand {
+                font-size: 1.5rem;
+                font-weight: bold;
+                text-align: center;
+                margin-bottom: 20px;
+                color: #fff;
+            }
+            .nav-link {
+                color: #adb5bd;
+                transition: color 0.3s;
+            }
+            .nav-link:hover {
+                color: #fff;
+                text-decoration: none;
+            }
+            .nav-link.active {
+                color: #fff;
+                font-weight: bold;
+            }
+            .nav-item {
+                margin-bottom: 10px;
+            }
+            .sidebar .nav-item .nav-link i {
+                width: 24px;
+                text-align: center;
+                margin-right: 10px;
+            }
+        </style>
         <script>
             function confirmLogout(event) {
                 if (!confirm("Are you sure you want to log out?")) {
                     event.preventDefault();
                 }
             }
-
             function confirmAuction(event) {
                 if (!confirm("Do you confirm approving this bid?")) {
                     event.preventDefault();
                 }
             }
-<<<<<<< HEAD
-
-            $(document).ready(function() {
-                $('[data-toggle="modal"]').on('click', function() {
-=======
             $(document).ready(function () {
                 $('[data-toggle="modal"]').on('click', function () {
->>>>>>> bennguyendev_03
                     var targetModal = $(this).data('target');
                     $(targetModal).modal('show');
                 });
@@ -124,51 +160,6 @@
         }
     </style>
     <body>
-<<<<<<< HEAD
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Jewelry Auctions</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/manager/manager.jsp"><i class="fas fa-clipboard-list"></i> Request</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/manager/createAuction.jsp"><i class="fas fa-plus-circle"></i> Create Auction</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/manager/auctionManagement.jsp"><i class="fas fa-cogs"></i> Auction Management</a>
-                    </li>
-                </ul>
-                <form action="${pageContext.request.contextPath}/MainController" method="POST" onsubmit="confirmLogout(event)" class="form-inline my-2 my-lg-0">
-                    <button type="submit" name="action" class="btn btn-outline-danger my-2 my-sm-0" value="Log out"><i class="fas fa-sign-out-alt"></i> Logout</button>
-                </form>
-            </div>
-        </nav>
-        <main class="container mt-4">
-            <h3>Good <%= greeting %> Welcome back, Manager</h3>
-            <div class="container light-style flex-grow-1 container-p-y">
-                <h2 class="font-weight-bold py-3 mb-2">Approval Requests</h2>
-                <%
-                    UserDAOImpl dao = new UserDAOImpl();
-                    List<Jewelry> listJewelry = dao.displayAllJewelryForManager();
-                    if (listJewelry != null && !listJewelry.isEmpty()) {
-                %>
-                <div class="table-responsive">
-                    <table id="approvalTable" class="table table-bordered table-hover">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>Photo</th>
-                                <th>Jewelry Name</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for (Jewelry jewelry : listJewelry) { %>
-                            <form action="${pageContext.request.contextPath}/MainController" method="GET" onsubmit="confirmAuction(event)">
-=======
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="${pageContext.request.contextPath}/manager">Manager Portal</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -228,7 +219,6 @@
                     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
                         <table id="approvalTable" class="table table-bordered table-hover">
                             <thead class="thead-light">
->>>>>>> bennguyendev_03
                                 <tr>
                                     <th>Photo</th>
                                     <th>Jewelry Name</th>
@@ -301,14 +291,6 @@
                             </tbody>
                         </table>
                 </div>
-<<<<<<< HEAD
-                <% } else { %>
-                <p>No approval requests found.</p>
-                <% } %>
-            </div>
-        </main>
-    </body>
-=======
             </main>
             <% } else { %>
             <p>No approval requests found.</p>
@@ -321,6 +303,4 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 </body>
->>>>>>> bennguyendev_03
 </html>
-
