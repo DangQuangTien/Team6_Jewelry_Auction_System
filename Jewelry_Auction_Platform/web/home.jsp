@@ -674,7 +674,7 @@
             <section id="team" class="team-box mt-5">
                 <h2>Our Team</h2>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="content-box text-center">
                             <div class="icon-box"><i
                                     class="fas fa-user-tie"></i></div>
@@ -682,7 +682,7 @@
                             <p>CEO & Founder</p>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="content-box text-center">
                             <div class="icon-box"><i
                                     class="fas fa-user-check"></i></div>
@@ -690,7 +690,7 @@
                             <p>Chief Appraiser</p>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="content-box text-center">
                             <div class="icon-box"><i
                                     class="fas fa-user-cog"></i></div>
@@ -698,12 +698,12 @@
                             <p>Marketing Director</p>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="content-box text-center">
                             <div class="icon-box"><i
-                                    class="fas fa-user-cog"></i></div>
+                                    class="fas fa-user-edit"></i></div>
                             <h3>Dang Tien</h3>
-                            <p>Master </p>
+                            <p>Editor In Chief</p>
                         </div>
                     </div>
                 </div>
