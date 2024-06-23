@@ -9,6 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Jewelry Auction Platform</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
         <style>
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -23,8 +24,9 @@
             }
             .main-container {
                 display: flex;
-                justify-content: space-between;
-                width: 80%;
+                flex-direction: column;
+                width: 90%;
+                max-width: 1200px;
                 background-color: #fff;
                 border-radius: 15px;
                 box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -33,50 +35,77 @@
                 margin-top: 80px; /* Added margin to accommodate fixed header */
                 height: calc(100vh - 80px);
             }
+            @media (min-width: 768px) {
+                .main-container {
+                    flex-direction: row;
+                }
+            }
             .container-catalog, .container-bid, .container-selected {
                 flex: 1;
-                margin: 0 10px;
+                margin: 10px;
                 display: flex;
                 flex-direction: column;
             }
             .container-catalog {
-                max-width: 30%;
+                max-width: 100%;
+            }
+            @media (min-width: 768px) {
+                .container-catalog {
+                    max-width: 30%;
+                }
             }
             .container-bid {
-                max-width: 30%;
+                max-width: 100%;
+            }
+            @media (min-width: 768px) {
+                .container-bid {
+                    max-width: 30%;
+                }
             }
             .container-selected {
-                max-width: 40%;
+                max-width: 100%;
                 align-items: center;
                 justify-content: center;
             }
-            .horizontal-scroll-container {
+            @media (min-width: 768px) {
+                .container-selected {
+                    max-width: 40%;
+                }
+            }
+            .vertical-scroll-container {
                 display: flex;
                 flex-direction: column;
+                width: 250px;
                 gap: 10px;
                 overflow-y: auto;
                 height: 100%;
                 padding: 10px;
+                flex-wrap: nowrap;
             }
-            .horizontal-scroll-item {
+            .vertical-scroll-item {
                 flex: 0 0 auto;
-                width: 150px;
+                width: 250px;
                 transition: transform 0.3s, width 0.3s, filter 0.3s;
                 filter: blur(2px);
+                cursor: pointer;
+                animation: slideIn 0.5s ease;
             }
-            .horizontal-scroll-item.selected {
+            .vertical-scroll-item.selected {
                 transform: scale(1.2);
-                width: 200px;
+                width: 250px;
                 filter: blur(0);
             }
             .card {
                 position: relative;
                 overflow: hidden;
+                height: 150px;
+                width: 250px;
                 border-radius: 10px;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                background-color: #fff;
             }
             .card img {
-                width: 100%;
+                width: 125px;
                 height: 150px;
                 object-fit: cover;
             }
@@ -87,10 +116,11 @@
             .card-title {
                 font-size: 16px;
                 margin: 0;
+                color: #333;
             }
             .card-text {
                 font-size: 14px;
-                color: #555;
+                color: #777;
             }
             .btn {
                 background-color: #4CAF50;
@@ -143,6 +173,7 @@
                 gap: 10px;
                 border-top-left-radius: 15px;
                 border-top-right-radius: 15px;
+                animation: fadeIn 0.5s ease;
             }
             .message {
                 max-width: 60%;
@@ -204,8 +235,8 @@
                 background-color: #388E3C;
             }
             .selected-item-display img {
-                width: 300px;
-                height: 300px;
+                width: 250px;
+                height: 250px;
                 object-fit: cover;
                 border-radius: 10px;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -232,6 +263,16 @@
                     transform: translateY(0);
                 }
             }
+            @keyframes slideIn {
+                from {
+                    opacity: 0;
+                    transform: translateX(-100px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
         </style>
     </head>
     <body>
@@ -254,55 +295,66 @@
             </div>
         </div>
         <!-- Display catalog of auction -->
-        <div class="container">
-            <div class="horizontal-scroll-container" id="jewelryContainer">
-                <%
-                    String auctionID = (String) request.getParameter("auctionID");
-                    List<Jewelry> listJewelry = dao.displayJewelryInRoom(auctionID);
-                    for (Jewelry jewelry : listJewelry) {
-                %>
-                <div class="horizontal-scroll-item">
-                    <div class="card">
-                        <% String photo = jewelry.getPhotos(); %>
-                        <% String[] photoArray = photo.split(";");%>
-                        <img src="${pageContext.request.contextPath}/<%= photoArray[0]%>" class="card-img-top" alt="<%= jewelry.getJewelryName()%>">
-                        <div class="card-body">
-                            <h5 class="card-title"><%= jewelry.getJewelryID()%></h5>
-                            <p class="card-text"><%= jewelry.getJewelryName()%></p>
+        <div class="container main-container">
+            <div class="container-catalog">
+                <div class="vertical-scroll-container" id="jewelryContainer">
+                    <%
+                        String auctionID = (String) request.getParameter("auctionID");
+                        List<Jewelry> listJewelry = dao.displayJewelryInRoom(auctionID);
+                        for (Jewelry jewelry : listJewelry) {
+                    %>
+                    <div class="vertical-scroll-item" onclick="selectItem(this, '<%= jewelry.getJewelryID() %>', '<%= jewelry.getJewelryName() %>', '<%= jewelry.getPhotos().split(";")[0] %>')">
+                        <div class="card animate__animated animate__fadeIn">
+                            <% String photo = jewelry.getPhotos(); %>
+                            <% String[] photoArray = photo.split(";");%>
+                            <img src="${pageContext.request.contextPath}/<%= photoArray[0]%>" class="card-img-top" alt="<%= jewelry.getJewelryName()%>">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= jewelry.getJewelryID()%></h5>
+                                <p class="card-text"><%= jewelry.getJewelryName()%></p>
+                            </div>
                         </div>
                     </div>
+                    <%
+                        }
+                    %>
                 </div>
-                <%
-                    }
-                %>
             </div>
-        </div>
-        <%
-            if (userID != null && memberID != null) { // Check if userID and memberID are not null
-        %>
-        <!-- WebSocket chat section -->
-        <div class="container-bid">
-            <div class="chat-messages" id="chatMessages">
-                <!-- Messages will be displayed here -->
+            <%
+                if (userID != null && memberID != null) { // Check if userID and memberID are not null
+            %>
+            <!-- Bigger catalog section -->
+             <div class="container-detail">
+                <div id="selectedItemDisplay" class="selected-item-display animate__animated animate__fadeIn">
+                     <!-- Selected item details will be displayed here -->
+                </div>
+             </div>
+            <!-- WebSocket chat section -->
+            <div class="container-bid">
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Messages will be displayed here -->
+                </div>
+                <div class="chat-input">
+                    <input type="number" id="textMessage" placeholder="Enter your bid...">
+                    <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+                </div>
             </div>
-        </div>
-        <div class="container-bid">
-            <div class="chat-input">
-                <input type="number" id="textMessage" placeholder="Enter your bid...">
-                <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+            <div class="container-selected">
+                <div id="selectedItemDisplay" class="selected-item-display animate__animated animate__fadeIn">
+                    <!-- Selected item details will be displayed here -->
+                </div>
             </div>
+            <% } else { %>
+            <div style="text-align: center; margin-top: 20px;">
+                Please <a href="${pageContext.request.contextPath}/login.jsp">log in</a> to participate in the auction.
+            </div>
+            <% }%>
         </div>
-        <% } else { %>
-        <div style="text-align: center; margin-top: 20px;">
-            Please <a href="${pageContext.request.contextPath}/login.jsp">log in</a> to participate in the auction.
-        </div>
-        <% }%>
+        
         <script>
             var auctionID = "<%= request.getParameter("auctionID")%>";
             var memberID = "<%= memberID%>";
             var selectedJewelryID = null;
-            var currentIndex = 0;
-            var items = document.querySelectorAll('.horizontal-scroll-item');
+            var items = document.querySelectorAll('.vertical-scroll-item');
 
             var websocketURL = "ws://localhost:8080/Jewelry_Auction_Platform/BiddingRoomServer/" + auctionID;
             var websocket = new WebSocket(websocketURL);
@@ -310,7 +362,7 @@
             websocket.onopen = function (event) {
                 console.log("WebSocket connection opened.");
                 processOpen(event);
-                sendAllItems(); // G?i t?t c? c�c m?c khi k?t n?i WebSocket m?
+                sendAllItems(); // Send all items when WebSocket connection opens
             };
 
             websocket.onmessage = function (event) {
@@ -392,7 +444,7 @@
             }
 
             function selectItem(element, jewelryID, jewelryName, jewelryPhoto) {
-                document.querySelectorAll('.horizontal-scroll-item').forEach(item => {
+                document.querySelectorAll('.vertical-scroll-item').forEach(item => {
                     item.classList.remove('selected');
                 });
                 element.classList.add('selected');
@@ -400,12 +452,10 @@
 
                 var selectedItemDisplay = document.getElementById('selectedItemDisplay');
                 selectedItemDisplay.innerHTML = `
-                    <div class="selected-item-display">
-                        <img src="${pageContext.request.contextPath}/${jewelryPhoto}" alt="${jewelryName}">
-                        <div class="selected-item-details">
-                            <h5>${jewelryID}</h5>
-                            <p>${jewelryName}</p>
-                        </div>
+                    <img src="${pageContext.request.contextPath}/${jewelryPhoto}" alt="${jewelryName}">
+                    <div class="selected-item-details">
+                        <h5>${jewelryID}</h5>
+                        <p>${jewelryName}</p>
                     </div>
                 `;
             }
@@ -436,15 +486,15 @@
                     });
                     setTimeout(() => {
                         window.location.href = "${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>";
-                                    }, items.length * 60000);
-                                }
-                            }
-                            window.onload = function () {
-                                if (websocket.readyState === WebSocket.OPEN) {
-                                    sendAllItems();
-                                }
-                            };
+                    }, items.length * 60000);
+                }
+            }
+
+            window.onload = function () {
+                if (websocket.readyState === WebSocket.OPEN) {
+                    sendAllItems();
+                }
+            };
         </script>
     </body>
 </html>
-
