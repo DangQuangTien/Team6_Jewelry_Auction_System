@@ -43,8 +43,8 @@
                 transform: translateY(-5px); /* Lift container on hover */
             }
 
-            /* Horizontal Scroll Container */
-            .horizontal-scroll-container {
+            /* vertical Scroll Container */
+            .vertical-scroll-container {
                 display: flex;
                 justify-content: flex-start;
                 gap: 20px;
@@ -58,16 +58,16 @@
                 transition: padding 0.3s;
             }
 
-            .horizontal-scroll-container::-webkit-scrollbar {
+            .vertical-scroll-container::-webkit-scrollbar {
                 display: none;
             }
 
-            .horizontal-scroll-container:hover {
+            .vertical-scroll-container:hover {
                 padding: 15px;
             }
 
-            /* Horizontal Scroll Items */
-            .horizontal-scroll-item {
+            /* vertical Scroll Items */
+            .vertical-scroll-item {
                 flex: 0 0 auto;
                 width: 150px;
                 scroll-snap-align: center;
@@ -79,7 +79,7 @@
                 border-radius: 10px;
             }
 
-            .horizontal-scroll-item::before {
+            .vertical-scroll-item::before {
                 content: '';
                 position: absolute;
                 top: 0;
@@ -92,18 +92,18 @@
                 transition: opacity 0.3s;
             }
 
-            .horizontal-scroll-item:hover::before {
+            .vertical-scroll-item:hover::before {
                 opacity: 0.1; /* Overlay effect on hover */
             }
 
-            .horizontal-scroll-item.selected {
+            .vertical-scroll-item.selected {
                 transform: scale(1.1);
                 width: 180px;
                 filter: blur(0);
                 box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Light shadow */
             }
 
-            .horizontal-scroll-item:hover {
+            .vertical-scroll-item:hover {
                 transform: scale(1.05);
             }
 
@@ -169,8 +169,8 @@
 
             /* Additional Effects */
 
-            /* Gradient Overlay on Horizontal Scroll Items */
-            .horizontal-scroll-item::after {
+            /* Gradient Overlay on vertical Scroll Items */
+            .vertical-scroll-item::after {
                 content: '';
                 position: absolute;
                 top: 0;
@@ -183,7 +183,7 @@
                 transition: opacity 0.3s, transform 0.3s;
             }
 
-            .horizontal-scroll-item:hover::after {
+            .vertical-scroll-item:hover::after {
                 opacity: 0.1; /* Show gradient overlay on hover */
             }
 
@@ -224,7 +224,7 @@
             }
 
             /* Box Shadow on Hover for Containers */
-            .container:hover, .container-bid:hover, .horizontal-scroll-item:hover, .card:hover {
+            .container:hover, .container-bid:hover, .vertical-scroll-item:hover, .card:hover {
                 box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2); /* Enhanced box shadow on hover */
             }
 
@@ -490,12 +490,12 @@
         <!-- Display catalog of auction -->
         <div class="grid-container">
             <div class="jewelry-container">
-                <div class="horizontal-scroll-container" id="jewelryContainer">
+                <div class="vertical-scroll-container" id="jewelryContainer">
                     <% String auctionID = (String) request.getParameter("auctionID");
                         List<Jewelry> listJewelry = (List<Jewelry>) request.getAttribute("JEWELRYLIST");
                         for (Jewelry jewelry : listJewelry) {
                     %>
-                    <div class="horizontal-scroll-item" data-currentbid="<%= jewelry.getCurrentBid()%>">
+                    <div class="vertical-scroll-item" data-currentbid="<%= jewelry.getCurrentBid()%>">
                         <div class="card" onclick="selectItem(this, '<%= jewelry.getJewelryID()%>')">
                             <% String photo = jewelry.getPhotos(); %>
                             <% String[] photoArray = photo.split(";");%>
@@ -525,7 +525,7 @@
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                var items = document.querySelectorAll('.horizontal-scroll-item');
+                var items = document.querySelectorAll('.vertical-scroll-item');
 
                 if (items.length > 0) {
                     // Loop through each item
@@ -545,9 +545,9 @@
             var memberID = "<%= memberID%>";
             var selectedJewelryID = null;
             var currentIndex = 0;
-            var items = document.querySelectorAll('.horizontal-scroll-item');
+            var items = document.querySelectorAll('.vertical-scroll-item');
 
-            var websocketURL = "ws://localhost:8081/Jewelry_Auction_Platform/BiddingRoomServer/" + auctionID;
+            var websocketURL = "ws://localhost:8080/Jewelry_Auction_Platform/BiddingRoomServer/" + auctionID;
             var websocket = new WebSocket(websocketURL);
 
             websocket.onopen = function (event) {
@@ -646,7 +646,7 @@
 
             function selectItem(element, jewelryID) {
                 // Remove 'selected' class from all items
-                document.querySelectorAll('.horizontal-scroll-item').forEach(item => {
+                document.querySelectorAll('.vertical-scroll-item').forEach(item => {
                     item.classList.remove('selected');
                 });
                 // Add 'selected' class to the clicked item
@@ -694,7 +694,7 @@
                                     // After all items are sent, redirect to another page after 30000 milliseconds
                                     window.location.href = `${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>`;
                                                             }
-                                                        }, 300000);
+                                                        }, 3000000);
                                                     }
                                                 }
 
@@ -716,6 +716,32 @@
                                                 };
                                             }
                                         };
+
+                                        document.addEventListener(
+                                                "keydown",
+                                                (e) => {
+                                            if (e.key === "F11") {
+                                                e.preventDefault(); 
+                                                toggleFullScreen();
+                                            } else if (e.key === "Escape") {
+                                                if (document.fullscreenElement) {
+                                                    document.exitFullscreen();
+                                                }
+                                            }
+                                        },
+                                                false
+                                                );
+
+                                        function toggleFullScreen() {
+                                            if (!document.fullscreenElement) {
+                                                document.documentElement.requestFullscreen();
+                                            } else {
+                                                if (document.exitFullscreen) {
+                                                    document.exitFullscreen();
+                                                }
+                                            }
+                                        }
+
         </script>
     </body>
 </html>
