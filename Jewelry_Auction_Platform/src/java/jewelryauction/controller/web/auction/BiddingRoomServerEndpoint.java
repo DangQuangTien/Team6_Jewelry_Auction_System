@@ -55,6 +55,10 @@ public class BiddingRoomServerEndpoint {
 
     private void handleFinishedStatus(JSONObject json) throws JSONException {
         String selectedJewelryID = json.getString("selectedJewelryID");
+        
+        //---------------
+        dao.selectWinnerID(selectedJewelryID, dao.getTheHighestBid(selectedJewelryID));
+        
         dao.closeSession(selectedJewelryID);
         
     }
