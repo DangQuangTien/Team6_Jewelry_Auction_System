@@ -1,8 +1,10 @@
+package jewelryauction.controller.member;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.auction.roomserver;
+
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author User
  */
-@WebServlet(name = "GateToBiddingRoomServlet", urlPatterns = {"/room"})
-public class GateToBiddingRoomServlet extends HttpServlet {
+@WebServlet(name = "ProfileServlet", urlPatterns = {"/profile"})
+public class ProfileServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,9 +34,7 @@ public class GateToBiddingRoomServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            String auctionID = (String)request.getParameter("auctionID");
-            request.getRequestDispatcher("/private/room/live/index.jsp?auctionID=" + auctionID).forward(request, response);
+            request.getRequestDispatcher("/bidder/profile.jsp").forward(request, response);
         }
     }
 

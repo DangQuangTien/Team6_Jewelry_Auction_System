@@ -22,9 +22,9 @@ import java.util.List;
 public interface UserDao {
 
     UserDTO checkLogin(String username, String password);
-    
+
     Member getInformation(String userID);
-    
+
     ArrayList<Category> listCategory();
 
     boolean insertValuationRequest(String name, String email, String phone, String communicationMethod, String photos, String description, String memberID);
@@ -54,7 +54,7 @@ public interface UserDao {
     List<Jewelry> displayAllJewelryForStaff();
 
     boolean updateJewelry(Jewelry jewelry);
-    
+
     boolean updateFinalPrice(String jewelryID, String finalPrice);
 
     boolean approveFinalPrice(String jewelryID);
@@ -70,7 +70,7 @@ public interface UserDao {
     List<Jewelry> displayConfirmedJewelry(int page, int pageSize);
 
     boolean createAuction(String auctionStartDate, String auctionEndDate, String startTime, String endTime, String[] selectedJewelryIDs);
-    
+
     List<RandomJewelry> displayRandomJewelry();
 
     List<Auction> displayAuction();
@@ -78,23 +78,32 @@ public interface UserDao {
     Auction getAuctionByID(String auctionID);
 
     List<Jewelry> displayCatalog(String auctionID);
-    
+
     Jewelry getJewelryDetails(String jewelryID);
-    
-    boolean insertAddress(String country, String state, String city, String address1, String address2, String zipCode,String memberID);
-    
+
+    boolean insertAddress(String country, String state, String city, String address1, String address2, String zipCode, String memberID);
+
     boolean registerToBid(String memberID);
-    
-    //Member places bid for jewelry before Auction happens
+
+    //Member Bidding
+    List<Jewelry> displayJewelryInRoom(String auctionID);
+
+    boolean checkAvailableSession(String jewelryID);
+
     boolean placeBid(String preBid_Amount, String jewelryID, String memberID);
+
     boolean editBid(String preBid_Amount, String jewelryID, String memberID);
+
     boolean saveBid(String preBid_Amount, String jewelryID, String memberID);
+
     Double getTheHighestBid(String jewelryID);
-     //User register
+
+    //User register
     boolean registerUser(String firstName, String lastName, String email, String username, String password);
-    
+
     //check if duplicated username
     boolean checkDuplicateUsername(String username);
+
     boolean closeSession(String jewelryID);
-    List<Jewelry> displayJewelryInRoom(String auctionID);
+
 }

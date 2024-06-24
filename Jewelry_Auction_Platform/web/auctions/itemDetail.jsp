@@ -111,7 +111,14 @@
             <a style="text-decoration: none" href="${pageContext.request.contextPath}/auctions">Auctions</a>
             <a style="text-decoration: none" href="${pageContext.request.contextPath}/auctions">My Bids</a>
             <a style="text-decoration: none" href="#">Watched Lots</a>
-            <a style="text-decoration: none" href="${pageContext.request.contextPath}/profile">${member.firstName}</a>
+            <c:choose>
+                <c:when test="${member != null}">
+                    <a href="${pageContext.request.contextPath}/profile" style="text-decoration: none">${member.firstName}</a>
+                </c:when>
+                <c:otherwise>
+                    <a href="${pageContext.request.contextPath}/login" style="text-decoration: none">Login</a>
+                </c:otherwise>
+            </c:choose>
             <a style="text-decoration: none" href="#">Search</a>
         </nav>
         <c:set var="username" value="${sessionScope.USERNAME}" />
@@ -234,7 +241,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form id="bidForm" action="${pageContext.request.contextPath}/MainController" method="GET">
+                    <form id="bidForm" action="${pageContext.request.contextPath}/placebid" method="GET">
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="bidAmount">Enter your bid amount:</label>
@@ -262,7 +269,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form id="editBidForm_" action="${pageContext.request.contextPath}/MainController" method="GET">
+                    <form id="editBidForm_" action="${pageContext.request.contextPath}/editbid" method="GET">
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="editBidAmount">Enter your new bid amount:</label>
@@ -289,6 +296,5 @@
                                     document.getElementById('mainImage').src = '${pageContext.request.contextPath}/' + imageSrc;
                                 }
         </script>
-
     </body>
 </html>

@@ -179,7 +179,7 @@
                             </div>
                             <div class="auction-details">
                                 <h2>Auction ID: ${auction.auctionID}</h2>
-                                <p>COMING SOON ? Bidding Open from 
+                                <p>COMING SOON &#x2022; Bidding Open from 
                                     <fmt:formatDate value="${auction.startDate}" pattern="dd MMM"/> 
                                     to 
                                     <fmt:formatDate value="${auction.endDate}" pattern="dd MMM"/>

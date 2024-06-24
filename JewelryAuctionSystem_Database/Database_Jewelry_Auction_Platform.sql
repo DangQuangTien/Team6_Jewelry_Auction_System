@@ -209,7 +209,7 @@ CREATE TABLE Bid_Track(
     sessionID VARCHAR(50) NOT NULL,
     memberID VARCHAR(50) NOT NULL,
     bidAmount DECIMAL(18,2) NOT NULL,
-    bidTime DATETIME NOT NULL,
+    bidTime TIME,
     CONSTRAINT fk_sessionID_live FOREIGN KEY (sessionID) REFERENCES [Session](sessionID),
     CONSTRAINT fk_memberID_live FOREIGN KEY (memberID) REFERENCES [Member](memberID)
 );
@@ -226,10 +226,11 @@ BEGIN
     DECLARE @newbidID NVARCHAR(50);
     SET @newbidID = 'Bid' + CAST(NEXT VALUE FOR bidID_sequence AS NVARCHAR(50));
     INSERT INTO Bid_Track(bidID, bidAmount, bidTime, sessionID, memberID)
-    SELECT @newbidID, bidAmount, bidTime, sessionID, memberID
+    SELECT @newbidID, bidAmount, CONVERT(TIME, GETDATE()), sessionID, memberID
     FROM inserted;
 END;
 GO
+drop trigger autogenerate_bidID
 CREATE TABLE Invoice(
     invoiceID VARCHAR(50) NOT NULL PRIMARY KEY,
     registerBidID VARCHAR(50) NOT NULL,
@@ -385,40 +386,6 @@ BEGIN
     FROM inserted;
 END;
 GO
-SELECT j.*, c.categoryName FROM JEWELRY j, Category c WHERE STATUS = 'Received' and j.categoryID = c.categoryID
-/* Testing and data manipulation queries 
--- Select queries
-select * from Users;   
-select * from RequestValuation;
-select * from Member;
-select * from Jewelry;
-select * from Role;
-select * from Category;
-select * from Notification;
-select * from Session;
-select * from Auction;
-SELECT * FROM Jewelry WHERE [status] = 'Received';
-SELECT * FROM Jewelry WHERE [status] = 'Approved';
-SELECT * FROM Auction WHERE auctionID = 'Auc42';
-SELECT J.* FROM Jewelry J, Session S WHERE S.jewelryID = J.jewelryID AND auctionID = 'Auc42';
-SELECT J.*, C.categoryName FROM Jewelry J, Category C, Session S, Auction Auc 
-WHERE J.categoryID = C.categoryID AND S.auctionID = Auc.auctionID AND J.jewelryID = S.jewelryID AND Auc.auctionID = 'Auc42';
-SELECT * FROM Auction WHERE [status] = 0;
-
--- Insert queries
-insert into Users (username, email, [password], roleID) values ('staff', 'staff123@gmail.com', '123', 'Role02');
-insert into Users (username, email, [password], roleID) values ('manager', 'manager123@gmail.com', '123', 'Role03');
-insert into Users (username, email, [password], roleID) values ('admin', 'admin123@gmail.com', '123', 'Role04');
-insert into Member (memberID, userID, firstName, lastName, phoneNumber, gender, dob, avatar) values
-('Member1', 'User0', 'Alex', 'Watson', '0978787898', 'Male', '2000-02-19', null);
-
--- Delete queries
-delete from RequestValuation;
-delete from Jewelry;
-delete from Notification;
-delete from Auction;
-delete from [Session];
-*/
 CREATE SEQUENCE addressID_sequence
     START WITH 0
     INCREMENT BY 1;
@@ -435,7 +402,8 @@ BEGIN
     FROM inserted;
 END;
 GO
-update Member set status_register_to_bid = 0
+update Member set status_register_to_bid = 0 where memberID = 'Member5'
+select * from Member
 
 CREATE SEQUENCE memberID_sequence
     START WITH 0
@@ -454,3 +422,40 @@ BEGIN
 	FROM inserted;
 END;
 GO
+
+UPDATE s
+SET s.status = 0
+FROM Session s
+WHERE s.auctionID = (SELECT a.auctionId FROM Auction a WHERE a.auctionId = 'Auc73');
+
+select * from Session where auctionID = 'Auc73'
+
+delete from Bid_Track
+delete from Register_Bid
+select * from Register_Bid
+select * from Bid_Track
+
+
+SELECT 
+    J.*, 
+    C.CATEGORYNAME, 
+    AP.avg_preBid_Amount
+FROM 
+    JEWELRY J
+JOIN 
+    CATEGORY C ON J.CATEGORYID = C.CATEGORYID
+JOIN 
+    Session S ON J.JEWELRYID = S.jewelryID
+JOIN 
+    Auction AUC ON S.AUCTIONID = AUC.AUCTIONID
+LEFT JOIN 
+    AvgPreBid AP ON J.JEWELRYID = AP.jewelryID
+WHERE 
+    AUC.AUCTIONID = 'Auc73';
+
+
+select * from Register_Bid
+select * from Session
+
+select * from Register_Bid where sessionID = 'Turn48'
+
