@@ -9,13 +9,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Upcoming Auctions</title>
         <link rel="icon" type="image/png" sizes="64x64" href="../images/logo/Logo.png">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
         <style>
             body {
-                font-family: Arial, sans-serif;
+                font-family: 'Montserrat', sans-serif;
                 margin: 0;
                 padding: 0;
-                background-color: #f9f9f9;
+                background-color: #f5f5f5;
             }
+
             nav {
                 background-color: white;
                 color: #000000;
@@ -35,33 +37,31 @@
                 background-color: rgba(85, 85, 85, 0.5);
                 color: white;
             }
+
             .container {
-                max-width: 800px;
+                max-width: 1200px;
                 margin: 20px auto;
                 padding: 20px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
                 background-color: #fff;
+                border-radius: 5px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             }
 
             h1 {
                 text-align: center;
-                color: #000;
-                font-size: 36px;
-                font-weight: normal;
-                text-transform: uppercase;
+                color: #333;
+                font-size: 32px;
+                font-weight: 600;
                 margin-bottom: 20px;
-                letter-spacing: 1px;
             }
 
             .auction {
                 display: flex;
-                margin-bottom: 20px;
-                padding: 20px;
+                flex-wrap: wrap;
+                margin-bottom: 30px;
                 border: 1px solid #ddd;
                 border-radius: 5px;
-                background-color: #fafafa;
+                background-color: #f9f9f9;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
                 overflow: hidden;
@@ -73,10 +73,12 @@
             }
 
             .image-container {
-                width: 40%;
+                width: 100%;
+                max-width: 400px;
                 margin-right: 20px;
                 position: relative;
                 overflow: hidden;
+                flex: 1;
             }
 
             .image-container img {
@@ -92,14 +94,8 @@
             }
 
             .auction-details {
-                flex: 1;
-                opacity: 0;
-                transition: opacity 0.5s ease;
-                padding: 10px;
-            }
-
-            .auction:hover .auction-details {
-                opacity: 1;
+                flex: 2;
+                padding: 20px;
             }
 
             .countdown {
@@ -112,7 +108,6 @@
                 display: inline-block;
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
             }
-
 
             .countdown-text {
                 font-weight: bold;
@@ -131,23 +126,35 @@
 
             .button-container {
                 text-align: center;
-                margin-top: 10px;
+                margin-top: 20px;
             }
 
             button {
-                padding: 10px 20px;
+                padding: 12px 24px;
                 font-size: 16px;
-                color: black;
-                background-color: white;
-                border: 2px solid #000000;
+                color: white;
+                background-color: #333;
+                border: none;
                 border-radius: 100px;
                 cursor: pointer;
                 transition: background-color 0.3s ease, color 0.3s ease;
+                font-weight: 600;
             }
 
             button:hover {
-                background-color: #000;
-                color: #fff;
+                background-color: #555;
+            }
+
+            .auction h2 {
+                font-size: 24px;
+                margin-bottom: 10px;
+                color: #333;
+            }
+
+            .auction p {
+                font-size: 16px;
+                color: #666;
+                margin-bottom: 10px;
             }
         </style>
     </head>

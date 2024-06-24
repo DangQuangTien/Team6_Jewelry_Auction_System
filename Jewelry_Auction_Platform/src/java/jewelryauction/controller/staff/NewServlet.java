@@ -2,9 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package jewelryauction.controller.manager;
+package controller.staff;
 
-import dao.UserDAOImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -15,10 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author User
+ * @author Hiii
  */
-@WebServlet(name = "CreateAuctionServlet", urlPatterns = {"/createAuction"})
-public class CreateAuctionServlet extends HttpServlet {
+@WebServlet(name = "NewServlet", urlPatterns = {"/NewServlet"})
+public class NewServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,24 +31,17 @@ public class CreateAuctionServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String auctionStartDate = request.getParameter("auctionStartDate");
-            String auctionEndDate = request.getParameter("auctionEndDate");
-            String startTime = request.getParameter("startTime");
-            String endTime = request.getParameter("endTime");
-            String[] selectedJewelryIDs = request.getParameter("selectedJewelryIDs").split(",");
-            UserDAOImpl dao = new UserDAOImpl();
-            String url = null;
-            try {
-                boolean result = dao.createAuction(auctionStartDate, auctionEndDate, startTime, endTime, selectedJewelryIDs);
-                if (result) {
-                    url = request.getContextPath() + "/manager/createAuction.jsp";
-                }
-            } catch (Exception ex) {
-                ex.getMessage();
-            }
-            response.sendRedirect(url);
+            out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet NewServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -80,7 +72,6 @@ public class CreateAuctionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
     }
 
     /**

@@ -285,7 +285,7 @@
                             <label><i class="fas fa-sticky-note card-icon"></i>Note</label>
                             <p>System will check and notify you when the seller has received the payment.</p>
                         </div>
-                        <button type="button" class="btn btn-primary btn-block" id="confirmBtn"><i class="fas fa-check"></i> CONFIRM INVOICE</button>
+                        <button type="button" class="btn btn-primary btn-block" id="confirmBtn"><i class="fas fa-check"></i> CONFIRM</button>
                     </form>
                 </div>
                 <div class="invoice-section invoice-summary">
