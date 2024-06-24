@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package jewelryauction.controller.seller;
+package jewelryauction.controller.member;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author User
  */
-@WebServlet(name = "NotificationServlet", urlPatterns = {"/notification"})
-public class NotificationServlet extends HttpServlet {
+@WebServlet(name = "RequestValuationServlet", urlPatterns = {"/valuation"})
+public class RequestValuationServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,7 +33,7 @@ public class NotificationServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            request.getRequestDispatcher("/seller/shipmentRequest.jsp").forward(request, response);
+            request.getRequestDispatcher("/seller/request.jsp").forward(request, response);
         }
     }
 
@@ -75,5 +75,4 @@ public class NotificationServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

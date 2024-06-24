@@ -2,22 +2,26 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package jewelryauction.controller.profile;
+package jewelryauction.controller.member;
 
+import dao.UserDAOImpl;
+import entity.product.Jewelry;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author User
  */
-@WebServlet(name = "ProfileServlet", urlPatterns = {"/profile"})
-public class ProfileServlet extends HttpServlet {
+@WebServlet(name = "ResponseServlet", urlPatterns = {"/response"})
+public class ResponseServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,7 +36,13 @@ public class ProfileServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            request.getRequestDispatcher("/bidder/profile.jsp").forward(request, response);
+            /* TODO output your page here. You may use following sample code. */
+            HttpSession session = request.getSession();
+            String userID = (String) session.getAttribute("USERID");
+            UserDAOImpl dao = new UserDAOImpl();
+            List<Jewelry> listJewelry = dao.getJewelryByUserID(userID);
+            request.setAttribute("LISTJEWELRY", listJewelry);
+            request.getRequestDispatcher("/seller/response.jsp").forward(request, response);
         }
     }
 

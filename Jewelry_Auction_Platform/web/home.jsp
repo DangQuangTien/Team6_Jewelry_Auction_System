@@ -160,6 +160,7 @@
             footer a:hover {
                 text-decoration: underline;
             }
+
         </style>
     </head>
     <body>
@@ -301,81 +302,58 @@
             </section>
         </div>
         <!-- End Content -->
-
-        <!-- Footer -->
-        <footer class="text-center py-3 mt-auto">
-            
-        </footer>
-        <!-- End Footer -->
-        <!-- Scripts -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $("a").on('click', function (event) {
-                    if (this.hash !== "") {
-                        event.preventDefault();
-                        var hash = this.hash;
-                        $('html, body').animate({
-                            scrollTop: $(hash).offset().top
-                        }, 800, function () {
-                            window.location.hash = hash;
-                        });
-                    }
-                });
-
-                $(window).scroll(function () {
-                    if ($(this).scrollTop() > 50) {
-                        $('.navbar').addClass('scrolled');
-                    } else {
-                        $('.navbar').removeClass('scrolled');
-                    }
-                });
-            });
-        </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                window.addEventListener("scroll", function () {
-                    if (window.scrollY > 50) {
-                        document.querySelector(".navbar").classList.add("navbar-scrolled");
-                    } else {
-                        document.querySelector(".navbar").classList.remove("navbar-scrolled");
-                    }
-                });
-            });
-            document.addEventListener("DOMContentLoaded", function () {
-                var dropdowns = document.querySelectorAll('.nav-item.dropdown');
-
-                dropdowns.forEach(function (dropdown) {
-                    dropdown.addEventListener('mouseenter', function () {
-                        var dropdownMenu = dropdown.querySelector('.dropdown-menu');
-                        if (dropdownMenu) {
-                            dropdownMenu.classList.add('show');
-                        }
+    </footer>
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Smooth scrolling for nav links
+            $("a.nav-link").on('click', function (event) {
+                if (this.hash !== "") {
+                    event.preventDefault();
+                    var hash = this.hash;
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 800, function () {
+                        window.location.hash = hash;
                     });
-                    dropdown.addEventListener('mouseleave', function () {
-                        var dropdownMenu = dropdown.querySelector('.dropdown-menu');
-                        if (dropdownMenu) {
-                            dropdownMenu.classList.remove('show');
-                        }
-                    });
-                });
+                }
             });
-            $(document).ready(function () {
-                $("a.nav-link").on('click', function (event) {
-                    if (this.hash !== "") {
-                        event.preventDefault();
-                        var hash = this.hash;
-                        $('html, body').animate({
-                            scrollTop: $(hash).offset().top
-                        }, 800, function () {
-                            window.location.hash = hash;
-                        });
+
+            // Change navbar style on scroll
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 50) {
+                    $('.navbar').addClass('scrolled');
+                } else {
+                    $('.navbar').removeClass('scrolled');
+                }
+            });
+
+            // Dropdown menu show/hide on hover
+            var dropdowns = document.querySelectorAll('.nav-item.dropdown');
+            dropdowns.forEach(function (dropdown) {
+                dropdown.addEventListener('mouseenter', function () {
+                    var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                    if (dropdownMenu) {
+                        dropdownMenu.classList.add('show');
+                    }
+                });
+                dropdown.addEventListener('mouseleave', function () {
+                    var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                    if (dropdownMenu) {
+                        dropdownMenu.classList.remove('show');
                     }
                 });
             });
-        </script>
-    </body>
+
+            // Automatic page reload after 5 minutes
+            setInterval(function () {
+                location.reload();
+            }, 900000);
+        });
+    </script>
+</body>
 </html>

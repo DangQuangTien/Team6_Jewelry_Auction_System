@@ -1,4 +1,4 @@
-package controller.user.authentication;
+package jewelryauction.controller.authentication;
 
 import dao.UserDAOImpl;
 import dto.UserDTO;

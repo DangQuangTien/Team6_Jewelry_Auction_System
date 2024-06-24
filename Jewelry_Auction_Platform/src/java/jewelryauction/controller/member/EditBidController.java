@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.user;
+package jewelryauction.controller.member;
 
 import dao.UserDAOImpl;
+import entity.member.Member;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -13,43 +14,58 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author User
  */
-@WebServlet(name = "ConfirmToAuctionController", urlPatterns = {"/confirm"})
-public class ConfirmToAuctionController extends HttpServlet {
+@WebServlet(name = "EditBidController", urlPatterns = {"/editbid"})
+public class EditBidController extends HttpServlet {
 
     private static final String ERROR_PAGE = "index.htm";
-    private static final String USER_PAGE = "/response";
+    private static final String AUCTION_PAGE = "auction?auctionID=";
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String jewelryID = request.getParameter("jewelryID");
+            HttpSession session = request.getSession();
+            UserDAOImpl dao = new UserDAOImpl();
             String url = ERROR_PAGE;
             try {
-                UserDAOImpl dao = new UserDAOImpl();
-                boolean result = dao.confirmToAuction(jewelryID);
-                if (result) {
-                    url = USER_PAGE;
+                Member member = (Member) session.getAttribute("MEMBER");
+                if (member != null) {
+                    String preBidAmount = request.getParameter("preBid_Amount");
+                    String auctionID = request.getParameter("auctionID");
+                    String jewelryID = request.getParameter("jewelryID");
+
+                    if (preBidAmount != null && auctionID != null && jewelryID != null) {
+                        try {
+                            boolean check = dao.editBid(preBidAmount, jewelryID, member.getMemberID());
+                            if (!check) {
+                                String message = "Please place bid first!";
+                                request.setAttribute("PlACEBIDSTATUS", message);
+                            } else {
+                                String message = "UPDATE BID SUCCESSFULLY!";
+                                request.setAttribute("PlACEBIDSTATUS", message);
+                            }
+                            url = AUCTION_PAGE + auctionID;
+                        } catch (Exception ex) {
+                            ex.printStackTrace(); // Proper logging should be implemented
+                        }
+                    } else {
+                        System.err.println("Invalid parameters received in request.");
+                    }
+                } else {
+                    System.err.println("Member information not found");
                 }
             } catch (Exception ex) {
-                ex.getMessage();
-            } finally {
-                response.sendRedirect(request.getContextPath() + url);
+                ex.printStackTrace(); // Proper logging should be implemented
             }
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+            dispatcher.forward(request, response);
         }
     }
 

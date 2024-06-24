@@ -2,26 +2,27 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package jewelryauction.controller.seller;
+package jewelryauction.controller.member;
 
 import dao.UserDAOImpl;
-import entity.product.Jewelry;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author User
  */
-@WebServlet(name = "ResponseServlet", urlPatterns = {"/response"})
-public class ResponseServlet extends HttpServlet {
+@WebServlet(name = "RejectToAuctionController", urlPatterns = {"/reject"})
+public class RejectToAuctionController extends HttpServlet {
+
+    private static final String ERROR_PAGE = "index.htm";
+    private static final String USER_PAGE = "/response";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,13 +37,19 @@ public class ResponseServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            HttpSession session = request.getSession();
-            String userID = (String) session.getAttribute("USERID");
-            UserDAOImpl dao = new UserDAOImpl();
-            List<Jewelry> listJewelry = dao.getJewelryByUserID(userID);
-            request.setAttribute("LISTJEWELRY", listJewelry);
-            request.getRequestDispatcher("/seller/response.jsp").forward(request, response);
+            String jewelryID = request.getParameter("jewelryID");
+            String url = ERROR_PAGE;
+            try {
+                UserDAOImpl dao = new UserDAOImpl();
+                boolean result = dao.rejectToAuction(jewelryID);
+                if (result) {
+                    url = USER_PAGE;
+                }
+            } catch (Exception ex) {
+                ex.getMessage();
+            } finally {
+                response.sendRedirect(request.getContextPath() + url);
+            }
         }
     }
 

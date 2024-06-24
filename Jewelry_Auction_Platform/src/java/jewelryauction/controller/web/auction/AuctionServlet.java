@@ -3,6 +3,7 @@ package jewelryauction.controller.web.auction;
 import dao.UserDAOImpl;
 import entity.Auction.Auction;
 import entity.member.Member;
+import entity.product.Category;
 import entity.product.Jewelry;
 import java.io.IOException;
 import java.util.List;
@@ -36,12 +37,13 @@ public class AuctionServlet extends HttpServlet {
         Auction auction = dao.getAuctionByID(auctionID);
         List<Jewelry> listJewelry = dao.displayCatalog(auctionID);
         Member member = dao.getInformation(userID);
-
+        List<Category> listCategory = dao.listCategory();
         // Set attributes for the request
         request.setAttribute("AUCTION", auction);
         request.setAttribute("CATALOG", listJewelry);
         request.setAttribute("MEMBER", member);
         request.setAttribute("AUCTIONID", auctionID);
+        request.setAttribute("CATEGORIES", listCategory);
         // Forward the request to the detail.jsp page in the auction folder
         request.getRequestDispatcher("/auctions/detail.jsp").forward(request, response);
     }

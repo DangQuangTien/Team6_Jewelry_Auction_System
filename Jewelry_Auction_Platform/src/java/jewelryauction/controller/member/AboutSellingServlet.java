@@ -2,12 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.user;
+package jewelryauction.controller.member;
 
-import dao.UserDAOImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,11 +16,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author User
  */
-@WebServlet(name = "RejectToAuctionController", urlPatterns = {"/reject"})
-public class RejectToAuctionController extends HttpServlet {
-
-    private static final String ERROR_PAGE = "index.htm";
-    private static final String USER_PAGE = "/response";
+@WebServlet(name = "AboutSellingServlet", urlPatterns = {"/selling"})
+public class AboutSellingServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,19 +32,8 @@ public class RejectToAuctionController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String jewelryID = request.getParameter("jewelryID");
-            String url = ERROR_PAGE;
-            try {
-                UserDAOImpl dao = new UserDAOImpl();
-                boolean result = dao.rejectToAuction(jewelryID);
-                if (result) {
-                    url = USER_PAGE;
-                }
-            } catch (Exception ex) {
-                ex.getMessage();
-            } finally {
-                response.sendRedirect(request.getContextPath() + url);
-            }
+            /* TODO output your page here. You may use following sample code. */
+            request.getRequestDispatcher("/seller/selling.html").forward(request, response);
         }
     }
 
@@ -66,6 +50,7 @@ public class RejectToAuctionController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
     }
 
     /**

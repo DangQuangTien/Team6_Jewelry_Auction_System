@@ -1,4 +1,4 @@
-package controller.user;
+package jewelryauction.controller.member;
 
 import dao.UserDAOImpl;
 import entity.member.Member;

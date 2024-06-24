@@ -1,4 +1,4 @@
-package controller.user;
+package jewelryauction.controller.member;
 
 import com.google.gson.Gson;
 import dao.UserDAOImpl;
