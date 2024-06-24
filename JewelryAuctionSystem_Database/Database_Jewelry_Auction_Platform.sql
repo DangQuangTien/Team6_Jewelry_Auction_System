@@ -66,6 +66,14 @@ CREATE TABLE Users (
 );
 GO
 
+CREATE TABLE InvoiceDetails(
+	invoiceDetailID VARCHAR(50) NOT NULL PRIMARY KEY,
+	invoiceID VARCHAR(50) NOT NULL,
+	registerBidID VARCHAR(50) NOT NULL,
+	CONSTRAINT fk_invoiceID FOREIGN KEY (invoiceID) REFERENCES Invoice(invoiceID),
+	CONSTRAINT fk_registerBidID FOREIGN KEY (registerBidID) REFERENCES Register_Bid(registerBidID)
+);
+
 CREATE TABLE [Member] (
     memberID VARCHAR(50) NOT NULL PRIMARY KEY,
     userID VARCHAR(50) NOT NULL,
@@ -194,6 +202,7 @@ CREATE TABLE Register_Bid(
 	CONSTRAINT uc_member_session UNIQUE (memberID, sessionID)
 );
 GO
+
 CREATE SEQUENCE registerBidID_sequence
     START WITH 0
     INCREMENT BY 1;
@@ -211,6 +220,7 @@ BEGIN
 END;
 select * from Bid_Track
 GO
+
 CREATE TABLE Bid_Track(
     bidID VARCHAR(50) NOT NULL PRIMARY KEY,
     sessionID VARCHAR(50) NOT NULL,
@@ -245,7 +255,11 @@ CREATE TABLE Invoice(
     paymentMethod VARCHAR(50),  -- Field for payment method
     shippingAddress NVARCHAR(500),  -- Field for shipping address
     CONSTRAINT fk_RegisterBid FOREIGN KEY (registerBidID) REFERENCES Register_Bid(registerBidID)
-);    
+);
+
+ALTER TABLE Invoice DROP CONSTRAINT fk_RegisterBid;
+ALTER TABLE Invoice DROP COLUMN registerBidID;
+
 GO
 -- Create triggers
 DROP TRIGGER check_unique_username
@@ -270,6 +284,24 @@ BEGIN
     END
 END;
 GO
+
+CREATE SEQUENCE invoiceDetailID_sequence
+    START WITH 0
+    INCREMENT BY 1;
+GO
+CREATE TRIGGER autogenerate_invoiceDetailID
+ON InvoiceDetails
+INSTEAD OF INSERT
+AS
+BEGIN
+	DECLARE @new_invoiceDetailID VARCHAR(50);
+	SET @new_invoiceDetailID = 'InvDetail' + CAST(NEXT VALUE FOR invoiceDetailID_sequence AS VARCHAR(50));
+	INSERT INTO InvoiceDetails (invoiceDetailID, invoiceID, registerBidID)
+	SELECT @new_invoiceDetailID, invoiceID, registerBidID
+	FROM inserted;
+END;
+GO
+
 
 DROP TRIGGER autogenerate_userID
 CREATE TRIGGER autogenerate_userID
@@ -310,6 +342,8 @@ BEGIN
     FROM inserted;
 END;
 GO
+
+
 
 CREATE TRIGGER autogenerate_valuationId 
 ON RequestValuation
@@ -478,6 +512,7 @@ BEGIN
 	FROM inserted;
 END;
 GO
+
 
 
 
