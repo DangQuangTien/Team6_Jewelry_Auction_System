@@ -34,6 +34,8 @@ function showFormFields() {
         watchFields.style.display = "block";
     } else if (selectedCategory.toLowerCase().includes("bracelet")) {
         braceletFields.style.display = "block";
+    } else {
+        braceletFields.style.display = "block";
     }
 }
 
@@ -58,8 +60,5 @@ function confirmValuation(event) {
         event.preventDefault();
     }
 }
-function cancelValuation() {
-    if (confirm("Are you sure you want to cancel this appraisal?")) {
-        window.location.href = "${pageContext.request.contextPath}/ProcessValuationRequest";
-    }
-}
+
+

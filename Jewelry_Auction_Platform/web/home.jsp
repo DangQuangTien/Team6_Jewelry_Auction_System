@@ -1,137 +1,278 @@
-<%@page import="entity.product.RandomJewelry"%>
-<%@page import="java.util.List" %>
-<%@page import="dao.UserDAOImpl" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Global F'Rankelly 's Premier Jewelry Auction House</title>
-        <!-- Include Bootstrap CSS -->
+        <title>Global F'Rankelly's Premier Jewelry Auction House</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-        <link rel="stylesheet" type="text/css" href="component/home.css">
-        <link rel="icon" type="image/png" sizes="64x64" href="images/logo/LogoFinal.png">
+        <style>
+            html {
+                scroll-behavior: smooth;
+            }
 
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f8f9fa;
+                margin: 0;
+                padding: 0;
+            }
+            .navbar {
+                background-color: rgba(255, 255, 255, 0.8);
+                transition: background-color 0.3s, box-shadow 0.3s, padding-top 0.3s, padding-bottom 0.3s;
+                padding-top: 15px;
+                padding-bottom: 15px;
+                z-index: 1000;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            }
+
+            .navbar-scrolled {
+                background-color: white;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
+            .navbar-brand, .nav-link {
+                color: #333 !important;
+                transition: color 0.3s;
+            }
+
+            .navbar-scrolled .navbar-brand,
+            .navbar-scrolled .nav-link {
+                color: black !important;
+            }
+
+
+            .dropdown-menu {
+                background-color: #fff;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+            }
+
+            .dropdown-item {
+                color: #333 !important;
+                transition: background-color 0.3s, color 0.3s;
+            }
+
+            .dropdown-item:hover {
+                background-color: rgba(0, 0, 0, 0.1) !important;
+                color: #ffc107 !important;
+            }
+            .dropdown-menu {
+                display: block !important;
+                opacity: 0;
+                transform: translateY(-20px);
+                transition: opacity 0.3s, transform 0.3s;
+            }
+
+            .dropdown-menu.show {
+                opacity: 0.85;
+                transform: translateY(0);
+            }
+
+            .banner {
+                position: relative;
+                width: 100%;
+                height: 300px;
+                overflow: hidden;
+                margin-bottom: 30px;
+            }
+
+            .banner img {
+                width: 100%;
+                height: auto;
+                object-fit: cover;
+                filter: brightness(0.7);
+            }
+
+            .banner-text {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: #fff;
+                text-align: center;
+                font-size: 24px;
+                font-weight: bold;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .content h2 {
+                color: #333;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
+
+            .card {
+                margin: 15px 0;
+                border: none;
+                border-radius: 0;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .card img {
+                border-radius: 0;
+                border-bottom: 3px solid #e4af11;
+            }
+
+            .card-title {
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            .card-text {
+                color: #666;
+            }
+            .card {
+                position: relative;
+                overflow: hidden;
+                border-radius: 10px;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+
+            .card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            }
+
+            footer {
+                background-color: #000;
+                color: #fff;
+                text-align: center;
+                padding: 1rem 0;
+                margin-top: 30px;
+            }
+
+            footer a {
+                color: #e4af11;
+                margin: 0 10px;
+                text-decoration: none;
+            }
+
+            footer a:hover {
+                text-decoration: underline;
+            }
+
+        </style>
     </head>
     <body>
-        <c:set var="dao" value="<%= new dao.UserDAOImpl()%>" />
         <c:set var="username" value="${sessionScope.USERNAME}" />
+        <c:set var="member" value="${sessionScope.MEMBER}" />
         <c:set var="role" value="${sessionScope.ROLE}" />
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="home.jsp">
-                <i class="fas fa-gem"> F'Rankelly</i><br>
-                <span style="font-size: 0.5em;">Auctioneers & Appraisers</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="home.jsp"><i class="fas fa-home"></i> HOME<span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="auctions/upcoming.jsp"><i class="fas fa-gavel"></i> AUCTIONS</a>
-                    </li>
-                    <c:if test="${role == 'Member' || role == null}">
-                        <li class="nav-item">
-                            <a class="nav-link" href="seller/selling.html"><i class="fas fa-dollar-sign"></i> SELLING</a>
+        <!-- Nav bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="${pageContext.request.contextPath}/home">
+                    <span class="brand-name">F'Rankelly</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="auctionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">AUCTIONS</a>
+                            <div class="dropdown-menu" aria-labelledby="auctionDropdown">
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/auctions">UPCOMING AUCTIONS</a>
+                                <a class="dropdown-item" href="#">PAST AUCTIONS</a>
+                            </div>
                         </li>
-                    </c:if>
-                    <c:choose>
-                        <c:when test="${username == null}">
-                            <li class="nav-item">
-                                <a class="nav-link" href="login.jsp"><i class="fas fa-sign-in-alt"></i> LOGIN</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="register.jsp"><i class="fas fa-user-plus"></i> REGISTER</a>
-                            </li>
-                        </c:when>
-                        <c:otherwise>
-                            <c:set var="url">
-                                <c:choose>
-                                    <c:when test="${role == 'Member'}">bidder/profile.jsp</c:when>
-                                    <c:when test="${role == 'Staff'}">staff/staff.jsp</c:when>
-                                    <c:when test="${role == 'Manager'}">manager/manager.jsp</c:when>
-                                    <c:otherwise>admin/admin.jsp</c:otherwise>
-                                </c:choose>
-                            </c:set>
-                            <li class="nav-item">
-                                <a class="nav-link" href="${url}"><i class="fas fa-user"></i>${username}</a>
-                            </li>
-                        </c:otherwise>
-                    </c:choose>
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search for anything" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i> Search</button>
-                </form>
-            </div>
-        </nav>
-
-        <section class="welcome-section">
-            <div class="banner">
-                <img src="https://png.pngtree.com/thumb_back/fw800/background/20190223/ourmid/pngtree-beautiful-romantic-golden-jewelry-banner-background-spheresmall-golden-ballgold-image_83218.jpg" alt="Banner Image">
-                <div class="banner-text">
-                    <h2>Welcome to Jewelry Auction</h2>
-                    <p>We're delighted to have you explore our curated selection of fine jewelry. Each piece is a treasure waiting to be discovered. Join our community of connoisseurs and start your bidding journey today.</p>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"> BUYING</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="sellingDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">SELLING</a>
+                            <div class="dropdown-menu" aria-labelledby="sellingDropdown">
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/selling">ABOUT SELLING</a>
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/valuation">VALUATION REQUEST</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"> EXPLORE</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"> ABOUT</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"> CONTACT</a>
+                        </li>
+                        <c:choose>
+                            <c:when test="${username == null}">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> USER</a>
+                                    <div class="dropdown-menu" aria-labelledby="userDropdown">
+                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/register">Register</a>
+                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/login">Login</a>
+                                    </div>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <c:set var="url">
+                                    <c:choose>
+                                        <c:when test="${role == 'Member'}">${pageContext.request.contextPath}/profile</c:when>
+                                        <c:when test="${role == 'Staff'}">staff</c:when>
+                                        <c:when test="${role == 'Manager'}">manager/manager.jsp</c:when>
+                                        <c:otherwise>admin/admin.jsp</c:otherwise>
+                                    </c:choose>
+                                </c:set>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> ${member.firstName}</a>
+                                    <div class="dropdown-menu" aria-labelledby="userDropdown">
+                                        <a class="dropdown-item" href="${url}">Profile</a>
+                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/logout">Logout</a>
+                                    </div>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+                    </ul>
                 </div>
             </div>
-        </section>
-
+        </nav>
         <div class="content container mt-5">
-            <h2><a href="auctions/upcoming.jsp">Upcoming Auction</a></h2>
+            <h2>Newest Listing 2024</h2>
             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
-                    <%
-                        UserDAOImpl _dao = new UserDAOImpl();
-                        List<RandomJewelry> listJewelry = _dao.displayRandomJewelry();
-                        if (listJewelry != null && !listJewelry.isEmpty()) {
-                            int itemsPerSlide = 3;
-                            int totalItems = listJewelry.size();
-                            int numberOfSlides = (int) Math.ceil((double) totalItems / itemsPerSlide);
-
-                            for (int i = 0; i < numberOfSlides; i++) {
-                    %>
-                    <div class="carousel-item <%= (i == 0) ? "active" : ""%>">
-                        <div class="row">
-                            <%
-                                for (int j = 0; j < itemsPerSlide; j++) {
-                                    int index = (i * itemsPerSlide) + j;
-                                    if (index < totalItems) {
-                                        RandomJewelry jewelry = listJewelry.get(index);
-                                        String photo = jewelry.getPhoto();
-                                        String[] photoArray = photo.split(";");
-                            %>
-                            <div class="col-md-4">
-                                <a href="${pageContext.request.contextPath}/auctions/detail.jsp?auctionID=<%= jewelry.getAuctionID()%>">
-                                    <div class="card">
-                                        <img src="${pageContext.request.contextPath}/<%= photoArray[0]%>" class="card-img-top" alt="<%= jewelry.getJewelryName()%>">
-                                        <div class="card-body">
-                                            <h5 class="card-title"><%= jewelry.getJewelryName()%></h5>
-                                        </div>
+                    <c:choose>
+                        <c:when test="${not empty listJewelry}">
+                            <c:forEach var="slide" begin="0" end="${fn:length(listJewelry) / 3}" step="1">
+                                <div class="carousel-item ${slide == 0 ? 'active' : ''}">
+                                    <div class="row">
+                                        <c:forEach var="jewelry" items="${listJewelry}" begin="${slide * 3}" end="${slide * 3 + 2}" varStatus="status">
+                                            <c:if test="${status.index < fn:length(listJewelry)}">
+                                                <div class="col-md-4">
+                                                    <a style="text-decoration: none" href="${pageContext.request.contextPath}/auction?auctionID=${jewelry.auctionID}">
+                                                        <div class="card">
+                                                            <img src="${pageContext.request.contextPath}/${fn:split(jewelry.photo, ';')[0]}" class="card-img-top" alt="${jewelry.jewelryName}">
+                                                            <div class="card-body">
+                                                                <h5 class="card-title">${jewelry.jewelryName}</h5>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </c:if>
+                                        </c:forEach>
                                     </div>
-                                </a>
+                                </div>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="carousel-item active">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p>No jewelry items available.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <%}
-                                }%>
-                        </div>
-                    </div>
-                    <% }
-                    } else {%>
-                    <div class="carousel-item active">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p>No jewelry items available.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <% }%>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -142,8 +283,6 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
-
-
 
             <section class="highlight-box mt-5">
                 <h2>About Us</h2>
@@ -162,36 +301,59 @@
                 </div>
             </section>
         </div>
+        <!-- End Content -->
+    </footer>
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Smooth scrolling for nav links
+            $("a.nav-link").on('click', function (event) {
+                if (this.hash !== "") {
+                    event.preventDefault();
+                    var hash = this.hash;
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 800, function () {
+                        window.location.hash = hash;
+                    });
+                }
+            });
 
-        <footer class="text-center py-3 mt-auto">
-            <div>
-                <h6>Jewelry Auction</h6>
-                <a href="register.jsp">Register</a> |
-                <a href="login.jsp">Login</a> |
-                <a href="#">Help & FAQ</a> |
-                <a href="#">Support</a> |
-                <a href="#">Sitemap</a>
-            </div>
-        </footer>
+            // Change navbar style on scroll
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 50) {
+                    $('.navbar').addClass('scrolled');
+                } else {
+                    $('.navbar').removeClass('scrolled');
+                }
+            });
 
-        <!-- Include Bootstrap JS and dependencies -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var auctionButton = document.getElementById('viewAuctionButton');
-                auctionButton.addEventListener('click', function (event) {
-                    var auctionID = document.querySelector('input[name="auctionID"]').value;
-                    if (!auctionID) {
-                        event.preventDefault();
-                        alert('No auction available');
+            // Dropdown menu show/hide on hover
+            var dropdowns = document.querySelectorAll('.nav-item.dropdown');
+            dropdowns.forEach(function (dropdown) {
+                dropdown.addEventListener('mouseenter', function () {
+                    var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                    if (dropdownMenu) {
+                        dropdownMenu.classList.add('show');
+                    }
+                });
+                dropdown.addEventListener('mouseleave', function () {
+                    var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                    if (dropdownMenu) {
+                        dropdownMenu.classList.remove('show');
                     }
                 });
             });
-        </script>
 
-    </body>
+            // Automatic page reload after 5 minutes
+            setInterval(function () {
+                location.reload();
+            }, 900000);
+        });
+    </script>
+</body>
 </html>

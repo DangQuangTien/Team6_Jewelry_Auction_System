@@ -38,11 +38,12 @@ public class Jewelry {
     private String status;
     private String photos;
     private String final_Price;
+    private Double currentBid;
 
     public Jewelry() {
     }
 
-    public Jewelry(String jewelryID, String categoryName, String jewelryName, String artist, String circa, String material, String dial, String braceletMaterial, String caseDimensions, String braceletSize, String serialNumber, String referenceNumber, String caliber, String movement, String condition, String metal, String gemstones, String measurements, String weight, String stamped, String ringSize, String temp_Price, String minPrice, String maxPrice, String valuationId, String status, String photos, String final_Price) {
+    public Jewelry(String jewelryID, String categoryName, String jewelryName, String artist, String circa, String material, String dial, String braceletMaterial, String caseDimensions, String braceletSize, String serialNumber, String referenceNumber, String caliber, String movement, String condition, String metal, String gemstones, String measurements, String weight, String stamped, String ringSize, String temp_Price, String minPrice, String maxPrice, String valuationId, String status, String photos, String final_Price, Double currentBid) {
         this.jewelryID = jewelryID;
         this.categoryName = categoryName;
         this.jewelryName = jewelryName;
@@ -71,6 +72,7 @@ public class Jewelry {
         this.status = status;
         this.photos = photos;
         this.final_Price = final_Price;
+        this.currentBid = currentBid;
     }
 
     public String getJewelryID() {
@@ -296,8 +298,12 @@ public class Jewelry {
     public void setFinal_Price(String final_Price) {
         this.final_Price = final_Price;
     }
-    
-    
-    
 
+    public Double getCurrentBid() {
+        return currentBid;
+    }
+
+    public void setCurrentBid(Double currentBid) {
+        this.currentBid = currentBid;
+    }
 }
