@@ -435,21 +435,31 @@ delete from Register_Bid
 select * from Register_Bid
 select * from Bid_Track
 
-
+WITH MaxPreBid AS (
+    SELECT 
+        S.jewelryID,
+        MAX(RB.preBid_Amount) AS max_preBid_Amount
+    FROM 
+        Register_Bid RB
+    JOIN 
+        Session S ON RB.sessionID = S.sessionID
+    GROUP BY 
+        S.jewelryID
+)
 SELECT 
     J.*, 
     C.CATEGORYNAME, 
-    AP.avg_preBid_Amount
+    MP.max_preBid_Amount
 FROM 
     JEWELRY J
 JOIN 
     CATEGORY C ON J.CATEGORYID = C.CATEGORYID
 JOIN 
-    Session S ON J.JEWELRYID = S.jewelryID
+    Session S ON J.jewelryID = S.jewelryID
 JOIN 
     Auction AUC ON S.AUCTIONID = AUC.AUCTIONID
 LEFT JOIN 
-    AvgPreBid AP ON J.JEWELRYID = AP.jewelryID
+    MaxPreBid MP ON J.jewelryID = MP.jewelryID
 WHERE 
     AUC.AUCTIONID = 'Auc73';
 
@@ -458,4 +468,6 @@ select * from Register_Bid
 select * from Session
 
 select * from Register_Bid where sessionID = 'Turn48'
+select * from Register_Bid r, Session s where s.sessionID = r.sessionID and s.auctionID = 'Auc72' 
+select * from Bid_Track
 
