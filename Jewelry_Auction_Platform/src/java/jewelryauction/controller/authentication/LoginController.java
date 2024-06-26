@@ -1,6 +1,7 @@
 package jewelryauction.controller.authentication;
 
 import dao.UserDAOImpl;
+import dao.UserDao;
 import dto.UserDTO;
 import entity.member.Member;
 import utils.RoleConstants;
@@ -75,7 +76,7 @@ public class LoginController extends HttpServlet {
         String username = request.getParameter("email");
         String password = request.getParameter("password");
         String url = ERROR_PAGE;
-        UserDAOImpl dao = new UserDAOImpl();
+        UserDao dao = new UserDAOImpl();
         try {
             UserDTO user = dao.checkLogin(username, password);
             if (user == null) {
