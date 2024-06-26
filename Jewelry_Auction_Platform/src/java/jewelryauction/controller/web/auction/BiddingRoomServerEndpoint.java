@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -55,6 +56,16 @@ public class BiddingRoomServerEndpoint {
 
     private void handleFinishedStatus(JSONObject json) throws JSONException {
         String selectedJewelryID = json.getString("selectedJewelryID");
+        
+        //----------------------------------------------------------------------
+        //select winning member of the session
+        dao.selectWinnerID(selectedJewelryID, dao.getTheHighestBid(selectedJewelryID));
+        
+        //send email to the email of the winning member
+        dao.sendEmailToWinner(dao.getWinnerIDEmail(selectedJewelryID));
+        
+        //-----------------------------------------------------------------------
+        //close session
         dao.closeSession(selectedJewelryID);
         
     }
@@ -95,6 +106,8 @@ public class BiddingRoomServerEndpoint {
         bidMessage.put("Time", Timestamp.valueOf(LocalDateTime.now()));
         return bidMessage;
     }
+    
+
 
     @OnClose
     public void onClose(Session session) {
