@@ -66,14 +66,6 @@ CREATE TABLE Users (
 );
 GO
 
-CREATE TABLE InvoiceDetails(
-	invoiceDetailID VARCHAR(50) NOT NULL PRIMARY KEY,
-	invoiceID VARCHAR(50) NOT NULL,
-	registerBidID VARCHAR(50) NOT NULL,
-	CONSTRAINT fk_invoiceID FOREIGN KEY (invoiceID) REFERENCES Invoice(invoiceID),
-	CONSTRAINT fk_registerBidID FOREIGN KEY (registerBidID) REFERENCES Register_Bid(registerBidID)
-);
-
 CREATE TABLE [Member] (
     memberID VARCHAR(50) NOT NULL PRIMARY KEY,
     userID VARCHAR(50) NOT NULL,
@@ -87,10 +79,6 @@ CREATE TABLE [Member] (
     CONSTRAINT fk_member_userID FOREIGN KEY (userID) REFERENCES Users(userID)
 );
 GO
-alter table [Member]
-add status_register_to_bid bit default 0
-select * from Member
-update Member set status_register_to_bid = 0
 CREATE TABLE [Address](
     addressID VARCHAR(50) NOT NULL PRIMARY KEY,
     city NVARCHAR(255) NOT NULL,
@@ -101,7 +89,6 @@ CREATE TABLE [Address](
     CONSTRAINT fk_memberID FOREIGN KEY (memberID) REFERENCES [Member](memberID)
 ); 
 GO
-select * from Address
 CREATE TABLE category (
     categoryID NVARCHAR(50) NOT NULL PRIMARY KEY,
     categoryName NVARCHAR(255) NOT NULL,
@@ -167,15 +154,14 @@ CREATE TABLE Jewelry (
     FOREIGN KEY (categoryID) REFERENCES category(categoryID)
 );
 GO
-
 CREATE TABLE Auction (
     auctionId VARCHAR(50) PRIMARY KEY NOT NULL,
     startDate DATE,
     startTime TIME,
+	endTime TIME,
     [status] BIT DEFAULT 0
 );
 GO
-
 CREATE TABLE [Session](
     sessionID VARCHAR(50) NOT NULL PRIMARY KEY,
     auctionID VARCHAR(50) NOT NULL,
@@ -202,7 +188,6 @@ CREATE TABLE Register_Bid(
 	CONSTRAINT uc_member_session UNIQUE (memberID, sessionID)
 );
 GO
-
 CREATE SEQUENCE registerBidID_sequence
     START WITH 0
     INCREMENT BY 1;
@@ -218,15 +203,13 @@ BEGIN
     SELECT @newregisterBidID, sessionID, memberID, bidAmount_Current, bidTime_Current, preBid_Amount, CONVERT(TIME, GETDATE()), [status]
     FROM inserted;
 END;
-select * from Bid_Track
 GO
-
 CREATE TABLE Bid_Track(
     bidID VARCHAR(50) NOT NULL PRIMARY KEY,
     sessionID VARCHAR(50) NOT NULL,
     memberID VARCHAR(50) NOT NULL,
     bidAmount DECIMAL(18,2) NOT NULL,
-    bidTime DATETIME NOT NULL,
+    bidTime TIME,
     CONSTRAINT fk_sessionID_live FOREIGN KEY (sessionID) REFERENCES [Session](sessionID),
     CONSTRAINT fk_memberID_live FOREIGN KEY (memberID) REFERENCES [Member](memberID)
 );
@@ -243,10 +226,11 @@ BEGIN
     DECLARE @newbidID NVARCHAR(50);
     SET @newbidID = 'Bid' + CAST(NEXT VALUE FOR bidID_sequence AS NVARCHAR(50));
     INSERT INTO Bid_Track(bidID, bidAmount, bidTime, sessionID, memberID)
-    SELECT @newbidID, bidAmount, bidTime, sessionID, memberID
+    SELECT @newbidID, bidAmount, CONVERT(TIME, GETDATE()), sessionID, memberID
     FROM inserted;
 END;
 GO
+drop trigger autogenerate_bidID
 CREATE TABLE Invoice(
     invoiceID VARCHAR(50) NOT NULL PRIMARY KEY,
     registerBidID VARCHAR(50) NOT NULL,
@@ -255,14 +239,9 @@ CREATE TABLE Invoice(
     paymentMethod VARCHAR(50),  -- Field for payment method
     shippingAddress NVARCHAR(500),  -- Field for shipping address
     CONSTRAINT fk_RegisterBid FOREIGN KEY (registerBidID) REFERENCES Register_Bid(registerBidID)
-);
-
-ALTER TABLE Invoice DROP CONSTRAINT fk_RegisterBid;
-ALTER TABLE Invoice DROP COLUMN registerBidID;
-
+);    
 GO
 -- Create triggers
-DROP TRIGGER check_unique_username
 CREATE TRIGGER check_unique_username
 ON Users
 INSTEAD OF INSERT
@@ -282,38 +261,6 @@ BEGIN
         SELECT @new_userID, username, email, [password], GETDATE(), roleID
         FROM inserted;
     END
-END;
-GO
-
-CREATE SEQUENCE invoiceDetailID_sequence
-    START WITH 0
-    INCREMENT BY 1;
-GO
-CREATE TRIGGER autogenerate_invoiceDetailID
-ON InvoiceDetails
-INSTEAD OF INSERT
-AS
-BEGIN
-	DECLARE @new_invoiceDetailID VARCHAR(50);
-	SET @new_invoiceDetailID = 'InvDetail' + CAST(NEXT VALUE FOR invoiceDetailID_sequence AS VARCHAR(50));
-	INSERT INTO InvoiceDetails (invoiceDetailID, invoiceID, registerBidID)
-	SELECT @new_invoiceDetailID, invoiceID, registerBidID
-	FROM inserted;
-END;
-GO
-
-
-DROP TRIGGER autogenerate_userID
-CREATE TRIGGER autogenerate_userID
-ON Users
-INSTEAD OF INSERT
-AS
-BEGIN
-        DECLARE @new_userID VARCHAR(50);
-        SET @new_userID = 'User' + CAST(NEXT VALUE FOR userID_sequence AS VARCHAR(50));
-        INSERT INTO Users (userID, username, email, [password], joined_at, roleID)
-        SELECT @new_userID, username, email, [password], GETDATE(), roleID
-        FROM inserted;
 END;
 GO
 
@@ -342,8 +289,6 @@ BEGIN
     FROM inserted;
 END;
 GO
-
-
 
 CREATE TRIGGER autogenerate_valuationId 
 ON RequestValuation
@@ -424,12 +369,11 @@ AS
 BEGIN
     DECLARE @newauctionID NVARCHAR(50);
 
-    INSERT INTO Auction (auctionID, startDate, startTime)
-    SELECT 'Auc' + CAST(NEXT VALUE FOR auctionID_sequence AS NVARCHAR(50)), startDate, startTime
+    INSERT INTO Auction (auctionID, startDate, endDate, startTime, endTime)
+    SELECT 'Auc' + CAST(NEXT VALUE FOR auctionID_sequence AS NVARCHAR(50)), startDate, endDate, startTime, endTime
     FROM inserted;
 END;
 GO
-
 CREATE TRIGGER autogenerate_sessionID
 ON [Session]
 INSTEAD OF INSERT
@@ -442,40 +386,6 @@ BEGIN
     FROM inserted;
 END;
 GO
-
-/* Testing and data manipulation queries 
--- Select queries
-select * from Users;   
-select * from RequestValuation;
-select * from Member;
-select * from Jewelry;
-select * from Role;
-select * from Category;
-select * from Notification;
-select * from Session;
-select * from Auction;
-SELECT * FROM Jewelry WHERE [status] = 'Received';
-SELECT * FROM Jewelry WHERE [status] = 'Approved';
-SELECT * FROM Auction WHERE auctionID = 'Auc42';
-SELECT J.* FROM Jewelry J, Session S WHERE S.jewelryID = J.jewelryID AND auctionID = 'Auc42';
-SELECT J.*, C.categoryName FROM Jewelry J, Category C, Session S, Auction Auc 
-WHERE J.categoryID = C.categoryID AND S.auctionID = Auc.auctionID AND J.jewelryID = S.jewelryID AND Auc.auctionID = 'Auc42';
-SELECT * FROM Auction WHERE [status] = 0;
-
--- Insert queries
-insert into Users (username, email, [password], roleID) values ('staff', 'staff123@gmail.com', '123', 'Role02');
-insert into Users (username, email, [password], roleID) values ('manager', 'manager123@gmail.com', '123', 'Role03');
-insert into Users (username, email, [password], roleID) values ('admin', 'admin123@gmail.com', '123', 'Role04');
-insert into Member (memberID, userID, firstName, lastName, phoneNumber, gender, dob, avatar) values
-('Member1', 'User0', 'Alex', 'Watson', '0978787898', 'Male', '2000-02-19', null);
-
--- Delete queries
-delete from RequestValuation;
-delete from Jewelry;
-delete from Notification;
-delete from Auction;
-delete from [Session];
-*/
 CREATE SEQUENCE addressID_sequence
     START WITH 0
     INCREMENT BY 1;
@@ -492,8 +402,8 @@ BEGIN
     FROM inserted;
 END;
 GO
-update Member set status_register_to_bid = 0
-select * from Bid_Track
+update Member set status_register_to_bid = 0 where memberID = 'Member5'
+select * from Member
 
 CREATE SEQUENCE memberID_sequence
     START WITH 0
@@ -513,8 +423,51 @@ BEGIN
 END;
 GO
 
+UPDATE s
+SET s.status = 0
+FROM Session s
+WHERE s.auctionID = (SELECT a.auctionId FROM Auction a WHERE a.auctionId = 'Auc73');
+
+select * from Session where auctionID = 'Auc73'
+
+delete from Bid_Track
+delete from Register_Bid
+select * from Register_Bid
+select * from Bid_Track
+
+WITH MaxPreBid AS (
+    SELECT 
+        S.jewelryID,
+        MAX(RB.preBid_Amount) AS max_preBid_Amount
+    FROM 
+        Register_Bid RB
+    JOIN 
+        Session S ON RB.sessionID = S.sessionID
+    GROUP BY 
+        S.jewelryID
+)
+SELECT 
+    J.*, 
+    C.CATEGORYNAME, 
+    MP.max_preBid_Amount
+FROM 
+    JEWELRY J
+JOIN 
+    CATEGORY C ON J.CATEGORYID = C.CATEGORYID
+JOIN 
+    Session S ON J.jewelryID = S.jewelryID
+JOIN 
+    Auction AUC ON S.AUCTIONID = AUC.AUCTIONID
+LEFT JOIN 
+    MaxPreBid MP ON J.jewelryID = MP.jewelryID
+WHERE 
+    AUC.AUCTIONID = 'Auc73';
 
 
+select * from Register_Bid
+select * from Session
 
-INSERT INTO Users (username, email, [password], roleID, joined_at) VALUES ('trung', 'Trung123@gmail.com', '123', 'Role01', GETDATE());
-INSERT INTO Member (userID, firstName, lastName) VALUES ('User15', 'Trung', 'Hoang');
+select * from Register_Bid where sessionID = 'Turn48'
+select * from Register_Bid r, Session s where s.sessionID = r.sessionID and s.auctionID = 'Auc72' 
+select * from Bid_Track
+

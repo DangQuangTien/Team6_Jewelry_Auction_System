@@ -25,12 +25,20 @@
             }
 
             .navbar {
-                background-color: rgba(0, 0, 0, 0.8);
-                transition: background-color 0.3s, box-shadow 0.3s, padding-top 0.3s, padding-bottom 0.3s;
+                background: radial-gradient(circle, rgba(255, 239, 166, 1) 0%, rgba(218, 165, 32, 0.8) 50%, rgba(184, 134, 11, 0.8) 100%);
+                background-size: 200% 200%;
+                background-position: 50% 50%;
+                transition: background 0.3s ease, box-shadow 0.3s ease, padding-top 0.3s ease, padding-bottom 0.3s ease;
                 padding-top: 15px;
                 padding-bottom: 15px;
                 z-index: 1000;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(15px);
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.19);
+            }
+
+            .navbar:hover {
+                background-position: 100% 100%;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.25);
             }
 
             .navbar-scrolled {
@@ -40,14 +48,18 @@
                 padding-bottom: 10px;
             }
 
-            .navbar-brand, .nav-link {
-                color: #fff !important;
-                transition: color 0.3s;
+            .navbar-brand .brand-name {
+                font-size: 2em;
+                font-family: 'Zapf-Chancery';
+                font-weight: 700;
+                color: black;
             }
 
-            .navbar-scrolled .navbar-brand,
-            .navbar-scrolled .nav-link {
-                color: #ffc107 !important;
+            .nav-link {
+                color: black !important;
+                transition: color 0.3s;
+                font-family: Andale Mono;
+                font-size: 1.25em;
             }
 
             .navbar-nav .nav-link {
@@ -67,11 +79,6 @@
                 visibility: hidden;
             }
 
-            .navbar-nav .nav-link:hover::after {
-                width: 100%;
-                left: 0;
-                visibility: visible;
-            }
 
             .dropdown-menu {
                 background-color: #000;
@@ -82,6 +89,18 @@
             .dropdown-item {
                 color: #fff !important;
                 transition: background-color 0.3s, color 0.3s;
+                position: relative; /* Ensure pseudo-element positioning */
+            }
+
+            .dropdown-item::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: -2px;
+                width: 0;
+                height: 2px;
+                background-color: transparent;
+                transition: width 0.3s ease;
             }
 
             .dropdown-item:hover {
@@ -89,16 +108,13 @@
                 color: #ffc107 !important;
             }
 
-            .dropdown-menu {
-                display: block !important;
-                opacity: 0;
-                transform: translateY(-20px);
-                transition: opacity 0.3s, transform 0.3s;
+            .dropdown-item:hover::after {
+                width: 100%;
+                background-color: #ffc107
             }
-
-            .dropdown-menu.show {
-                opacity: 0.85;
-                transform: translateY(0);
+            .nav-item dropdown:hover::after {
+                width: 100%;
+                background-color: #ffc107
             }
 
             .content {
@@ -325,8 +341,8 @@
 
             .banner {
                 position: relative;
-                width: 100%;
-                height: 600px;
+                width: 110%; /* Adjusted width for full coverage */
+                height: 1000px;
                 overflow: hidden;
                 margin-bottom: 30px;
                 margin-top: 60px;
@@ -338,13 +354,14 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: url('https://png.pngtree.com/thumb_back/fw800/background/20190223/ourmid/pngtree-beautiful-romantic-golden-jewelry-banner-background-spheresmall-golden-ballgold-image_83218.jpg') center/cover no-repeat;
+                background: url('images/banner.jpg') center/cover no-repeat;
                 will-change: transform;
-                transition: transform 0.5s ease;
+                transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                filter: brightness(85%);
             }
 
             .banner:hover .banner-image {
-                transform: scale(1.1);
+                transform: scale(1.05);
             }
 
             .particle-background {
@@ -353,38 +370,52 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: rgba(0, 0, 0, 0.5);
                 z-index: 0;
                 overflow: hidden;
             }
-
-            .banner-text {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                color: #fff;
-                text-align: center;
-                z-index: 1;
-            }
-
-            .banner-heading {
-                font-size: 48px;
-                margin-bottom: 20px;
+            .banner-heading, .banner-subheading {
                 opacity: 0;
                 transform: translateY(-20px);
-                animation: slideIn 1s forwards 0.5s;
+                animation: slideIn 1s forwards;
                 text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            .banner-text {
+   position: absolute;
+    top: 50%;
+    left: 20px; /* Adjust left spacing as needed */
+    transform: translateY(-50%);
+    color: #fff;
+    text-align: left; /* Align text to the left */
+    z-index: 1;
             }
 
-            .banner-subheading {
-                font-size: 24px;
-                margin-bottom: 30px;
-                opacity: 0;
-                transform: translateY(20px);
-                animation: slideIn 1s forwards 0.7s;
-                text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            }
+ .banner-heading,
+.banner-subheading {
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: slideIn 1s forwards;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.banner-heading {
+    font-size: 48px;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: slideIn 1s forwards 0.5s;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    font-family: 'Zapf-Chancery';
+}
+
+.banner-subheading {
+    font-size: 20px;
+    margin-bottom: 30px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideIn 1s forwards 0.7s;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    font-family: Courier
+}
 
             .btn-banner {
                 font-size: 18px;
@@ -411,6 +442,7 @@
                     transform: translateY(0);
                 }
             }
+
         </style>
     </head>
     <body>
@@ -423,7 +455,7 @@
             <div class="container">
                 <a class="navbar-brand"
                    href="${pageContext.request.contextPath}/home">
-                    <span class="brand-name">F'Rankelly</span>
+                    <span class="brand-name">F'RANKELLY</span>
                 </a>
                 <button class="navbar-toggler" type="button"
                         data-toggle="collapse" data-target="#navbarNav"
@@ -442,10 +474,10 @@
                             </a>
                             <div class="dropdown-menu"
                                  aria-labelledby="auctionDropdown">
-                                <a class="dropdown-item"
+                                <a style="font-family:Andale Mono" class="dropdown-item"
                                    href="${pageContext.request.contextPath}/auctions">UPCOMING
                                     AUCTIONS</a>
-                                <a class="dropdown-item" href="#">PAST
+                                <a style="font-family:Andale Mono" class="dropdown-item" href="#">PAST
                                     AUCTIONS</a>
                             </div>
                         </li>
@@ -461,10 +493,10 @@
                             </a>
                             <div class="dropdown-menu"
                                  aria-labelledby="sellingDropdown">
-                                <a class="dropdown-item"
+                                <a style="font-family:Andale Mono" class="dropdown-item"
                                    href="${pageContext.request.contextPath}/selling">ABOUT
                                     SELLING</a>
-                                <a class="dropdown-item"
+                                <a style="font-family:Andale Mono" class="dropdown-item"
                                    href="${pageContext.request.contextPath}/valuation">VALUATION
                                     REQUEST</a>
                             </div>
@@ -486,15 +518,15 @@
                                        data-toggle="dropdown"
                                        aria-haspopup="true"
                                        aria-expanded="false">
-                                        <i class="fas fa-user"></i> USER <i
+                                        <i  class="fas fa-user"></i> USER <i
                                             class="fas fa-caret-down"></i>
                                     </a>
                                     <div class="dropdown-menu"
                                          aria-labelledby="userDropdown">
-                                        <a class="dropdown-item"
-                                           href="${pageContext.request.contextPath}/register">Register</a>
-                                        <a class="dropdown-item"
-                                           href="${pageContext.request.contextPath}/login">Login</a>
+                                        <a style="font-family:Andale Mono" class="dropdown-item"
+                                           href="${pageContext.request.contextPath}/register">REGISTER</a>
+                                        <a style="font-family:Andale Mono" class="dropdown-item"
+                                           href="${pageContext.request.contextPath}/login">LOGIN</a>
                                     </div>
                                 </li>
                             </c:when>
@@ -537,20 +569,18 @@
 
         <!-- Banner -->
         <section class="welcome-section">
-            <div class="banner">
-                <div class="banner-image"></div>
-                <div class="particle-background"></div>
-                <div class="banner-text">
-                    <h2 class="banner-heading">Welcome to F'Rankelly
-                        Auction</h2>
-                    <p class="banner-subheading">Explore our curated selection
-                        of fine jewelry. Each piece is a treasure waiting to be
-                        discovered.</p>
-                    <button id="btn-start-bidding" class="btn btn-banner">Start
-                        Bidding</button>
-                </div>
-            </div>
-        </section>
+    <div class="banner">
+        <div class="banner-image"></div>
+        <div class="particle-background"></div>
+        <div class="banner-text">
+            <h2 class="banner-heading">Welcome to F'RANKELLY</h2>
+            <p class="banner-subheading">
+                Where every piece of fine jewelry tells a story of elegance and timeless beauty<br> Explore our curated collection, <br>meticulously crafted to captivate and inspire, <br>as each gem and setting whispers tales of luxury and sophistication.
+            </p>
+        </div>
+    </div>
+</section>
+
 
         <!-- Content -->
         <div class="content container mt-5">
@@ -571,7 +601,6 @@
                                                             <img src="${pageContext.request.contextPath}/${fn:split(jewelry.photo, ';')[0]}" class="card-img-top" alt="${jewelry.jewelryName}">
                                                             <div class="card-body">
                                                                 <h5 class="card-title">${jewelry.jewelryName}</h5>
-                                                                <a href="${pageContext.request.contextPath}/auctions/detail.jsp?auctionID=${jewelry.getAuctionID()}" class="btn btn-primary">Bid Now</a>
                                                             </div>
                                                         </div>
                                                     </a>
@@ -785,7 +814,6 @@
                     </div>
                 </div>
             </section>
-
         </div>
         <footer class="text-center py-4 mt-auto"
                 style="background-color: #000; color: #fff; position: relative; overflow: hidden;">
