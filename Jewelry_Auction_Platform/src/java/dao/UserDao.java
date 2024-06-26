@@ -97,8 +97,6 @@ public interface UserDao {
     boolean saveBid(String preBid_Amount, String jewelryID, String memberID);
 
     Double getTheHighestBid(String jewelryID);
-    //-------------
-    boolean selectWinnerID(String sessionID, double highestBid);
 
     //User register
     boolean registerUser(String firstName, String lastName, String email, String username, String password);

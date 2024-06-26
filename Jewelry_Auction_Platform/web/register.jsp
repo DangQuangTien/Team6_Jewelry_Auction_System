@@ -45,7 +45,7 @@
                 <%= request.getAttribute("errorMsg")%>
             </div>
             <% }%>
-            <form name="registerForm" action="MainController" onsubmit="return validateForm()">
+            <form name="registerForm" action="register" method="POST"  onsubmit="return validateForm()">
                 <input type="text" name="firstName" placeholder="Your first name" autocomplete="name" required="required" autofocus="autofocus"/>
                 <input type="text" name="lastName" placeholder="Your last name" autocomplete="name" required="required"/>
                 <input type="email" name="email" placeholder="Email address" autocomplete="email" required="required"/>
@@ -60,4 +60,3 @@
         </div>
     </body>
 </html>
-
