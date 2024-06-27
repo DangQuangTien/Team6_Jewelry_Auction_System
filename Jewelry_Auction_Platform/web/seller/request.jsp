@@ -388,40 +388,61 @@
     </div>
 </main>
 
-
-<footer class="text-center py-4 mt-auto" style="background-color: #000; color: #fff; position: relative; overflow: hidden;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <h5>Jewelry Auction</h5>
-                <p>Your premier destination for exquisite jewelry and gemstones. Discover the timeless beauty and elegance in our curated collections.</p>
-            </div>
-            <div class="col-md-4">
-                <h5>Quick Links</h5>
-                <ul class="list-unstyled">
-                    <li><a href="${pageContext.request.contextPath}/register" style="color: #ffc107;">Register</a></li>
-                    <li><a href="${pageContext.request.contextPath}/login" style="color: #ffc107;">Login</a></li>
-                    <li><a href="${pageContext.request.contextPath}/auctions" style="color: #ffc107;">Auctions</a></li>
-                    <li><a href="${pageContext.request.contextPath}/selling" style="color: #ffc107;">Selling</a></li>
-                </ul>
-            </div>
-            <div class="col-md-4">
-                <h5>Contact Us</h5>
-                <p><i class="fas fa-phone-alt"></i> +849872539999</p>
-                <p><i class="fas fa-envelope"></i> support@jewelryauction.com</p>
-                <p><i class="fas fa-map-marker-alt"></i> 123 Jewelry Street, New York, NY</p>
-                <div class="social-icons mt-3">
-                    <a href="#" class="mx-2" style="color: #ffc107; transition: transform 0.3s;"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="mx-2" style="color: #ffc107; transition: transform 0.3s;"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="mx-2" style="color: #ffc107; transition: transform 0.3s;"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="mx-2" style="color: #ffc107; transition: transform 0.3s;"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="mt-4">
-            <p>&copy; 2024 Jewelry Auction. All rights reserved.</p>
+<footer class="text-center py-4 mt-auto"
+style="background-color: #000; color: #fff; position: relative; overflow: hidden;">
+<div class="container">
+<div class="row">
+    <div class="col-md-4">
+        <h5>Jewelry Auction</h5>
+        <p>Your premier destination for exquisite jewelry and
+            gemstones. Discover the timeless beauty and elegance
+            in our curated collections.</p>
+    </div>
+    <div class="col-md-4">
+        <h5>Quick Links</h5>
+        <ul class="list-unstyled">
+            <li><a
+                    href="${pageContext.request.contextPath}/register"
+                    style="color: #ffc107;">Register</a></li>
+            <li><a
+                    href="${pageContext.request.contextPath}/login"
+                    style="color: #ffc107;">Login</a></li>
+            <li><a
+                    href="${pageContext.request.contextPath}/auctions"
+                    style="color: #ffc107;">Auctions</a></li>
+            <li><a
+                    href="${pageContext.request.contextPath}/selling"
+                    style="color: #ffc107;">Selling</a></li>
+        </ul>
+    </div>
+    <div class="col-md-4">
+        <h5>Contact Us</h5>
+        <p><i class="fas fa-phone-alt"></i> +849872539999</p>
+        <p><i class="fas fa-envelope"></i>
+            support@jewelryauction.com</p>
+        <p><i class="fas fa-map-marker-alt"></i> 123 Jewelry
+            Street, New York, NY</p>
+        <div class="social-icons mt-3">
+            <a href="#" class="mx-2"
+               style="color: #ffc107; transition: transform 0.3s;"><i
+                    class="fab fa-facebook-f"></i></a>
+            <a href="#" class="mx-2"
+               style="color: #ffc107; transition: transform 0.3s;"><i
+                    class="fab fa-twitter"></i></a>
+            <a href="#" class="mx-2"
+               style="color: #ffc107; transition: transform 0.3s;"><i
+                    class="fab fa-instagram"></i></a>
+            <a href="#" class="mx-2"
+               style="color: #ffc107; transition: transform 0.3s;"><i
+                    class="fab fa-linkedin-in"></i></a>
         </div>
     </div>
+</div>
+<div class="mt-4">
+    <p>&copy; 2024 Jewelry Auction. All rights reserved.</p>
+</div>
+</div>
+</footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

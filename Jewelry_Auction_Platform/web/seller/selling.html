@@ -116,7 +116,7 @@
             color: white;
             text-align: center;
             background-color: rgba(52, 58, 64, 0.8); /* Dark background with opacity */
-            border-radius: 8px;
+          
         }
 
         .hero-section h1 {
@@ -149,17 +149,11 @@
         main {
             padding: 40px 20px;
             max-width: 900px;
-            margin: 0 auto;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;         
         }
 
         .feature-card {
             border: none;
-            border-radius: 8px;
-            background-color: #f8f9fa;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
 
@@ -264,7 +258,7 @@
         <p class="text-center">Experience the best in auction services with our unique blend of traditional and modern approaches, ensuring your valuables receive the highest attention and bids.</p>
         
         <div class="card feature-card">
-            <img src="images/aligned-goals.jpg" alt="Aligned Goals">
+            <img src="../images/928826-vertical-jewelry-wallpapers-3840x2160-for-meizu.jpg" alt="Aligned Goals">
             <div class="card-body">
                 <h5>1. Aligned Goals</h5>
                 <p>Our interests are aligned with yours. We aim to sell your jewelry at the highest possible price, and our fees are only collected upon successful sales, ensuring our commitment to your success.</p>
@@ -272,7 +266,7 @@
         </div>
         
         <div class="card feature-card">
-            <img src="images/bi-weekly-auctions.jpg" alt="Bi-Weekly Auctions">
+            <img src="../images/R.jpg" alt="Bi-Weekly Auctions">
             <div class="card-body">
                 <h5>2. Bi-Weekly Auctions</h5>
                 <p>Unlike many auction houses that hold auctions every few months, we conduct live and online global auctions every two weeks, providing quicker results and more opportunities to sell your items.</p>
@@ -280,7 +274,7 @@
         </div>
         
         <div class="card feature-card">
-            <img src="images/lightning-auctions.jpg" alt="Lightning Auctions">
+            <img src="../images/1913588.jpg" alt="Lightning Auctions">
             <div class="card-body">
                 <h5>3. Lightning Auctions</h5>
                 <p>Need faster results? Our Lightning Auctions deliver quick outcomes through a first-price sealed-bid format, ensuring your items sell rapidly to pre-qualified bidders.</p>
@@ -288,7 +282,7 @@
         </div>
         
         <div class="card feature-card">
-            <img src="images/comprehensive-services.jpg" alt="Comprehensive Services">
+            <img src="../images/1913584.jpg" alt="Comprehensive Services">
             <div class="card-body">
                 <h5>4. Comprehensive Services</h5>
                 <p>We offer fully-insured shipping, cataloging, photography, and marketing of your jewelry and watches at no extra cost. Our dedicated team ensures every item receives the best presentation.</p>
@@ -296,7 +290,7 @@
         </div>
         
         <div class="card feature-card">
-            <img src="images/success-stories.jpg" alt="Client Success Stories">
+            <img src="../images/1913581.jpg" alt="Client Success Stories">
             <div class="card-body">
                 <h5>5. Client Success Stories</h5>
                 <p>Our clients have achieved remarkable results. For instance, a group of vintage Chanel costume jewelry initially reserved at $10,000 was sold for $25,000 after a competitive bidding war.</p>
@@ -333,19 +327,71 @@
         </div>
     </main>
 
-    <footer class="footer text-center py-3 mt-auto">
-        <div>
-            <h6>Jewelry Auction</h6>
-            <a href="register.jsp">Register</a> |
-            <a href="login.jsp">Login</a> |
-            <a href="#">Help & FAQ</a> |
-            <a href="#">Support</a> |
-            <a href="#">Sitemap</a>
+    <footer class="text-center py-4 mt-auto"
+    style="background-color: #000; color: #fff; position: relative; overflow: hidden;">
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h5>Jewelry Auction</h5>
+            <p>Your premier destination for exquisite jewelry and
+                gemstones. Discover the timeless beauty and elegance
+                in our curated collections.</p>
         </div>
-        <div>
-            <span>&copy; <script>document.write(new Date().getFullYear())</script> Jewelry Auction. All rights reserved.</span>
+        <div class="col-md-4">
+            <h5>Quick Links</h5>
+            <ul class="list-unstyled">
+                <li><a
+                        href="${pageContext.request.contextPath}/register"
+                        style="color: #ffc107;">Register</a></li>
+                <li><a
+                        href="${pageContext.request.contextPath}/login"
+                        style="color: #ffc107;">Login</a></li>
+                <li><a
+                        href="${pageContext.request.contextPath}/auctions"
+                        style="color: #ffc107;">Auctions</a></li>
+                <li><a
+                        href="${pageContext.request.contextPath}/selling"
+                        style="color: #ffc107;">Selling</a></li>
+            </ul>
         </div>
-    </footer>
+        <div class="col-md-4">
+            <h5>Contact Us</h5>
+            <p><i class="fas fa-phone-alt"></i> +849872539999</p>
+            <p><i class="fas fa-envelope"></i>
+                support@jewelryauction.com</p>
+            <p><i class="fas fa-map-marker-alt"></i> 123 Jewelry
+                Street, New York, NY</p>
+            <div class="social-icons mt-3">
+                <a href="#" class="mx-2"
+                   style="color: #ffc107; transition: transform 0.3s;"><i
+                        class="fab fa-facebook-f"></i></a>
+                <a href="#" class="mx-2"
+                   style="color: #ffc107; transition: transform 0.3s;"><i
+                        class="fab fa-twitter"></i></a>
+                <a href="#" class="mx-2"
+                   style="color: #ffc107; transition: transform 0.3s;"><i
+                        class="fab fa-instagram"></i></a>
+                <a href="#" class="mx-2"
+                   style="color: #ffc107; transition: transform 0.3s;"><i
+                        class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4">
+        <p>&copy; 2024 Jewelry Auction. All rights reserved.</p>
+    </div>
+</div>
+<!-- Decorative Elements -->
+<div class="footer-decoration">
+    <div class="footer-diamond"
+         style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%);">
+        <i class="fas fa-gem"
+           style="color: #ffc107; font-size: 50px; animation: pulse 2s infinite;"></i>
+    </div>
+    <div class="footer-lines"
+         style="position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, #ffc107, transparent); animation: slide 10s infinite;"></div>
+</div>
+</footer>
 
     <!-- jQuery, Popper.js, and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
