@@ -400,69 +400,58 @@
                 padding: 20px;
             }
             .btn {
-                height: 3rem;
-                width: 9rem;
-                border-radius: 5px;
-                border: 5px solid rgb(255, 255, 255);
-                cursor: pointer;
-                filter: drop-shadow(0px 0px 10px rgb(255, 255, 255));
-                animation: flickering 2s linear infinite both;
+                position: relative;
+                width: 10em;
+                height: 2em;
+                text-align: center;
+                font-family: poppins;
+                font-size: 17px;
+                font-weight: 300;
+                letter-spacing: 5px;
                 text-transform: uppercase;
-                background-color: rgb(83, 82, 82);
-                color: rgb(234, 234, 234);
-                font-weight: 700;
-                transition: 0.6s;
-                box-shadow: 0px 0px 60px #1f4c65;
-                -webkit-box-reflect: below 10px linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.4));
+                color: #fff;
+                cursor: pointer;
+                background-color: rgba(3, 3, 3, .5);
+                border: none;
+                transition: color .2s linear,
+                    box-shadow .3s linear,
+                    background-color .3s cubic-bezier(0.25, 0.8, 0.25, 1);
             }
 
-            @keyframes flickering {
-                0%,
-                100% {
-                    opacity: 1;
-                }
-
-                41.99% {
-                    opacity: 1;
-                }
-
-                42% {
-                    opacity: 0;
-                }
-
-                43% {
-                    opacity: 0;
-                }
-
-                43.01% {
-                    opacity: 1;
-                }
-
-                47.99% {
-                    opacity: 1;
-                }
-
-                48% {
-                    opacity: 0;
-                }
-
-                49% {
-                    opacity: 0;
-                }
-
-                49.01% {
-                    opacity: 1;
-                }
-            }
-
-            .text {
-                font-size: 1.8rem;
-                font-family: Arial, Helvetica, sans-serif;
-            }
-
+            .btn:focus,
             .btn:hover {
-                background-color: black;
-                border-radius: 0;
+                box-shadow: 0 0 110px #fff;
+                background-color: rgba(255, 255, 255, 0.4);
+                color: #111;
+                font-weight: 500;
+            }
+
+            .btn:focus:before,
+            .btn:hover:before,
+            .btn:focus:after,
+            .btn:hover:after {
+                width: 100%;
+                left: 0%;
+            }
+
+            .btn:before,
+            .btn:after {
+                content: '';
+                position: absolute;
+                pointer-events: none;
+                left: 50%;
+                width: 0%;
+                height: 2px;
+                background-color: #fff;
+                transition: width, left, 250ms cubic-bezier(0.25, .8, .25, 1);
+            }
+
+            .btn:before {
+                top: -2px;
+            }
+
+            .btn:after {
+                bottom: -2px;
             }
         </style>
     </head>
@@ -475,7 +464,7 @@
             }
         %>
         <div class="chat-header">
-            <div class="header-text">
+            <div style="font-family: Georgia; margin-left: 600px" class="header-text">
                 Live Auction
             </div>
             <div class="exit-button">
@@ -625,6 +614,11 @@
                 messageElement.appendChild(messageText);
                 messageElement.appendChild(messageTime);
                 chatMessages.appendChild(messageElement);
+                if (messageContent === "Jewelry no longer exists!") {
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+                }
             }
             function scrollToBottom() {
                 var chatMessages = document.getElementById('chatMessages');
@@ -694,7 +688,7 @@
                                     // After all items are sent, redirect to another page after 30000 milliseconds
                                     window.location.href = `${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>`;
                                                             }
-                                                        }, 300000);
+                                                        }, 60000);
                                                     }
                                                 }
 

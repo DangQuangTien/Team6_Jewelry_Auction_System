@@ -10,16 +10,20 @@
         <title>Upcoming Auctions</title>
         <link rel="icon" type="image/png" sizes="64x64" href="../images/logo/Logo.png">
         <style>
-            body {
+            body, html {
                 font-family: Arial, sans-serif;
                 margin: 0;
                 padding: 0;
                 background-color: #f9f9f9;
+                scroll-behavior: smooth;
             }
+
             nav {
                 background-color: white;
                 color: #000000;
                 padding: 10px 20px;
+                display: flex;
+                justify-content: flex-end; /* Center align navigation links */
             }
 
             nav a {
@@ -27,7 +31,6 @@
                 text-decoration: none;
                 margin-right: 10px;
                 padding: 8px;
-                border-radius: 5px;
                 transition: background-color 0.3s ease;
             }
 
@@ -35,14 +38,12 @@
                 background-color: rgba(85, 85, 85, 0.5);
                 color: white;
             }
+
             .container {
-                max-width: 800px;
-                margin: 20px auto;
+                max-width: 90%;
+                margin: 100px auto;
                 padding: 20px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                background-color: #fff;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                box-sizing: border-box; /* Ensures padding and borders fit within container */
             }
 
             h1 {
@@ -59,21 +60,12 @@
                 display: flex;
                 margin-bottom: 20px;
                 padding: 20px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
                 background-color: #fafafa;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
                 overflow: hidden;
             }
 
-            .auction:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            }
-
             .image-container {
-                width: 40%;
+                width: 30%;
                 margin-right: 20px;
                 position: relative;
                 overflow: hidden;
@@ -82,40 +74,27 @@
             .image-container img {
                 width: 100%;
                 height: auto;
-                border-radius: 5px;
-                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-                transition: transform 0.3s ease, opacity 0.3s ease;
-            }
-
-            .image-container:hover img {
-                transform: scale(1.05);
             }
 
             .auction-details {
                 flex: 1;
-                opacity: 0;
-                transition: opacity 0.5s ease;
+                opacity: 1; /* Ensure details are visible */
                 padding: 10px;
-            }
-
-            .auction:hover .auction-details {
-                opacity: 1;
             }
 
             .countdown {
                 text-align: center;
-                font-size: 32px;
+                font-size: 300%;
                 color: #333;
                 padding: 20px;
                 border-radius: 10px;
                 background-color: #f8f9fa;
                 display: inline-block;
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
+                font-family: Andale Mono;
             }
 
-
             .countdown-text {
-                font-weight: bold;
                 margin-bottom: 6px;
             }
 
@@ -135,19 +114,28 @@
             }
 
             button {
-                padding: 10px 20px;
-                font-size: 16px;
+                padding: 15px 300px;
+                font-size: 18px;
                 color: black;
                 background-color: white;
                 border: 2px solid #000000;
                 border-radius: 100px;
                 cursor: pointer;
                 transition: background-color 0.3s ease, color 0.3s ease;
+                display: block;
+                margin-top: 100px;
+                margin-left: 120px
             }
 
             button:hover {
                 background-color: #000;
                 color: #fff;
+            }
+
+
+            p {
+                font-size:200% ;
+                margin-bottom: 10px;
             }
         </style>
     </head>
@@ -161,17 +149,18 @@
             <a href="#">CONTACT</a>
         </nav>
         <div class="container">
-            <h1>Upcoming Auctions</h1>
+            <div style="text-align: left; font-family: 'Zapf-Chancery'; font-size: 3.25em">Upcoming Auctions</div><br><br>
+            <hr>
+            <br><br>
             <c:choose>
                 <c:when test="${not empty AUCTIONS}">
                     <c:forEach var="auction" items="${AUCTIONS}">
                         <div class="auction">
                             <div class="image-container">
-                                <img src="https://www.fortunaauction.com/wp-content/uploads/2024/06/1122-collection-image-1500.jpg" alt="Auction Image"><br>
+                                <img src="https://www.fortunaauction.com/wp-content/uploads/2024/06/1122-collection-image-1500.jpg" alt="Auction Image" loading="lazy"><br>
                                 <div class="countdown" id="countdown_${auction.auctionID}"></div>
                             </div>
                             <div class="auction-details">
-                                <h2>Auction ID: ${auction.auctionID}</h2>
                                 <p>COMING SOON &#x2022; Bidding Open from 
                                     <fmt:formatDate value="${auction.startDate}" pattern="dd MMM"/> 
                                     to 
@@ -223,6 +212,7 @@
                                 }, 1000);
                             })('${auction.auctionID}', '${auction.endDate}', '${auction.startTime}');
                         </script>
+                        <hr>
                     </c:forEach>
                 </c:when>
                 <c:otherwise>

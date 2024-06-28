@@ -17,6 +17,105 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
     </head>
     <style>
+        body {
+            font-family: Andale Mono;
+            background-color:rgba(255, 239, 166, 0.01);
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background: radial-gradient(circle, rgba(255, 239, 166, 1) 0%, rgba(218, 165, 32, 0.8) 50%, rgba(184, 134, 11, 0.8) 100%);
+            background-size: 200% 200%;
+            background-position: 50% 50%;
+            transition: background 0.3s ease, box-shadow 0.3s ease, padding-top 0.3s ease, padding-bottom 0.3s ease;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            z-index: 1000;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.19);
+        }
+
+        .navbar:hover {
+            background-position: 100% 100%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .navbar-scrolled {
+            background-color: black;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            padding-top: 1px;
+            padding-bottom: 1px;
+        }
+
+        .navbar-brand .brand-name {
+            font-size: 2em;
+            font-family: 'Zapf-Chancery';
+            font-weight: 700;
+            color: black;
+        }
+
+        .nav-link {
+            color: black !important;
+            transition: color 0.3s;
+            font-family: Andale Mono;
+            font-size: 1.25em;
+        }
+
+        .navbar-nav .nav-link {
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: #ffc107;
+            transition: width 0.3s, left 0.3s;
+            visibility: hidden;
+        }
+
+
+        .dropdown-menu {
+            background-color: #000;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 0.5s;
+        }
+
+        .dropdown-item {
+            color: #fff !important;
+            transition: background-color 0.3s, color 0.3s;
+            position: relative; /* Ensure pseudo-element positioning */
+        }
+
+        .dropdown-item::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 0;
+            height: 2px;
+            background-color: transparent;
+            transition: width 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            color: #ffc107 !important;
+        }
+
+        .dropdown-item:hover::after {
+            width: 100%;
+            background-color: #ffc107
+        }
+        .nav-item dropdown:hover::after {
+            width: 100%;
+            background-color: #ffc107
+        }
+
         .countdown-container {
             display: flex;
             align-items: center;
@@ -42,35 +141,7 @@
             flex: 1;
             padding: 20px;
         }
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 10px 20px;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            transition: background-color 0.3s ease;
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
 
-        nav a {
-            color: #000000;
-            text-decoration: none;
-            margin-right: 10px;
-            padding: 8px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        nav a:hover {
-            background-color: rgba(85, 85, 85, 0.5);
-            color: white;
-        }
 
         .container-input {
             position: relative;
@@ -279,7 +350,14 @@
             height: 220px;
             opacity: 1;
         }
-
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
 
     </style>
     <c:set var="auction" value="${requestScope.AUCTION}" /> <!-- Get auction by ID -->
@@ -345,186 +423,282 @@
     </script>
     <body>
         <!-- Navigator -->
-    <nav>
-        <a style="text-decoration: none;" href="${pageContext.request.contextPath}/home">Home</a>
-        <a style="text-decoration: none;"href="${pageContext.request.contextPath}/auctions">Auctions</a>
-        <a style="text-decoration: none;"href="${pageContext.request.contextPath}/selling">My Bids</a>
+        <c:set var="username" value="${sessionScope.USERNAME}" />
+        <c:set var="member" value="${sessionScope.MEMBER}" />
+        <c:set var="role" value="${sessionScope.ROLE}" />
+
+        <!-- Nav bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand"
+               href="${pageContext.request.contextPath}/home">
+                <span class="brand-name">F'RANKELLY</span>
+            </a>
+            <button class="navbar-toggler" type="button"
+                    data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/home"> Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#"
+                           id="auctionDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            Auctions <i class="fas fa-caret-down"></i>
+                        </a>
+                        <div class="dropdown-menu"
+                             aria-labelledby="auctionDropdown">
+                            <a style="font-family:Andale Mono" class="dropdown-item"
+                               href="${pageContext.request.contextPath}/auctions">Upcoming
+                                Auctions</a>
+                            <a style="font-family:Andale Mono" class="dropdown-item" href="#">Past
+                                Auction</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#"
+                           id="sellingDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            My Bids <i class="fas fa-caret-down"></i>
+                        </a>
+                        <div class="dropdown-menu"
+                             aria-labelledby="sellingDropdown">
+                            <a style="font-family:Andale Mono" class="dropdown-item"
+                               href="${pageContext.request.contextPath}/my-upcoming-bids">Upcoming
+                                Bids</a>
+                            <a style="font-family:Andale Mono" class="dropdown-item"
+                               href="${pageContext.request.contextPath}/valuation">Past
+                                Bids</a>
+                        </div>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about"> Watched Lots</a>
+                    </li>
+                    <c:choose>
+                        <c:when test="${username == null}">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#"
+                                   id="userDropdown" role="button"
+                                   data-toggle="dropdown"
+                                   aria-haspopup="true"
+                                   aria-expanded="false">
+                                    <i class="fas fa-user"></i> User<i class="fas fa-caret-down"></i>
+                                </a>
+                                <div class="dropdown-menu"
+                                     aria-labelledby="userDropdown">
+                                    <a style="font-family:Andale Mono" class="dropdown-item"
+                                       href="${pageContext.request.contextPath}/register">Register</a>
+                                    <a style="font-family:Andale Mono" class="dropdown-item"
+                                       href="${pageContext.request.contextPath}/login">Login</a>
+                                </div>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="url">
+                                <c:choose>
+                                    <c:when
+                                        test="${role == 'Member'}">${pageContext.request.contextPath}/profile</c:when>
+                                    <c:when
+                                        test="${role == 'Staff'}">staff</c:when>
+                                    <c:when
+                                        test="${role == 'Manager'}">manager/manager.jsp</c:when>
+                                    <c:otherwise>admin/admin.jsp</c:otherwise>
+                                </c:choose>
+                            </c:set>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#"
+                                   id="userDropdown" role="button"
+                                   data-toggle="dropdown"
+                                   aria-haspopup="true"
+                                   aria-expanded="false">
+                                    <i class="fas fa-user"></i>
+                                    ${member.firstName} <i
+                                        class="fas fa-caret-down"></i>
+                                </a>
+                                <div class="dropdown-menu"
+                                     aria-labelledby="userDropdown">
+                                    <a class="dropdown-item"
+                                       href="${url}">Profile</a>
+                                    <a class="dropdown-item"
+                                       href="${pageContext.request.contextPath}/logout">Logout</a>
+                                </div>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Navigator -->
+    <div class="container">
+        <% String status = (String) request.getAttribute("PlACEBIDSTATUS");%>
+        <div id="statusAlert" class="alert" style="display: none;">
+            <%= (status != null) ? status : ""%>
+        </div>
+        <h1 style="margin-top: 120px; font-weight: bold; font-size: 3em; font-family:  Optima">Fine Jewels & Watches - <fmt:formatDate value="${auction.endDate}" pattern="dd MMM YYYY"/></h1>
+        <font style="font-size: 20px; font-family:  Helvetica; font-weight: bold">Live Auction</font>
+        <h3 style="font-size: 20px; font-family:  Helvetica;">Live bidding begins: <fmt:formatDate value="${auction.endDate}" pattern="dd MMM YYYY"/> at <c:out value="${auction.startTime}"/></h3>
+        <div class="countdown-container">
+            <h3 style="color: crimson; font-family:Verdana"><div id="countdown"></div></h3>
+            <div id="auctionLink"></div>
+        </div>
+        <!-- Notification -->
         <c:choose>
-            <c:when test="${member != null}">
-                <a style="text-decoration: none;" href="${pageContext.request.contextPath}/profile">Profile</a>
+            <c:when test="${status == 1 && member != null}">
+                <div id="auctionLink1"><h3>COMING SOON</h3></div>
+            </c:when>
+            <c:when test="${status == 0 && member != null}">
+                <a style=" text-decoration: none;" href="registerbid?auctionID=${param.auctionID}" class="btn-custom">REGISTER TO BID</a>
             </c:when>
             <c:otherwise>
-                <a style="text-decoration: none;" href="${pageContext.request.contextPath}/login"/>Login</a>
+                <a style=" text-decoration: none;" href="${pageContext.request.contextPath}/login" class="btn-custom">REGISTER TO BID</a>
             </c:otherwise>
         </c:choose>
-    <div class="container-input">
-        <input type="text" placeholder="Search" name="text" class="input">
-        <svg fill="#000000" width="20px" height="20px" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
-            <path d="M790.588 1468.235c-373.722 0-677.647-303.924-677.647-677.647 0-373.722 303.925-677.647 677.647-677.647 373.723 0 677.647 303.925 677.647 677.647 0 373.723-303.924 677.647-677.647 677.647Zm596.781-160.715c120.396-138.692 193.807-319.285 193.807-516.932C1581.176 354.748 1226.428 0 790.588 0S0 354.748 0 790.588s354.748 790.588 790.588 790.588c197.647 0 378.24-73.411 516.932-193.807l516.028 516.142 79.963-79.963-516.142-516.028Z" fill-rule="evenodd"></path>
-        </svg>
-    </div>
-</nav>
-<!-- Navigator -->
-<div class="container">
-    <% String status = (String) request.getAttribute("PlACEBIDSTATUS");%>
-    <div id="statusAlert" class="alert" style="display: none;">
-        <%= (status != null) ? status : ""%>
-    </div>
-    <h1>Fine Jewels & Watches</h1>
-    <h2>Live Auction</h2>
-    <h3>Live bidding begins: <fmt:formatDate value="${auction.endDate}" pattern="dd MMM YYYY"/> at <c:out value="${auction.startTime}"/></h3>
-    <div class="countdown-container">
-        <h3 style="color: orangered"><div id="countdown"></div></h3>
-        <div id="auctionLink"></div>
-    </div>
-    <!-- Notification -->
-    <c:choose>
-        <c:when test="${status == 1 && member != null}">
-            <div id="auctionLink1"><h3>COMING SOON</h3></div>
-        </c:when>
-        <c:when test="${status == 0 && member != null}">
-            <a style=" text-decoration: none;" href="registerbid?auctionID=${param.auctionID}" class="btn-custom">REGISTER TO BID</a>
-        </c:when>
-        <c:otherwise>
-            <a style=" text-decoration: none;" href="${pageContext.request.contextPath}/login" class="btn-custom">REGISTER TO BID</a>
-        </c:otherwise>
-    </c:choose>
-    <!-- Sort -->
-    <hr>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="sortPrice">Sort By:</label>
-                <select class="form-control" id="sortPrice">
-                    <option value="">Select</option>
-                    <option value="lowToHigh">Estimate Low to High</option>
-                    <option value="highToLow">Estimate High to Low</option>
-                </select>
+                <br>
+                <hr>
+        <!-- Sort -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="sortPrice">Sort By:</label>
+                    <select class="form-control" id="sortPrice">
+                        <option value="">Select</option>
+                        <option value="lowToHigh">Estimate Low to High</option>
+                        <option value="highToLow">Estimate High to Low</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="categoryFilter">Category:</label>
-                <select class="form-control" id="categoryFilter">
-                    <option value="">All Categories</option>
-                    <c:forEach var="category" items="${listCategory}">
-                        <option value="${category.categoryName}">${category.categoryName}</option>
-                    </c:forEach>
-                </select>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="categoryFilter">Category:</label>
+                    <select class="form-control" id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <c:forEach var="category" items="${listCategory}">
+                            <option value="${category.categoryName}">${category.categoryName}</option>
+                        </c:forEach>
+                    </select>
+                </div>
             </div>
-        </div>
 
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="searchBar">Search By Lots:</label>
-                <input type="text" class="form-control" id="searchBar" placeholder="Search Lots">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="searchBar">Search By Lots:</label>
+                    <input type="text" class="form-control" id="searchBar" placeholder="Search Lots">
+                </div>
             </div>
         </div>
-    </div>
-    <hr>
-    <div class="row" id="catalogItems">
-        <c:forEach var="j" items="${listJewelry}">
-            <c:set var="photos" value="${j.photos}" />
-            <c:set var="photoArray" value="${fn:split(photos, ';')}" />
-            <div class="col-md-4 mb-4 catalog-item" data-category="${j.categoryName}">
-                <div style="border-radius: 12px" class="card-wrapper">
-                    <div style="border-radius: 12px" class="card">
-                        <a href="${pageContext.request.contextPath}/auctions/itemDetail.jsp?jewelryID=${j.jewelryID}&auctionID=${param.auctionID}">
-                            <img style="border-radius: 12px" class="card-img-top" src="${pageContext.request.contextPath}/${photoArray[0]}" alt="${j.jewelryName}">
-                        </a>
-                        <div class="card-body">
-                            <h5 class="card-title">${j.jewelryID}</h5>
-                            <h5 class="card-title">${j.jewelryName}</h5>
-                            Est. <span class="min-price"><fmt:formatNumber value="${j.minPrice}" type="currency" minFractionDigits="2" maxFractionDigits="2"/></span> - <span class="max-price"><fmt:formatNumber value="${j.maxPrice}" type="currency" minFractionDigits="2" maxFractionDigits="2"/></span><br>
-                            <c:if test="${j.currentBid != 0.00}">
-                                <b><font style="color: orangered; font-size: 20px">Current bid: </font></b>
-                                <font style="color: orangered; font-size: 24px">
-                                    <fmt:formatNumber value="${j.currentBid}" type="currency" minFractionDigits="2" maxFractionDigits="2"/>
-                                </font>
-                            </c:if>
+        <hr>
+        <div class="row" id="catalogItems">
+            <c:forEach var="j" items="${listJewelry}">
+                <c:set var="photos" value="${j.photos}" />
+                <c:set var="photoArray" value="${fn:split(photos, ';')}" />
+                <div class="col-md-4 mb-4 catalog-item" data-category="${j.categoryName}">
+                    <div style="border-radius: 12px" class="card-wrapper">
+                        <div style="border-radius: 12px" class="card">
+                            <a href="${pageContext.request.contextPath}/auctions/itemDetail.jsp?jewelryID=${j.jewelryID}&auctionID=${param.auctionID}">
+                                <img style="border-radius: 12px" class="card-img-top" src="${pageContext.request.contextPath}/${photoArray[0]}" alt="${j.jewelryName}">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">${j.jewelryID}</h5>
+                                <h5 class="card-title">${j.jewelryName}</h5>
+                                Est. <span class="min-price"><fmt:formatNumber value="${j.minPrice}" type="currency" minFractionDigits="2" maxFractionDigits="2"/></span> - <span class="max-price"><fmt:formatNumber value="${j.maxPrice}" type="currency" minFractionDigits="2" maxFractionDigits="2"/></span><br>
+                                <c:if test="${j.currentBid != 0.00}">
+                                    <b><font style="color: orangered; font-size: 20px">Current bid: </font></b>
+                                    <font style="color: orangered; font-size: 24px">
+                                        <fmt:formatNumber value="${j.currentBid}" type="currency" minFractionDigits="2" maxFractionDigits="2"/>
+                                    </font>
+                                </c:if>
 
-                            <br>
-                            <c:choose>
-                                <c:when test="${status == 0 && member != null}">
-                                    <a href="${pageContext.request.contextPath}/registerbid?auctionID=${param.auctionID}"><button class="btn btn-primary">PLACE BID</button</a>
-                                </c:when>
-                                <c:when test="${status == 1 && member != null}">
-                                    <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal">PLACE BID</button>
-                                    <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal_">EDIT BID</button>
-                                </c:when>
-                                <c:otherwise>
-                                    <form action="${pageContext.request.contextPath}/login">
-                                        <input type="submit" class="btn btn-primary" value="PLACE BID">
-                                    </form>
-                                </c:otherwise>
-                            </c:choose>
+                                <br>
+                                <c:choose>
+                                    <c:when test="${status == 0 && member != null}">
+                                        <a href="${pageContext.request.contextPath}/registerbid?auctionID=${param.auctionID}"><button class="btn btn-primary">PLACE BID</button</a>
+                                    </c:when>
+                                    <c:when test="${status == 1 && member != null}">
+                                        <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal">PLACE BID</button>
+                                        <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal_">EDIT BID</button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <form action="${pageContext.request.contextPath}/login">
+                                            <input type="submit" class="btn btn-primary" value="PLACE BID">
+                                        </form>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </c:forEach>
+            </c:forEach>
+        </div>
+        <c:if test="${listJewelry == null || listJewelry.isEmpty()}">
+            <p>No items available in the catalog.</p>
+        </c:if>
     </div>
-    <c:if test="${listJewelry == null || listJewelry.isEmpty()}">
-        <p>No items available in the catalog.</p>
-    </c:if>
-</div>
-<% String preBid_Amount = (String) request.getParameter("preBid_Amount");%>
-<!-- Modal for bidding -->
-<div class="modal fade" id="bidModal" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="bidModalLabel">Place Your Bid</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form id="bidForm" action="${pageContext.request.contextPath}/placebid">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="bidAmount">Enter your bid amount:</label>
-                        <input type="number" class="form-control" id="bidAmount" name="preBid_Amount" value="<%= (preBid_Amount != null) ? preBid_Amount : ""%>" required>
+    <% String preBid_Amount = (String) request.getParameter("preBid_Amount");%>
+    <!-- Modal for bidding -->
+    <div class="modal fade" id="bidModal" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bidModalLabel">Place Your Bid</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="bidForm" action="${pageContext.request.contextPath}/placebid">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="bidAmount">Enter your bid amount:</label>
+                            <input type="number" class="form-control" id="bidAmount" name="preBid_Amount" value="<%= (preBid_Amount != null) ? preBid_Amount : ""%>" required>
+                        </div>
+                        <input type="hidden" id="auctionID" name="auctionID" value="${param.auctionID}">
+                        <input type="hidden" id="jewelryID" name="jewelryID">
+                        <input type="hidden" name="action" value="Place Bid">
                     </div>
-                    <input type="hidden" id="auctionID" name="auctionID" value="${param.auctionID}">
-                    <input type="hidden" id="jewelryID" name="jewelryID">
-                    <input type="hidden" name="action" value="Place Bid">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Place Bid</button>
-                </div>
-            </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Place Bid</button>
+                    </div>
+                </form>
 
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="bidModal_" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="bidModalLabel">Edit Your Bid</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
-            <form id="editBidForm_" action="${pageContext.request.contextPath}/editbid" method="POST">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="editBidAmount">Enter your new bid amount:</label>
-                        <input type="number" class="form-control" id="editBidAmount" name="preBid_Amount" value="<%= (preBid_Amount != null) ? preBid_Amount : ""%>" required>
-                    </div>
-                    <input type="hidden" id="auctionID" name="auctionID" value="${param.auctionID}">
-                    <input type="hidden" id="jewelryID" name="jewelryID">
-                    <input type="hidden" name="action" value="Edit Bid">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Edit Bid</button>
-                </div>
-            </form>
         </div>
     </div>
-</div>
+    <div class="modal fade" id="bidModal_" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bidModalLabel">Edit Your Bid</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="editBidForm_" action="${pageContext.request.contextPath}/editbid" method="POST">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="editBidAmount">Enter your new bid amount:</label>
+                            <input type="number" class="form-control" id="editBidAmount" name="preBid_Amount" value="<%= (preBid_Amount != null) ? preBid_Amount : ""%>" required>
+                        </div>
+                        <input type="hidden" id="auctionID" name="auctionID" value="${param.auctionID}">
+                        <input type="hidden" id="jewelryID" name="jewelryID">
+                        <input type="hidden" name="action" value="Edit Bid">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Edit Bid</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
@@ -596,6 +770,48 @@
                             function submitBid() {
                                 document.getElementById('bidForm').submit();
                             }
+                        });
+
+                        document.addEventListener("DOMContentLoaded", function () {
+                            var dropdowns = document.querySelectorAll('.nav-item.dropdown');
+
+                            dropdowns.forEach(function (dropdown) {
+                                dropdown.addEventListener('mouseenter', function () {
+                                    var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                                    if (dropdownMenu) {
+                                        dropdownMenu.classList.add('show');
+                                    }
+                                });
+                                dropdown.addEventListener('mouseleave', function () {
+                                    var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                                    if (dropdownMenu) {
+                                        dropdownMenu.classList.remove('show');
+                                    }
+                                });
+                            });
+                        });
+
+                        $(document).ready(function () {
+                            $("a.nav-link").on('click', function (event) {
+                                if (this.hash !== "") {
+                                    event.preventDefault();
+                                    var hash = this.hash;
+                                    $('html, body').animate({
+                                        scrollTop: $(hash).offset().top
+                                    }, 800, function () {
+                                        window.location.hash = hash;
+                                    });
+                                }
+                            });
+                        });
+                        document.addEventListener("DOMContentLoaded", function () {
+                            window.addEventListener("scroll", function () {
+                                if (window.scrollY > 50) {
+                                    document.querySelector(".navbar").classList.add("navbar-scrolled");
+                                } else {
+                                    document.querySelector(".navbar").classList.remove("navbar-scrolled");
+                                }
+                            });
                         });
 </script>
 </html>
