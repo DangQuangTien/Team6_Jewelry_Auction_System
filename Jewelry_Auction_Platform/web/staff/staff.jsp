@@ -88,7 +88,7 @@
             .greeting {
                 font-size: 1.5rem;
                 margin-bottom: 5px;
-                color: #007bff;
+                color: #007bff; /* Adjusted color */
             }
             .greeting-message {
                 font-size: 1rem;
@@ -227,7 +227,7 @@
                     <c:set var="listValuationRequest" value="${requestScope.listValuationRequest}" />
                     <c:if test="${not empty listValuationRequest}">
                         <h1 class="text-center text-primary my-4">Valuation Requests</h1>
-                        <table id="valuationTable" class="table table-hover">
+                        <table class="table table-hover">
                             <thead class="thead-light">
                                 <tr>
                                     <th>No</th>
@@ -345,34 +345,23 @@
         </div>
     </div>
     <!-- JavaScript libraries -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script src="asset/admin.js"></script>
     <!-- Script to highlight active link in sidebar -->
     <script>
-        $(document).ready(function () {
-            $('#valuationTable').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "pageLength": 10
-            });
-
-            // Smooth modal transition
-            $('.modal').on('shown.bs.modal', function (e) {
-                $(this).find('.modal-dialog').addClass('show');
-            });
-            $('.modal').on('hidden.bs.modal', function (e) {
-                $(this).find('.modal-dialog').removeClass('show');
-            });
-        });
+                                                                            $(document).ready(function () {
+                                                                                // Smooth modal transition
+                                                                                $('.modal').on('shown.bs.modal', function (e) {
+                                                                                    $(this).find('.modal-dialog').addClass('show');
+                                                                                });
+                                                                                $('.modal').on('hidden.bs.modal', function (e) {
+                                                                                    $(this).find('.modal-dialog').removeClass('show');
+                                                                                });
+                                                                            });
     </script>
 </body>
 </html>
+
