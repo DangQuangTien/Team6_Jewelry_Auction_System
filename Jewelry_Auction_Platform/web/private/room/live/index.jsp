@@ -10,75 +10,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link rel="stylesheet" type="text/css" href="index.css">
     </head>
-    <style>
-/* Spinner CSS */
-.spinner {
-  --size: 30px;
-  --color: white;
-  width: 100px;
-  height: 100px;
-  position: relative;
-  display: none; /* Hide by default */
-}
-
-.spinner::after, .spinner::before {
-  box-sizing: border-box;
-  position: absolute;
-  content: "";
-  width: var(--size);
-  height: var(--size);
-  top: 50%;
-  animation: up 2.4s cubic-bezier(0, 0, 0.24, 1.21) infinite;
-  left: 50%;
-  background: var(--color);
-  box-shadow: 0 0 calc(var(--size) / 3) rgba(0, 0, 0, 0.25);
-}
-
-.spinner::after {
-  background: var(--color);
-  top: calc(50% - var(--size));
-  left: calc(50% - var(--size));
-  animation: down 2.4s cubic-bezier(0, 0, 0.24, 1.21) infinite;
-}
-
-@keyframes down {
-  0%, 100% {
-    transform: none;
-  }
-
-  25% {
-    transform: translateX(100%);
-  }
-
-  50% {
-    transform: translateX(100%) translateY(100%);
-  }
-
-  75% {
-    transform: translateY(100%);
-  }
-}
-
-@keyframes up {
-  0%, 100% {
-    transform: none;
-  }
-
-  25% {
-    transform: translateX(-100%);
-  }
-
-  50% {
-    transform: translateX(-100%) translateY(-100%);
-  }
-
-  75% {
-    transform: translateY(-100%);
-  }
-}
-</style>
     <body>
-        <div class="spinner" id="spinner"></div>
         <%
             Member member = (Member) session.getAttribute("MEMBER");
             String memberID = null;
@@ -91,7 +23,7 @@
                 Live Auction
             </div>
             <div class="exit-button">
-                <form action="${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>" method="post" id="exitForm">
+                <form action="${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>" method="post">
                     <button type="submit" class="btn">
                         <span class="text">EXIT</span>
                     </button>
@@ -148,7 +80,7 @@
                 <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
-    </div>
+
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 var items = document.querySelectorAll('.horizontal-scroll-item');
@@ -335,32 +267,6 @@
                     sendNextItem();
                 }
             }
-            function showSpinner() {
-                document.getElementById('spinner').style.display = 'block';
-            }
-
-            function hideSpinner() {
-                document.getElementById('spinner').style.display = 'none';
-            }
-
-            function handleFormSubmit(event) {
-                event.preventDefault(); // Prevent the default form submission
-                showSpinner(); // Show spinner before making request
-
-                // Simulate a network request
-                setTimeout(() => {
-                    // This is where you'd typically handle your form submission logic
-                    hideSpinner(); // Hide spinner after the request is complete
-                    alert('Request complete');
-                }, 2000);
-            }
-
-            document.addEventListener('DOMContentLoaded', function() {
-                const form = document.getElementById('exitForm'); // Find your form
-                if (form) {
-                    form.addEventListener('submit', handleFormSubmit);
-                }
-            });
         </script>
     </body>
 </html>
