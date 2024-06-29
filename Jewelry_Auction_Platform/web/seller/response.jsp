@@ -121,25 +121,6 @@
                 }
             }
 
-            h1.luminous-gold {
-                font-weight: bold;
-                background: linear-gradient(90deg,
-                    #e4af11 0%,
-                    #e4af11 20%,
-                    #FFA500 40%,
-                    #FFC700 60%,
-                    #e4af11 80%,
-                    #e4af11 100%);
-                background-size: 200% 200%;
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                animation: shimmer 2s infinite linear;
-                text-shadow: 0 0 10px rgba(255, 215, 0, 0.7),
-                    0 0 20px rgba(255, 215, 0, 0.5),
-                    0 0 30px rgba(255, 215, 0, 0.3),
-                    0 0 40px rgba(255, 215, 0, 0.1);
-            }
-
             .table-responsive {
                 margin-top: 20px;
             }
