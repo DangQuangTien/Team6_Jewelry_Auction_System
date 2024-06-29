@@ -11,529 +11,453 @@
         <link rel="stylesheet" type="text/css" href="index.css">
     </head>
     <style>
-/* Light Grey Theme */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #333; /* Light grey background */
-    color: #333; /* Dark grey text */
-    transition: background-color 0.3s, color 0.3s;
-}
+        /* Light Grey Theme */
+        body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #333; /* Light grey background */
+                color: #333; /* Dark grey text */
+                transition: background-color 0.3s, color 0.3s;
+            }
 
-.container, .container-bid {
-    max-width: 80%;
-    margin: 50px auto;
-    background-color: #fff; /* White container background */
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    padding: 20px;
-    transition: box-shadow 0.3s, transform 0.3s;
-}
+            .container, .container-bid {
+                max-width: 80%;
+                margin: 50px auto;
+                background-color: #fff; /* White container background */
+                border-radius: 15px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+                padding: 20px;
+                transition: box-shadow 0.3s, transform 0.3s;
+            }
 
-.container-bid {
-    max-width: 50%;
-    display: flex;
-    flex-direction: column;
-    margin-left: auto; /* Push to right side */
-    margin-top: 20px;
-}
+            .container-bid {
+                max-width: 50%;
+                display: flex;
+                flex-direction: column;
+                margin-left: auto; /* Push to right side */
+                margin-top: 20px;
+            }
 
-.container:hover, .container-bid:hover {
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-    transform: translateY(-5px); /* Lift container on hover */
-}
+            .container:hover, .container-bid:hover {
+                box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+                transform: translateY(-5px); /* Lift container on hover */
+            }
 
-/* Horizontal Scroll Container */
-.horizontal-scroll-container {
-    display: flex;
-    justify-content: flex-start;
-    gap: 20px;
-    padding: 10px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-    width: 100%;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    transition: padding 0.3s;
-}
+            /* Horizontal Scroll Container */
+            .horizontal-scroll-container {
+                display: flex;
+                justify-content: flex-start;
+                gap: 20px;
+                padding: 10px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scroll-snap-type: x mandatory;
+                width: 100%;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                transition: padding 0.3s;
+            }
 
-.horizontal-scroll-container::-webkit-scrollbar {
-    display: none;
-}
+            .horizontal-scroll-container::-webkit-scrollbar {
+                display: none;
+            }
 
-.horizontal-scroll-container:hover {
-    padding: 15px;
-}
+            .horizontal-scroll-container:hover {
+                padding: 15px;
+            }
 
-/* Horizontal Scroll Items */
-.horizontal-scroll-item {
-    flex: 0 0 auto;
-    width: 150px;
-    scroll-snap-align: center;
-    transition: transform 0.3s, width 0.3s, filter 0.3s, box-shadow 0.3s;
-    filter: blur(2px);
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    border-radius: 10px;
-}
+            /* Horizontal Scroll Items */
+            .horizontal-scroll-item {
+                flex: 0 0 auto;
+                width: 250px;
+                scroll-snap-align: center;
+                transition: transform 0.3s, width 0.3s, filter 0.3s, box-shadow 0.3s;
+                filter: blur(2px);
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+                border-radius: 10px;
+            }
 
-.horizontal-scroll-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.1); /* Semi-transparent dark overlay */
-    z-index: 2;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
+            .horizontal-scroll-item::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.1); /* Semi-transparent dark overlay */
+                z-index: 2;
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
 
-.horizontal-scroll-item:hover::before {
-    opacity: 0.1; /* Overlay effect on hover */
-}
+            .horizontal-scroll-item:hover::before {
+                opacity: 0.1; /* Overlay effect on hover */
+            }
 
-.horizontal-scroll-item.selected {
-    transform: scale(1.1);
-    width: 180px;
-    filter: blur(0);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Light shadow */
-}
+            .horizontal-scroll-item.selected {
+                transform: scale(1.1);
+                width: 300px;
+                filter: blur(0);
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Light shadow */
+            }
 
-.horizontal-scroll-item:hover {
-    transform: scale(1.05);
-}
+            .horizontal-scroll-item:hover {
+                transform: scale(1.05);
+            }
 
-/* Cards */
-.card {
-    position: relative;
-    overflow: hidden;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
+            /* Cards */
+            .card {
+                position: relative;
+                overflow: hidden;
+                border-radius: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s, box-shadow 0.3s;
+            }
 
-.card:hover {
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    transform: translateY(-5px); /* Lift card on hover */
-}
+            .card:hover {
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+                transform: translateY(-5px); /* Lift card on hover */
+            }
 
-.card img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    transition: transform 0.3s;
-}
+            .card img {
+                width: 100%;
+                height: 300px;
+                object-fit: cover;
+                transition: transform 0.3s;
+            }
 
-.card:hover img {
-    transform: scale(1.03); /* Zoom image on hover */
-}
+            .card:hover img {
+                transform: scale(1.03); /* Zoom image on hover */
+            }
 
-.card-body {
-    padding: 15px;
-    text-align: center;
-    background-color: #f5f5f5; /* Light grey background */
-    border-radius: 0 0 10px 10px;
-    transition: background-color 0.3s;
-}
+            .card-body {
+                padding: 15px;
+                width: 50%;
+                text-align: center;
+                background-color: #f5f5f5; /* Light grey background */
+                border-radius: 0 0 10px 10px;
+                transition: background-color 0.3s;
+            }
 
-.card:hover .card-body {
-    background-color: #e0e0e0; /* Slightly darker grey on hover */
-}
+            .card:hover .card-body {
+                background-color: #e0e0e0; /* Slightly darker grey on hover */
+            }
 
-.card-title {
-    font-size: 18px;
-    margin: 10px 0 5px;
-    font-weight: bold;
-    color: #333; /* Dark grey title */
-    transition: color 0.3s;
-}
+            .card-title {
+                font-size: 18px;
+                margin: 10px 0 5px;
+                font-weight: bold;
+                color: #333; /* Dark grey title */
+                transition: color 0.3s;
+            }
 
-.card:hover .card-title {
-    color: #1a1a1a; /* Darker title color on hover */
-}
+            .card:hover .card-title {
+                color: #1a1a1a; /* Darker title color on hover */
+            }
 
-.card-text {
-    font-size: 14px;
-    color: #666; /* Dark grey text */
-    line-height: 1.5;
-    transition: color 0.3s;
-}
+            .card-text {
+                font-size: 14px;
+                color: #666; /* Dark grey text */
+                line-height: 1.5;
+                transition: color 0.3s;
+            }
 
-.card:hover .card-text {
-    color: #444; /* Slightly darker grey text on hover */
-}
+            .card:hover .card-text {
+                color: #444; /* Slightly darker grey text on hover */
+            }
 
-/* Additional Effects */
+            /* Additional Effects */
 
-/* Gradient Overlay on Horizontal Scroll Items */
-.horizontal-scroll-item::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0)); /* Gradient overlay */
-    z-index: 3;
-    opacity: 0;
-    transition: opacity 0.3s, transform 0.3s;
-}
+            /* Gradient Overlay on Horizontal Scroll Items */
+            .horizontal-scroll-item::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0)); /* Gradient overlay */
+                z-index: 3;
+                opacity: 0;
+                transition: opacity 0.3s, transform 0.3s;
+            }
 
-.horizontal-scroll-item:hover::after {
-    opacity: 0.1; /* Show gradient overlay on hover */
-}
+            .horizontal-scroll-item:hover::after {
+                opacity: 0.1; /* Show gradient overlay on hover */
+            }
 
-/* Overlay on Cards */
-.card-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.1); /* Semi-transparent overlay */
-    z-index: 2;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
+            /* Overlay on Cards */
+            .card-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.1); /* Semi-transparent overlay */
+                z-index: 2;
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
 
-.card:hover .card-overlay {
-    opacity: 0.2; /* Show overlay on card hover */
-}
+            .card:hover .card-overlay {
+                opacity: 0.2; /* Show overlay on card hover */
+            }
 
-/* Text Overlay Animation */
-.card-overlay-text {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #fff; /* White text */
-    font-size: 16px;
-    font-weight: bold;
-    text-transform: uppercase;
-    opacity: 0;
-    transition: opacity 0.3s, transform 0.3s;
-}
+            /* Text Overlay Animation */
+            .card-overlay-text {
+                position: absolute;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                color: #fff; /* White text */
+                font-size: 16px;
+                font-weight: bold;
+                text-transform: uppercase;
+                opacity: 0;
+                transition: opacity 0.3s, transform 0.3s;
+            }
 
-.card:hover .card-overlay-text {
-    opacity: 1; /* Show text on overlay */
-    transform: translateX(-50%) translateY(-10px); /* Move text slightly upwards */
-}
+            .card:hover .card-overlay-text {
+                opacity: 1; /* Show text on overlay */
+                transform: translateX(-50%) translateY(-10px); /* Move text slightly upwards */
+            }
 
-/* Box Shadow on Hover for Containers */
-.container:hover, .container-bid:hover, .horizontal-scroll-item:hover, .card:hover {
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2); /* Enhanced box shadow on hover */
-}
+            /* Box Shadow on Hover for Containers */
+            .container:hover, .container-bid:hover, .horizontal-scroll-item:hover, .card:hover {
+                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2); /* Enhanced box shadow on hover */
+            }
 
-.chat-header {
-    background-color: black; /* Dark blue background */
-    color: #ffffff; /* White text */
-    padding: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 2px solid transparent; /* Transparent border initially */
-    transition: background-color 0.3s, border-color 0.3s;
-}
+            .chat-header {
+                background-color: black; /* Dark blue background */
+                color: #ffffff; /* White text */
+                padding: 15px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border: 2px solid transparent; /* Transparent border initially */
+                transition: background-color 0.3s, border-color 0.3s;
+            }
 
-.header-text {
-    font-size: 3rem;
-    font-weight: bold;
-}
+            .header-text {
+                font-size: 3rem;
+                font-weight: bold;
+            }
 
-.exit-button {
-    margin-left: 10px; /* Adjusted margin */
-}
+            .exit-button {
+                margin-left: 10px; /* Adjusted margin */
+            }
 
-.exit-button button.exit-btn {
-    background-color: #e74c3c; /* Red button */
-    color: #fff;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px; /* Rounded corners */
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-    font-size: 16px;
-    text-transform: uppercase;
-    position: relative;
-    overflow: hidden;
-    border: 2px solid transparent; /* Transparent border initially */
-}
+            .exit-button button.exit-btn {
+                background-color: #e74c3c; /* Red button */
+                color: #fff;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 8px; /* Rounded corners */
+                cursor: pointer;
+                transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+                font-size: 16px;
+                text-transform: uppercase;
+                position: relative;
+                overflow: hidden;
+                border: 2px solid transparent; /* Transparent border initially */
+            }
 
-.exit-button button.exit-btn:hover {
-    background-color: #c0392b; /* Darker red on hover */
-    transform: scale(1.05); /* Scale up on hover */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
-    border-color: #a93226; /* Darker border on hover */
-}
+            .exit-button button.exit-btn:hover {
+                background-color: #c0392b; /* Darker red on hover */
+                transform: scale(1.05); /* Scale up on hover */
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+                border-color: #a93226; /* Darker border on hover */
+            }
 
-.exit-button button.exit-btn i {
-    margin-right: 8px; /* Space between icon and text */
-    transition: transform 0.2s;
-}
+            .exit-button button.exit-btn i {
+                margin-right: 8px; /* Space between icon and text */
+                transition: transform 0.2s;
+            }
 
-.exit-button button.exit-btn:hover i {
-    transform: translateX(3px); /* Move icon to the right on hover */
-}
+            .exit-button button.exit-btn:hover i {
+                transform: translateX(3px); /* Move icon to the right on hover */
+            }
 
-.chat-container {
-    display: flex;
-    flex-direction: column;
-    max-width: 70%;
-    height: 400px; /* Adjust height as needed */
-    border: 1px solid grey; /* Optional: Add border or other styling */
-    overflow: hidden; /* Ensure overflow is set to handle scrolling */
-    border-radius: 20px;
-    background-color: black;
-    margin-left: 15%;
-    margin-bottom: 20px;
-}
+            .chat-container {
+                display: flex;
+                flex-direction: column;
+                height: 400px; /* Adjust height as needed */
+                border: 1px solid grey; /* Optional: Add border or other styling */
+                overflow: hidden; /* Ensure overflow is set to handle scrolling */
+                border-radius: 20px;
+                background-color: black;
+                width: 70%;
+                margin-left: 15%;
+                margin-bottom: 20px;
+            }
 
-.chat-messages {
-    flex: 1; /* Take remaining vertical space */
-    overflow-y: auto; /* Enable vertical scrolling */
-    padding: 10px;
-}
+            .chat-messages {
+                flex: 1; /* Take remaining vertical space */
+                overflow-y: auto; /* Enable vertical scrolling */
+                padding: 10px;
 
-.chat-messages::-webkit-scrollbar {
-    display: none;
-}
+            }
 
-.message {
-    max-width: 80%;
-    padding: 15px;
-    border-radius: 15px;
-    background-color: #007bff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    position: relative;
-    overflow: hidden;
-    animation: fadeIn 0.5s ease;
-    margin-bottom: 10px;
-    margin-left: auto;
-}
-.message p {
-    margin: 0;
-    word-wrap: break-word;
-    font-size: 20px;
-    color: #FFFFFF;
-}
-.message.from-me {
-    background-color: #444;
-    color: #fff;
-    align-self: flex-end;
-    border-top-right-radius: 0;
-    margin-left: 20px;
-}
-.message.from-me p {
-    color: white;
-}
-.message .message-time {
-    font-size: 18px;
-    color: white;
-    margin-top: 5px;
-    text-align: right;
-}
-.chat-input {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    border-radius: 20px;
-    border: 4px solid black;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+            .chat-messages::-webkit-scrollbar {
+                display: none;
+            }
 
-.chat-input input[type="number"] {
-    flex: 1;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    margin-right: 15px;
-    outline: none;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    background-color: #333;
-    color: white;
-    font-size: 20px;
-}
+            .message {
+                max-width: 80%;
+                padding: 15px;
+                border-radius: 15px;
+                background-color: #007bff;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                position: relative;
+                overflow: hidden;
+                animation: fadeIn 0.5s ease;
+                margin-bottom: 10px;
+                margin-left: auto;
 
-.chat-input input[type="number"]:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 10px rgba(0, 123, 255, 0.25);
-}
+            }
+            .message p {
+                margin: 0;
+                word-wrap: break-word;
+                font-size: 20px;
+                color: #FFFFFF;
+            }
+            .message.from-me {
+                background-color: #444;
+                color: #fff;
+                align-self: flex-end;
+                border-top-right-radius: 0;
+                margin-left: 20px;
+            }
+            .message.from-me p {
+                color: white;
+            }
+            .message .message-time {
+                font-size: 18px;
+                color: white;
+                margin-top: 5px;
+                text-align: right;
+            }
+            .chat-input {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 15px;
+                border-radius: 20px;
+                border: 4px solid black;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
 
-.chat-input button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 20px;
-    padding: 15px 25px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-    font-weight: bold;
-}
+            .chat-input input[type="number"] {
+                flex: 1;
+                padding: 15px;
+                border: 1px solid #ccc;
+                border-radius: 20px;
+                margin-right: 15px;
+                outline: none;
+                transition: border-color 0.3s, box-shadow 0.3s;
+                background-color: #333;
+                color: white;
+                font-size: 20px;
 
-.chat-input button:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-}
+            }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-.grid-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    padding: 20px;
-}
-.btn {
-    position: relative;
-    width: 10em;
-    height: 2em;
-    text-align: center;
-    font-family: poppins;
-    font-size: 17px;
-    font-weight: 300;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    color: #fff;
-    cursor: pointer;
-    background-color: rgba(3, 3, 3, .5);
-    border: none;
-    transition: color .2s linear,
-        box-shadow .3s linear,
-        background-color .3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
+            .chat-input input[type="number"]:focus {
+                border-color: #007bff;
+                box-shadow: 0 0 10px rgba(0, 123, 255, 0.25);
+            }
 
-.btn:focus,
-.btn:hover {
-    box-shadow: 0 0 110px #fff;
-    background-color: rgba(255, 255, 255, 0.4);
-    color: #111;
-    font-weight: 500;
-}
+            .chat-input button {
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                border-radius: 20px;
+                padding: 15px 25px;
+                cursor: pointer;
+                transition: background-color 0.3s, transform 0.3s;
+                font-weight: bold;
+            }
 
-.btn:focus:before,
-.btn:hover:before,
-.btn:focus:after,
-.btn:hover:after {
-    width: 100%;
-    left: 0%;
-}
+            .chat-input button:hover {
+                background-color: #0056b3;
+                transform: scale(1.05);
+            }
 
-.btn:before,
-.btn:after {
-    content: '';
-    position: absolute;
-    pointer-events: none;
-    left: 50%;
-    width: 0%;
-    height: 2px;
-    background-color: #fff;
-    transition: width, left, 250ms cubic-bezier(0.25, .8, .25, 1);
-}
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .grid-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+                padding: 20px;
+            }
+            .btn {
+                position: relative;
+                width: 10em;
+                height: 2em;
+                text-align: center;
+                font-family: poppins;
+                font-size: 17px;
+                font-weight: 300;
+                letter-spacing: 5px;
+                text-transform: uppercase;
+                color: #fff;
+                cursor: pointer;
+                background-color: rgba(3, 3, 3, .5);
+                border: none;
+                transition: color .2s linear,
+                    box-shadow .3s linear,
+                    background-color .3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
 
-.btn:before {
-    top: -2px;
-}
+            .btn:focus,
+            .btn:hover {
+                box-shadow: 0 0 110px #fff;
+                background-color: rgba(255, 255, 255, 0.4);
+                color: #111;
+                font-weight: 500;
+            }
 
-.btn:after {
-    bottom: -2px;
-}
+            .btn:focus:before,
+            .btn:hover:before,
+            .btn:focus:after,
+            .btn:hover:after {
+                width: 100%;
+                left: 0%;
+            }
 
-/* Adding More Transitions and Animations */
+            .btn:before,
+            .btn:after {
+                content: '';
+                position: absolute;
+                pointer-events: none;
+                left: 50%;
+                width: 0%;
+                height: 2px;
+                background-color: #fff;
+                transition: width, left, 250ms cubic-bezier(0.25, .8, .25, 1);
+            }
 
-/* Button Ripple Effect */
-.btn::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.5s ease, height 0.5s ease;
-    pointer-events: none;
-}
+            .btn:before {
+                top: -2px;
+            }
 
-.btn:active::after {
-    width: 200px;
-    height: 200px;
-}
+            .btn:after {
+                bottom: -2px;
+           }
 
-/* Container Shake Animation */
-@keyframes shake {
-    0% { transform: translate(1px, 1px) rotate(0deg); }
-    10% { transform: translate(-1px, -2px) rotate(-1deg); }
-    20% { transform: translate(-3px, 0px) rotate(1deg); }
-    30% { transform: translate(3px, 2px) rotate(0deg); }
-    40% { transform: translate(1px, -1px) rotate(1deg); }
-    50% { transform: translate(-1px, 2px) rotate(-1deg); }
-    60% { transform: translate(-3px, 1px) rotate(0deg); }
-    70% { transform: translate(3px, 1px) rotate(-1deg); }
-    80% { transform: translate(-1px, -1px) rotate(1deg); }
-    90% { transform: translate(1px, 2px) rotate(0deg); }
-    100% { transform: translate(1px, -2px) rotate(-1deg); }
-}
-
-.container:active {
-    animation: shake 0.5s;
-    animation-iteration-count: 1;
-}
-
-/* Chat Input Glow Animation */
-@keyframes glow {
-    0% { box-shadow: 0 0 5px #007bff, 0 0 10px #007bff, 0 0 20px #007bff, 0 0 40px #007bff, 0 0 80px #007bff; }
-    100% { box-shadow: 0 0 5px #007bff, 0 0 10px #007bff, 0 0 20px #007bff, 0 0 40px #007bff, 0 0 80px #007bff; }
-}
-
-.chat-input input[type="number"]:focus {
-    animation: glow 1.5s infinite alternate;
-}
-
-/* Card Flip Animation */
-@keyframes flip {
-    from {
-        transform: perspective(600px) rotateY(0deg);
-    }
-    to {
-        transform: perspective(600px) rotateY(360deg);
-    }
-}
-
-.card {
-    transition: transform 0.6s;
-    transform-style: preserve-3d;
-}
-
-.card:hover {
-    transform: perspective(600px) rotateY(360deg);
-}
-
-.spinner {
-  --size: 30px;
-  --color: white;
-  width: 100px;
-  height: 100px;
-  position: relative;
-  display: none; /* Hide by default */
-}
-
-</style>
+    </style>
     <body>
         <%
             Member member = (Member) session.getAttribute("MEMBER");
@@ -555,39 +479,48 @@ body {
             </div>
         </div>
 
-        <!-- Display catalog of auction -->
-        <div class="grid-container">
-            <div class="jewelry-container">
-                <div class="horizontal-scroll-container" id="jewelryContainer">
-                    <% String auctionID = (String) request.getParameter("auctionID");
-                        List<Jewelry> listJewelry = (List<Jewelry>) request.getAttribute("JEWELRYLIST");
-                        for (Jewelry jewelry : listJewelry) {
-                    %>
-                    <div class="horizontal-scroll-item" data-currentbid="<%= jewelry.getCurrentBid()%>">
-                        <div class="card" onclick="selectItem(this, '<%= jewelry.getJewelryID()%>')">
-                            <% String photo = jewelry.getPhotos(); %>
-                            <% String[] photoArray = photo.split(";");%>
-                            <img src="${pageContext.request.contextPath}/<%= photoArray[0]%>" class="card-img-top" alt="<%= jewelry.getJewelryName()%>">
-                            <div class="card-body">
-                                <h5 class="card-title"><%= jewelry.getJewelryID()%></h5>
-                                <p class="card-text"><%= jewelry.getJewelryName()%></p>
+        <!-- Upper Part: Catalog and Item Details -->
+        <div class="upper-part">
+            <div class="grid-container">
+                <div class="jewelry-container">
+                    <div class="horizontal-scroll-container" id="jewelryContainer">
+                        <% String auctionID = (String) request.getParameter("auctionID");
+                            List<Jewelry> listJewelry = (List<Jewelry>) request.getAttribute("JEWELRYLIST");
+                            for (Jewelry jewelry : listJewelry) {
+                        %>
+                        <div class="horizontal-scroll-item" data-currentbid="<%= jewelry.getCurrentBid()%>">
+                            <div class="card" onclick="selectItem(this, '<%= jewelry.getJewelryID()%>')">
+                                <% String photo = jewelry.getPhotos(); %>
+                                <% String[] photoArray = photo.split(";");%>
+                                <img src="${pageContext.request.contextPath}/<%= photoArray[0]%>" class="card-img-top" alt="<%= jewelry.getJewelryName()%>">
                                 <p class="card-text" style="display: none;">Current Bid: <%= jewelry.getCurrentBid()%></p> <!-- Hidden current bid -->
                                 <input type="hidden" class="current-bid-value" value="<%= jewelry.getCurrentBid()%>"> <!-- Hidden input with current bid value -->
                             </div>
                         </div>
                     </div>
-                    <% }%>
                 </div>
+                <div class="item-details-container" style="display: none">
+                    <!-- Additional space for item details -->
+                    <div class="card-body">
+                        <h3>Detail</h3>
+                        <h5 class="card-title"><%= jewelry.getJewelryID()%></h5>
+                        <p class="card-text"><%= jewelry.getJewelryName()%></p>
+                        <p class="card-text"><%= jewelry.getArtist()%></p>
+                        <p class="card-text"><%= jewelry.getCategoryName()%></p>
+                    </div>
+                </div>
+                <% }%>
             </div>
+        </div>
 
-            <div class="chat-container">
-                <div class="chat-messages" id="chatMessages">
-                    <!-- Messages will be displayed here -->
-                </div>
-                <div class="chat-input">
-                    <input type="number" id="textMessage" placeholder="Enter your bid...">
-                    <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
-                </div>
+        <!-- Lower Part: Chat Socket -->
+        <div class="chat-container">
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will be displayed here -->
+            </div>
+            <div class="chat-input">
+                <input type="number" id="textMessage" placeholder="Enter your bid...">
+                <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
 
@@ -615,7 +548,7 @@ body {
             var currentIndex = 0;
             var items = document.querySelectorAll('.horizontal-scroll-item');
 
-            var websocketURL = "ws://localhost:8080/Jewelry_Auction_Platform/BiddingRoomServer/" + auctionID;
+            var websocketURL = "ws://localhost:8081/Jewelry_Auction_Platform/BiddingRoomServer/" + auctionID;
             var websocket = new WebSocket(websocketURL);
 
             websocket.onopen = function (event) {
@@ -710,7 +643,6 @@ body {
                 var minutes = now.getMinutes().toString().padStart(2, '0');
                 return hours + ':' + minutes;
             }
-            
 
             document.getElementById('textMessage').addEventListener('keyup', function (event) {
                 if (event.key === 'Enter') {
@@ -726,6 +658,11 @@ body {
                 // Add 'selected' class to the clicked item
                 element.classList.add('selected');
                 selectedJewelryID = jewelryID;
+                
+                 // Show item details container
+                 var itemDetailsContainer = document.querySelector('.item-details-container');
+                itemDetailsContainer.style.display = 'block';
+
                 var currentBid = element.getAttribute("data-currentbid");
                 document.getElementById("textMessage").value = currentBid;
 
@@ -760,38 +697,15 @@ body {
                                     };
                                     console.log("Sending finished message:", finishedMessage);
                                     websocket.send(JSON.stringify(finishedMessage));
+                                    index++;
+                                    sendNextItem(); // Move to the next item
                                 }
-                                index++;
-                                if (index < items.length) {
-                                    sendNextItem(); // Send next item after 30000 milliseconds (6 seconds)
-                                } else {
-                                    // After all items are sent, redirect to another page after 30000 milliseconds
-                                    window.location.href = `${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>`;
-                                                            }
-                                                        }, 60000);
-                                                    }
-                                                }
-
-                                                if (websocket.readyState === WebSocket.OPEN) {
-                                                    sendNextItem();
-                                                } else {
-                                                    websocket.onopen = function () {
-                                                        sendNextItem();
-                                                    };
-                                                }
-                                            }
-                                        }
-                                        window.onload = function () {
-                                            if (websocket.readyState === WebSocket.OPEN) {
-                                                sendAllItems();
-                                            } else {
-                                                websocket.onopen = function () {
-                                                    sendAllItems();
-                                                };
-                                            }
-                                        };
-                                        
+                            }, 1000); // 1 second delay between each item (adjust as needed)
+                        }
+                    }
+                    sendNextItem();
+                }
+            }
         </script>
     </body>
 </html>
-
