@@ -86,14 +86,25 @@
                 var items = document.querySelectorAll('.horizontal-scroll-item');
 
                 if (items.length > 0) {
-                    // Automatically select the first item
-                    selectItem(items[0]);
+                    // Loop through each item
+                    items.forEach(item => {
+                        item.style.pointerEvents = "none";
+                        setCurrentBid(item);
+                        selectItem(item);
+                    });
                 }
             });
 
+            function setCurrentBid(element) {
+                var currentBid = element.getAttribute("data-currentbid");
+                document.getElementById("textMessage").value = currentBid;
+            }
+            
             var auctionID = "<%= request.getParameter("auctionID")%>";
             var memberID = "<%= memberID%>";
             var selectedJewelryID = null;
+            var currentIndex = 0;
+            var items = document.querySelectorAll('.horizontal-scroll-item');
 
             var websocketURL = "ws://localhost:8081/Jewelry_Auction_Platform/BiddingRoomServer/" + auctionID;
             var websocket = new WebSocket(websocketURL);
@@ -179,6 +190,7 @@
                     }, 1000);
                 }
             }
+
             function scrollToBottom() {
                 var chatMessages = document.getElementById('chatMessages');
                 chatMessages.scrollTop = chatMessages.scrollHeight;
