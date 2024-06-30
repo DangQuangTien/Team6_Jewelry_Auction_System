@@ -497,16 +497,50 @@
                                 <input type="hidden" class="current-bid-value" value="<%= jewelry.getCurrentBid()%>"> <!-- Hidden input with current bid value -->
                             </div>
                         </div>
+                       <% }%>
                     </div>
                 </div>
+                    <style>
+                        .detail-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 16px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 300px; /* Adjust as needed */
+}
+
+.detail-card h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.detail-text {
+  font-size: 14px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.item-details-container{
+    display: flex;
+    margin-left: 150px;
+}
+</style>
+                    
                 <div class="item-details-container" style="display: none">
                     <!-- Additional space for item details -->
-                    <div class="card-body">
+                    <div class="detail-card">
+                       <% for (Jewelry jewelry : listJewelry) { %>
                         <h3>Detail</h3>
-                        <h5 class="card-title"><%= jewelry.getJewelryID()%></h5>
-                        <p class="card-text"><%= jewelry.getJewelryName()%></p>
-                        <p class="card-text"><%= jewelry.getArtist()%></p>
-                        <p class="card-text"><%= jewelry.getCategoryName()%></p>
+                        <h2 class="detail-text"><%= jewelry.getJewelryName()%></h2>
+                        <p class="detail-text"><%= jewelry.getJewelryID()%></p>
+                        <p class="detail-text"><%= jewelry.getArtist()%></p>
+                        <p class="detail-text"><%= jewelry.getCategoryName()%></p>
                     </div>
                 </div>
                 <% }%>
