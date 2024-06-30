@@ -21,6 +21,11 @@
                 transition: background-color 0.3s, color 0.3s;
             }
 
+            .jewelry-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+    }
             .container, .container-bid {
                 max-width: 80%;
                 margin: 50px auto;
@@ -509,8 +514,17 @@
   border: 1px solid #ddd;
   background-color: #f9f9f9;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   max-width: 300px; /* Adjust as needed */
+  cursor: pointer;
+  background: rgb(255, 255, 255);
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all .2s;
+  box-shadow: 12px 12px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.detail-card:hover {
+  box-shadow: -12px 12px 2px -1px rgba(0, 0, 0, 0.2);
 }
 
 .detail-card h3 {
