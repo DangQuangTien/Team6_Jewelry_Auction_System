@@ -13,454 +13,456 @@
     <style>
         /* Light Grey Theme */
         body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                margin: 0;
-                padding: 0;
-                background-color: #333; /* Light grey background */
-                color: #333; /* Dark grey text */
-                transition: background-color 0.3s, color 0.3s;
-            }
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #333; /* Light grey background */
+            color: #333; /* Dark grey text */
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-            .jewelry-container {
+        .jewelry-container {
             display: flex;
             justify-content: center;
             align-items: center;
-    }
-            .container, .container-bid {
-                max-width: 80%;
-                margin: 50px auto;
-                background-color: #fff; /* White container background */
-                border-radius: 15px;
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-                overflow: hidden;
-                padding: 20px;
-                transition: box-shadow 0.3s, transform 0.3s;
-            }
+        }
+        .container, .container-bid {
+            max-width: 80%;
+            margin: 50px auto;
+            background-color: #fff; /* White container background */
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 20px;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
 
-            .container-bid {
-                max-width: 50%;
-                display: flex;
-                flex-direction: column;
-                margin-left: auto; /* Push to right side */
-                margin-top: 20px;
-            }
+        .container-bid {
+            max-width: 50%;
+            display: flex;
+            flex-direction: column;
+            margin-left: auto; /* Push to right side */
+            margin-top: 20px;
+        }
 
-            .container:hover, .container-bid:hover {
-                box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-                transform: translateY(-5px); /* Lift container on hover */
-            }
+        .container:hover, .container-bid:hover {
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px); /* Lift container on hover */
+        }
 
-            /* Horizontal Scroll Container */
-            .horizontal-scroll-container {
-                display: flex;
-                justify-content: flex-start;
-                gap: 20px;
-                padding: 10px;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                scroll-snap-type: x mandatory;
-                width: 100%;
-                scrollbar-width: none;
-                -ms-overflow-style: none;
-                transition: padding 0.3s;
-            }
+        /* Horizontal Scroll Container */
+        .horizontal-scroll-container {
+            display: flex;
+            justify-content: flex-start;
+            gap: 20px;
+            padding: 10px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scroll-snap-type: x mandatory;
+            width: 100%;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            transition: padding 0.3s;
+        }
 
-            .horizontal-scroll-container::-webkit-scrollbar {
-                display: none;
-            }
+        .horizontal-scroll-container::-webkit-scrollbar {
+            display: none;
+        }
 
-            .horizontal-scroll-container:hover {
-                padding: 15px;
-            }
+        .horizontal-scroll-container:hover {
+            padding: 15px;
+        }
 
-            /* Horizontal Scroll Items */
-            .horizontal-scroll-item {
-                flex: 0 0 auto;
-                width: 250px;
-                scroll-snap-align: center;
-                transition: transform 0.3s, width 0.3s, filter 0.3s, box-shadow 0.3s;
-                filter: blur(2px);
-                cursor: pointer;
-                position: relative;
-                overflow: hidden;
-                border-radius: 10px;
-            }
+        /* Horizontal Scroll Items */
+        .horizontal-scroll-item {
+            flex: 0 0 auto;
+            width: 250px;
+            scroll-snap-align: center;
+            transition: transform 0.3s, width 0.3s, filter 0.3s, box-shadow 0.3s;
+            filter: blur(2px);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
 
-            .horizontal-scroll-item::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.1); /* Semi-transparent dark overlay */
-                z-index: 2;
+        .horizontal-scroll-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.1); /* Semi-transparent dark overlay */
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .horizontal-scroll-item:hover::before {
+            opacity: 0.1; /* Overlay effect on hover */
+        }
+
+        .horizontal-scroll-item.selected {
+            transform: scale(1.1);
+            width: 300px;
+            filter: blur(0);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Light shadow */
+        }
+
+        .horizontal-scroll-item:hover {
+            transform: scale(1.05);
+        }
+
+        /* Cards */
+        .card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px); /* Lift card on hover */
+        }
+
+        .card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .card:hover img {
+            transform: scale(1.03); /* Zoom image on hover */
+        }
+
+        .card-body {
+            padding-bottom: 15px;
+            padding-top: 15px;
+            width: 100%;
+            text-align: center;
+            background-color: #f5f5f5; /* Light grey background */
+            border-radius: 0 0 10px 10px;
+            transition: background-color 0.3s;
+        }
+
+        .card:hover .card-body {
+            background-color: #e0e0e0; /* Slightly darker grey on hover */
+        }
+
+        .card-title {
+            font-size: 23px;
+            text-align: center;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #333; /* Dark grey title */
+            transition: color 0.3s;
+        }
+
+        .card:hover .card-title {
+            color: #1a1a1a; /* Darker title color on hover */
+        }
+
+        .card-text {
+            font-size: 14px;
+            color: #666; /* Dark grey text */
+            line-height: 1.5;
+            transition: color 0.3s;
+        }
+
+        .card:hover .card-text {
+            color: #444; /* Slightly darker grey text on hover */
+        }
+
+        /* Additional Effects */
+
+        /* Gradient Overlay on Horizontal Scroll Items */
+        .horizontal-scroll-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0)); /* Gradient overlay */
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .horizontal-scroll-item:hover::after {
+            opacity: 0.1; /* Show gradient overlay on hover */
+        }
+
+        /* Overlay on Cards */
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.1); /* Semi-transparent overlay */
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .card:hover .card-overlay {
+            opacity: 0.2; /* Show overlay on card hover */
+        }
+
+        /* Text Overlay Animation */
+        .card-overlay-text {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff; /* White text */
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .card:hover .card-overlay-text {
+            opacity: 1; /* Show text on overlay */
+            transform: translateX(-50%) translateY(-10px); /* Move text slightly upwards */
+        }
+
+        /* Box Shadow on Hover for Containers */
+        .container:hover, .container-bid:hover, .horizontal-scroll-item:hover, .card:hover {
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2); /* Enhanced box shadow on hover */
+        }
+
+        .chat-header {
+            background-color: black; /* Dark blue background */
+            color: #ffffff; /* White text */
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid transparent; /* Transparent border initially */
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .header-text {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .exit-button {
+            margin-left: 10px; /* Adjusted margin */
+        }
+
+        .exit-button button.exit-btn {
+            background-color: #e74c3c; /* Red button */
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px; /* Rounded corners */
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            font-size: 16px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent; /* Transparent border initially */
+        }
+
+        .exit-button button.exit-btn:hover {
+            background-color: #c0392b; /* Darker red on hover */
+            transform: scale(1.05); /* Scale up on hover */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+            border-color: #a93226; /* Darker border on hover */
+        }
+
+        .exit-button button.exit-btn i {
+            margin-right: 8px; /* Space between icon and text */
+            transition: transform 0.2s;
+        }
+
+        .exit-button button.exit-btn:hover i {
+            transform: translateX(3px); /* Move icon to the right on hover */
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 400px; /* Adjust height as needed */
+            border: 1px solid grey; /* Optional: Add border or other styling */
+            overflow: hidden; /* Ensure overflow is set to handle scrolling */
+            border-radius: 20px;
+            background-color: black;
+            width: 70%;
+            margin-left: 15%;
+            margin-bottom: 20px;
+        }
+
+        .chat-messages {
+            flex: 1; /* Take remaining vertical space */
+            overflow-y: auto; /* Enable vertical scrolling */
+            padding: 10px;
+
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            display: none;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 15px;
+            border-radius: 15px;
+            background-color: #007bff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.5s ease;
+            margin-bottom: 10px;
+            margin-left: auto;
+
+        }
+        .message p {
+            margin: 0;
+            word-wrap: break-word;
+            font-size: 20px;
+            color: #FFFFFF;
+        }
+        .message.from-me {
+            background-color: #444;
+            color: #fff;
+            align-self: flex-end;
+            border-top-right-radius: 0;
+            margin-left: 20px;
+        }
+        .message.from-me p {
+            color: white;
+        }
+        .message .message-time {
+            font-size: 18px;
+            color: white;
+            margin-top: 5px;
+            text-align: right;
+        }
+        .chat-input {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-radius: 20px;
+            border: 4px solid black;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-input input[type="number"] {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            margin-right: 15px;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background-color: #333;
+            color: white;
+            font-size: 20px;
+
+        }
+
+        .chat-input input[type="number"]:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.25);
+        }
+
+        .chat-input button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            font-weight: bold;
+        }
+
+        .chat-input button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from {
                 opacity: 0;
-                transition: opacity 0.3s;
+                transform: translateY(-20px);
             }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+        .btn {
+            position: relative;
+            width: 10em;
+            height: 2em;
+            text-align: center;
+            font-family: poppins;
+            font-size: 17px;
+            font-weight: 300;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: #fff;
+            cursor: pointer;
+            background-color: rgba(3, 3, 3, .5);
+            border: none;
+            transition: color .2s linear,
+                box-shadow .3s linear,
+                background-color .3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
 
-            .horizontal-scroll-item:hover::before {
-                opacity: 0.1; /* Overlay effect on hover */
-            }
+        .btn:focus,
+        .btn:hover {
+            box-shadow: 0 0 110px #fff;
+            background-color: rgba(255, 255, 255, 0.4);
+            color: #111;
+            font-weight: 500;
+        }
 
-            .horizontal-scroll-item.selected {
-                transform: scale(1.1);
-                width: 300px;
-                filter: blur(0);
-                box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Light shadow */
-            }
+        .btn:focus:before,
+        .btn:hover:before,
+        .btn:focus:after,
+        .btn:hover:after {
+            width: 100%;
+            left: 0%;
+        }
 
-            .horizontal-scroll-item:hover {
-                transform: scale(1.05);
-            }
+        .btn:before,
+        .btn:after {
+            content: '';
+            position: absolute;
+            pointer-events: none;
+            left: 50%;
+            width: 0%;
+            height: 2px;
+            background-color: #fff;
+            transition: width, left, 250ms cubic-bezier(0.25, .8, .25, 1);
+        }
 
-            /* Cards */
-            .card {
-                position: relative;
-                overflow: hidden;
-                border-radius: 10px;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                transition: transform 0.3s, box-shadow 0.3s;
-            }
+        .btn:before {
+            top: -2px;
+        }
 
-            .card:hover {
-                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-                transform: translateY(-5px); /* Lift card on hover */
-            }
-
-            .card img {
-                width: 100%;
-                height: 300px;
-                object-fit: cover;
-                transition: transform 0.3s;
-            }
-
-            .card:hover img {
-                transform: scale(1.03); /* Zoom image on hover */
-            }
-
-            .card-body {
-                padding: 15px;
-                width: 50%;
-                text-align: center;
-                background-color: #f5f5f5; /* Light grey background */
-                border-radius: 0 0 10px 10px;
-                transition: background-color 0.3s;
-            }
-
-            .card:hover .card-body {
-                background-color: #e0e0e0; /* Slightly darker grey on hover */
-            }
-
-            .card-title {
-                font-size: 18px;
-                margin: 10px 0 5px;
-                font-weight: bold;
-                color: #333; /* Dark grey title */
-                transition: color 0.3s;
-            }
-
-            .card:hover .card-title {
-                color: #1a1a1a; /* Darker title color on hover */
-            }
-
-            .card-text {
-                font-size: 14px;
-                color: #666; /* Dark grey text */
-                line-height: 1.5;
-                transition: color 0.3s;
-            }
-
-            .card:hover .card-text {
-                color: #444; /* Slightly darker grey text on hover */
-            }
-
-            /* Additional Effects */
-
-            /* Gradient Overlay on Horizontal Scroll Items */
-            .horizontal-scroll-item::after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0)); /* Gradient overlay */
-                z-index: 3;
-                opacity: 0;
-                transition: opacity 0.3s, transform 0.3s;
-            }
-
-            .horizontal-scroll-item:hover::after {
-                opacity: 0.1; /* Show gradient overlay on hover */
-            }
-
-            /* Overlay on Cards */
-            .card-overlay {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.1); /* Semi-transparent overlay */
-                z-index: 2;
-                opacity: 0;
-                transition: opacity 0.3s;
-            }
-
-            .card:hover .card-overlay {
-                opacity: 0.2; /* Show overlay on card hover */
-            }
-
-            /* Text Overlay Animation */
-            .card-overlay-text {
-                position: absolute;
-                bottom: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                color: #fff; /* White text */
-                font-size: 16px;
-                font-weight: bold;
-                text-transform: uppercase;
-                opacity: 0;
-                transition: opacity 0.3s, transform 0.3s;
-            }
-
-            .card:hover .card-overlay-text {
-                opacity: 1; /* Show text on overlay */
-                transform: translateX(-50%) translateY(-10px); /* Move text slightly upwards */
-            }
-
-            /* Box Shadow on Hover for Containers */
-            .container:hover, .container-bid:hover, .horizontal-scroll-item:hover, .card:hover {
-                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2); /* Enhanced box shadow on hover */
-            }
-
-            .chat-header {
-                background-color: black; /* Dark blue background */
-                color: #ffffff; /* White text */
-                padding: 15px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                border: 2px solid transparent; /* Transparent border initially */
-                transition: background-color 0.3s, border-color 0.3s;
-            }
-
-            .header-text {
-                font-size: 3rem;
-                font-weight: bold;
-            }
-
-            .exit-button {
-                margin-left: 10px; /* Adjusted margin */
-            }
-
-            .exit-button button.exit-btn {
-                background-color: #e74c3c; /* Red button */
-                color: #fff;
-                border: none;
-                padding: 12px 24px;
-                border-radius: 8px; /* Rounded corners */
-                cursor: pointer;
-                transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-                font-size: 16px;
-                text-transform: uppercase;
-                position: relative;
-                overflow: hidden;
-                border: 2px solid transparent; /* Transparent border initially */
-            }
-
-            .exit-button button.exit-btn:hover {
-                background-color: #c0392b; /* Darker red on hover */
-                transform: scale(1.05); /* Scale up on hover */
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
-                border-color: #a93226; /* Darker border on hover */
-            }
-
-            .exit-button button.exit-btn i {
-                margin-right: 8px; /* Space between icon and text */
-                transition: transform 0.2s;
-            }
-
-            .exit-button button.exit-btn:hover i {
-                transform: translateX(3px); /* Move icon to the right on hover */
-            }
-
-            .chat-container {
-                display: flex;
-                flex-direction: column;
-                height: 400px; /* Adjust height as needed */
-                border: 1px solid grey; /* Optional: Add border or other styling */
-                overflow: hidden; /* Ensure overflow is set to handle scrolling */
-                border-radius: 20px;
-                background-color: black;
-                width: 70%;
-                margin-left: 15%;
-                margin-bottom: 20px;
-            }
-
-            .chat-messages {
-                flex: 1; /* Take remaining vertical space */
-                overflow-y: auto; /* Enable vertical scrolling */
-                padding: 10px;
-
-            }
-
-            .chat-messages::-webkit-scrollbar {
-                display: none;
-            }
-
-            .message {
-                max-width: 80%;
-                padding: 15px;
-                border-radius: 15px;
-                background-color: #007bff;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                position: relative;
-                overflow: hidden;
-                animation: fadeIn 0.5s ease;
-                margin-bottom: 10px;
-                margin-left: auto;
-
-            }
-            .message p {
-                margin: 0;
-                word-wrap: break-word;
-                font-size: 20px;
-                color: #FFFFFF;
-            }
-            .message.from-me {
-                background-color: #444;
-                color: #fff;
-                align-self: flex-end;
-                border-top-right-radius: 0;
-                margin-left: 20px;
-            }
-            .message.from-me p {
-                color: white;
-            }
-            .message .message-time {
-                font-size: 18px;
-                color: white;
-                margin-top: 5px;
-                text-align: right;
-            }
-            .chat-input {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 15px;
-                border-radius: 20px;
-                border: 4px solid black;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            .chat-input input[type="number"] {
-                flex: 1;
-                padding: 15px;
-                border: 1px solid #ccc;
-                border-radius: 20px;
-                margin-right: 15px;
-                outline: none;
-                transition: border-color 0.3s, box-shadow 0.3s;
-                background-color: #333;
-                color: white;
-                font-size: 20px;
-
-            }
-
-            .chat-input input[type="number"]:focus {
-                border-color: #007bff;
-                box-shadow: 0 0 10px rgba(0, 123, 255, 0.25);
-            }
-
-            .chat-input button {
-                background-color: #007bff;
-                color: #fff;
-                border: none;
-                border-radius: 20px;
-                padding: 15px 25px;
-                cursor: pointer;
-                transition: background-color 0.3s, transform 0.3s;
-                font-weight: bold;
-            }
-
-            .chat-input button:hover {
-                background-color: #0056b3;
-                transform: scale(1.05);
-            }
-
-            @keyframes fadeIn {
-                from {
-                    opacity: 0;
-                    transform: translateY(-20px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-            .grid-container {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 20px;
-                padding: 20px;
-            }
-            .btn {
-                position: relative;
-                width: 10em;
-                height: 2em;
-                text-align: center;
-                font-family: poppins;
-                font-size: 17px;
-                font-weight: 300;
-                letter-spacing: 5px;
-                text-transform: uppercase;
-                color: #fff;
-                cursor: pointer;
-                background-color: rgba(3, 3, 3, .5);
-                border: none;
-                transition: color .2s linear,
-                    box-shadow .3s linear,
-                    background-color .3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            }
-
-            .btn:focus,
-            .btn:hover {
-                box-shadow: 0 0 110px #fff;
-                background-color: rgba(255, 255, 255, 0.4);
-                color: #111;
-                font-weight: 500;
-            }
-
-            .btn:focus:before,
-            .btn:hover:before,
-            .btn:focus:after,
-            .btn:hover:after {
-                width: 100%;
-                left: 0%;
-            }
-
-            .btn:before,
-            .btn:after {
-                content: '';
-                position: absolute;
-                pointer-events: none;
-                left: 50%;
-                width: 0%;
-                height: 2px;
-                background-color: #fff;
-                transition: width, left, 250ms cubic-bezier(0.25, .8, .25, 1);
-            }
-
-            .btn:before {
-                top: -2px;
-            }
-
-            .btn:after {
-                bottom: -2px;
-           }
+        .btn:after {
+            bottom: -2px;
+        }
 
     </style>
     <body>
@@ -498,61 +500,79 @@
                                 <% String photo = jewelry.getPhotos(); %>
                                 <% String[] photoArray = photo.split(";");%>
                                 <img src="${pageContext.request.contextPath}/<%= photoArray[0]%>" class="card-img-top" alt="<%= jewelry.getJewelryName()%>">
-                                <p class="card-text" style="display: none;">Current Bid: <%= jewelry.getCurrentBid()%></p> <!-- Hidden current bid -->
-                                <input type="hidden" class="current-bid-value" value="<%= jewelry.getCurrentBid()%>"> <!-- Hidden input with current bid value -->
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= jewelry.getJewelryID()%></h5>
+                                    <p class="card-text" style="display: none;">Current Bid: <%= jewelry.getCurrentBid()%></p> <!-- Hidden current bid -->
+                                    <input type="hidden" class="current-bid-value" value="<%= jewelry.getCurrentBid()%>"> <!-- Hidden input with current bid value -->
+                                </div>
                             </div>
                         </div>
-                       <% }%>
+                        <% }%>
                     </div>
                 </div>
-                    <style>
-                        .detail-card {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 16px;
-  border: 1px solid #ddd;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  max-width: 300px; /* Adjust as needed */
-  cursor: pointer;
-  background: rgb(255, 255, 255);
-  border-radius: 5px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all .2s;
-  box-shadow: 12px 12px 2px 1px rgba(0, 0, 0, 0.2);
-}
+                <style>
+                    /* Item Details Container Styling */
+                    .item-details-container {
+                        display: none;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: flex-start;
+                        width: 50%;
+                        padding: 20px;
+                        border-radius: 8px;
+                        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                        transition: transform 0.3s, box-shadow 0.3s;
+                    }
 
-.detail-card:hover {
-  box-shadow: -12px 12px 2px -1px rgba(0, 0, 0, 0.2);
-}
+                    .horizontal-scroll-item.selected ~ .item-details-container {
+                        display: flex; /* Show details when item is selected */
+                    }
 
-.detail-card h3 {
-  font-size: 18px;
-  margin-bottom: 12px;
-}
+                    .detail-card {
+                        max-width: 100%;
+                        padding: 16px;
+                        border: 1px solid #ddd;
+                        background-color: #f9f9f9;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        background: rgb(255, 255, 255);
+                        border-radius: 5px;
+                        border: 1px solid rgba(255, 255, 255, 0.2);
+                        transition: all .2s;
+                        box-shadow: 12px 12px 2px 1px rgba(0, 0, 0, 0.1);
+                    }
 
-.detail-text {
-  font-size: 14px;
-  margin-bottom: 8px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+                    .detail-card:hover {
+                        box-shadow: -12px 12px 2px -1px rgba(0, 0, 0, 0.1);
+                    }
 
-.item-details-container{
-    display: flex;
-    margin-left: 150px;
-}
-</style>
-                    
-                <div class="item-details-container" style="display: none">
+                    .detail-card h3 {
+                        font-size: 18px;
+                        margin-bottom: 12px;
+                        text-align: center;
+                        color: #333;
+                    }
+
+                    .detail-text {
+                        font-size: 16px;
+                        margin-bottom: 8px;
+                        line-height: 1.5;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        color: #666;
+                    }
+                    .item-details-container{
+                        display: none;
+                        margin-left: 150px;
+                    }
+                </style>
+                <% for (Jewelry jewelry : listJewelry) {%>
+                <div class="item-details-container" data-currentbid="<%= jewelry.getCurrentBid()%>">
                     <!-- Additional space for item details -->
                     <div class="detail-card">
-                       <% for (Jewelry jewelry : listJewelry) { %>
                         <h3>Detail</h3>
-                        <h2 class="detail-text"><%= jewelry.getJewelryName()%></h2>
-                        <p class="detail-text"><%= jewelry.getJewelryID()%></p>
+                        <p class="detail-text"><%= jewelry.getJewelryName()%></h2>
                         <p class="detail-text"><%= jewelry.getArtist()%></p>
                         <p class="detail-text"><%= jewelry.getCategoryName()%></p>
                     </div>
@@ -596,7 +616,7 @@
             var currentIndex = 0;
             var items = document.querySelectorAll('.horizontal-scroll-item');
 
-            var websocketURL = "ws://localhost:8081/Jewelry_Auction_Platform/BiddingRoomServer/" + auctionID;
+            var websocketURL = "ws://localhost:8080/Jewelry_Auction_Platform/BiddingRoomServer/" + auctionID;
             var websocket = new WebSocket(websocketURL);
 
             websocket.onopen = function (event) {
@@ -706,10 +726,12 @@
                 // Add 'selected' class to the clicked item
                 element.classList.add('selected');
                 selectedJewelryID = jewelryID;
-                
-                 // Show item details container
-                 var itemDetailsContainer = document.querySelector('.item-details-container');
-                itemDetailsContainer.style.display = 'block';
+
+                // Show the item details container
+                var itemDetailsContainer = document.querySelector('.item-details-container');
+                itemDetailsContainer.style.display = 'block'; // Show details container
+
+
 
                 var currentBid = element.getAttribute("data-currentbid");
                 document.getElementById("textMessage").value = currentBid;
@@ -745,15 +767,36 @@
                                     };
                                     console.log("Sending finished message:", finishedMessage);
                                     websocket.send(JSON.stringify(finishedMessage));
-                                    index++;
-                                    sendNextItem(); // Move to the next item
                                 }
-                            }, 1000); // 1 second delay between each item (adjust as needed)
-                        }
-                    }
-                    sendNextItem();
-                }
-            }
+                                index++;
+                                if (index < items.length) {
+                                    sendNextItem(); // Send next item after 30000 milliseconds (6 seconds)
+                                } else {
+                                    // After all items are sent, redirect to another page after 30000 milliseconds
+                                    window.location.href = `${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>`;
+                                                            }
+                                                        }, 60000);
+                                                    }
+                                                }
+
+                                                if (websocket.readyState === WebSocket.OPEN) {
+                                                    sendNextItem();
+                                                } else {
+                                                    websocket.onopen = function () {
+                                                        sendNextItem();
+                                                    };
+                                                }
+                                            }
+                                        }
+                                        window.onload = function () {
+                                            if (websocket.readyState === WebSocket.OPEN) {
+                                                sendAllItems();
+                                            } else {
+                                                websocket.onopen = function () {
+                                                    sendAllItems();
+                                                };
+                                            }
+                                        };
         </script>
     </body>
 </html>
