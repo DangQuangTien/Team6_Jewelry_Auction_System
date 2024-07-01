@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * User DAO Interface
+ * UserDao Interface
  */
 public interface UserDao {
 
@@ -113,4 +113,7 @@ public interface UserDao {
     boolean updateAllPlacedToLost(String jewelryID);
 
     boolean closeSession(String jewelryID);
+    
+    //Payment online
+    boolean updatePayment(String memberID, String jewelryID);
 }

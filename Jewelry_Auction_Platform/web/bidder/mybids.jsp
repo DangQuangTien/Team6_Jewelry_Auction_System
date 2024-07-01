@@ -39,16 +39,16 @@
                 align-items: center;
                 background-color: #f0f0f0;
                 padding: 20px;
-                overflow: hidden; /* Ẩn thanh cuộn của trình duyệt */
+                overflow: hidden; 
             }
             .jewelry-list {
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-                gap: 30px; /* Khoảng cách giữa các mục */
-                max-width: 1200px; /* Giới hạn chiều rộng của danh sách sản phẩm */
-                width: 100%; /* Đảm bảo danh sách sản phẩm lấp đầy không gian container */
-                overflow: auto; /* Cho phép cuộn nếu danh sách dài hơn màn hình */
-                padding: 20px; /* Khoảng cách bố trí nội dung */
+                gap: 30px;
+                max-width: 1200px; 
+                width: 100%; 
+                overflow: auto; 
+                padding: 20px;
             }
             .jewelry-item {
                 display: flex;
@@ -153,6 +153,7 @@
     </head>
     <body>
         <c:set var="member" value="${sessionScope.MEMBER}" />
+        
             <div class="navbar">
                 <a href="${pageContext.request.contextPath}/home">Home</a>
                 <a href="${pageContext.request.contextPath}/auctions">Auctions</a>
@@ -170,19 +171,19 @@
                                     <img src="${photoArray[0]}" alt="Jewelry Photo">
                             </div>
                                 <font style="font-family: 'Zapf-Chancery'; font-size: 20px; font-weight: bold">${jewelry.jewelryName}</font><br>
-                            <div class="jewelry-prebid">Your Bid: $${jewelry.preBid}</div>
+                            <div class="jewelry-prebid">Your Bid: $${jewelry.currentBid}</div>
                             <c:choose>
                                 <c:when test="${jewelry.statusBid != 'Pending Payment'}">
                                     <div class="jewelry-status">Status: ${jewelry.statusBid}</div>
                                 </c:when>
                                 <c:otherwise>
                                     <div class="jewelry-status">Status: ${jewelry.statusBid}</div>
-                                    <form action="https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_Amount=1806000&vnp_Command=pay&vnp_CreateDate=20210801153333&vnp_CurrCode=VND&vnp_IpAddr=127.0.0.1&vnp_Locale=vn&vnp_OrderInfo=Thanh+toan+don+hang+%3A5&vnp_OrderType=other&vnp_ReturnUrl=https%3A%2F%2Fdomainmerchant.vn%2FReturnUrl&vnp_TmnCode=DEMOV210&vnp_TxnRef=5&vnp_Version=2.1.0&vnp_SecureHash=3e0d61a0c0534b2e36680b3f7277743e8784cc4e1d68fa7d276e79c23be7d6318d338b477910a27992f5057bb1582bd44bd82ae8009ffaf6d141219218625c42" method="GET">
+                                    <form action="${pageContext.request.contextPath}/pay" method="POST">
                                         <input type="hidden" name="memberID" value="${member.memberID}">
                                         <input type="hidden" name="jewelryID" value="${jewelry.jewelryID}">
                                         <input type="hidden" name="jewelryName" value="${jewelry.jewelryName}">
                                         <input type="hidden" name="photo" value="${photoArray}}">
-                                        <input type="hidden" name="bid" value="${jewelry.preBid}">
+                                        <input type="hidden" name="bidAmount" value="${jewelry.currentBid}">
                                         <button type="submit" style="font-weight: bold" class="btn">
                                         Pay Now 
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="15px" width="15px" class="icon">

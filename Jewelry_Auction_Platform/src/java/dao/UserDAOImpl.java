@@ -69,17 +69,17 @@ public class UserDAOImpl implements UserDao {
 
     @Override
     public Member getInformation(String userID) {
-        String query = "select m.* from Member m, Users u where m.userID = u.userID and u.userID = ?";
+        String query = "SELECT m.* FROM Member m JOIN Users u ON m.userID = u.userID WHERE u.userID = ?";
         try {
             conn = DBUtils.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, userID);
             rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 return new Member(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7), rs.getString(8), rs.getInt(9));
             }
         } catch (ClassNotFoundException | SQLException ex) {
-            ex.getMessage();
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -107,7 +107,7 @@ public class UserDAOImpl implements UserDao {
             }
             return lst;
         } catch (ClassNotFoundException | SQLException ex) {
-            ex.getMessage();
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -774,15 +774,13 @@ public class UserDAOImpl implements UserDao {
     @Override
     public Jewelry getJewelryDetails(String jewelryID) {
         String query = "SELECT * FROM JEWELRY j, category c WHERE c.categoryID = j.categoryID and j.jewelryID = ?";
-
         try {
             conn = DBUtils.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, jewelryID);
             rs = ps.executeQuery();
             Jewelry jewelry = new Jewelry();
-
-            while (rs.next()) {
+            if (rs.next()) {
                 jewelry.setJewelryID(rs.getString("jewelryID"));
                 jewelry.setCategoryName(rs.getString("categoryName"));
                 jewelry.setJewelryName(rs.getString("jewelryName"));
@@ -1201,7 +1199,7 @@ public class UserDAOImpl implements UserDao {
     @Override
     public List<Jewelry> AuctionJewelryRegister(String memberID) {
         List<Jewelry> listJewelry = new ArrayList<>();
-        String query = "select j.jewelryID, j.jewelryName, j.photos, r.preBid_Amount, r.status from Register_Bid r, Session s, Jewelry j where r.sessionID = s.sessionID and j.jewelryID = s.jewelryID and r.memberID = ?";
+        String query = "select j.jewelryID, j.jewelryName, j.photos, r.bidAmount_Current, r.status from Register_Bid r, Session s, Jewelry j where r.sessionID = s.sessionID and j.jewelryID = s.jewelryID and r.memberID = ?";
         try {
             conn = DBUtils.getConnection();
             ps = conn.prepareStatement(query);
@@ -1212,7 +1210,7 @@ public class UserDAOImpl implements UserDao {
                 jewelry.setJewelryID(rs.getString(1));
                 jewelry.setJewelryName(rs.getString(2));
                 jewelry.setPhotos(rs.getString(3));
-                jewelry.setPreBid(rs.getDouble(4));
+                jewelry.setCurrentBid(rs.getDouble(4));
                 jewelry.setStatusBid(rs.getString(5));
                 listJewelry.add(jewelry);
             }
@@ -1299,6 +1297,17 @@ public class UserDAOImpl implements UserDao {
         }
 
         return false; // Update failed or no records updated
+    }
+
+    @Override
+    public boolean updatePayment(String memberID, String jewelryID) {
+        String updateQuery = "";
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(updateQuery)) {
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 
 }

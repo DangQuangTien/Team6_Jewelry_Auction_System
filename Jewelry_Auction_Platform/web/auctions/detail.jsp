@@ -9,7 +9,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <title>Fine Jewels & Watches | Global F'Rankelly 's Premier Jewelry Auction House</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <link rel="icon" type="image/png" sizes="64x64" href="../images/logo/Logo.png">
         <link rel="stylesheet" type="text/css" href="../component//userProfile.css"/>
         <link rel="stylesheet" type="text/css" href="../component/header.css" />
         <link rel="stylesheet" type="text/css" href="../component/footer.css" />
@@ -193,39 +192,24 @@
         }
 
         .card {
-            border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
 
         .card-img-top {
             width: 100%;
             height: auto;
-            border-radius: 12px;
             transition: transform 0.3s ease;
-        }
-
-        .card:hover .card-img-top {
-            transform: scale(1.05);
-        }
-
-        .card-body {
-            padding: 15px;
         }
 
         .card-title {
             margin-bottom: 10px;
+            font-family: Verdana;
         }
 
-        .min-price, .max-price {
-            font-weight: bold;
-        }
+
         .btn-primary {
             padding: 10px 20px;
             font-size: 16px;
@@ -240,23 +224,26 @@
             background-color: #000;
             color: #fff;
         }
+        
         .loader {
-            width: 100px;
-            height: 100px;
-            border: solid 4px rgba(231, 231, 231, 0);
-            border-top: solid 5px rgb(241, 68, 68);
+            width: 40px;
+            height: 40px;
+            border: solid 3px rgba(231, 231, 231, 0);
+            border-top: solid 4px rgb(241, 68, 68);
             border-radius: 50%;
             transition: all 0.5s;
             animation: rotation_51512 1.2s infinite cubic-bezier(0.785, 0.135, 0.15, 0.86);
+            margin-left: 12px;
+            margin-top: -12px;
         }
 
         @keyframes rotation_51512 {
-            70% {
-                box-shadow: 0px 0px 10px 50px rgba(241, 57, 57, 0.526);
+            50% {
+                box-shadow: 0px 0px 7px 20px rgba(241, 57, 57, 0.526);
             }
 
             90% {
-                box-shadow: 0px 0px 10px 50px rgba(241, 57, 57, 0.04);
+                box-shadow: 0px 0px 7px 20px rgba(241, 57, 57, 0.04);
             }
 
             100% {
@@ -264,6 +251,7 @@
                 transform: rotate(360deg);
             }
         }
+
         .animated-button {
             position: relative;
             display: flex;
@@ -393,15 +381,15 @@
         <c:choose>
             <c:when test="${status == 1 && member != null}">
                 document.getElementById("auctionLink").innerHTML = '<a href="${pageContext.request.contextPath}/room?auctionID=${param.auctionID}"><div class="loader"></div><div class="loader2"></div></a>';
-                document.getElementById("auctionLink1").innerHTML = '<a style="text-decoration: none;" href="${pageContext.request.contextPath}/room?auctionID=${param.auctionID}"><button type="submit" class="animated-button"><svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path></svg><span class="text">E N T R Y</span><span class="circle"></span><svg xmlns="http://www.w3.org/2000/svg" class="arr-1" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path></svg></button></a>';
+                document.getElementById("auctionLink1").innerHTML = '<a style="text-decoration: none;" href="${pageContext.request.contextPath}/room?auctionID=${param.auctionID}"><button type="submit" class="animated-button"><svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path></svg><span class="text">J O I N</span><span class="circle"></span><svg xmlns="http://www.w3.org/2000/svg" class="arr-1" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path></svg></button></a>';
                 document.getElementById("bidForm").innerHTML = '';
                 document.getElementById("editBidForm_").innerHTML = '';
             </c:when>
             <c:when test="${status == 0 && member != null}">
-                document.getElementById("auctionLink").innerHTML = '<a style="text-decoration: none;" href="${pageContext.request.contextPath}/registerbid?auctionID=${param.auctionID}"><button type="submit" class="animated-button"><svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path></svg><span class="text">E N T R Y</span><span class="circle"></span><svg xmlns="http://www.w3.org/2000/svg" class="arr-1" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path></svg></button></a>';
+                document.getElementById("auctionLink").innerHTML = '<a style="text-decoration: none;" href="${pageContext.request.contextPath}/registerbid?auctionID=${param.auctionID}"><button type="submit" class="animated-button"><svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path></svg><span class="text">J O I N</span><span class="circle"></span><svg xmlns="http://www.w3.org/2000/svg" class="arr-1" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path></svg></button></a>';
             </c:when>
             <c:otherwise>
-                document.getElementById("auctionLink").innerHTML = '<form action="${pageContext.request.contextPath}/login"><button type="submit" class="animated-button"><svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path></svg><span class="text">E N T R Y</span><span class="circle"></span><svg xmlns="http://www.w3.org/2000/svg" class="arr-1" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path></svg></button></form>';
+                document.getElementById("auctionLink").innerHTML = '<form action="${pageContext.request.contextPath}/login"><button type="submit" class="animated-button"><svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path></svg><span class="text">J O I N</span><span class="circle"></span><svg xmlns="http://www.w3.org/2000/svg" class="arr-1" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path></svg></button></form>';
             </c:otherwise>
         </c:choose>
                 return;
@@ -478,7 +466,7 @@
                                 Bids</a>
                         </div>
                     </li>
-                    
+
                     <li class="nav-item">
                         <a class="nav-link" href="#about"> Watched Lots</a>
                     </li>
@@ -546,11 +534,13 @@
         <h1 style="margin-top: 120px; font-weight: bold; font-size: 3em; font-family:  Optima">Fine Jewels & Watches - <fmt:formatDate value="${auction.endDate}" pattern="dd MMM YYYY"/></h1>
         <font style="font-size: 20px; font-family:  Helvetica; font-weight: bold">Live Auction</font>
         <h3 style="font-size: 20px; font-family:  Helvetica;">Live bidding begins: <fmt:formatDate value="${auction.endDate}" pattern="dd MMM YYYY"/> at <c:out value="${auction.startTime}"/></h3>
+        <br>
         <div class="countdown-container">
             <h3 style="color: crimson; font-family:Verdana"><div id="countdown"></div></h3>
             <div id="auctionLink"></div>
         </div>
         <!-- Notification -->
+        <br>
         <c:choose>
             <c:when test="${status == 1 && member != null}">
                 <div id="auctionLink1"><h3>COMING SOON</h3></div>
@@ -562,8 +552,8 @@
                 <a style=" text-decoration: none;" href="${pageContext.request.contextPath}/login" class="btn-custom">REGISTER TO BID</a>
             </c:otherwise>
         </c:choose>
-                <br>
-                <hr>
+        <br>
+        <hr>
         <!-- Sort -->
         <div class="row">
             <div class="col-md-4">
@@ -601,15 +591,22 @@
                 <c:set var="photos" value="${j.photos}" />
                 <c:set var="photoArray" value="${fn:split(photos, ';')}" />
                 <div class="col-md-4 mb-4 catalog-item" data-category="${j.categoryName}">
-                    <div style="border-radius: 12px" class="card-wrapper">
-                        <div style="border-radius: 12px" class="card">
+                    <div  class="card-wrapper">
+                        <div  class="card">
                             <a href="${pageContext.request.contextPath}/auctions/itemDetail.jsp?jewelryID=${j.jewelryID}&auctionID=${param.auctionID}">
-                                <img style="border-radius: 12px" class="card-img-top" src="${pageContext.request.contextPath}/${photoArray[0]}" alt="${j.jewelryName}">
+                                <img class="card-img-top" src="${pageContext.request.contextPath}/${photoArray[0]}" alt="${j.jewelryName}">
                             </a>
                             <div class="card-body">
                                 <h5 class="card-title">${j.jewelryID}</h5>
                                 <h5 class="card-title">${j.jewelryName}</h5>
-                                Est. <span class="min-price"><fmt:formatNumber value="${j.minPrice}" type="currency" minFractionDigits="2" maxFractionDigits="2"/></span> - <span class="max-price"><fmt:formatNumber value="${j.maxPrice}" type="currency" minFractionDigits="2" maxFractionDigits="2"/></span><br>
+                                <font style="font-size: 16px; font-family: Calibri; color: lightslategrey">  Est. 
+                                    <span class="min-price">
+                                        <fmt:formatNumber value="${j.minPrice}" type="currency" minFractionDigits="0" maxFractionDigits="0"/>
+                                    </span> - 
+                                    <span class="max-price">
+                                        <fmt:formatNumber value="${j.maxPrice}" type="currency" minFractionDigits="0" maxFractionDigits="0"/>
+                                    </span>
+                                </font><br>
                                 <c:if test="${j.currentBid != 0.00}">
                                     <b><font style="color: orangered; font-size: 20px">Current bid: </font></b>
                                     <font style="color: orangered; font-size: 24px">

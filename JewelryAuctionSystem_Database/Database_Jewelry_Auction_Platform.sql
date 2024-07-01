@@ -485,3 +485,13 @@ select * from Member
 
 
 select * FROM Auction WHERE status = 1
+
+UPDATE Register_Bid 
+SET status = 'Pending Payment'
+WHERE memberID = 'Member1' 
+  AND status = 'Paid'
+  AND sessionID IN (
+    SELECT s.sessionID
+    FROM Session s
+    WHERE s.jewelryID = 'Lot44'
+  );

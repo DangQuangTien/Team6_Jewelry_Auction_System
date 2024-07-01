@@ -14,7 +14,7 @@
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 margin: 0;
                 padding: 0;
-                background-color: #333; /* Light grey background */
+                background-color: #f5f5f5; /* Light grey background */
                 color: #333; /* Dark grey text */
                 transition: background-color 0.3s, color 0.3s;
             }
@@ -23,7 +23,6 @@
                 max-width: 80%;
                 margin: 50px auto;
                 background-color: #fff; /* White container background */
-                border-radius: 15px;
                 box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
                 overflow: hidden;
                 padding: 20px;
@@ -62,9 +61,6 @@
                 display: none;
             }
 
-            .horizontal-scroll-container:hover {
-                padding: 15px;
-            }
 
             /* Horizontal Scroll Items */
             .horizontal-scroll-item {
@@ -76,7 +72,6 @@
                 cursor: pointer;
                 position: relative;
                 overflow: hidden;
-                border-radius: 10px;
             }
 
             .horizontal-scroll-item::before {
@@ -111,18 +106,13 @@
             .card {
                 position: relative;
                 overflow: hidden;
-                border-radius: 10px;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
                 transition: transform 0.3s, box-shadow 0.3s;
-            }
-
-            .card:hover {
-                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-                transform: translateY(-5px); /* Lift card on hover */
+                background-color: #a93226
             }
 
             .card img {
-                width: 100%;
+                width: 110%;
                 height: 300px;
                 object-fit: cover;
                 transition: transform 0.3s;
@@ -135,8 +125,7 @@
             .card-body {
                 padding: 15px;
                 text-align: center;
-                background-color: #f5f5f5; /* Light grey background */
-                border-radius: 0 0 10px 10px;
+                background-color: lightgray; /* Light grey background */
                 transition: background-color 0.3s;
             }
 
@@ -229,16 +218,13 @@
             }
 
 
-
-
             .chat-header {
-                background-color: black; /* Dark blue background */
+                background-color: lightgray; /* Dark blue background */
                 color: #ffffff; /* White text */
-                padding: 15px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                border: 2px solid transparent; /* Transparent border initially */
+                border: 1px solid transparent; /* Transparent border initially */
                 transition: background-color 0.3s, border-color 0.3s;
             }
 
@@ -285,11 +271,10 @@
             .chat-container {
                 display: flex;
                 flex-direction: column;
-                height: 400px; /* Adjust height as needed */
-                border: 1px solid grey; /* Optional: Add border or other styling */
+                height: 600px; /* Adjust height as needed */
                 overflow: hidden; /* Ensure overflow is set to handle scrolling */
-                border-radius: 20px;
-                background-color: black;
+                background-color: lightgray;
+                margin-left: 300px
             }
 
             .chat-messages {
@@ -307,7 +292,7 @@
                 max-width: 80%;
                 padding: 15px;
                 border-radius: 15px;
-                background-color: #007bff;
+                background-color: #a93226;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
                 position: relative;
                 overflow: hidden;
@@ -323,7 +308,7 @@
                 color: #FFFFFF;
             }
             .message.from-me {
-                background-color: #444;
+                background-color: gray;
                 color: #fff;
                 align-self: flex-end;
                 border-top-right-radius: 0;
@@ -343,8 +328,6 @@
                 justify-content: space-between;
                 align-items: center;
                 padding: 15px;
-                border-radius: 20px;
-                border: 4px solid black;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
 
@@ -356,19 +339,19 @@
                 margin-right: 15px;
                 outline: none;
                 transition: border-color 0.3s, box-shadow 0.3s;
-                background-color: #333;
+                background-color: #888;
                 color: white;
                 font-size: 20px;
 
             }
 
             .chat-input input[type="number"]:focus {
-                border-color: #007bff;
+                border-color: darkblue;
                 box-shadow: 0 0 10px rgba(0, 123, 255, 0.25);
             }
 
             .chat-input button {
-                background-color: #007bff;
+                background-color: #0056b3;
                 color: #fff;
                 border: none;
                 border-radius: 20px;
@@ -379,7 +362,7 @@
             }
 
             .chat-input button:hover {
-                background-color: #0056b3;
+                background-color: #007bff;
                 transform: scale(1.05);
             }
 
@@ -400,59 +383,24 @@
                 padding: 20px;
             }
             .btn {
-                position: relative;
-                width: 10em;
-                height: 2em;
-                text-align: center;
-                font-family: poppins;
-                font-size: 17px;
-                font-weight: 300;
-                letter-spacing: 5px;
-                text-transform: uppercase;
-                color: #fff;
-                cursor: pointer;
-                background-color: rgba(3, 3, 3, .5);
+                padding: 7px 13px;
+                font-size: 14px;
+                font-weight: bold;
+                color: white;
+                background-color: darkred;
                 border: none;
-                transition: color .2s linear,
-                    box-shadow .3s linear,
-                    background-color .3s cubic-bezier(0.25, 0.8, 0.25, 1);
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease, color 0.3s ease;
+                margin-top: 5px;
+                margin-bottom: 5px;
+                margin-right: 12px;
             }
 
-            .btn:focus,
             .btn:hover {
-                box-shadow: 0 0 110px #fff;
-                background-color: rgba(255, 255, 255, 0.4);
-                color: #111;
-                font-weight: 500;
+                background-color: #cc0000;
             }
 
-            .btn:focus:before,
-            .btn:hover:before,
-            .btn:focus:after,
-            .btn:hover:after {
-                width: 100%;
-                left: 0%;
-            }
-
-            .btn:before,
-            .btn:after {
-                content: '';
-                position: absolute;
-                pointer-events: none;
-                left: 50%;
-                width: 0%;
-                height: 2px;
-                background-color: #fff;
-                transition: width, left, 250ms cubic-bezier(0.25, .8, .25, 1);
-            }
-
-            .btn:before {
-                top: -2px;
-            }
-
-            .btn:after {
-                bottom: -2px;
-            }
         </style>
     </head>
     <body>
@@ -464,14 +412,12 @@
             }
         %>
         <div class="chat-header">
-            <div style="font-family: Georgia; margin-left: 600px" class="header-text">
-                Live Auction
+            <div style="font-family: Tahoma;  font-size: 14px; color: #111; font-weight: bold">
+                LIVE AUCTION
             </div>
             <div class="exit-button">
                 <form action="${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>" method="post">
-                    <button type="submit" class="btn">
-                        <span class="text">EXIT</span>
-                    </button>
+                    <button  class="btn ">EXIT</button>
                 </form>
             </div>
         </div>
@@ -579,7 +525,10 @@
             function processError(event) {
                 appendMessage("Error: " + event);
             }
-
+            function scrollToBottom() {
+                var chatMessages = document.getElementById('chatMessages');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
             function sendMessage() {
                 var textMessage = document.getElementById('textMessage').value.trim();
                 if (textMessage !== "" && selectedJewelryID !== null) {
@@ -620,10 +569,7 @@
                     }, 1000);
                 }
             }
-            function scrollToBottom() {
-                var chatMessages = document.getElementById('chatMessages');
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
+
 
             function getTime() {
                 var now = new Date();
@@ -688,7 +634,7 @@
                                     // After all items are sent, redirect to another page after 30000 milliseconds
                                     window.location.href = `${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>`;
                                                             }
-                                                        }, 60000);
+                                                        }, 6000000);
                                                     }
                                                 }
 
