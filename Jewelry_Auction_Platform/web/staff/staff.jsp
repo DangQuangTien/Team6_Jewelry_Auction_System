@@ -576,7 +576,7 @@
                                                 <div class="modal fixed inset-0 z-50 overflow-auto" id="infoModal${loop.index}" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel${loop.index}" aria-hidden="true">
                                                     <div class="modal-dialog mx-auto mt-24" role="document">
                                                         <div class="modal-content bg-white shadow-lg rounded-lg">
-                                                            <div class="modal-header bg-gray-200 p-4 rounded-t">
+                                                            <div class="modal-header p-4 rounded-t" style="background-color: #a8a1f7">
                                                                 <h5 class="modal-title text-lg text-gray-900" id="infoModalLabel${loop.index}">Detailed Information</h5>
                                                                 <button type="button" class="close text-gray-700 hover:text-gray-900" data-dismiss="modal" aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
@@ -648,7 +648,7 @@
                                                                     </c:if>
                                                                 </div>
                                                             </div>
-                                                            <div class="modal-footer bg-gray-200 p-4 rounded-b">
+                                                            <div class="modal-footer p-4 rounded-b">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                             </div>
                                                         </div>
