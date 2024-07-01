@@ -29,7 +29,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
+        <link rel="stylesheet" type="text/css" href="asset/finalValuation.css">
         <style>
             /* Sidebar */
             /* Google Font Link */
@@ -542,6 +542,7 @@
                         </li>
                     </ul>
                 </div>
+                
                 <!-- Main content area -->
                 <section class="home-section">
                     <main role="main" class="col-span-9 ml-auto col-span-10 px-4">
@@ -553,7 +554,7 @@
                             <div class="gradient-line"></div>
 
                             <table id="valuationTable" class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
+                                <thead>
                                     <tr style="background-color:#a8a1f7">
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider">No</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider">Photo</th>
@@ -561,7 +562,7 @@
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider">More Info</th>
                                     </tr>
                                 </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
+                                <tbody class="bg-white divide-y divide-gray-200 ">
                                     <c:forEach var="val" items="${listValuationRequest}" varStatus="loop">
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${loop.index + 1}</td>
@@ -571,7 +572,9 @@
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${val.name}</td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <button class="text-indigo-600 hover:text-indigo-900" data-toggle="modal" data-target="#infoModal${loop.index}">View</button>
+                                                <button class="bg-indigo-400 hover:bg-indigo-700 text-white px-4 py-2 rounded-md" data-toggle="modal" data-target="#infoModal${loop.index}">
+                                                    View
+                                                </button>
                                                 <!-- Modal -->
                                                 <div class="modal fixed inset-0 z-50 overflow-auto" id="infoModal${loop.index}" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel${loop.index}" aria-hidden="true">
                                                     <div class="modal-dialog mx-auto mt-24" role="document">
@@ -672,6 +675,7 @@
         <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="asset/staff.js"></script>
         <!-- Script to highlight active link in sidebar -->
         <script>
                                                                                 $(document).ready(function () {
