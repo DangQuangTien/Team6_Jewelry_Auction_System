@@ -1,3 +1,5 @@
+<%@page import="dao.UserDao"%>
+<%@page import="dao.UserDAOImpl"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="java.nio.charset.StandardCharsets"%>
 <%@page import="jewelryauction.controller.payment.Config"%>
@@ -48,7 +50,7 @@
                 fields.remove("vnp_SecureHash");
             }
             String signValue = Config.hashAllFields(fields);
-
+            String memberID = (String)request.getAttribute("JEWELRYID");
         %>
         <!--Begin display -->
         <div class="container">
@@ -66,7 +68,11 @@
                 </div>  
                 <div class="form-group">
                     <label>Transaction Description:</label>
-                    <label><%=request.getParameter("vnp_OrderInfo")%></label>
+                    <% 
+                        String orderInfo = request.getParameter("vnp_OrderInfo");
+                        String[] orderInfoParts = orderInfo.split(";");
+                    %>
+                    <label><%  out.print(orderInfoParts[0]); %></label>
                 </div> 
                 <div class="form-group">
                     <label>Payment Error Code:</label>
@@ -90,7 +96,9 @@
                         <%
                             if (signValue.equals(vnp_SecureHash)) {
                                 if ("00".equals(request.getParameter("vnp_TransactionStatus"))) {
-                                    out.print("Successful");
+                                    out.println("Successful");
+                                    UserDao dao = new UserDAOImpl();
+                                    dao.updateRegisterBidStatus(orderInfoParts[2],orderInfoParts[1]);
                                 } else {
                                     out.print("Failed");
                                 }

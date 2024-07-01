@@ -483,15 +483,18 @@ select j.jewelryID, j.photos, r.preBid_Amount  from Register_Bid r, Session s, J
 select * from Users
 select * from Member
 
+select * from Register_Bid
 
 select * FROM Auction WHERE status = 1
 
 UPDATE Register_Bid 
-SET status = 'Pending Payment'
+SET status = 'Paid'
 WHERE memberID = 'Member1' 
-  AND status = 'Paid'
+  AND status = 'Pending Payment'
   AND sessionID IN (
     SELECT s.sessionID
     FROM Session s
     WHERE s.jewelryID = 'Lot44'
   );
+
+

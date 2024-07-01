@@ -49,7 +49,7 @@ public class MyBidServlet extends HttpServlet {
                 request.getRequestDispatcher("/bidder/mybids.jsp").forward(request, response);
             } else {
                 // Handle case where member is null, maybe redirect to login or show an error page
-                response.sendRedirect("login.jsp"); // Example redirect to login page
+                response.sendRedirect("login"); // Example redirect to login page
             }
         } catch (IOException | ServletException e) {
             // Log exception or handle it appropriately

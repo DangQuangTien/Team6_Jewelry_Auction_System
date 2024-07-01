@@ -115,5 +115,5 @@ public interface UserDao {
     boolean closeSession(String jewelryID);
     
     //Payment online
-    boolean updatePayment(String memberID, String jewelryID);
+    boolean updateRegisterBidStatus(String memberID, String jewelryID);
 }

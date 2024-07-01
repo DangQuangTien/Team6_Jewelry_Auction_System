@@ -34,12 +34,11 @@
                 text-align: center;
             }
             .jewelry-photo img {
-                width: 70%;
+                width: 100%;
                 max-width: 500px;
                 height: auto;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                 margin-top: 20px;
-                margin-left: 70px;
             }
             .thumbnail-container {
                 display: flex;
@@ -136,7 +135,7 @@
                 <h3 class="text-muted">F'RENKELLY WITH THE COOPERATION OF VNPAY</h3>
             </div>
             <div class="row">
-                <!-- Jewelry Details Column -->
+                <!-- Jewelry Photo Column -->
                 <div class="col-md-6">
                     <div class="jewelry-photo">
                         <img id="mainImage" src="${pageContext.request.contextPath}/${fn:split(jewelry.photos, ';')[0]}" class="img-responsive">
@@ -146,17 +145,21 @@
                             <img class="thumbnail-img" src="${pageContext.request.contextPath}/${photo}" onclick="changeMainImage('${pageContext.request.contextPath}/${photo}')">
                         </c:forEach>
                     </div>
+                </div>
+                <!-- Jewelry Details Column -->
+                <div class="col-md-6">
                     <div class="jewelry-details">
                         <h4>Product Information</h4>
                         <p><strong>Product ID: </strong>${jewelry.jewelryID}</p>
                         <p><strong>Product Name: </strong>${jewelry.jewelryName}</p>
-                        <p><strong>Category: </strong>${jewelry.categoryName} </p>
+                        <p><strong>Category: </strong>${jewelry.categoryName}</p>
                         <p><strong>Est. </strong>$${jewelry.minPrice} - $${jewelry.maxPrice}</p>
                     </div>
                 </div>
                 <!-- Payment Form Column -->
                 <c:set var="bidAmount" value="${Double.parseDouble(param.bidAmount)}"/>
                 <div class="col-md-6">
+                    <hr>
                     <div class="table-responsive">
                         <form action="${pageContext.request.contextPath}/vnpayajax" id="frmCreateOrder" method="post">        
                             <div class="form-group">
@@ -222,6 +225,9 @@
                                        data-val-number="The field Amount must be a number." 
                                        data-val-required="The Amount field is required."/>
                             </div>
+                                       <!-- Hidden fields to send jewelry data -->
+                            <input type="hidden" name="jewelryID" value="${jewelry.jewelryID}"/>
+                            <input type="hidden" name="memberID" value="${param.memberID}"/>
                             <h4>Select Payment Method</h4>
                             <div class="form-group">
                                 <h5>Option 1: Redirect to VNPAY Gateway to select payment method</h5>
@@ -251,10 +257,9 @@
                 </div>
             </div>
             <footer class="footer">
-                <p>&copy; VNPAY 2020</p>
+                <p>&copy; VNPAY 2024</p>
             </footer>
         </div>
-
         <link href="https://pay.vnpay.vn/lib/vnpay/vnpay.css" rel="stylesheet" />
         <script src="https://pay.vnpay.vn/lib/vnpay/vnpay.min.js"></script>
         <script>

@@ -1300,12 +1300,27 @@ public class UserDAOImpl implements UserDao {
     }
 
     @Override
-    public boolean updatePayment(String memberID, String jewelryID) {
-        String updateQuery = "";
+    public boolean updateRegisterBidStatus(String memberID, String jewelryID) {
+        String updateQuery = "UPDATE Register_Bid \n"
+                + "SET status = 'Paid'\n"
+                + "WHERE memberID = ? \n"
+                + "  AND status = 'Pending Payment'\n"
+                + "  AND sessionID IN (\n"
+                + "    SELECT s.sessionID\n"
+                + "    FROM Session s\n"
+                + "    WHERE s.jewelryID = ?\n"
+                + "  );";
+
         try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(updateQuery)) {
 
+            ps.setString(1, memberID);
+            ps.setString(2, jewelryID);
+
+            int rowAffected = ps.executeUpdate();
+            return rowAffected > 0;
+
         } catch (ClassNotFoundException | SQLException ex) {
-            ex.printStackTrace();
+            ex.printStackTrace();  // Consider using a logging framework like SLF4J for better logging
         }
         return false;
     }
