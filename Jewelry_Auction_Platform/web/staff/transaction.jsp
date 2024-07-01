@@ -1,4 +1,3 @@
-<%@page import="entity.valuation.Valuation"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.time.LocalTime"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -24,7 +23,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Staff Control Panel</title>
+        <title>Transaction History</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
@@ -553,125 +552,8 @@
                 
                 <!-- Main content area -->
                 <section class="home-section">
-                    <main role="main" class="col-span-9 ml-auto col-span-10 px-4">
-                        <div class="container mt-4">
-                            <c:set var="listValuationRequest" value="${requestScope.listValuationRequest}" />
-                            <br test="${not empty listValuationRequest}">
-                            <h1 class="heading-main">Staff Control Panel</h1>
-                            <h1 class="heading-greeting">Good <%= greeting%>!</h1>
-                            <div class="gradient-line"></div>
+                    <main>
 
-                            <table id="valuationTable" class="min-w-full divide-y divide-gray-200">
-                                <thead>
-                                    <tr style="background-color:#a8a1f7">
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider">No</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider">Photo</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider">Name</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider">More Info</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200 ">
-                                    <c:forEach var="val" items="${listValuationRequest}" varStatus="loop">
-                                        <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${loop.index + 1}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <c:set var="photoArray" value="${fn:split(val.photo, ';')}" />
-                                                <img src="${pageContext.request.contextPath}/${photoArray[0]}" alt="Photo" class="w-20 h-20 object-contain">
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${val.name}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <button class="bg-indigo-400 hover:bg-indigo-700 text-white px-4 py-2 rounded-md" data-toggle="modal" data-target="#infoModal${loop.index}">
-                                                    View
-                                                </button>
-                                                <!-- Modal -->
-                                                <div class="modal fade fixed inset-0 z-50 overflow-auto" id="infoModal${loop.index}" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel${loop.index}" aria-hidden="true">
-                                                    <div class="modal-dialog mx-auto mt-24" role="document">
-                                                        <div class="modal-content bg-white shadow-lg rounded-lg">
-                                                            <div class="modal-header p-4 rounded-t" style="background-color: #a8a1f7">
-                                                                <h5 class="modal-title text-lg text-gray-900" id="infoModalLabel${loop.index}">Detailed Information</h5>
-                                                                <button type="button" class="close text-gray-700 hover:text-gray-900" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body px-4 py-2">
-                                                                <div class="grid grid-cols-2 gap-4">
-                                                                    <div class="col-span-1">
-                                                                        <!-- Basic Info -->
-                                                                        <p class="mb-2"><strong>Name:</strong> ${val.name}</p>
-                                                                        <p class="mb-2"><strong>Phone Number:</strong> ${val.phone}</p>
-                                                                        <p class="mb-2"><strong>Communication Preference:</strong> ${val.communication}</p>
-                                                                        <p class="mb-2"><strong>Description:</strong> ${val.description}</p>
-                                                                    </div>
-                                                                    <div class="col-span-1">
-                                                                        <!-- Images and Description -->
-                                                                        <div class="thumbnail-container">
-                                                                            <c:set var="photoArray" value="${fn:split(val.photo, ';')}" />
-                                                                            <img src="${pageContext.request.contextPath}/${photoArray[0]}" alt="Photo" class="w-full h-auto rounded-lg">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <hr class="my-4">
-                                                                <!-- Action buttons -->
-                                                                <div class="flex justify-between items-center">
-                                                                    <!-- Evaluate Button -->
-                                                                    <c:choose>
-                                                                        <c:when test="${val.status == 0}">
-                                                                            <form action="${pageContext.request.contextPath}/staff/valuation.jsp" method="POST">
-                                                                                <input type="hidden" name="photoURL" value="${val.photo}">
-                                                                                <input type="hidden" name="valuationID" value="${val.valuationID}">
-                                                                                <button type="submit" class="btn btn-primary">Evaluate</button>
-                                                                            </form>
-                                                                        </c:when>
-                                                                        <c:otherwise>
-                                                                            <!-- Evaluated Button -->
-                                                                            <button class="btn btn-secondary" disabled>Evaluated</button>
-                                                                            <!-- Request to Ship Button -->
-                                                                            <c:if test="${val.status == 1}">
-                                                                                <form action="${pageContext.request.contextPath}/requestShipment" method="POST">
-                                                                                    <input type="hidden" name="valuationID" value="${val.valuationID}">
-                                                                                    <input type="hidden" name="name" value="${val.name}">
-                                                                                    <button type="submit" name="action" class="btn btn-primary">Request to Ship</button>
-                                                                                </form>
-                                                                            </c:if>
-                                                                        </c:otherwise>
-                                                                    </c:choose>
-                                                                    <!-- Confirm Receipt Button -->
-                                                                    <c:choose>
-                                                                        <c:when test="${val.final_Status == 0 && val.status == 1}">
-                                                                            <form action="${pageContext.request.contextPath}/confirmReceipt" method="POST" onsubmit="confirmReceipt(event)">
-                                                                                <input type="hidden" name="valuationID" value="${val.valuationID}">
-                                                                                <button type="submit" name="action" class="btn btn-success">Confirm Receipt</button>
-                                                                            </form>
-                                                                        </c:when>
-                                                                        <c:otherwise>
-                                                                            <!-- Confirmed Text -->
-                                                                            <c:if test="${val.final_Status == 1}">
-                                                                                <p class="text-success mt-2">Confirmed</p>
-                                                                            </c:if>
-                                                                        </c:otherwise>
-                                                                    </c:choose>
-                                                                    <!-- Final Evaluate Button -->
-                                                                    <c:if test="${val.final_Status == 1}">
-                                                                        <form action="${pageContext.request.contextPath}/finalValuation" method="POST">
-                                                                            <input type="hidden" name="valuationID" value="${val.valuationID}">
-                                                                            <button type="submit" name="action" class="btn btn-warning">Final Evaluate</button>
-                                                                        </form>
-                                                                    </c:if>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer p-4 rounded-b">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </tbody>
-                            </table>
-                        </div>
                     </main>
                 </section>
             </div>
@@ -683,29 +565,8 @@
         <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-        <script src="asset/staff.js"></script>
         <!-- Script to highlight active link in sidebar -->
         <script>
-                                                                                $(document).ready(function () {
-                                                                                    $('#valuationTable').DataTable({
-                                                                                        "paging": true,
-                                                                                        "lengthChange": false,
-                                                                                        "searching": true,
-                                                                                        "ordering": true,
-                                                                                        "info": true,
-                                                                                        "autoWidth": false,
-                                                                                        "pageLength": 10
-                                                                                    });
-
-                                                                                    // Smooth modal transition
-                                                                                    $('.modal').on('shown.bs.modal', function (e) {
-                                                                                        $(this).find('.modal-dialog').addClass('show');
-                                                                                    });
-                                                                                    $('.modal').on('hidden.bs.modal', function (e) {
-                                                                                        $(this).find('.modal-dialog').removeClass('show');
-
-                                                                                    });
-                                                                                });
                                                                                 let sidebar = document.querySelector(".sidebar");
                                                                                 let closeBtn = document.querySelector("#btn");
                                                                                 let searchBtn = document.querySelector(".bx-search");

@@ -20,6 +20,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="stylesheet" type="text/css" href="asset/finalValuation.css">
         <%
             String greeting = "day!";
             try {
@@ -561,6 +562,7 @@
                 <section class="home-section">
                     <main role="main" class="col-span-9 ml-auto col-span-10 px-4">
                         <div class="container mt-4">
+                        <br>
                         <h1 class="heading-main">Final Valuation</h1>
                         <h1 class="heading-greeting">Good <%= greeting %>!</h1>
                         <div class="gradient-line"></div>
@@ -606,7 +608,7 @@
             
                         <% for (Jewelry jewelry : listJewelry) { %>
                         <!-- Modal -->
-                        <div class="modal fixed inset-0 z-50 overflow-auto" id="detailsModal<%= jewelry.getJewelryID() %>" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel<%= jewelry.getJewelryID() %>" aria-hidden="true">
+                        <div class="modal fade fixed inset-0 z-50 overflow-auto" id="detailsModal<%= jewelry.getJewelryID() %>" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel<%= jewelry.getJewelryID() %>" aria-hidden="true">
                             <div class="modal-dialog mx-auto mt-24" role="document">
                                 <div class="modal-content bg-white shadow-lg rounded-lg">
                                     <form action="${pageContext.request.contextPath}/UpdateJewelry" method="POST">
