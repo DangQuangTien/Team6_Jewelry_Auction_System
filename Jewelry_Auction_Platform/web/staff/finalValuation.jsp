@@ -564,7 +564,7 @@
                         <div class="container mt-4">
                         <br>
                         <h1 class="heading-main">Final Valuation</h1>
-                        <h1 class="heading-greeting">Good <%= greeting %>!</h1>
+                        <h1 class="heading-greeting">Good <%= greeting%>!</h1>
                         <div class="gradient-line"></div>
             
                         <%
