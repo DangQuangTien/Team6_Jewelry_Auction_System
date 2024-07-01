@@ -29,7 +29,6 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="asset/finalValuation.css">
         <style>
             /* Sidebar */
             /* Google Font Link */
@@ -407,6 +406,7 @@
             .dataTables_paginate {
                 margin-top: 20px;
                 text-align: center;
+                margin-bottom: 30px;
             }
 
             .dataTables_paginate a {
@@ -526,6 +526,13 @@
                                 <span class="links_name">Approval Request</span>
                             </a>
                             <span class="tooltip">Approval Request</span>
+                        </li>
+                        <li>
+                            <a class="link_names" href="${pageContext.request.contextPath}/transaction">
+                                <i class='bx bx-history'></i> 
+                                <span class="links_name">Transaction History</span>
+                            </a>
+                            <span class="tooltip">Transaction History</span>
                         </li>
                         <li class="profile">
                             <div class="profile-details">
