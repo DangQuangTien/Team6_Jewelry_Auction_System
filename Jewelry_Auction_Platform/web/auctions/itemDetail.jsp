@@ -238,51 +238,6 @@
         .collapse {
             margin-top: 10px;
         }
-
-        /* Creative Button Styles */
-        .wallet-button {
-            background-color: #6D5BBA;
-            background-image: linear-gradient(to right, #6D5BBA, #8D58BF);
-            border: none;
-        }
-
-        .wallet-button:hover {
-            background-color: #8D58BF;
-            box-shadow: 0 4px 14px rgba(255, 112, 67, 0.4);
-        }
-
-        .edit-button {
-            background-color: #FFA726;
-            background-image: linear-gradient(to right, #FFA726, #FF7043);
-            border: none;
-        }
-
-        .edit-button:hover {
-            background-color: #FF7043;
-            box-shadow: 0 4px 14px rgba(255, 112, 67, 0.4);
-        }
-
-        .login-button {
-            background-color: #6D5BBA;
-            background-image: linear-gradient(to right, #6D5BBA, #8D58BF);
-            border: none;
-            color: #fff;
-        }
-
-        .login-button:hover {
-            background-color: #8D58BF;
-        }
-
-        .standard-button {
-            background-color: #007bff;
-            background-image: linear-gradient(to right, #007bff, #0056b3);
-            border: none;
-        }
-
-        .standard-button:hover {
-            background-color: #0056b3;
-        }
-
     </style>
 </head>
 <body>
@@ -404,11 +359,11 @@
                                     <span>PLACE BID</span>
                                 </a>
                             <% } else if (status == 1 && member != null) { %>
-                                <button type="button" class="custom-button edit-button" data-toggle="tooltip" title="Place your bid" data-target="#bidModal">
+                                <button type="button" class="custom-button edit-button" data-toggle="modal" data-target="#bidModal">
                                     <span class="material-icons">edit</span>
                                     <span>PLACE BID</span>
                                 </button>
-                                <button type="button" class="custom-button edit-button" data-toggle="tooltip" title="Edit your bid" data-target="#bidModal_">
+                                <button type="button" class="custom-button edit-button" data-toggle="modal" data-target="#bidModal_">
                                     <span class="material-icons">edit</span>
                                     <span>EDIT BID</span>
                                 </button>
@@ -522,7 +477,14 @@
                             View Conditions of Sale
                         </button>
                     </div>
-                                       
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } else { %>
+    <p>No item details available.</p>
+    <% } %>
+    
     <footer class="text-center py-3 mt-auto">
         <div class="container">
             <div class="footer-links">
@@ -631,33 +593,33 @@
 
     <script>
         $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
+            $('[data-toggle="tooltip"]').tooltip();
         });
+
+        $(document).ready(function() {
+            $('.collapse').on('show.bs.collapse', function() {
+                $('.collapse').not(this).collapse('hide');
+            });
+
+            $('[data-toggle="collapse"]').click(function() {
+                var $this = $(this);
+                if ($this.hasClass('active')) {
+                    $this.removeClass('active');
+                } else {
+                    $('[data-toggle="collapse"]').removeClass('active');
+                    $this.addClass('active');
+                }
+            });
+
+            $('.collapse').on('hide.bs.collapse', function() {
+                var target = $(this).attr('id');
+                $('[data-target="#' + target + '"]').removeClass('active');
+            });
+        });
+
         function changeMainImage(imageSrc) {
             document.getElementById('mainImage').src = '${pageContext.request.contextPath}/' + imageSrc;
         }
     </script>
-<script>
-    $(document).ready(function(){
-        $('.collapse').on('show.bs.collapse', function () {
-            $('.collapse').not(this).collapse('hide');
-        });
-
-        $('[data-toggle="collapse"]').click(function () {
-            var $this = $(this);
-            if ($this.hasClass('active')) {
-                $this.removeClass('active');
-            } else {
-                $('[data-toggle="collapse"]').removeClass('active');
-                $this.addClass('active');
-            }
-        });
-
-        $('.collapse').on('hide.bs.collapse', function () {
-            var target = $(this).attr('id');
-            $('[data-target="#' + target + '"]').removeClass('active');
-        });
-    });
-</script>
 </body>
 </html>
