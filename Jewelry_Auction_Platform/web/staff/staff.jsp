@@ -28,7 +28,6 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-        <link rel="stylesheet" href="asset/admin.css">
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
         <style>
@@ -473,6 +472,15 @@
                 background: linear-gradient(to right, #a8c0ff, #325fcf,#a8c0ff, #325fcf); /* Adjust the colors as needed */
                 margin: 20px 0; /* Adjust the margin as needed */
             }
+            .modal-backdrop {
+                display: none;
+                z-index: 1040 !important;
+            }
+
+            .modal-content {
+                margin: 2px auto;
+                z-index: 1100 !important;
+            }
         </style>
     </head>
     <body>
@@ -541,7 +549,7 @@
                             <c:set var="listValuationRequest" value="${requestScope.listValuationRequest}" />
                             <br test="${not empty listValuationRequest}">
                             <h1 class="heading-main">Valuation Requests</h1>
-                            <h1 class="heading-greeting">Good <%= greeting %>!</h1>
+                            <h1 class="heading-greeting">Good <%= greeting%>!</h1>
                             <div class="gradient-line"></div>
 
                             <table id="valuationTable" class="min-w-full divide-y divide-gray-200">
@@ -652,59 +660,59 @@
                                     </c:forEach>
                                 </tbody>
                             </table>
-                    </div>
-                </main>
-            </section>
+                        </div>
+                    </main>
+                </section>
+            </div>
         </div>
-    </div>
-    <!-- JavaScript libraries -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <script src="asset/admin.js"></script>
-    <!-- Script to highlight active link in sidebar -->
-    <script>
-                                $(document).ready(function () {
-                                    $('#valuationTable').DataTable({
-                                        "paging": true,
-                                        "lengthChange": false,
-                                        "searching": true,
-                                        "ordering": true,
-                                        "info": true,
-                                        "autoWidth": false,
-                                        "pageLength": 10
-                                    });
+        <!-- JavaScript libraries -->
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <!-- Script to highlight active link in sidebar -->
+        <script>
+                                                                                $(document).ready(function () {
+                                                                                    $('#valuationTable').DataTable({
+                                                                                        "paging": true,
+                                                                                        "lengthChange": false,
+                                                                                        "searching": true,
+                                                                                        "ordering": true,
+                                                                                        "info": true,
+                                                                                        "autoWidth": false,
+                                                                                        "pageLength": 10
+                                                                                    });
 
-                                    // Smooth modal transition
-                                    $('.modal').on('shown.bs.modal', function (e) {
-                                        $(this).find('.modal-dialog').addClass('show');
-                                    });
-                                    $('.modal').on('hidden.bs.modal', function (e) {
-                                        $(this).find('.modal-dialog').removeClass('show');
-                                    });
-                                });
-                                let sidebar = document.querySelector(".sidebar");
-                                let closeBtn = document.querySelector("#btn");
-                                let searchBtn = document.querySelector(".bx-search");
-                                closeBtn.addEventListener("click", () => {
-                                    sidebar.classList.toggle("open");
-                                    menuBtnChange();//calling the function(optional)
-                                });
-                                searchBtn.addEventListener("click", () => { // Sidebar open when you click on the search iocn
-                                    sidebar.classList.toggle("open");
-                                    menuBtnChange(); //calling the function(optional)
-                                });
-                                // following are the code to change sidebar button(optional)
-                                function menuBtnChange() {
-                                    if (sidebar.classList.contains("open")) {
-                                        closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the iocns class
-                                    } else {
-                                        closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");//replacing the iocns class
-                                    }
-                                }
-    </script>
-</body>
+                                                                                    // Smooth modal transition
+                                                                                    $('.modal').on('shown.bs.modal', function (e) {
+                                                                                        $(this).find('.modal-dialog').addClass('show');
+                                                                                    });
+                                                                                    $('.modal').on('hidden.bs.modal', function (e) {
+                                                                                        $(this).find('.modal-dialog').removeClass('show');
+
+                                                                                    });
+                                                                                });
+                                                                                let sidebar = document.querySelector(".sidebar");
+                                                                                let closeBtn = document.querySelector("#btn");
+                                                                                let searchBtn = document.querySelector(".bx-search");
+                                                                                closeBtn.addEventListener("click", () => {
+                                                                                    sidebar.classList.toggle("open");
+                                                                                    menuBtnChange();//calling the function(optional)
+                                                                                });
+                                                                                searchBtn.addEventListener("click", () => { // Sidebar open when you click on the search iocn
+                                                                                    sidebar.classList.toggle("open");
+                                                                                    menuBtnChange(); //calling the function(optional)
+                                                                                });
+                                                                                // following are the code to change sidebar button(optional)
+                                                                                function menuBtnChange() {
+                                                                                    if (sidebar.classList.contains("open")) {
+                                                                                        closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the iocns class
+                                                                                    } else {
+                                                                                        closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");//replacing the iocns class
+                                                                                    }
+                                                                                }
+        </script>
+    </body>
 </html>
