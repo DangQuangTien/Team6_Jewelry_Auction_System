@@ -515,14 +515,14 @@
                     </li>
                     <li>
                         <a class="link_names" href="${pageContext.request.contextPath}/createAuction">
-                            <i class='bx bx-book-content'></i> 
+                            <i class='bx bxs-calendar-plus'></i> 
                             <span class="links_name">Create Auction</span>
                         </a>
                         <span class="tooltip">Create Auction</span>
                     </li>
                     <li>
                         <a class="link_names" href="${pageContext.request.contextPath}/manageAuction">
-                            <i class='bx bx-envelope'></i> 
+                            <i class='bx bx-cog'></i> 
                             <span class="links_name">Manage Auction</span>
                         </a>
                         <span class="tooltip">Manage Auction</span>
