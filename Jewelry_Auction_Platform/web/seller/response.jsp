@@ -1,36 +1,117 @@
-<%@page import="entity.request_shipment.RequestShipment"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="entity.product.Jewelry"%>
-<%@page import="dao.UserDAOImpl"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Notification</title>
+        <title>My Asset</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
         <style>
             body {
-                font-family: Arial, sans-serif;
-                background-color: #f5eded;
-                color: #000000;
-                padding-top: 70px;
+                font-family: Andale Mono;
+                background-color:rgba(255, 239, 166, 0.01);
+                margin: 0;
+                padding: 0;
+            }
+            .navbar {
+                background: radial-gradient(circle, rgba(255, 239, 166, 1) 0%, rgba(218, 165, 32, 0.8) 50%, rgba(184, 134, 11, 0.8) 100%);
+                background-size: 200% 200%;
+                background-position: 50% 50%;
+                transition: background 0.3s ease, box-shadow 0.3s ease, padding-top 0.3s ease, padding-bottom 0.3s ease;
+                padding-top: 15px;
+                padding-bottom: 15px;
+                z-index: 1000;
+                backdrop-filter: blur(15px);
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.19);
             }
 
-            .navbar-dark .navbar-nav .nav-link,
-            .navbar-dark .navbar-brand {
-                color: #e4af11 !important;
+            .navbar:hover {
+                background-position: 100% 100%;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.25);
             }
 
-            .navbar-dark .navbar-toggler {
-                border-color: #e4af11;
+            .navbar-scrolled {
+                background-color: black;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+                padding-top: 1px;
+                padding-bottom: 1px;
             }
 
-            .navbar-dark .navbar-toggler-icon {
-                color: #e4af11;
+            .navbar-brand .brand-name {
+                font-size: 2em;
+                font-family: 'Zapf-Chancery';
+                font-weight: 700;
+                color: black;
+            }
+
+            .nav-link {
+                color: black !important;
+                transition: color 0.3s;
+                font-family: Andale Mono;
+                font-size: 1.25em;
+            }
+
+            .navbar-nav .nav-link {
+                position: relative;
+                transition: color 0.3s;
+            }
+
+            .navbar-nav .nav-link::after {
+                content: '';
+                position: absolute;
+                bottom: -5px;
+                left: 50%;
+                width: 0;
+                height: 2px;
+                background-color: #ffc107;
+                transition: width 0.3s, left 0.3s;
+                visibility: hidden;
+            }
+
+
+            .dropdown-menu {
+                background-color: #000;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                animation: fadeIn 0.5s;
+            }
+
+            .dropdown-item {
+                color: #fff !important;
+                transition: background-color 0.3s, color 0.3s;
+                position: relative; /* Ensure pseudo-element positioning */
+            }
+
+            .dropdown-item::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: -2px;
+                width: 0;
+                height: 2px;
+                background-color: transparent;
+                transition: width 0.3s ease;
+            }
+
+            .dropdown-item:hover {
+                background-color: rgba(255, 255, 255, 0.1) !important;
+                color: #ffc107 !important;
+            }
+
+            .dropdown-item:hover::after {
+                width: 100%;
+                background-color: #ffc107
+            }
+            .nav-item dropdown:hover::after {
+                width: 100%;
+                background-color: #ffc107
             }
 
             @keyframes shimmer {
@@ -69,7 +150,6 @@
                 width: 100%;
                 border-collapse: collapse;
                 margin-bottom: 20px;
-                background-color: #ebebe5;
                 color: #000000;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
@@ -114,12 +194,16 @@
             }
 
             .modal-body p {
-                margin-bottom: 10px;
                 color: #000000;
+                margin-bottom: 0.5rem;
+            }
+
+            .modal-body .row {
+                margin-bottom: 1rem;
             }
 
             .modal-dialog {
-                max-width: 400px;
+                max-width: 500px;
             }
 
             .modal-content {
@@ -135,6 +219,7 @@
             .modal-title {
                 font-size: 1.5rem;
                 color: #e4af11;
+                font-weight: bold
             }
 
             .close {
@@ -171,224 +256,368 @@
                 font-size: 0.9em;
             }
 
+            .modal-dialog.animated {
+                animation-duration: 0.3s;
+            }
         </style>
     </head>
     <body>
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-                <a class="navbar-brand" href="#"><i class="fas fa-gem"></i> Jewelry Auctions</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <c:set var="username" value="${sessionScope.USERNAME}" />
+        <c:set var="member" value="${sessionScope.MEMBER}" />
+        <c:set var="role" value="${sessionScope.ROLE}" />
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand"
+                   href="${pageContext.request.contextPath}/home">
+                    <span class="brand-name">F'RANKELLY</span>
+                </a>
+                <button class="navbar-toggler" type="button"
+                        data-toggle="collapse" data-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false"
+                        aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/home"><i class="fas fa-home"></i> Home</a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/home"> Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/auctions"><i class="fas fa-gavel"></i> Auction</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#"
+                               id="auctionDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">
+                                Auctions <i class="fas fa-caret-down"></i>
+                            </a>
+                            <div class="dropdown-menu"
+                                 aria-labelledby="auctionDropdown">
+                                <a style="font-family:Andale Mono" class="dropdown-item"
+                                   href="${pageContext.request.contextPath}/auctions">Upcoming
+                                    Auctions</a>
+                                <a style="font-family:Andale Mono" class="dropdown-item" href="#">Past
+                                    Auction</a>
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/valuation"><i class="fas fa-clipboard"></i> Request A Valuation</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#"
+                               id="sellingDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">
+                                My Bids <i class="fas fa-caret-down"></i>
+                            </a>
+                            <div class="dropdown-menu"
+                                 aria-labelledby="sellingDropdown">
+                                <a style="font-family:Andale Mono" class="dropdown-item"
+                                   href="${pageContext.request.contextPath}/my-upcoming-bids">Upcoming
+                                    Bids</a>
+                                <a style="font-family:Andale Mono" class="dropdown-item"
+                                   href="${pageContext.request.contextPath}/valuation">Past
+                                    Bids</a>
+                            </div>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/response"> <i class="fas fa-reply"></i> Response</a>                                                  
-                        </li>                   
-                        <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/notification"><i class="fas fa-bell"></i> Notification</a>
+                            <a class="nav-link" href="#about"> Watched Lots</a>
                         </li>
+                        <c:choose>
+                            <c:when test="${username == null}">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#"
+                                       id="userDropdown" role="button"
+                                       data-toggle="dropdown"
+                                       aria-haspopup="true"
+                                       aria-expanded="false">
+                                        <i class="fas fa-user"></i> User<i class="fas fa-caret-down"></i>
+                                    </a>
+                                    <div class="dropdown-menu"
+                                         aria-labelledby="userDropdown">
+                                        <a style="font-family:Andale Mono" class="dropdown-item"
+                                           href="${pageContext.request.contextPath}/register">Register</a>
+                                        <a style="font-family:Andale Mono" class="dropdown-item"
+                                           href="${pageContext.request.contextPath}/login">Login</a>
+                                    </div>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <c:set var="url">
+                                    <c:choose>
+                                        <c:when
+                                            test="${role == 'Member'}">${pageContext.request.contextPath}/profile</c:when>
+                                        <c:when
+                                            test="${role == 'Staff'}">staff</c:when>
+                                        <c:when
+                                            test="${role == 'Manager'}">manager/manager.jsp</c:when>
+                                        <c:otherwise>admin/admin.jsp</c:otherwise>
+                                    </c:choose>
+                                </c:set>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#"
+                                       id="userDropdown" role="button"
+                                       data-toggle="dropdown"
+                                       aria-haspopup="true"
+                                       aria-expanded="false">
+                                        <i class="fas fa-user"></i>
+                                        ${member.firstName} <i
+                                            class="fas fa-caret-down"></i>
+                                    </a>
+                                    <div class="dropdown-menu"
+                                         aria-labelledby="userDropdown">
+                                        <a class="dropdown-item"
+                                           href="${url}">Profile</a>
+                                        <a class="dropdown-item"
+                                           href="${pageContext.request.contextPath}/logout">Logout</a>
+                                    </div>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
                     </ul>
                 </div>
-            </nav>
-        </header>
-        <div class="container">
-            <h1 class="text-center luminous-gold">Overall Assessment for your requests</h1>
-            <%
-                List<Jewelry> listJewelry = (List<Jewelry>) request.getAttribute("LISTJEWELRY");
-                if (listJewelry != null && !listJewelry.isEmpty()) {
-            %>
-            <div class="table-responsive">
-                <table id="jewelryTable" class="table table-bordered table-hover">
-                    <thead class="thead-light">
-                        <tr id="table">
-                            <th>Photo</th>
-                            <th>Jewelry Name</th>
-                            <th>Artist</th>
-                            <th>Final Price</th>
-                            <th>Status</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody id="jewelryTableBody">
-                        <% for (Jewelry jewelry : listJewelry) { %>
-                        <tr>
-                            <% String[] photoArray = jewelry.getPhotos().split(";");%>
-                            <td><img class="img-fluid" src="${pageContext.request.contextPath}/<%= photoArray[0]%>" alt="Jewelry Image" style="max-width: 100px; max-height: 100px;"></td>
-                            <td><%= jewelry.getJewelryName()%></td>
-                            <td><%= jewelry.getArtist()%></td>
-                            <% String status = jewelry.getStatus(); %>
-                            <% String finalPrice = (jewelry.getFinal_Price() != null) ? jewelry.getFinal_Price() : "Updating"; %>
-                            <% if (status.equals("Re-Evaluated")) {%>
-                            <td style="color: red"><%= finalPrice%></td>
-                            <td class="text-danger">Waiting for shipment</td>
-                            <% } else if (status.equals("Received")) {%>
-                            <td style="color: red"><%= finalPrice%></td>
-                            <td style="color: green">Received</td>
-                            <% } else if (status.equals("Pending Confirm")) {%>
-                            <td style="color: red"> <%= finalPrice%> </td>
-                            <td style="color: green"><strong>Pending Confirm</strong><br>
-                                <form action="${pageContext.request.contextPath}/MainController">
-                                    <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID()%>">
-                                    <input type="submit" class="btn btn-success btn-sm" name="action" value="Confirm">
-                                </form><br>
-                                <form action="${pageContext.request.contextPath}/MainController">
-                                    <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID()%>">
-                                    <input type="submit" class="btn btn-danger btn-sm" name="action" value="Reject">
-                                </form>
-                            </td>
-                            <% } else if (status.equals("Confirmed")) {%>
-                            <td style="color: rgb(23, 163, 213)"> <%= finalPrice%> </td>
-                            <td style="color: rgb(11, 224, 71)">Ready To Auction</td>
-                            <% } else { %>
-                            <td style="color: rgb(215, 218, 33)">Updating</td>
-                            <td style="color: red">In Progress</td>
-                            <% }%>
-                            <td><button class="btn btn-primary details-btn" data-toggle="modal" data-target="#detailsModal" data-jewelry='<%= jewelry%>'>Details</button></td>
-                        </tr>
-                        <% } %>
-                    </tbody>
-                </table>
             </div>
-            <% } else { %>
-            <p class="no-jewelry">No jewelry found</p>
-            <% }%>
-        </div>
+        </nav>
+        <!--Display jewelry -->
 
+        <c:set var="listJewelry" value="${requestScope.LISTJEWELRY}" />
+        <div  class="container">
+            <c:if test="${not empty listJewelry}">
+                <div style="margin-top: 150px" class="table-responsive">
+                    <h1 style="font-family: Helvetica">Selling your jewellery at F'RANKELLY - <a style="text-decoration: none;" href="${pageContext.request.contextPath}/selling">An easy guide</a> </h1>
+                    <br>
+                    <hr>
+                    <br>
+                    <table style="width: 100%" id="jewelryTable" class="table table-bordered table-hover">
+                        <thead>
+                            <tr  id="table">
+                                <th style="width: 10%;"></th>
+                                <th style="width: 30%; text-align: center; font-family: Helvetica; ">NAME</th>
+                                <th style="width: 15%; text-align: center; font-family: Helvetica;">ARTIST</th>
+                                <th style="width: 15%; text-align: center; font-family: Helvetica;">OFFER PRICE</th>
+                                <th style="width: 15%; text-align: center; font-family: Helvetica;">STATUS</th>
+                                <th style="width: 30%; text-align: center; font-family: Helvetica;">MORE</th>
+                            </tr>
+                        </thead>
+                        <tbody style="background-color: #ffffff" id="jewelryTableBody">
+                            <c:forEach var="jewelry" items="${listJewelry}">
+                                <tr>
+                                    <c:set var="photoArray" value="${fn:split(jewelry.photos, ';')}" />
+                                    <td><img class="img-fluid" src="${pageContext.request.contextPath}/${photoArray[0]}" alt="Jewelry Image" style="max-width: 100px; max-height: 100px;"></td>
+                                    <td>${jewelry.jewelryName}</td>
+                                    <td>${jewelry.artist}</td>
+                                    <c:choose>
+                                        <c:when test="${jewelry.status eq 'Re-Evaluated'}">
+                                            <td style="color: red">${not empty jewelry.finalPrice ? jewelry.finalPrice : 'Updating'}</td>
+                                            <td class="text-danger">Waiting for shipment</td>
+                                        </c:when>
+                                        <c:when test="${jewelry.status eq 'Received'}">
+                                            <td style="color: red">${not empty jewelry.finalPrice ? jewelry.finalPrice : 'Updating'}</td>
+                                            <td style="color: green">Received</td>
+                                        </c:when>
+                                        <c:when test="${jewelry.status eq 'Pending Confirm'}">
+                                            <td style="color: red">${not empty jewelry.finalPrice ? jewelry.finalPrice : 'Updating'}</td>
+                                            <td style="color: green">
+                                                <strong>Pending Confirm</strong><br>
+                                                <form action="${pageContext.request.contextPath}/MainController">
+                                                    <input type="hidden" name="jewelryID" value="${jewelry.jewelryID}">
+                                                    <input type="submit" class="btn btn-success btn-sm" name="action" value="Confirm">
+                                                </form><br>
+                                                <form action="${pageContext.request.contextPath}/MainController">
+                                                    <input type="hidden" name="jewelryID" value="${jewelry.jewelryID}">
+                                                    <input type="submit" class="btn btn-danger btn-sm" name="action" value="Reject">
+                                                </form>
+                                            </td>
+                                        </c:when>
+                                        <c:when test="${jewelry.status eq 'Confirmed'}">
+                                            <td style="color: rgb(23, 163, 213)">${not empty jewelry.finalPrice ? jewelry.finalPrice : 'Updating'}</td>
+                                            <td style="color: rgb(11, 224, 71); font-weight: bold; font-size: 20px; text-align: center; font-family: Helvetica">Ready To Auction</td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td style="color: rgb(215, 218, 33)">Updating</td>
+                                            <td style="color: red">In Progress</td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <td><button class="btn btn-primary details-btn" data-toggle="modal" data-target="#detailsModal" data-jewelry='${jewelry}'>Details</button></td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </c:if>
+            <c:if test="${empty listJewelry}">
+                <div style="margin-top: 150px" class="table-responsive">
+                    <h1 style="font-family: Helvetica">Selling your jewellery at F'RANKELLY - 
+                        <a style="text-decoration: none;" href="${pageContext.request.contextPath}/login">An easy guide</a> 
+                    </h1>
+                    <br>
+                    <hr>
+                    <br>
+                    <table style="width: 100%" id="jewelryTable" class="table table-bordered table-hover">
+                        <thead>
+                            <tr  id="table"></tr>
+                        </thead>
+                        <tbody style="background-color: #ffffff" id="jewelryTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </c:if>
+        </div>
         <!-- Modal -->
-        <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+        <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="detailsModalLabel">Jewelry Details</h5>
+                        <h5 class="modal-title" id="detailsModalLabel">DETAILED INFORMATION</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <!-- Jewelry details will be loaded here -->
+                        <!-- Content will be loaded here dynamically -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
-
-        <footer class="footer mt-auto py-3 bg-dark text-white text-center">
-            <div>
-                <h6>Jewelry Auction</h6>
-                <a href="register.jsp">Register</a> |
-                <a href="login.jsp">Login</a> |
-                <a href="#">Help & FAQ</a> |
-                <a href="#">Support</a> |
-                <a href="#">Sitemap</a>
-            </div>
-            <div>
-                <span>&copy; <script>document.write(new Date().getFullYear())</script> Jewelry Auction. All rights reserved.</span>
-            </div>
-        </footer>
-
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
         <script>
-                    function fetchJewelryData() {
-                        $.ajax({
-                            url: '${pageContext.request.contextPath}/UpdateJewelryServlet',
-                            type: 'GET',
-                            success: function (data) {
-                                var tableBody = $('#jewelryTableBody');
-                                tableBody.empty();
+            function fetchJewelryData() {
+                $.ajax({
+                    url: '${pageContext.request.contextPath}/UpdateJewelryServlet',
+                    type: 'GET',
+                    success: function (data) {
+                        var tableBody = $('#jewelryTableBody');
+                        tableBody.empty();
 
-                                if (data.length === 0) {
-                                    $('.no-jewelry').removeClass('hidden');
-                                    $('#jewelryTable').addClass('hidden');
+                        if (data.length === 0) {
+                            $('.no-jewelry').removeClass('hidden');
+                            $('#jewelryTable').addClass('hidden');
+                        } else {
+                            $('.no-jewelry').addClass('hidden');
+                            $('#jewelryTable').removeClass('hidden');
+
+                            data.forEach(function (jewelry) {
+                                var photos = jewelry.photos.split(";");
+                                var status = jewelry.status;
+                                var finalPrice = (jewelry.final_Price != null) ? jewelry.final_Price : "Updating";
+                                var statusText = '';
+
+                                if (status === 'Re-Evaluated') {
+                                    statusText = '<td style="color: red">' + finalPrice + '</td><td class="text-danger">Waiting for shipment</td>';
+                                } else if (status === 'Received') {
+                                    statusText = '<td style="color: red">' + finalPrice + '</td><td style="color: green">Received</td>';
+                                } else if (status === 'Pending Confirm') {
+                                    statusText = '<td style="color: red">' + finalPrice + '</td><td style="color: green"><strong>Pending Confirm</strong><br>' +
+                                            '<form action="${pageContext.request.contextPath}/confirm"><input type="hidden" name="jewelryID" value="' + jewelry.jewelryID + '"><input type="submit" class="btn btn-success btn-sm" name="action" value="Confirm"></form><br>' +
+                                            '<form action="${pageContext.request.contextPath}/reject"><input type="hidden" name="jewelryID" value="' + jewelry.jewelryID + '"><input type="submit" class="btn btn-danger btn-sm" name="action" value="Reject"></form></td>';
+                                } else if (status === 'Confirmed') {
+                                    statusText =
+                                            '<td style="color: red; font-size: 24px; text-align: center; font-family: Helvetica">' +
+                                            "$" + finalPrice +
+                                            '</td><td style="color: rgb(11, 224, 71); font-weight: bold; font-size: 20px; text-align: center; font-family: Helvetica">Ready To Auction</td>';
                                 } else {
-                                    $('.no-jewelry').addClass('hidden');
-                                    $('#jewelryTable').removeClass('hidden');
-
-                                    data.forEach(function (jewelry) {
-                                        var photos = jewelry.photos.split(";");
-                                        var status = jewelry.status;
-                                        var finalPrice = (jewelry.final_Price != null) ? jewelry.final_Price : "Updating";
-                                        var statusText = '';
-
-                                        if (status === 'Re-Evaluated') {
-                                            statusText = '<td style="color: red">' + finalPrice + '</td><td class="text-danger">Waiting for shipment</td>';
-                                        } else if (status === 'Received') {
-                                            statusText = '<td style="color: red">' + finalPrice + '</td><td style="color: green">Received</td>';
-                                        } else if (status === 'Pending Confirm') {
-                                            statusText = '<td style="color: red">' + finalPrice + '</td><td style="color: green"><strong>Pending Confirm</strong><br>' +
-                                                    '<form action="${pageContext.request.contextPath}/confirm"><input type="hidden" name="jewelryID" value="' + jewelry.jewelryID + '"><input type="submit" class="btn btn-success btn-sm" name="action" value="Confirm"></form><br>' +
-                                                    '<form action="${pageContext.request.contextPath}/reject"><input type="hidden" name="jewelryID" value="' + jewelry.jewelryID + '"><input type="submit" class="btn btn-danger btn-sm" name="action" value="Reject"></form></td>';
-                                        } else if (status === 'Confirmed') {
-                                            statusText = '<td style="color: rgb(23, 163, 213)">' + finalPrice + '</td><td style="color: rgb(11, 224, 71)">Ready To Auction</td>';
-                                        } else {
-                                            statusText = '<td style="color: rgb(215, 218, 33)">Updating</td><td style="color: red">In Progress</td>';
-                                        }
-
-                                        tableBody.append(
-                                                '<tr>' +
-                                                '<td><img class="img-fluid" src="${pageContext.request.contextPath}/' + photos[0] + '" alt="Jewelry Image" style="max-width: 100px; max-height: 100px;"></td>' +
-                                                '<td>' + jewelry.jewelryName + '</td>' +
-                                                '<td>' + jewelry.artist + '</td>' +
-                                                statusText +
-                                                '<td><button class="btn btn-primary details-btn" data-toggle="modal" data-target="#detailsModal" data-jewelry=\'' + JSON.stringify(jewelry) + '\'>Details</button></td>' +
-                                                '</tr>'
-                                                );
-                                    });
+                                    statusText = '<td style="color: rgb(215, 218, 33)">Updating</td><td style="color: red">In Progress</td>';
                                 }
-                            },
-                            error: function () {
-                                console.error('Failed to fetch jewelry data');
-                            }
+                                tableBody.append(
+                                        '<tr>' +
+                                        '<td><img class="img-fluid" src="${pageContext.request.contextPath}/' + photos[0] + '" alt="Jewelry Image" style="max-width: 200px; max-height: 200px;"></td>' +
+                                        '<td style="font-size: 20px; font-family: Helvetica">' + jewelry.jewelryName + '</td>' +
+                                        '<td style="font-size: 20px; text-align: center;  font-family: Helvetica">' + jewelry.artist + '</td>' + statusText +
+                                        '<td style="font-size: 20px; text-align: center"><button style="font-family: Helvetica" class="btn btn-primary details-btn" data-toggle="modal" data-target="#detailsModal" data-jewelry=\'' + JSON.stringify(jewelry) + '\'>DETAIL</button></td>' +
+                                        '</tr>'
+                                        );
+                            });
+                        }
+                    },
+                    error: function () {
+                        console.error('Failed to fetch jewelry data');
+                    }
+                });
+            }
+
+            $(document).ready(function () {
+                // Fetch jewelry data initially
+                fetchJewelryData();
+
+                // Set interval to fetch jewelry data periodically (every minute)
+                setInterval(fetchJewelryData, 5000);
+
+                // Load jewelry details into the modal
+                $('#detailsModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget);
+                    var jewelry = button.data('jewelry');
+                    var modal = $(this);
+                    modal.find('.modal-body').html(
+                            ' <div style="font-family: Helvetica" class="row">' +
+                            '<div class="col-md-6">' +
+                            '<p><strong>Jewelry Name:</strong> ' + jewelry.jewelryName + '</p>' +
+                            '<p><strong>Artist:</strong> ' + jewelry.artist + '</p>' +
+                            '<p><strong>Circa:</strong> ' + jewelry.circa + '</p>' +
+                            '<p><strong>Material:</strong> ' + jewelry.material + '</p>' +
+                            '<p><strong>Dial:</strong> ' + jewelry.dial + '</p>' +
+                            '<p><strong>Bracelet Material:</strong> ' + jewelry.braceletMaterial + '</p>' +
+                            '<p><strong>Case Dimensions:</strong> ' + jewelry.caseDimensions + '</p>' +
+                            '<p><strong>Bracelet Size:</strong> ' + jewelry.braceletSize + '</p>' +
+                            '<p><strong>Serial Number:</strong> ' + jewelry.serialNumber + '</p>' +
+                            '<p><strong>Reference Number:</strong> ' + jewelry.referenceNumber + '</p>' +
+                            '<p><strong>Caliber:</strong> ' + jewelry.caliber + '</p>' +
+                            '<p><strong>Movement:</strong> ' + jewelry.movement + '</p>' + ' </div>' + '<div class="col-md-6">' +
+                            '<p><strong>Condition:</strong> ' + jewelry.condition + '</p>' +
+                            '<p><strong>Metal:</strong> ' + jewelry.metal + '</p>' +
+                            '<p><strong>Gemstones:</strong> ' + jewelry.gemstones + '</p>' +
+                            '<p><strong>Measurements:</strong> ' + jewelry.measurements + '</p>' +
+                            '<p><strong>Weight:</strong> ' + jewelry.weight + '</p>' +
+                            '<p><strong>Stamped:</strong> ' + jewelry.stamped + '</p>' +
+                            '<p><strong>Ring Size:</strong> ' + jewelry.ringSize + '</p>' +
+                            '<p><strong>Min Price:</strong> ' + jewelry.minPrice + '</p>' +
+                            '<p><strong>Max Price:</strong> ' + jewelry.maxPrice + '</p>' +
+                            '<p><strong>Temporary Price:</strong> ' + jewelry.temp_Price + '</p>' + ' </div>' + '</div>'
+                            );
+                });
+            });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var dropdowns = document.querySelectorAll('.nav-item.dropdown');
+
+                dropdowns.forEach(function (dropdown) {
+                    dropdown.addEventListener('mouseenter', function () {
+                        var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                        if (dropdownMenu) {
+                            dropdownMenu.classList.add('show');
+                        }
+                    });
+                    dropdown.addEventListener('mouseleave', function () {
+                        var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                        if (dropdownMenu) {
+                            dropdownMenu.classList.remove('show');
+                        }
+                    });
+                });
+            });
+
+            $(document).ready(function () {
+                $("a.nav-link").on('click', function (event) {
+                    if (this.hash !== "") {
+                        event.preventDefault();
+                        var hash = this.hash;
+                        $('html, body').animate({
+                            scrollTop: $(hash).offset().top
+                        }, 800, function () {
+                            window.location.hash = hash;
                         });
                     }
-
-                    $(document).ready(function () {
-                        // Fetch jewelry data initially
-                        fetchJewelryData();
-
-                        // Set interval to fetch jewelry data periodically (every minute)
-                        setInterval(fetchJewelryData, 5000);
-
-                        // Load jewelry details into the modal
-                        $('#detailsModal').on('show.bs.modal', function (event) {
-                            var button = $(event.relatedTarget);
-                            var jewelry = button.data('jewelry');
-                            var modal = $(this);
-                            modal.find('.modal-body').html(
-                                    '<p><strong>Jewelry Name:</strong> ' + jewelry.jewelryName + '</p>' +
-                                    '<p><strong>Artist:</strong> ' + jewelry.artist + '</p>' +
-                                    '<p><strong>Circa:</strong> ' + jewelry.circa + '</p>' +
-                                    '<p><strong>Material:</strong> ' + jewelry.material + '</p>' +
-                                    '<p><strong>Dial:</strong> ' + jewelry.dial + '</p>' +
-                                    '<p><strong>Bracelet Material:</strong> ' + jewelry.braceletMaterial + '</p>' +
-                                    '<p><strong>Case Dimensions:</strong> ' + jewelry.caseDimensions + '</p>' +
-                                    '<p><strong>Bracelet Size:</strong> ' + jewelry.braceletSize + '</p>' +
-                                    '<p><strong>Serial Number:</strong> ' + jewelry.serialNumber + '</p>' +
-                                    '<p><strong>Reference Number:</strong> ' + jewelry.referenceNumber + '</p>' +
-                                    '<p><strong>Caliber:</strong> ' + jewelry.caliber + '</p>' +
-                                    '<p><strong>Movement:</strong> ' + jewelry.movement + '</p>' +
-                                    '<p><strong>Condition:</strong> ' + jewelry.condition + '</p>' +
-                                    '<p><strong>Metal:</strong> ' + jewelry.metal + '</p>' +
-                                    '<p><strong>Gemstones:</strong> ' + jewelry.gemstones + '</p>' +
-                                    '<p><strong>Measurements:</strong> ' + jewelry.measurements + '</p>' +
-                                    '<p><strong>Weight:</strong> ' + jewelry.weight + '</p>' +
-                                    '<p><strong>Stamped:</strong> ' + jewelry.stamped + '</p>' +
-                                    '<p><strong>Ring Size:</strong> ' + jewelry.ringSize + '</p>' +
-                                    '<p><strong>Min Price:</strong> ' + jewelry.minPrice + '</p>' +
-                                    '<p><strong>Max Price:</strong> ' + jewelry.maxPrice + '</p>' +
-                                    '<p><strong>Temporary Price:</strong> ' + jewelry.temp_Price + '</p>'
-                                    );
-                        });
-                    });
+                });
+            });
+            document.addEventListener("DOMContentLoaded", function () {
+                window.addEventListener("scroll", function () {
+                    if (window.scrollY > 50) {
+                        document.querySelector(".navbar").classList.add("navbar-scrolled");
+                    } else {
+                        document.querySelector(".navbar").classList.remove("navbar-scrolled");
+                    }
+                });
+            });
         </script>
     </body>
 </html>

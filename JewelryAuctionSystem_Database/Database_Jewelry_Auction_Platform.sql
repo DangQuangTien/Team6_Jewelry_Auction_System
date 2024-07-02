@@ -497,4 +497,5 @@ WHERE memberID = 'Member1'
     WHERE s.jewelryID = 'Lot44'
   );
 
+  select * from Jewelry
 
