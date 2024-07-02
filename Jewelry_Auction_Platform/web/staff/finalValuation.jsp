@@ -257,6 +257,10 @@
                                                 <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID()%>">
                                                 <!-- Group 1: General Information -->
                                                 <h6>General Information</h6>
+                                                 <div class="form-group">
+                                                    <label for="name<%= jewelry.getJewelryID()%>">Name:</label>
+                                                    <input type="text" class="form-control" id="name<%= jewelry.getJewelryID()%>" name="name" value="<%= jewelry.getJewelryName() %>">
+                                                </div>
                                                 <div class="form-group">
                                                     <label for="artist<%= jewelry.getJewelryID()%>">Artist:</label>
                                                     <input type="text" class="form-control" id="artist<%= jewelry.getJewelryID()%>" name="artist" value="<%= jewelry.getArtist()%>">

@@ -227,7 +227,7 @@
                 border: 1px solid transparent; /* Transparent border initially */
                 transition: background-color 0.3s, border-color 0.3s;
             }
-
+ 
             .header-text {
                 font-size: 3rem;
                 font-weight: bold;
@@ -400,6 +400,15 @@
             .btn:hover {
                 background-color: #cc0000;
             }
+.countdown {
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-top: 20px;
+    color: black
+}
 
         </style>
     </head>
@@ -411,16 +420,18 @@
                 memberID = member.getMemberID();
             }
         %>
+           <div class="countdown" id="countdown"></div>
         <div class="chat-header">
-            <div style="font-family: Tahoma;  font-size: 14px; color: #111; font-weight: bold">
-                LIVE AUCTION
-            </div>
-            <div class="exit-button">
-                <form action="${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>" method="post">
-                    <button  class="btn ">EXIT</button>
-                </form>
-            </div>
+        <div style="font-family: Tahoma; font-size: 14px; color: #111; font-weight: bold">
+            LIVE AUCTION
         </div>
+        <div class="exit-button">
+            <form action="${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>" method="post">
+                <button class="btn">EXIT</button>
+            </form>
+        </div>
+    </div>
+   
 
         <!-- Display catalog of auction -->
         <div class="grid-container">
@@ -441,12 +452,12 @@
                                 <p class="card-text" style="display: none;">Current Bid: <%= jewelry.getCurrentBid()%></p> <!-- Hidden current bid -->
                                 <input type="hidden" class="current-bid-value" value="<%= jewelry.getCurrentBid()%>"> <!-- Hidden input with current bid value -->
                             </div>
+                           
                         </div>
                     </div>
                     <% }%>
                 </div>
             </div>
-
             <div class="chat-container">
                 <div class="chat-messages" id="chatMessages">
                     <!-- Messages will be displayed here -->
@@ -457,7 +468,6 @@
                 </div>
             </div>
         </div>
-
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 var items = document.querySelectorAll('.horizontal-scroll-item');
@@ -482,7 +492,7 @@
             var currentIndex = 0;
             var items = document.querySelectorAll('.horizontal-scroll-item');
 
-            var websocketURL = "ws://localhost:8081/Jewelry_Auction_Platform/BiddingRoomServer/" + auctionID;
+            var websocketURL = "ws://localhost:8080/Jewelry_Auction_Platform/BiddingRoomServer/" + auctionID;
             var websocket = new WebSocket(websocketURL);
 
             websocket.onopen = function (event) {
@@ -525,10 +535,7 @@
             function processError(event) {
                 appendMessage("Error: " + event);
             }
-            function scrollToBottom() {
-                var chatMessages = document.getElementById('chatMessages');
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
+
             function sendMessage() {
                 var textMessage = document.getElementById('textMessage').value.trim();
                 if (textMessage !== "" && selectedJewelryID !== null) {
@@ -568,9 +575,14 @@
                         location.reload();
                     }, 1000);
                 }
+                scrollToBottom();
             }
 
-
+            function scrollToBottom() {
+                var chatMessages = document.getElementById('chatMessages');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
             function getTime() {
                 var now = new Date();
                 var hours = now.getHours().toString().padStart(2, '0');
@@ -658,5 +670,38 @@
                                         };
         </script>
     </body>
+<script>
+    // Th?i gian ??m ng??c ban ??u là 15 phút (15 * 60 giây)
+    let countdownTime = 15 * 60;
+    let timerInterval;
+
+    // Ph?n t? hi?n th? ??ng h? ??m ng??c
+    const countdown = document.getElementById('countdown');
+
+    // Hàm c?p nh?t ??ng h? ??m ng??c
+    function updateCountdown() {
+        let minutes = Math.floor(countdownTime / 60);
+        let seconds = countdownTime % 60;
+
+        minutes = minutes < 10 ? `0${minutes}` : minutes;
+        seconds = seconds < 10 ? `0${seconds}` : seconds;
+
+        countdown.textContent = `${minutes}:${seconds}`;
+
+        if (countdownTime <= 0) {
+            countdownTime = 15 * 60; // ??t l?i ??ng h? ??m ng??c v? 15 phút sau khi k?t thúc
+        }
+
+        countdownTime--; // Gi?m timer ?i 1 giây
+    }
+
+    // B?t ??u ??ng h? ??m ng??c ban ??u và c?p nh?t m?i giây
+    function startCountdown() {
+        timerInterval = setInterval(updateCountdown, 1000); // G?i l?i hàm updateCountdown sau m?i giây (1000 milliseconds)
+    }
+
+    // B?t ??u ??ng h? ??m ng??c
+    startCountdown();
+</script>
 </html>
 

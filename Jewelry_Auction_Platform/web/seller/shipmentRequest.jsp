@@ -118,6 +118,19 @@
             width: 100%;
             background-color: #ffc107
         }
+        
+         footer {
+           background-color: #000407;
+            font-family: Helvetica;
+            height: 40px;
+            text-align: center;
+            color: lightgrey;
+            font-size: 14px;
+            line-height: 40px; /* Aligns text vertically in the footer */
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+        }
     </style>
     <body>
         <c:set var="username" value="${sessionScope.USERNAME}" />
@@ -196,9 +209,9 @@
                                 <div class="dropdown-menu"
                                      aria-labelledby="userDropdown">
                                     <a style="font-family:Andale Mono" class="dropdown-item"
-                                       href="${pageContext.request.contextPath}/register">Register</a>
+                                       href="${pageContext.request.contextPath}/register">REGISTER</a>
                                     <a style="font-family:Andale Mono" class="dropdown-item"
-                                       href="${pageContext.request.contextPath}/login">Login</a>
+                                       href="${pageContext.request.contextPath}/login">LOGIN</a>
                                 </div>
                             </li>
                         </c:when>

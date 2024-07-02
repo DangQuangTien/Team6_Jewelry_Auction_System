@@ -186,6 +186,7 @@
                 color: #e9ecef;
                 transform: scale(1.05);
             }
+            
         </style>
     </head>
     <body ng-controller="validateCtrl" class="d-flex flex-column min-vh-100">

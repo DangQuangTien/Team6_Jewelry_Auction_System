@@ -1029,7 +1029,7 @@ public class UserDAOImpl implements UserDao {
     public boolean updateJewelry(Jewelry jewelry) {
         String sql = "UPDATE Jewelry SET artist=?, circa=?, material=?, dial=?, braceletMaterial=?, caseDimensions=?, braceletSize=?, "
                 + "serialNumber=?, referenceNumber=?, caliber=?, movement=?, [condition]=?, metal=?, gemstones=?, measurements=?, "
-                + "weight=?, stamped=?, ringSize=? WHERE jewelryID=?";
+                + "weight=?, stamped=?, ringSize=?, jewelryName = ? WHERE jewelryID=?";
 
         try ( Connection con = DBUtils.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -1051,8 +1051,8 @@ public class UserDAOImpl implements UserDao {
             ps.setString(16, jewelry.getWeight());
             ps.setString(17, jewelry.getStamped());
             ps.setString(18, jewelry.getRingSize());
-            ps.setString(19, jewelry.getJewelryID()); // Corrected index to 19
-
+            ps.setString(19, jewelry.getJewelryName());
+            ps.setString(20, jewelry.getJewelryID());
             int affectedRows = ps.executeUpdate();
             return affectedRows > 0;
 
