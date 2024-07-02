@@ -118,19 +118,6 @@
             width: 100%;
             background-color: #ffc107
         }
-        
-         footer {
-           background-color: #000407;
-            font-family: Helvetica;
-            height: 40px;
-            text-align: center;
-            color: lightgrey;
-            font-size: 14px;
-            line-height: 40px; /* Aligns text vertically in the footer */
-            position: absolute;
-            width: 100%;
-            bottom: 0;
-        }
     </style>
     <body>
         <c:set var="username" value="${sessionScope.USERNAME}" />
@@ -285,8 +272,8 @@
         <% }%>
     </div>
     <footer style="background-color: #000407; font-family: Helvetica; height: 40px; text-align: center;">
-        <span style="color: lightgrey; font-size: 14px;">&#169 F'RANKELLY AUCTION <script>document.write(new Date().getFullYear())</script></span>
-    </footer>
+            <span style="color: lightgrey; font-size: 14px;">&#169 F'RANKELLY AUCTION <script>document.write(new Date().getFullYear())</script></span>
+        </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

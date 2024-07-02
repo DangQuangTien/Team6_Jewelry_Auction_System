@@ -262,18 +262,6 @@
             .inline-form {
                 display: inline;
             }
-            footer {
-                background-color: #000407;
-                font-family: Helvetica;
-                height: 40px;
-                text-align: center;
-                color: lightgrey;
-                font-size: 14px;
-                line-height: 40px; /* Aligns text vertically in the footer */
-                position: absolute;
-                width: 100%;
-                bottom: 0;
-            }
         </style>
     </head>
     <body>

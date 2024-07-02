@@ -155,6 +155,7 @@
             }
 
             .card {
+                height: 500px;
                 margin: 15px 0;
                 border: none;
                 border-radius: 0;
