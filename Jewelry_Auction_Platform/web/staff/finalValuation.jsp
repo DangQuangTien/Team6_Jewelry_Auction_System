@@ -622,94 +622,106 @@
                                         <div class="modal-body px-4 py-2">
                                             <!-- Include hidden field for Jewelry ID -->
                                             <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID() %>">
+                                        
                                             <!-- Group 1: General Information -->
-                                            <h6 class="mt-4">General Information</h6>
-                                            <div class="mb-4">
-                                                <label for="artist<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Artist:</label>
-                                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm" id="artist<%= jewelry.getJewelryID() %>" name="artist" value="<%= jewelry.getArtist() %>">
+                                            <h6 class="mt-4 text-lg font-semibold text-gray-800">General Information</h6>
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                                                <div>
+                                                    <label for="artist<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Artist:</label>
+                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="artist<%= jewelry.getJewelryID() %>" name="artist" value="<%= jewelry.getArtist() %>">
+                                                </div>
+                                                <div>
+                                                    <label for="circa<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Circa:</label>
+                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="circa<%= jewelry.getJewelryID() %>" name="circa" value="<%= jewelry.getCirca() %>">
+                                                </div>
+                                                <div>
+                                                    <label for="condition<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Condition:</label>
+                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="condition<%= jewelry.getJewelryID() %>" name="condition" value="<%= jewelry.getCondition() %>">
+                                                </div>
+                                                <div>
+                                                    <label for="stamped<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Stamped:</label>
+                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="stamped<%= jewelry.getJewelryID() %>" name="stamped" value="<%= jewelry.getStamped() %>">
+                                                </div>
                                             </div>
-                                            <div class="mb-4">
-                                                <label for="circa<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Circa:</label>
-                                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm" id="circa<%= jewelry.getJewelryID() %>" name="circa" value="<%= jewelry.getCirca() %>">
-                                            </div>
-                                            <div class="mb-4">
-                                                <label for="condition<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Condition:</label>
-                                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm" id="condition<%= jewelry.getJewelryID() %>" name="condition" value="<%= jewelry.getCondition() %>">
-                                            </div>
-                                            <div class="mb-4">
-                                                <label for="stamped<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Stamped:</label>
-                                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm" id="stamped<%= jewelry.getJewelryID() %>" name="stamped" value="<%= jewelry.getStamped() %>">
-                                            </div>
-            
+                                        
                                             <!-- Group 2: Material Information -->
-                                            <h6 class="mt-4">Material Information</h6>
-                                            <div class="mb-4">
-                                                <label for="material<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Material:</label>
-                                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm" id="material<%= jewelry.getJewelryID() %>" name="material" value="<%= jewelry.getMaterial() %>">
+                                            <h6 class="mt-6 text-lg font-semibold text-gray-800">Material Information</h6>
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                                                <div>
+                                                    <label for="material<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Material:</label>
+                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="material<%= jewelry.getJewelryID() %>" name="material" value="<%= jewelry.getMaterial() %>">
+                                                </div>
+                                                <div>
+                                                    <label for="metal<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Metal:</label>
+                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="metal<%= jewelry.getJewelryID() %>" name="metal" value="<%= jewelry.getMetal() %>">
+                                                </div>
+                                                <div>
+                                                    <label for="gemstones<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Gemstones:</label>
+                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="gemstones<%= jewelry.getJewelryID() %>" name="gemstones" value="<%= jewelry.getGemstones() %>">
+                                                </div>
                                             </div>
-                                            <div class="mb-4">
-                                                <label for="metal<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Metal:</label>
-                                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm" id="metal<%= jewelry.getJewelryID() %>" name="metal" value="<%= jewelry.getMetal() %>">
-                                            </div>
-                                            <div class="mb-4">
-                                                <label for="gemstones<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Gemstones:</label>
-                                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm" id="gemstones<%= jewelry.getJewelryID() %>" name="gemstones" value="<%= jewelry.getGemstones() %>">
-                                            </div>
-            
+                                        
                                             <!-- Group 3: Size and Weight -->
-                                            <h6 class="mt-4">Size and Weight</h6>
-                                            <div class="mb-4">
-                                                <label for="measurements<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Measurements:</label>
-                                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm" id="measurements<%= jewelry.getJewelryID() %>" name="measurements" value="<%= jewelry.getMeasurements() %>">
+                                            <h6 class="mt-6 text-lg font-semibold text-gray-800">Size and Weight</h6>
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                                                <div>
+                                                    <label for="measurements<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Measurements:</label>
+                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="measurements<%= jewelry.getJewelryID() %>" name="measurements" value="<%= jewelry.getMeasurements() %>">
+                                                </div>
+                                                <div>
+                                                    <label for="weight<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Weight:</label>
+                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="weight<%= jewelry.getJewelryID() %>" name="weight" value="<%= jewelry.getWeight() %>">
+                                                </div>
+                                                <div>
+                                                    <label for="ringSize<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Ring Size:</label>
+                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="ringSize<%= jewelry.getJewelryID() %>" name="ringSize" value="<%= jewelry.getRingSize()%>">
+                                                </div>
                                             </div>
-                                            <div class="mb-4">
-                                                <label for="weight<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Weight:</label>
-                                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm" id="weight<%= jewelry.getJewelryID() %>" name="weight" value="<%= jewelry.getWeight() %>">
-                                            </div>
-                                            <div class="mb-4">
-                                                <label for="ringSize<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Ring Size:</label>
-                                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm" id="ringSize<%= jewelry.getJewelryID() %>" name="ringSize" value="<%= jewelry.getRingSize()%>">
-                                            </div>
-            
+                                        
                                             <!-- Group 4: Bracelet/Watch Details (if applicable) -->
-                                            <h6 class="mt-4">Bracelet/Watch Details</h6>
-                                            <div class="mb-4">
-                                                <label for="dial<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Dial:</label>
-                                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm" id="dial<%= jewelry.getJewelryID() %>" name="dial" value="<%= jewelry.getDial() %>">
+                                            <h6 class="mt-6 text-lg font-semibold text-gray-800">Bracelet/Watch Details</h6>
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                                                <div>
+                                                    <label for="dial<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Dial:</label>
+                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="dial<%= jewelry.getJewelryID() %>" name="dial" value="<%= jewelry.getDial() %>">
+                                                </div>
+                                                <div>
+                                                    <label for="braceletMaterial<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Bracelet Material:</label>
+                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="braceletMaterial<%= jewelry.getJewelryID() %>" name="braceletMaterial" value="<%= jewelry.getBraceletMaterial() %>">
+                                                </div>
+                                                <div>
+                                                    <label for="braceletSize<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Bracelet Size:</label>
+                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="braceletSize<%= jewelry.getJewelryID() %>" name="braceletSize" value="<%= jewelry.getBraceletSize() %>">
+                                                </div>
+                                                <div>
+                                                    <label for="caseDimensions<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Case Dimension:</label>
+                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="caseDimensions<%= jewelry.getJewelryID() %>" name="caseDimensions" value="<%= jewelry.getCaseDimensions()%>">
+                                                </div>
                                             </div>
-                                            <div class="mb-4">
-                                                <label for="braceletMaterial<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Bracelet Material:</label>
-                                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm" id="braceletMaterial<%= jewelry.getJewelryID() %>" name="braceletMaterial" value="<%= jewelry.getBraceletMaterial() %>">
-                                            </div>
-                                            <div class="mb-4">
-                                                <label for="braceletSize<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Bracelet Size:</label>
-                                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm" id="braceletSize<%= jewelry.getJewelryID() %>" name="braceletSize" value="<%= jewelry.getBraceletSize() %>">
-                                            </div>
-                                            <div class="mb-4">
-                                                <label for="caseDimensions<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Case Dimension:</label>
-                                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm" id="braceletDimensions<%= jewelry.getJewelryID() %>" name="caseDimensions" value="<%= jewelry.getCaseDimensions()%>">
-                                            </div>
-                                            
-            
+                                        
                                             <!-- Group 5: Additional Information -->
-                                            <h6 class="mt-4">Additional Information</h6>
-                                            <div class="mb-4">
-                                                <label for="serialNumber<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Serial Number:</label>
-                                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm" id="serialNumber<%= jewelry.getJewelryID() %>" name="serialNumber" value="<%= jewelry.getSerialNumber()%>">
-                                            </div>
-                                            <div class="mb-4">
-                                                <label for="referenceNumber<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Reference Number:</label>
-                                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm" id="referenceNumber<%= jewelry.getJewelryID() %>" name="referenceNumber" value="<%= jewelry.getReferenceNumber()%>">
-                                            </div>
-                                            <div class="mb-4">
-                                                <label for="caliber<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Caliber:</label>
-                                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm" id="caliber<%= jewelry.getJewelryID() %>" name="caliber" value="<%= jewelry.getCaliber()%>">
-                                            </div>
-                                            <div class="mb-4">
-                                                <label for="movement<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Movement:</label>
-                                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm" id="movement<%= jewelry.getJewelryID() %>" name="movement" value="<%= jewelry.getMovement()%>">
+                                            <h6 class="mt-6 text-lg font-semibold text-gray-800">Additional Information</h6>
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                                                <div>
+                                                    <label for="serialNumber<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Serial Number:</label>
+                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="serialNumber<%= jewelry.getJewelryID() %>" name="serialNumber" value="<%= jewelry.getSerialNumber()%>">
+                                                </div>
+                                                <div>
+                                                    <label for="referenceNumber<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Reference Number:</label>
+                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="referenceNumber<%= jewelry.getJewelryID() %>" name="referenceNumber" value="<%= jewelry.getReferenceNumber()%>">
+                                                </div>
+                                                <div>
+                                                    <label for="caliber<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Caliber:</label>
+                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="caliber<%= jewelry.getJewelryID() %>" name="caliber" value="<%= jewelry.getCaliber()%>">
+                                                </div>
+                                                <div>
+                                                    <label for="movement<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Movement:</label>
+                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="movement<%= jewelry.getJewelryID() %>" name="movement" value="<%= jewelry.getMovement()%>">
+                                                </div>
                                             </div>
                                         </div>
+                                        
+
                                         <div class="modal-footer px-4 py-3 bg-gray-50 text-right rounded-b">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                             <button type="submit" class="btn btn-primary">Save Changes</button>
