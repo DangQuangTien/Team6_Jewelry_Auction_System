@@ -480,8 +480,11 @@
                                    href="${pageContext.request.contextPath}/selling">ABOUT
                                     SELLING</a>
                                 <a style="font-family:Andale Mono" class="dropdown-item"
-                                   href="${pageContext.request.contextPath}/valuation">VALUATION
-                                    REQUEST</a>
+                                   href="response">APPRAISE ASSET
+                                </a>
+                                <a style="font-family:Andale Mono" class="dropdown-item"
+                                   href="valuation">VALUATION REQUEST
+                                </a>
                             </div>
                         </li>
                         <li class="nav-item">

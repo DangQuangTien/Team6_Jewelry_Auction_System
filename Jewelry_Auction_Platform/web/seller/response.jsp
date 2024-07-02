@@ -280,22 +280,22 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/home"> Home</a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/home"> HOME</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#"
                                id="auctionDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true"
                                aria-expanded="false">
-                                Auctions <i class="fas fa-caret-down"></i>
+                                AUCTIONS <i class="fas fa-caret-down"></i>
                             </a>
                             <div class="dropdown-menu"
                                  aria-labelledby="auctionDropdown">
                                 <a style="font-family:Andale Mono" class="dropdown-item"
-                                   href="${pageContext.request.contextPath}/auctions">Upcoming
-                                    Auctions</a>
-                                <a style="font-family:Andale Mono" class="dropdown-item" href="#">Past
-                                    Auction</a>
+                                   href="${pageContext.request.contextPath}/auctions">UPCOMING
+                                    AUCTIONS</a>
+                                <a style="font-family:Andale Mono" class="dropdown-item" href="#">PAST
+                                    AUCTIONS</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -303,21 +303,27 @@
                                id="sellingDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true"
                                aria-expanded="false">
-                                My Bids <i class="fas fa-caret-down"></i>
+                                SELLING <i class="fas fa-caret-down"></i>
                             </a>
                             <div class="dropdown-menu"
                                  aria-labelledby="sellingDropdown">
                                 <a style="font-family:Andale Mono" class="dropdown-item"
-                                   href="${pageContext.request.contextPath}/my-upcoming-bids">Upcoming
-                                    Bids</a>
+                                   href="${pageContext.request.contextPath}/selling">ABOUT SELLING
+                                </a>
                                 <a style="font-family:Andale Mono" class="dropdown-item"
-                                   href="${pageContext.request.contextPath}/valuation">Past
-                                    Bids</a>
+                                   href="${pageContext.request.contextPath}/response">APPRAISED ASSET
+                                </a>
+                                 <a style="font-family:Andale Mono" class="dropdown-item"
+                                   href="notification">SHIPMENT REQUEST
+                                </a>
+                                <a style="font-family:Andale Mono" class="dropdown-item"
+                                   href="${pageContext.request.contextPath}/valuation">VALUATION REQUEST
+                                </a>
                             </div>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#about"> Watched Lots</a>
+                            <a class="nav-link" href="#about"> WATCHED LOTS</a>
                         </li>
                         <c:choose>
                             <c:when test="${username == null}">
@@ -327,7 +333,7 @@
                                        data-toggle="dropdown"
                                        aria-haspopup="true"
                                        aria-expanded="false">
-                                        <i class="fas fa-user"></i> User<i class="fas fa-caret-down"></i>
+                                        <i class="fas fa-user"></i> USER<i class="fas fa-caret-down"></i>
                                     </a>
                                     <div class="dropdown-menu"
                                          aria-labelledby="userDropdown">
