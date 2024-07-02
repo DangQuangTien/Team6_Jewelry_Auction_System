@@ -17,227 +17,342 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Material+Icons');
+@import url('https://fonts.googleapis.com/css2?family=Material+Icons');
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 0;
-            scroll-behavior: smooth;
-        }
-        nav {
-            background-color: #fff;
-            color: #000;
-            padding: 10px 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        nav .navbar-brand img {
-            max-width: 50px;
-            margin-right: 10px;
-        }
-        nav a {
-            color: #000;
-            text-decoration: none;
-            margin-right: 10px;
-            padding: 8px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        nav a:hover {
-            background-color: rgba(85, 85, 85, 0.5);
-            color: #fff;
-        }
-        .container {
-            margin-top: 20px;
-        }
-        .card {
-            margin-top: 20px;
-            border-radius: 10px;
-            overflow: hidden;
-            transition: transform 0.3s;
-        }
-        .card:hover {
-            transform: scale(1.02);
-        }
-        .card-body {
-            padding: 20px;
-        }
-        .card-title {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        .card img {
-            border-radius: 10px;
-            margin-bottom: 20px;
-            max-width: 100%;
-            transition: transform 0.3s;
-        }
-        .card img:hover {
-            transform: scale(1.05);
-        }
-        .card-text {
-            margin-bottom: 10px;
-        }
-        .additional-info {
-            margin-top: 20px;
-        }
-        .additional-info h2 {
-            font-size: 22px;
-            margin-bottom: 10px;
-        }
-        .additional-info h3 {
-            font-size: 18px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-        .additional-info label {
-            font-weight: bold;
-            margin-top: 5px;
-        }
-        .additional-info input {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            margin-bottom: 10px;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-        }
-        .custom-button {
-            position: relative;
-            display: inline-block;
-            font-size: 16px;
-            padding: 10px 20px;
-            color: #fff;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            overflow: hidden;
-            transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
-            margin: 5px 0;
-            background-color: #6D5BBA;
-            background-image: linear-gradient(to right, #6D5BBA, #8D58BF);
-        }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
-        .custom-button .material-icons {
-            font-size: 24px;
-            vertical-align: middle;
-            margin-right: 8px;
-            transition: transform 0.3s;
-        }
+.navbar {
+    background: radial-gradient(circle, rgba(255, 239, 166, 1) 0%, rgba(218, 165, 32, 0.8) 50%, rgba(184, 134, 11, 0.8) 100%);
+    background-size: 200% 200%;
+    background-position: 50% 50%;
+    transition: background 0.3s ease, box-shadow 0.3s ease, padding-top 0.3s ease, padding-bottom 0.3s ease;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    z-index: 1000;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.19);
+}
 
-        .custom-button span {
-            vertical-align: middle;
-        }
+.navbar:hover {
+    background-position: 100% 100%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.25);
+}
 
-        .custom-button:hover {
-            background-color: #8D58BF;
-            box-shadow: 0 4px 14px rgba(255, 112, 67, 0.4);
-        }
+.navbar-scrolled {
+    background-color: black;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 
-        .custom-button:hover .material-icons {
-            transform: translateX(5px);
-        }
+.navbar-brand .brand-name {
+    font-size: 2em;
+    font-family: 'Zapf-Chancery';
+    font-weight: 700;
+    color: black;
+}
 
-        .edit-button::before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 300%;
-            height: 300%;
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            transition: transform 0.3s;
-        }
+.navbar-brand img {
+    max-width: 50px;
+    height: auto;
+    margin-right: 10px;
+}
 
-        .edit-button:hover::before {
-            transform: translate(-50%, -50%) scale(1);
-        }
+.nav-link {
+    color: black !important;
+    transition: color 0.3s;
+    font-family: 'Andale Mono';
+    font-size: 1.25em;
+}
 
-        .login-button {
-            display: inline-block;
-            font-size: 16px;
-            padding: 10px 20px;
-            color: #6D5BBA;
-            background: none;
-            border: 2px solid #6D5BBA;
-            border-radius: 50px;
-            cursor: pointer;
-            overflow: hidden;
-            transition: background 0.3s, color 0.3s;
-            margin: 5px 0;
-        }
+.navbar-nav .nav-link {
+    position: relative;
+    transition: color 0.3s;
+}
 
-        .login-button:hover {
-            background: #6D5BBA;
-            color: #fff;
-        }
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: #ffc107;
+    transition: width 0.3s, left 0.3s;
+    visibility: hidden;
+}
 
-        .standard-button {
-            padding: 10px 20px;
-            font-size: 16px;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            margin: 5px 0;
-            background-image: linear-gradient(to right, #007bff, #0056b3);
-        }
+.navbar-nav .nav-link:hover::after {
+    width: 100%;
+    left: 0;
+    visibility: visible;
+}
 
-        .standard-button:hover {
-            background-color: #0056b3;
-        }
+.container {
+    margin-top: 20px;
+    flex: 1;
+}
 
-        .thumbnail {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            cursor: pointer;
-            transition: transform 0.3s;
-            margin-right: 10px;
-        }
-        .thumbnail:hover {
-            transform: scale(1.1);
-        }
-        footer {
-            background-color: #f9f9f9;
-            padding: 20px 0;
-            text-align: center;
-        }
-        footer a {
-            color: #007bff;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-        footer a:hover {
-            text-decoration: underline;
-        }
-        .footer-links {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        .footer-links div {
-            margin-bottom: 15px;
-        }
-        .social-media a {
-            margin: 0 10px;
-            color: #000;
-            font-size: 24px;
-        }
-        .progress {
-            height: 25px;
-        }
-        .collapse {
-            margin-top: 10px;
-        }
+.card {
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.card img {
+    border-radius: 10px;
+    margin-bottom: 20px;
+    max-width: 100%;
+    transition: transform 0.3s;
+}
+
+.card img:hover {
+    transform: scale(1.05);
+}
+
+.card-text {
+    margin-bottom: 10px;
+}
+
+.additional-info {
+    margin-top: 20px;
+}
+
+.additional-info h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.additional-info h3 {
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.additional-info label {
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.additional-info input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+.custom-button {
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+    padding: 10px 20px;
+    color: #ffd700;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+    margin: 5px 0;
+    background-color: #000;
+}
+
+.custom-button .material-icons {
+    font-size: 24px;
+    vertical-align: middle;
+    margin-right: 8px;
+    transition: transform 0.3s;
+}
+
+.custom-button span {
+    vertical-align: middle;
+}
+
+.custom-button:hover {
+    background-color: #333;
+    box-shadow: 0 4px 14px rgba(255, 112, 67, 0.4);
+}
+
+.custom-button:hover .material-icons {
+    transform: translateX(5px);
+}
+
+.login-button {
+    display: inline-block;
+    font-size: 16px;
+    padding: 10px 20px;
+    color: #ffd700;
+    background: none;
+    border: 2px solid #ffd700;
+    border-radius: 50px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: background 0.3s, color 0.3s;
+    margin: 5px 0;
+}
+
+.login-button:hover {
+    background: #ffd700;
+    color: #000;
+}
+
+.standard-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #ffd700;
+    background-color: #000;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 5px 0;
+    background-image: linear-gradient(to right, #000, #333);
+}
+
+.standard-button:hover {
+    background-color: #333;
+}
+
+.thumbnail {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s;
+    margin-right: 10px;
+}
+
+.thumbnail:hover {
+    transform: scale(1.1);
+}
+
+footer {
+    background-color: #000;
+    color: #fff;
+    padding: 40px 0;
+    text-align: center;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer-logo img {
+    width: 64px;
+    margin-bottom: 20px;
+}
+
+footer h6 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+footer p {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 0 20px;
+    margin-bottom: 20px;
+}
+
+.footer-links div {
+    margin-bottom: 15px;
+}
+
+.footer-links a {
+    display: block;
+    color: #ffc107;
+    text-decoration: none;
+    margin-bottom: 5px;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+footer i {
+    margin-right: 8px;
+}
+
+.social-media a {
+    margin: 0 10px;
+    color: #ffc107;
+    font-size: 24px;
+}
+
+.social-media a:hover {
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .footer-links {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .footer-links div {
+        text-align: center;
+    }
+}
+
+.footer-decoration {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.footer-diamond {
+    color: #ffc107;
+    font-size: 50px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes slide {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
     </style>
 </head>
 <body>
@@ -416,67 +531,214 @@
                             </div>
                         <% } %>
                     </div>
+
                     <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">
-                        <div class="collapse" id="globalShipping">
-                            <div class="card card-body">
-                                <div>Global Shipping</div>
-                                <p>With customers in over 100 countries, we provide fully insured global shipping, expertly arranged by our team. The shipping costs, determined based on the insured value of the package and its destination, will be calculated post-auction and added to your invoice. Please note, VAT, duties, or any additional charges related to international shipping are not included in these costs and remain the responsibility of the buyer.</p>
+                        <div class="accordion" id="shippingAccordion">
+                            <div class="card octahedron-card">
+                                <div class="card-header" id="headingGlobalShipping">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link custom-button-shipping" type="button" data-toggle="collapse" data-target="#collapseGlobalShipping" aria-expanded="true" aria-controls="collapseGlobalShipping">
+                                            <i class="fas fa-globe"></i> Global Shipping
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="collapseGlobalShipping" class="collapse show" aria-labelledby="headingGlobalShipping" data-parent="#shippingAccordion">
+                                    <div class="card-body">
+                                        With customers in over 100 countries, we provide fully insured global shipping, expertly arranged by our team. The shipping costs, determined based on the insured value of the package and its destination, will be calculated post-auction and added to your invoice. Please note, VAT, duties, or any additional charges related to international shipping are not included in these costs and remain the responsibility of the buyer.
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <button class="custom-button standard-button" type="button" data-toggle="collapse" data-target="#globalShipping" aria-expanded="false" aria-controls="globalShipping">
-                            View Global Shipping Info
-                        </button>
                     
-                        <div class="collapse" id="postAuctionSupport">
-                            <div class="card card-body">
-                                <div>Post-Auction Support</div>
-                                <p>As a full-service auction house, we take pride in the comprehensive range of post-auction services we offer, including ring resizing, stone replacement, and repair work. It's part of our commitment to ensure a seamless transaction and to cater to your needs even after the gavel falls. However, please note that the applicability of certain services may vary depending on the specifics of the lot. If you have any questions or need additional information such as a cost estimate, we encourage you to reach out to us.</p>
+                            <div class="card octahedron-card">
+                                <div class="card-header" id="headingPostAuctionSupport">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link custom-button-shipping collapsed" type="button" data-toggle="collapse" data-target="#collapsePostAuctionSupport" aria-expanded="false" aria-controls="collapsePostAuctionSupport">
+                                            <i class="fas fa-tools"></i> Post-Auction Support
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="collapsePostAuctionSupport" class="collapse" aria-labelledby="headingPostAuctionSupport" data-parent="#shippingAccordion">
+                                    <div class="card-body">
+                                        As a full-service auction house, we take pride in the comprehensive range of post-auction services we offer, including ring resizing, stone replacement, and repair work. It's part of our commitment to ensure a seamless transaction and to cater to your needs even after the gavel falls. However, please note that the applicability of certain services may vary depending on the specifics of the lot. If you have any questions or need additional information such as a cost estimate, we encourage you to reach out to us.
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <button class="custom-button standard-button" type="button" data-toggle="collapse" data-target="#postAuctionSupport" aria-expanded="false" aria-controls="postAuctionSupport">
-                            View Post-Auction Support
-                        </button>
                     
-                        <div class="collapse" id="propertySoldAsIs">
-                            <div class="card card-body">
-                                <div>Property Sold As-Is</div>
-                                <p>Please be aware that all lots are sold "As Is". We do not guarantee that the lot is in pristine condition or devoid of imperfections, or wear and tear that is consistent with the age of the item. It falls under the buyer's responsibility to inspect the lot or request additional photos and condition details prior to bidding.</p>
+                            <div class="card octahedron-card">
+                                <div class="card-header" id="headingPropertySoldAsIs">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link custom-button-shipping collapsed" type="button" data-toggle="collapse" data-target="#collapsePropertySoldAsIs" aria-expanded="false" aria-controls="collapsePropertySoldAsIs">
+                                            <i class="fas fa-exclamation-circle"></i> Property Sold As-Is
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="collapsePropertySoldAsIs" class="collapse" aria-labelledby="headingPropertySoldAsIs" data-parent="#shippingAccordion">
+                                    <div class="card-body">
+                                        Please be aware that all lots are sold "As Is". We do not guarantee that the lot is in pristine condition or devoid of imperfections, or wear and tear that is consistent with the age of the item. It falls under the buyer's responsibility to inspect the lot or request additional photos and condition details prior to bidding.
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <button class="custom-button standard-button" type="button" data-toggle="collapse" data-target="#propertySoldAsIs" aria-expanded="false" aria-controls="propertySoldAsIs">
-                            View Property Sold As-Is Info
-                        </button>
                     
-                        <div class="collapse" id="biddingGuidelines">
-                            <div class="card card-body">
-                                <div>Bidding Guidelines</div>
-                                <p>Please remember that once you have placed a bid on FORTUNA's platform, it cannot be retracted or reduced.</p>
+                            <div class="card octahedron-card">
+                                <div class="card-header" id="headingBiddingGuidelines">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link custom-button-shipping collapsed" type="button" data-toggle="collapse" data-target="#collapseBiddingGuidelines" aria-expanded="false" aria-controls="collapseBiddingGuidelines">
+                                            <i class="fas fa-gavel"></i> Bidding Guidelines
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="collapseBiddingGuidelines" class="collapse" aria-labelledby="headingBiddingGuidelines" data-parent="#shippingAccordion">
+                                    <div class="card-body">
+                                        Please remember that once you have placed a bid on FORTUNA's platform, it cannot be retracted or reduced.
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <button class="custom-button standard-button" type="button" data-toggle="collapse" data-target="#biddingGuidelines" aria-expanded="false" aria-controls="biddingGuidelines">
-                            View Bidding Guidelines
-                        </button>
                     
-                        <div class="collapse" id="buyersPremium">
-                            <div class="card card-body">
-                                <div>Buyer's Premium and Sales Tax</div>
-                                <p>A buyer's premium of 25% (30% if bidding on LiveAuctioneers, Invaluable, and Bidsquare) is applicable to all winning bids and is not included in the online bid value. We collect sales tax for lots shipped to the following states within the US: CA, CO, FL, GA, IL, MA, MD, MI, NJ, NY, OH, PA, RI, SC, TN, TX, and VA.</p>
+                            <div class="card octahedron-card">
+                                <div class="card-header" id="headingBuyersPremium">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link custom-button-shipping collapsed" type="button" data-toggle="collapse" data-target="#collapseBuyersPremium" aria-expanded="false" aria-controls="collapseBuyersPremium">
+                                            <i class="fas fa-coins"></i> Buyer's Premium and Sales Tax
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="collapseBuyersPremium" class="collapse" aria-labelledby="headingBuyersPremium" data-parent="#shippingAccordion">
+                                    <div class="card-body">
+                                        A buyer's premium of 25% (30% if bidding on LiveAuctioneers, Invaluable, and Bidsquare) is applicable to all winning bids and is not included in the online bid value. We collect sales tax for lots shipped to the following states within the US: CA, CO, FL, GA, IL, MA, MD, MI, NJ, NY, OH, PA, RI, SC, TN, TX, and VA.
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <button class="custom-button standard-button" type="button" data-toggle="collapse" data-target="#buyersPremium" aria-expanded="false" aria-controls="buyersPremium">
-                            View Buyer's Premium Info
-                        </button>
                     
-                        <div class="collapse" id="conditionsOfSale">
-                            <div class="card card-body">
-                                <div>Conditions of Sale</div>
-                                <p>We encourage all potential bidders to consult our Conditions of Sale for comprehensive details. By placing a bid, you acknowledge that you have read and are bound by these conditions.</p>
+                            <div class="card octahedron-card">
+                                <div class="card-header" id="headingConditionsOfSale">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link custom-button-shipping collapsed" type="button" data-toggle="collapse" data-target="#collapseConditionsOfSale" aria-expanded="false" aria-controls="collapseConditionsOfSale">
+                                            <i class="fas fa-file-contract"></i> Conditions of Sale
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="collapseConditionsOfSale" class="collapse" aria-labelledby="headingConditionsOfSale" data-parent="#shippingAccordion">
+                                    <div class="card-body">
+                                        We encourage all potential bidders to consult our Conditions of Sale for comprehensive details. By placing a bid, you acknowledge that you have read and are bound by these conditions.
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <button class="custom-button standard-button" type="button" data-toggle="collapse" data-target="#conditionsOfSale" aria-expanded="false" aria-controls="conditionsOfSale">
-                            View Conditions of Sale
-                        </button>
                     </div>
+                    
+                    <style>
+                        .octahedron-card {
+                            position: relative;
+                            overflow: hidden;
+                            margin-bottom: 20px;
+                            border: 2px solid #000;
+                            border-radius: 10px;
+                            background: #fff;
+                        }
+                    
+                        .octahedron-card::before {
+                            content: '';
+                            position: absolute;
+                            top: 0;
+                            left: 50%;
+                            width: 200%;
+                            height: 200%;
+                            background: linear-gradient(to bottom right, rgba(255, 215, 0, 0.3) 50%, transparent 50%);
+                            transform: rotate(45deg) translate(-50%, -50%);
+                            z-index: 1;
+                        }
+                    
+                        .octahedron-card::after {
+                            content: '';
+                            position: absolute;
+                            top: 50%;
+                            left: 0;
+                            width: 200%;
+                            height: 200%;
+                            background: linear-gradient(to top left, rgba(0, 0, 0, 0.1) 50%, transparent 50%);
+                            transform: rotate(45deg) translate(-50%, -50%);
+                            z-index: 1;
+                        }
+                    
+                        .custom-button-shipping {
+                            position: relative;
+                            display: inline-block;
+                            font-size: 16px;
+                            padding: 10px 20px;
+                            color: #ffd700;
+                            border: none;
+                            border-radius: 50px;
+                            cursor: pointer;
+                            overflow: hidden;
+                            transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+                            margin: 5px 0;
+                            background-color: #000;
+                            width: 100%;
+                            text-align: left;
+                            z-index: 2;
+                        }
+                    
+                        .custom-button-shipping .material-icons, .custom-button-shipping i {
+                            font-size: 24px;
+                            vertical-align: middle;
+                            margin-right: 8px;
+                            transition: transform 0.3s;
+                        }
+                    
+                        .custom-button-shipping span {
+                            vertical-align: middle;
+                        }
+                    
+                        .custom-button-shipping:hover {
+                            background-color: #333;
+                            box-shadow: 0 4px 14px rgba(255, 112, 67, 0.4);
+                            transform: scale(1.05);
+                        }
+                    
+                        .custom-button-shipping:hover .material-icons, .custom-button-shipping:hover i {
+                            transform: translateX(5px);
+                        }
+                    
+                        .card-body {
+                            animation: fadeInUp 0.5s ease;
+                            position: relative;
+                            z-index: 2;
+                        }
+                    
+                        @keyframes fadeInUp {
+                            from {
+                                opacity: 0;
+                                transform: translateY(20px);
+                            }
+                            to {
+                                opacity: 1;
+                                transform: translateY(0);
+                            }
+                        }
+                    
+                        .card-header {
+                            background-color: #f8f9fa;
+                            position: relative;
+                            z-index: 2;
+                        }
+                    
+                        .btn-link {
+                            text-decoration: none;
+                        }
+                        
+                        .btn-link.collapsed {
+                            color: #666;
+                        }
+                        
+                        .btn-link:not(.collapsed) {
+                            color: #ffd700;
+                        }
+                    
+                        .btn-link:hover {
+                            text-decoration: none;
+                        }
+                    </style>
+                                                                                                                  
                 </div>
             </div>
         </div>
@@ -485,46 +747,63 @@
     <p>No item details available.</p>
     <% } %>
     
-    <footer class="text-center py-3 mt-auto">
+    <footer class="text-center py-4 mt-auto">
         <div class="container">
-            <div class="footer-links">
-                <div>
-                    <h6>Quick Links</h6>
-                    <a href="register.jsp">Register</a> |
-                    <a href="login.jsp">Login</a> |
-                    <a href="#">Help & FAQ</a> |
-                    <a href="#">Support</a> |
-                    <a href="#">Sitemap</a>
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Jewelry Auction</h5>
+                    <p>Your premier destination for exquisite jewelry and
+                        gemstones. Discover the timeless beauty and elegance
+                        in our curated collections.</p>
                 </div>
-                <div>
-                    <h6>About Us</h6>
-                    <a href="#">Company Info</a> |
-                    <a href="#">Careers</a> |
-                    <a href="#">Privacy Policy</a> |
-                    <a href="#">Terms of Service</a>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a
+                                href="${pageContext.request.contextPath}/register"
+                                style="color: #ffc107;">Register</a></li>
+                        <li><a
+                                href="${pageContext.request.contextPath}/login"
+                                style="color: #ffc107;">Login</a></li>
+                        <li><a
+                                href="${pageContext.request.contextPath}/auctions"
+                                style="color: #ffc107;">Auctions</a></li>
+                        <li><a
+                                href="${pageContext.request.contextPath}/selling"
+                                style="color: #ffc107;">Selling</a></li>
+                    </ul>
                 </div>
-                <div>
-                    <h6>Contact Us</h6>
-                    <a href="#">Customer Service</a> |
-                    <a href="#">Contact Form</a> |
-                    <a href="#">Locations</a>
-                </div>
-                <div>
-                    <h6>Subscribe to our Newsletter</h6>
-                    <form>
-                        <input type="email" class="form-control" placeholder="Enter your email">
-                        <button type="submit" class="custom-button standard-button mt-2">Subscribe</button>
-                    </form>
+                <div class="col-md-4">
+                    <h5>Contact Us</h5>
+                    <p><i class="fas fa-phone-alt"></i> +849872539999</p>
+                    <p><i class="fas fa-envelope"></i>
+                        support@jewelryauction.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Jewelry
+                        Street, New York, NY</p>
+                    <div class="social-icons mt-3">
+                        <a href="#" class="mx-2"
+                           style="color: #ffc107; transition: transform 0.3s;"><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="mx-2"
+                           style="color: #ffc107; transition: transform 0.3s;"><i
+                                class="fab fa-twitter"></i></a>
+                        <a href="#" class="mx-2"
+                           style="color: #ffc107; transition: transform 0.3s;"><i
+                                class="fab fa-instagram"></i></a>
+                        <a href="#" class="mx-2"
+                           style="color: #ffc107; transition: transform 0.3s;"><i
+                                class="fab fa-linkedin-in"></i></a>
+                    </div>
                 </div>
             </div>
-            <div class="mt-3 social-media">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
+            <div class="mt-4">
+                <p>&copy; 2024 Jewelry Auction. All rights reserved.</p>
             </div>
-            <div class="mt-2">
-                <p>&copy; 2024 Global F'Rankelly's Premier Jewelry Auction House. All Rights Reserved.</p>
+        </div>
+        <!-- Decorative Elements -->
+        <div class="footer-decoration">
+            <div class="footer-diamond">
+                <i class="fas fa-gem"></i>
             </div>
         </div>
     </footer>
