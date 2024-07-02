@@ -94,6 +94,7 @@
             .btn:hover {
                 background-color: #0056b3; /* Darker blue for hover */
                 transform: translateY(-1px);
+                color: lightgrey
             }
 
             .btn:focus {

@@ -280,7 +280,10 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#about"> WATCHED LOTS</a>
+                        <a class="nav-link" href="#about"> ABOUT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about"> CONTACT</a>
                     </li>
                 </ul>
             </div>
@@ -376,21 +379,32 @@
         </div>
 
         <div class="header">
-            <h2>The Process – from Start to Finish</h2>
+            <h2>The Process - from Start to Finish</h2>
             <p>Embarking on your selling journey with F'RANKELLY begins with a valuation and ends with a check in your hand (assuming we are successful!). There are seven simple steps in the process. If you need assistance at any time, don't hesitate to contact us.</p>
         </div>
 
         <div class="reason">
-            <h3>Step 1: Preliminary Valuation</h3>
-            <p>Understanding the true market value of your jewelry and/or watches is the first crucial step in your selling journey. The best way to do this is to obtain a "valuation report" from an auction house—preferably one that has an expertise in jewelry and watches, like F'RANKELLY.</p>
-            <p>Several factors play a part in the valuation process – the item's make and model, condition, age, provenance, quality, current market conditions, and rarity are among the most important factors.</p>
-            <p>The best way to begin this part of the process (and the process overall) is to fill out our valuation request form. Once F'RANKELLY's team of jewelry and watch specialists receive your request, they will reach out within just hours and either provide you with a valuation report immediately or request some additional information.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Step 1: Preliminary Valuation</h3>
+                    <p>Understanding the true market value of your jewelry and/or watches is the first crucial step in your selling journey. The best way to do this is to obtain a "valuation report" from an auction house—preferably one that has an expertise in jewelry and watches, like F'RANKELLY.</p>
+                    <p>Several factors play a part in the valuation process – the item's make and model, condition, age, provenance, quality, current market conditions, and rarity are among the most important factors.</p>
+                    <p>The best way to begin this part of the process (and the process overall) is to fill out our valuation request form. Once F'RANKELLY's team of jewelry and watch specialists receive your request, they will reach out within just hours and either provide you with a valuation report immediately or request some additional information.</p>
+                </div>
+                <div class="col-md-6"><button class="btn" onclick="myFunction()">Request A Valuation</button></div>
+            </div>
         </div>
-
         <div class="reason">
-            <h3>Step 2: Shipping</h3>
-            <p>At the conclusion of "Step 1" you will have received a preliminary valuation report as well as a prepaid fully-insured shipping label (for US-based consignors only), a packing slip (to be included inside of the package that you ship to us) which will list the contents of the package as well as the insured value of those contents, and "safe packing instructions".</p>
-            <p>If you run into any issues or have any questions, reach out for help and we will gladly assist.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Step 2: Shipping</h3>
+                    <p>At the conclusion of "Step 1" you will have received a preliminary valuation report as well as a prepaid fully-insured shipping label (for US-based consignors only), a packing slip (to be included inside of the package that you ship to us) which will list the contents of the package as well as the insured value of those contents, and "safe packing instructions".</p>
+                    <p>If you run into any issues or have any questions, reach out for help and we will gladly assist.</p>
+                </div>
+                <div class="col-md-6">
+                    <button class="btn" onclick="myFunction()">Contact Us</button>
+                </div>
+            </div>
         </div>
 
         <div class="reason">
@@ -422,27 +436,18 @@
             <button class="btn" onclick="myFunction()">Request A Valuation</button>
         </div>
     </div>
-    <footer class="footer text-center py-3 mt-auto">
-        <div>
-            <h6>Jewelry Auction</h6>
-            <a href="register.jsp">Register</a> |
-            <a href="login.jsp">Login</a> |
-            <a href="#">Help & FAQ</a> |
-            <a href="#">Support</a> |
-            <a href="#">Sitemap</a>
-        </div>
-        <div>
-            <span>&copy; <script>document.write(new Date().getFullYear())</script> Jewelry Auction. All rights reserved.</span>
-        </div>
+    <br><br>
+    <footer style="background-color: #000407; font-family: Helvetica; height: 60px">
+        <span style="color: lightgrey; font-size: 14px">&#169 F'RANKELLY AUCTION <script>document.write(new Date().getFullYear())</script></span>
     </footer>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-                function myFunction() {
-                    window.location = "valuation";
-                }
+        function myFunction() {
+            window.location = "valuation";
+        }
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {

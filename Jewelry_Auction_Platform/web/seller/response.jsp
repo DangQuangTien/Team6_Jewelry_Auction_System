@@ -203,7 +203,7 @@
             }
 
             .modal-dialog {
-                max-width: 500px;
+                max-width: 600px;
             }
 
             .modal-content {
@@ -230,34 +230,27 @@
                 color: #000;
             }
 
-            .footer {
-                background-color: #343a40;
-                color: #e4af11;
-                padding: 20px 0;
-            }
-
-            .footer a {
-                color: #e4af11;
-                text-decoration: none;
-                padding: 0 10px;
-            }
-
-            .footer a:hover {
-                text-decoration: underline;
-            }
-
-            .footer h6 {
-                margin: 0;
-                padding-bottom: 10px;
-                font-size: 1.2em;
-            }
-
-            .footer span {
-                font-size: 0.9em;
-            }
-
             .modal-dialog.animated {
-                animation-duration: 0.3s;
+                animation-duration: 0.2s;
+            }
+            .btn-close {
+                width: 100px;
+                background-color: #c82333;
+                margin-top: 50px;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: background-color 0.3s, transform 0.3s;
+                font-family: Helvetica;
+            }
+
+            .btn-close:hover {
+                background-color: #a71d2a;
+                color: #e9ecef;
+                transform: scale(1.05);
             }
         </style>
     </head>
@@ -313,7 +306,7 @@
                                 <a style="font-family:Andale Mono" class="dropdown-item"
                                    href="${pageContext.request.contextPath}/response">APPRAISED ASSET
                                 </a>
-                                 <a style="font-family:Andale Mono" class="dropdown-item"
+                                <a style="font-family:Andale Mono" class="dropdown-item"
                                    href="notification">SHIPMENT REQUEST
                                 </a>
                                 <a style="font-family:Andale Mono" class="dropdown-item"
@@ -410,8 +403,8 @@
                                     <td>${jewelry.artist}</td>
                                     <c:choose>
                                         <c:when test="${jewelry.status eq 'Re-Evaluated'}">
-                                            <td style="color: red">${not empty jewelry.finalPrice ? jewelry.finalPrice : 'Updating'}</td>
-                                            <td class="text-danger">Waiting for shipment</td>
+                                            <td style="color: orangered; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">${not empty jewelry.finalPrice ? jewelry.finalPrice : 'Updating'}</td>
+                                             <td style="color: red; font-family: Helvetica; text-align: center; font-size: 20px" class="text-danger"><a style="text-decoration: none" href="${pageContext.request.contextPath}/notification">Waiting for shipment</a></td>
                                         </c:when>
                                         <c:when test="${jewelry.status eq 'Received'}">
                                             <td style="color: red">${not empty jewelry.finalPrice ? jewelry.finalPrice : 'Updating'}</td>
@@ -421,11 +414,11 @@
                                             <td style="color: red">${not empty jewelry.finalPrice ? jewelry.finalPrice : 'Updating'}</td>
                                             <td style="color: green">
                                                 <strong>Pending Confirm</strong><br>
-                                                <form action="${pageContext.request.contextPath}/MainController">
+                                                <form action="${pageContext.request.contextPath}/confirm">
                                                     <input type="hidden" name="jewelryID" value="${jewelry.jewelryID}">
                                                     <input type="submit" class="btn btn-success btn-sm" name="action" value="Confirm">
                                                 </form><br>
-                                                <form action="${pageContext.request.contextPath}/MainController">
+                                                <form action="${pageContext.request.contextPath}/reject">
                                                     <input type="hidden" name="jewelryID" value="${jewelry.jewelryID}">
                                                     <input type="submit" class="btn btn-danger btn-sm" name="action" value="Reject">
                                                 </form>
@@ -464,29 +457,36 @@
                     </table>
                 </div>
             </c:if>
+
         </div>
-        <!-- Modal -->
-        <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="detailsModalLabel">DETAILED INFORMATION</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Content will be loaded here dynamically -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
+        <footer style="background-color: #000407; font-family: Helvetica; height: 40px; text-align: center;">
+            <span style="color: lightgrey; font-size: 14px;">&#169 F'RANKELLY AUCTION <script>document.write(new Date().getFullYear())</script></span>
+        </footer>
+    </body>
+</html>
+<!-- Modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalLabel">DETAILED INFORMATION</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Content will be loaded here dynamically -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-close" data-dismiss="modal">Close</button>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-        <script>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
             function fetchJewelryData() {
                 $.ajax({
                     url: '${pageContext.request.contextPath}/UpdateJewelryServlet',
@@ -509,9 +509,11 @@
                                 var statusText = '';
 
                                 if (status === 'Re-Evaluated') {
-                                    statusText = '<td style="color: red">' + finalPrice + '</td><td class="text-danger">Waiting for shipment</td>';
+                                    statusText = '<td style="color: orangered; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">' + finalPrice + '</td>\n\
+                                                         <td style="color: red; font-family: Helvetica; text-align: center; font-size: 20px" class="text-danger"><a style="text-decoration: none" href="${pageContext.request.contextPath}/notification">Waiting for shipment</a></td>';
                                 } else if (status === 'Received') {
-                                    statusText = '<td style="color: red">' + finalPrice + '</td><td style="color: green">Received</td>';
+                                    statusText = '<td style="color: red; font-family: Helvetica; text-align: center; font-size: 20px">' + finalPrice + '</td>\n\
+                                                           <td style="color: green">Received</td>';
                                 } else if (status === 'Pending Confirm') {
                                     statusText = '<td style="color: red">' + finalPrice + '</td><td style="color: green"><strong>Pending Confirm</strong><br>' +
                                             '<form action="${pageContext.request.contextPath}/confirm"><input type="hidden" name="jewelryID" value="' + jewelry.jewelryID + '"><input type="submit" class="btn btn-success btn-sm" name="action" value="Confirm"></form><br>' +
@@ -581,49 +583,47 @@
                             );
                 });
             });
-        </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                var dropdowns = document.querySelectorAll('.nav-item.dropdown');
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var dropdowns = document.querySelectorAll('.nav-item.dropdown');
 
-                dropdowns.forEach(function (dropdown) {
-                    dropdown.addEventListener('mouseenter', function () {
-                        var dropdownMenu = dropdown.querySelector('.dropdown-menu');
-                        if (dropdownMenu) {
-                            dropdownMenu.classList.add('show');
-                        }
-                    });
-                    dropdown.addEventListener('mouseleave', function () {
-                        var dropdownMenu = dropdown.querySelector('.dropdown-menu');
-                        if (dropdownMenu) {
-                            dropdownMenu.classList.remove('show');
-                        }
-                    });
-                });
+        dropdowns.forEach(function (dropdown) {
+            dropdown.addEventListener('mouseenter', function () {
+                var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                if (dropdownMenu) {
+                    dropdownMenu.classList.add('show');
+                }
             });
+            dropdown.addEventListener('mouseleave', function () {
+                var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                if (dropdownMenu) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
+        });
+    });
 
-            $(document).ready(function () {
-                $("a.nav-link").on('click', function (event) {
-                    if (this.hash !== "") {
-                        event.preventDefault();
-                        var hash = this.hash;
-                        $('html, body').animate({
-                            scrollTop: $(hash).offset().top
-                        }, 800, function () {
-                            window.location.hash = hash;
-                        });
-                    }
+    $(document).ready(function () {
+        $("a.nav-link").on('click', function (event) {
+            if (this.hash !== "") {
+                event.preventDefault();
+                var hash = this.hash;
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 800, function () {
+                    window.location.hash = hash;
                 });
-            });
-            document.addEventListener("DOMContentLoaded", function () {
-                window.addEventListener("scroll", function () {
-                    if (window.scrollY > 50) {
-                        document.querySelector(".navbar").classList.add("navbar-scrolled");
-                    } else {
-                        document.querySelector(".navbar").classList.remove("navbar-scrolled");
-                    }
-                });
-            });
-        </script>
-    </body>
-</html>
+            }
+        });
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        window.addEventListener("scroll", function () {
+            if (window.scrollY > 50) {
+                document.querySelector(".navbar").classList.add("navbar-scrolled");
+            } else {
+                document.querySelector(".navbar").classList.remove("navbar-scrolled");
+            }
+        });
+    });
+</script>

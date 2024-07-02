@@ -10,10 +10,11 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Valuation Request</title>
-
+        <title>F'RANKELLY® - Get A Jewelry and/or Watch Valuation Before Selling</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <style>
             body {
                 display: flex;
@@ -165,7 +166,7 @@
                 justify-content: space-between;
                 align-items: center;
             }
-             .btn {
+            .btn {
                 width: 250px;
                 height: 50px;
                 background-color: #c82333;
@@ -245,15 +246,18 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#about"> WATCHED LOTS</a>
+                            <a class="nav-link" href="#about"> ABOUT</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about"> CONTACT</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
         <div style="margin-top: 150px" class="container">
-            <div style="font-family: 'Zapf-Chancery';color: #333">
-                <h1>Jewelry & Watch Valuation</h1>
+            <div style="font-family: Brush Script MT;color: #333;">
+                <h1 style=" font-size: 80px">Jewelry & Watch Valuation</h1>
             </div><br>
             <p style="font-family: Helvetica; color: #333; text-align: left; font-size: 18px">Welcome to our quote / valuation request page. If you haven't yet read about what makes F'RANKELLY the leading boutique jewelry and watch auction house and would like to, or, if you would like to learn more about the process of selling at F'RANKELLY, click the button below.
                 Otherwise, if you're ready to submit your quote / valuation request, please continue to scroll down to the form below.
@@ -262,7 +266,7 @@
             <p style="font-family: Helvetica; color: #333; text-align: left; font-size: 18px">Kindly fill out the form below, hit the "Submit Valuation Request" button at the bottom of the form, and wait for the form to successfully submit. A member of Team F'RANKELLY will be in contact shortly thereafter.</p>
             <br>
         </div>
-                    <main style="margin-bottom: 100px" class="container">
+        <main style="margin-bottom: 100px" class="container">
             <div style="background-color: #f5f3f3" class="card-body">
                 <form id="valuationForm" name="valuationForm" ng-submit="submitForm(valuationForm.$valid)" novalidate>
                     <div class="form-group">
@@ -327,10 +331,6 @@
                         <small class="form-text text-muted">Please let us know how you wish to be contacted. We will try to contact you via your preferred method that you select here but may use other methods if we are unsuccessful.</small>
                     </div>
                     <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea class="form-control" id="description" name="description" ng-model="user.description" ></textarea>
-                    </div>
-                    <div class="form-group">
                         <label for="image">Photos</label>
                         <input type="file" class="form-control-file" id="image" name="image" multiple required accept="image/*" onchange="angular.element(this).scope().handleFileSelect(this)">
                         <small class="form-text text-muted">Please upload photos of your jewelry and/or watches in the field above. If you have photos that the form will not accept (too large or too many) please mention this in the description below and we will request the additional photos in our follow-up communication with you.</small>
@@ -344,6 +344,11 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description" ng-model="user.description" ></textarea>
+                    </div>
+                    <small class="form-text text-muted"> Please briefly describe your jewelry and/or watches in the field above.</small>
                     <button type="submit" class="btn" ng-disabled="valuationForm.$invalid">
                         <span ng-show="!loading">Submit Valuation Request</span>
                         <span ng-show="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -353,18 +358,8 @@
         </div>
     </div>
 </main>
-<footer class="footer mt-auto py-3 bg-dark text-white text-center">
-    <div>
-        <h6>Jewelry Auction</h6>
-        <a href="register.jsp">Register</a> |
-        <a href="login.jsp">Login</a> |
-        <a href="#">Help & FAQ</a> |
-        <a href="#">Support</a> |
-        <a href="#">Sitemap</a>
-    </div>
-    <div>
-        <span>&copy; <script>document.write(new Date().getFullYear())</script> Jewelry Auction. All rights reserved.</span>
-    </div>
+<footer style="background-color: #000407; font-family: Helvetica; height: 60px">
+    <span style="color: lightgrey; font-size: 14px">© F'RANKELLY AUCTION <script>document.write(new Date().getFullYear())</script></span>
 </footer>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
@@ -372,87 +367,94 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-            var app = angular.module('valuationApp', []);
-            app.controller('validateCtrl', function ($scope, $http) {
-                $scope.user = {};
-                $scope.files = [];
+        var app = angular.module('valuationApp', []);
+        app.controller('validateCtrl', function ($scope, $http) {
+            $scope.user = {};
+            $scope.files = [];
 
-                $scope.submitForm = function (isValid) {
-                    if (isValid) {
-                        var formData = new FormData();
+            $scope.submitForm = function (isValid) {
+                if (isValid) {
+                    var formData = new FormData();
 
-                        formData.append('name', $scope.user.name);
-                        formData.append('email', $scope.user.email);
-                        formData.append('phone', $scope.user.phone);
-                        formData.append('communication', $scope.user.communication);
-                        formData.append('description', $scope.user.description);
+                    formData.append('name', $scope.user.name);
+                    formData.append('email', $scope.user.email);
+                    formData.append('phone', $scope.user.phone);
+                    formData.append('communication', $scope.user.communication);
+                    formData.append('description', $scope.user.description);
 
-                        for (var i = 0; i < $scope.files.length; i++) {
-                            formData.append('files', $scope.files[i]);
-                        }
+                    for (var i = 0; i < $scope.files.length; i++) {
+                        formData.append('files', $scope.files[i]);
+                    }
 
-                        $http.post('${pageContext.request.contextPath}/process', formData, {
-                            transformRequest: angular.identity,
-                            headers: {'Content-Type': undefined}
-                        }).then(function (response) {
-
-                            console.log('Success:', response.data);
-                            alert('Form submitted successfully!');
-
-                            $scope.user = {};
-                            $scope.files = [];
-                            $scope.valuationForm.$setPristine();
-                            $scope.valuationForm.$setUntouched();
-                        }, function (error) {
-                            console.log('Error:', error.data);
-                            alert('An error occurred while submitting the form.');
+                    $http.post('${pageContext.request.contextPath}/process', formData, {
+                        transformRequest: angular.identity,
+                        headers: {'Content-Type': undefined}
+                    }).then(function (response) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Form submitted successfully!',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
                         });
-                    }
-                };
 
-                $scope.handleFileSelect = function (element) {
-                    var files = element.files;
-                    for (var i = 0; i < files.length; i++) {
-                        $scope.files.push(files[i]);
-                    }
-                    $scope.$apply();
-                    element.value = '';
-                };
+                        $scope.user = {};
+                        $scope.files = [];
+                        $scope.valuationForm.$setPristine();
+                        $scope.valuationForm.$setUntouched();
+                    }, function (error) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An error occurred while submitting the form.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    });
+                }
+            };
 
-                $scope.removeFile = function (index) {
-                    $scope.files.splice(index, 1);
-                };
-            });
+            $scope.handleFileSelect = function (element) {
+                var files = element.files;
+                for (var i = 0; i < files.length; i++) {
+                    $scope.files.push(files[i]);
+                }
+                $scope.$apply();
+                element.value = '';
+            };
 
-            app.directive('phoneValidation', function () {
-                return {
-                    require: 'ngModel',
-                    link: function (scope, element, attrs, ctrl) {
-                        ctrl.$validators.phoneValidation = function (modelValue, viewValue) {
-                            if (ctrl.$isEmpty(modelValue)) {
-                                return false;
-                            }
-                            var PHONE_REGEX = /^[0-9]{10}$/;
-                            return PHONE_REGEX.test(viewValue);
-                        };
-                    }
-                };
-            });
+            $scope.removeFile = function (index) {
+                $scope.files.splice(index, 1);
+            };
+        });
 
-            app.directive('emailValidation', function () {
-                return {
-                    require: 'ngModel',
-                    link: function (scope, element, attrs, ctrl) {
-                        ctrl.$validators.emailValidation = function (modelValue, viewValue) {
-                            if (ctrl.$isEmpty(modelValue)) {
-                                return false;
-                            }
-                            var EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-                            return EMAIL_REGEX.test(viewValue);
-                        };
-                    }
-                };
-            });
+        app.directive('phoneValidation', function () {
+            return {
+                require: 'ngModel',
+                link: function (scope, element, attrs, ctrl) {
+                    ctrl.$validators.phoneValidation = function (modelValue, viewValue) {
+                        if (ctrl.$isEmpty(modelValue)) {
+                            return false;
+                        }
+                        var PHONE_REGEX = /^[0-9]{10}$/;
+                        return PHONE_REGEX.test(viewValue);
+                    };
+                }
+            };
+        });
+
+        app.directive('emailValidation', function () {
+            return {
+                require: 'ngModel',
+                link: function (scope, element, attrs, ctrl) {
+                    ctrl.$validators.emailValidation = function (modelValue, viewValue) {
+                        if (ctrl.$isEmpty(modelValue)) {
+                            return false;
+                        }
+                        var EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+                        return EMAIL_REGEX.test(viewValue);
+                    };
+                }
+            };
+        });
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {

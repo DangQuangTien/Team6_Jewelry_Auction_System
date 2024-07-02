@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Log in to Jewelry Auctions Online</title>
+        <title>F'RANKELLY AUCTION HOUSE - LOGIN</title>
         <link rel="stylesheet" href="component/main.css">
         <style>
             body {
