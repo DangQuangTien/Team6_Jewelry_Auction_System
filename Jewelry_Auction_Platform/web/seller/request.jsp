@@ -1,21 +1,28 @@
+
+<%-- 
+    Document   : valuation
+    Created on : May 19, 2024, 2:08:38 AM
+    Author     : User
+--%>
+
 <!DOCTYPE html>
 <html lang="en" ng-app="valuationApp">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jewelry Auctions Online</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>F'RANKELLY® - Get A Jewelry and/or Watch Valuation Before Selling</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            background-color: #f5eded;
-        }
-
-        .navbar {
+            .navbar {
                 background: radial-gradient(circle, rgba(255, 239, 166, 1) 0%, rgba(218, 165, 32, 0.8) 50%, rgba(184, 134, 11, 0.8) 100%);
                 background-size: 200% 200%;
                 background-position: 50% 50%;
@@ -35,8 +42,8 @@
             .navbar-scrolled {
                 background-color: black;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-                padding-top: 10px;
-                padding-bottom: 10px;
+                padding-top: 1px;
+                padding-bottom: 1px;
             }
 
             .navbar-brand .brand-name {
@@ -107,267 +114,222 @@
                 width: 100%;
                 background-color: #ffc107
             }
-
-        .content {
-            padding: 20px;
-            flex-grow: 1;
-        }
-
-        .card-header {
-            background-color: #343a40 !important;
-        }
-
-        .card-title, .card-subtitle {
-            color: gold;
-        }
-
-        .btn-primary {
-            background-color: #343a40 !important;
-            border-color: #000407 !important;
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-
-        .btn-primary:hover {
-            background-color: #343a40;
-            border-color: #004085;
-        }
-
-        .btn-primary span {
-            color: gold;
-        }
-
-        .error-message {
-            color: red;
-            font-size: 0.9em;
-        }
-
-        .list-group-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-decoration {
-            position: relative;
-        }
-
-        .footer-lines {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, #ffc107, transparent);
-            animation: slide 10s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
+            .card-header {
+                background-color: #343a40 !important;
             }
-            50% {
-                transform: scale(1.2);
+
+            .card-title, .card-subtitle {
+                color: gold;
             }
-        }
 
-        @keyframes slide {
-            0% {
-                left: -100%;
+            main {
+                flex-grow: 1;
             }
-            50% {
-                left: 100%;
 
+            footer {
+                background-color: #343a40;
+                color: #fff;
+                padding: 1rem;
+                text-align: center;
             }
-            100% {
-                left: -100%;
+
+            footer a {
+                color: #ffc107;
+                margin: 0 10px;
             }
-        }
 
-        .animated-button {
-            animation: slideInFromLeft 2s ease-in-out;
-        }
+            footer a:hover {
+                color: #a98585;
+            }
+            .error-message {
+                color: red;
+                font-size: 0.9em;
+            }
 
-        .animated-button-right {
-            animation: slideInFromRight 2s ease-in-out;
-        }
+            .btn-primary span {
+                color: gold;
+            }
 
-        @keyframes slideInFromLeft {
-            from { transform: translateX(-100%); }
-            to { transform: translateX(0); }
-        }
+            .btn-primary {
+                background-color: #343a40 !important;
+                border-color: #000407 !important;
+                transition: background-color 0.3s, border-color 0.3s;
+            }
 
-        @keyframes slideInFromRight {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
+            .btn-primary:hover {
+                background-color: #343a40;
+                border-color: #004085;
+            }
 
-        main {
-            flex-grow: 1;
-        }
+            .list-group-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .btn {
+                width: 250px;
+                height: 50px;
+                background-color: #c82333;
+                margin-top: 50px;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: background-color 0.3s, transform 0.3s;
+                font-family: Helvetica;
+            }
 
-        footer {
-            background-color: #000;
-            color: #fff;
-            padding: 1rem 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;           
-        }
-
-        footer a {
-            color: #ffc107;
-            margin: 0 10px;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        .hover-shadow {
-            transition: box-shadow 0.3s ease-in-out;
-        }
-
-        .hover-shadow:hover {
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        }
-
-        .input-group-text, .form-control {
-            transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
-        }
-
-        .input-group-text:hover, .form-control:hover {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-color: #e4af11;
-        }
-
-        .input-group-text i, .form-control i {
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .input-group-text:hover i, .form-control:hover i {
-            transform: scale(1.2);
-        }
-    </style>
-</head>
-
-<body ng-controller="validateCtrl" class="d-flex flex-column min-vh-100">
-
-<nav class="navbar navbar-expand-lg navbar-dark">
-    <a class="navbar-brand"
-    href="${pageContext.request.contextPath}/home">
-     <span class="brand-name">F'RANKELLY</span>
- </a>
- <button class="navbar-toggler" type="button"
-         data-toggle="collapse" data-target="#navbarNav"
-         aria-controls="navbarNav" aria-expanded="false"
-         aria-label="Toggle navigation">
-     <span class="navbar-toggler-icon"></span>
- </button>
-    <div class="collapse navbar-collapse" id="navbarNav">          
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/home"><i class="fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
-            </li>                
-            <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/auctions"><i class="fas fa-gavel"></i> Auction</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/valuation"><i class="fas fa-clipboard"></i> Request A Valuation</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/response"><i class="fas fa-reply"></i> Response</a>                                   
-            </li>                
-            <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/notification"><i class="fas fa-bell"></i> Notification</a>
-            </li>
-        </ul>
-    </div>
-</nav>
-
-<main class="container mt-4 flex-grow-1">
-    <div class="card hover-shadow">
-        <div class="card-header bg-dark text-white text-center">
-            <h1 class="card-title">Jewelry &amp; Valuation</h1>
-            <p class="card-subtitle">Welcome to our quote / valuation request page</p>
-        </div>
-        <div class="card-body">
-            <h3>Ready to submit your valuation request?</h3>
-            <div class="row">
-                <div class="col-md-6">
-                    <form id="valuationForm" name="valuationForm" ng-submit="submitForm(valuationForm.$valid)" novalidate>
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                </div>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" ng-model="user.name" required>
+            .btn:hover {
+                background-color: #a71d2a;
+                color: #e9ecef;
+                transform: scale(1.05);
+            }
+        </style>
+    </head>
+    <body ng-controller="validateCtrl" class="d-flex flex-column min-vh-100">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand"
+                   href="${pageContext.request.contextPath}/home">
+                    <span class="brand-name">F'RANKELLY</span>
+                </a>
+                <button class="navbar-toggler" type="button"
+                        data-toggle="collapse" data-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="home"> HOME</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#"
+                               id="auctionDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">
+                                AUCTIONS <i class="fas fa-caret-down"></i>
+                            </a>
+                            <div class="dropdown-menu"
+                                 aria-labelledby="auctionDropdown">
+                                <a style="font-family:Andale Mono" class="dropdown-item"
+                                   href="auctions">UPCOMING
+                                    AUCTIONS</a>
+                                <a style="font-family:Andale Mono" class="dropdown-item" href="#">PAST
+                                    AUCTION</a>
                             </div>
-                            <span class="error-message" ng-show="valuationForm.name.$dirty && valuationForm.name.$invalid">
-                                <span ng-show="valuationForm.name.$error.required">Name is required.</span>
-                            </span>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                </div>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" ng-model="user.email" email-validation required>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#"
+                               id="sellingDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">
+                                SELLING <i class="fas fa-caret-down"></i>
+                            </a>
+                            <div class="dropdown-menu"
+                                 aria-labelledby="sellingDropdown">
+                                <a style="font-family:Andale Mono" class="dropdown-item"
+                                   href="selling">ABOUT SELLING
+                                </a>
+                                <a style="font-family:Andale Mono" class="dropdown-item"
+                                   href="response">APPRAISED ASSET
+                                </a>
+                                <a style="font-family:Andale Mono" class="dropdown-item"
+                                   href="notification">SHIPMENT REQUEST
+                                </a>
+                                <a style="font-family:Andale Mono" class="dropdown-item"
+                                   href="valuation">VALUATION REQUEST
+                                </a>
                             </div>
-                            <span class="error-message" ng-show="valuationForm.email.$dirty && valuationForm.email.$invalid">
-                                <span ng-show="valuationForm.email.$error.required">Email is required.</span>
-                                <span ng-show="valuationForm.email.$error.emailValidation">Invalid email address.</span>
-                            </span>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Mobile Phone Number</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                                </div>
-                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your mobile phone number" ng-model="user.phone" phone-validation required>
-                            </div>
-                            <span class="error-message" ng-show="valuationForm.phone.$dirty && valuationForm.phone.$invalid">
-                                <span ng-show="valuationForm.phone.$error.required">Phone number is required.</span>
-                                <span ng-show="valuationForm.phone.$error.phoneValidation">Invalid phone number format. It should be 10 digits.</span>
-                            </span>
-                        </div>
-                        <div class="form-group">
-                            <label for="communication">Communication preference</label><br>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="communication" id="emailComm" value="Email" ng-model="user.communication" required>
-                                <label class="form-check-label" for="emailComm">Email</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="communication" id="textComm" value="Text Message" ng-model="user.communication">
-                                <label class="form-check-label" for="textComm">Text Message</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="communication" id="phoneComm" value="Phone Call" ng-model="user.communication">
-                                <label class="form-check-label" for="phoneComm">Phone Call</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="communication" id="anyComm" value="Any of the above" ng-model="user.communication">
-                                <label class="form-check-label" for="anyComm">Any of the above</label>
-                            </div>
-                            <span class="error-message" ng-show="valuationForm.communication.$dirty && valuationForm.communication.$invalid">
-                                <span ng-show="valuationForm.communication.$error.required">Communication preference is required.</span>
-                            </span>
-                            <small class="form-text text-muted">Please let us know how you wish to be contacted. We will try to contact you via your preferred method that you select here but may use other methods if we are unsuccessful.</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea class="form-control" id="description" name="description" ng-model="user.description" placeholder="Please briefly describe your jewelry and/or watches in the field above."></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary" ng-disabled="valuationForm.$invalid">
-                            <span ng-show="!loading">Submit Valuation Request</span>
-                            <span ng-show="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        </button>
-                    </form>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about"> ABOUT</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about"> CONTACT</a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="col-md-6">
+            </div>
+        </nav>
+        <div style="margin-top: 150px" class="container">
+            <div style="font-family: Brush Script MT;color: #333;">
+                <h1 style=" font-size: 80px">Jewelry & Watch Valuation</h1>
+            </div><br>
+            <p style="font-family: Helvetica; color: #333; text-align: left; font-size: 18px">Welcome to our quote / valuation request page. If you haven't yet read about what makes F'RANKELLY the leading boutique jewelry and watch auction house and would like to, or, if you would like to learn more about the process of selling at F'RANKELLY, click the button below.
+                Otherwise, if you're ready to submit your quote / valuation request, please continue to scroll down to the form below.
+            </p><br>
+            <div style="font-family: Helvetica; color: #333; font-size: 2em">Ready to submit your valuation request?</div><br>
+            <p style="font-family: Helvetica; color: #333; text-align: left; font-size: 18px">Kindly fill out the form below, hit the "Submit Valuation Request" button at the bottom of the form, and wait for the form to successfully submit. A member of Team F'RANKELLY will be in contact shortly thereafter.</p>
+            <br>
+        </div>
+        <main style="margin-bottom: 100px" class="container">
+            <div style="background-color: #f5f3f3" class="card-body">
+                <form id="valuationForm" name="valuationForm" ng-submit="submitForm(valuationForm.$valid)" novalidate>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="name" name="name" ng-model="user.name" required>
+                        </div>
+                        <span class="error-message" ng-show="valuationForm.name.$dirty && valuationForm.name.$invalid">
+                            <span ng-show="valuationForm.name.$error.required">Name is required.</span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            </div>
+                            <input type="email" class="form-control" id="email" name="email" ng-model="user.email" email-validation required>
+                        </div>
+                        <span class="error-message" ng-show="valuationForm.email.$dirty && valuationForm.email.$invalid">
+                            <span ng-show="valuationForm.email.$error.required">Email is required.</span>
+                            <span ng-show="valuationForm.email.$error.emailValidation">Invalid email address.</span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Mobile Phone Number</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                            </div>
+                            <input type="tel" class="form-control" id="phone" name="phone"  ng-model="user.phone" phone-validation required>
+                        </div>
+                        <span class="error-message" ng-show="valuationForm.phone.$dirty && valuationForm.phone.$invalid">
+                            <span ng-show="valuationForm.phone.$error.required">Phone number is required.</span>
+                            <span ng-show="valuationForm.phone.$error.phoneValidation">Invalid phone number format. It should be 10 digits.</span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="communication">Communication preference</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="communication" id="emailComm" value="Email" ng-model="user.communication" required>
+                            <label class="form-check-label" for="emailComm">Email</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="communication" id="textComm" value="Text Message" ng-model="user.communication">
+                            <label class="form-check-label" for="textComm">Text Message</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="communication" id="phoneComm" value="Phone Call" ng-model="user.communication">
+                            <label class="form-check-label" for="phoneComm">Phone Call</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="communication" id="anyComm" value="Any of the above" ng-model="user.communication">
+                            <label class="form-check-label" for="anyComm">Any of the above</label>
+                        </div>
+                        <span class="error-message" ng-show="valuationForm.communication.$dirty && valuationForm.communication.$invalid">
+                            <span ng-show="valuationForm.communication.$error.required">Communication preference is required.</span>
+                        </span>
+                        <small class="form-text text-muted">Please let us know how you wish to be contacted. We will try to contact you via your preferred method that you select here but may use other methods if we are unsuccessful.</small>
+                    </div>
                     <div class="form-group">
                         <label for="image">Photos</label>
                         <input type="file" class="form-control-file" id="image" name="image" multiple required accept="image/*" onchange="angular.element(this).scope().handleFileSelect(this)">
@@ -382,157 +344,140 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description" ng-model="user.description" ></textarea>
+                    </div>
+                    <small class="form-text text-muted"> Please briefly describe your jewelry and/or watches in the field above.</small>
+                    <button type="submit" class="btn" ng-disabled="valuationForm.$invalid">
+                        <span ng-show="!loading">Submit Valuation Request</span>
+                        <span ng-show="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </button>
+                </form>
             </div>
         </div>
     </div>
 </main>
-
-<footer class="text-center py-4 mt-auto"
-style="background-color: #000; color: #fff; position: relative; overflow: hidden;">
-<div class="container">
-<div class="row">
-    <div class="col-md-4">
-        <h5>Jewelry Auction</h5>
-        <p>Your premier destination for exquisite jewelry and
-            gemstones. Discover the timeless beauty and elegance
-            in our curated collections.</p>
-    </div>
-    <div class="col-md-4">
-        <h5>Quick Links</h5>
-        <ul class="list-unstyled">
-            <li><a
-                    href="${pageContext.request.contextPath}/register"
-                    style="color: #ffc107;">Register</a></li>
-            <li><a
-                    href="${pageContext.request.contextPath}/login"
-                    style="color: #ffc107;">Login</a></li>
-            <li><a
-                    href="${pageContext.request.contextPath}/auctions"
-                    style="color: #ffc107;">Auctions</a></li>
-            <li><a
-                    href="${pageContext.request.contextPath}/selling"
-                    style="color: #ffc107;">Selling</a></li>
-        </ul>
-    </div>
-    <div class="col-md-4">
-        <h5>Contact Us</h5>
-        <p><i class="fas fa-phone-alt"></i> +849872539999</p>
-        <p><i class="fas fa-envelope"></i>
-            support@jewelryauction.com</p>
-        <p><i class="fas fa-map-marker-alt"></i> 123 Jewelry
-            Street, New York, NY</p>
-        <div class="social-icons mt-3">
-            <a href="#" class="mx-2"
-               style="color: #ffc107; transition: transform 0.3s;"><i
-                    class="fab fa-facebook-f"></i></a>
-            <a href="#" class="mx-2"
-               style="color: #ffc107; transition: transform 0.3s;"><i
-                    class="fab fa-twitter"></i></a>
-            <a href="#" class="mx-2"
-               style="color: #ffc107; transition: transform 0.3s;"><i
-                    class="fab fa-instagram"></i></a>
-            <a href="#" class="mx-2"
-               style="color: #ffc107; transition: transform 0.3s;"><i
-                    class="fab fa-linkedin-in"></i></a>
-        </div>
-    </div>
-</div>
-<div class="mt-4">
-    <p>&copy; 2024 Jewelry Auction. All rights reserved.</p>
-</div>
-</div>
+<footer style="background-color: #000407; font-family: Helvetica; height: 60px">
+    <span style="color: lightgrey; font-size: 14px">© F'RANKELLY AUCTION <script>document.write(new Date().getFullYear())</script></span>
 </footer>
-
+</body>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-    var app = angular.module('valuationApp', []);
-    app.controller('validateCtrl', function ($scope, $http) {
-        $scope.user = {};
-        $scope.files = [];
+        var app = angular.module('valuationApp', []);
+        app.controller('validateCtrl', function ($scope, $http) {
+            $scope.user = {};
+            $scope.files = [];
 
-        $scope.submitForm = function (isValid) {
-            if (isValid) {
-                var formData = new FormData();
+            $scope.submitForm = function (isValid) {
+                if (isValid) {
+                    var formData = new FormData();
 
-                formData.append('name', $scope.user.name);
-                formData.append('email', $scope.user.email);
-                formData.append('phone', $scope.user.phone);
-                formData.append('communication', $scope.user.communication);
-                formData.append('description', $scope.user.description);
+                    formData.append('name', $scope.user.name);
+                    formData.append('email', $scope.user.email);
+                    formData.append('phone', $scope.user.phone);
+                    formData.append('communication', $scope.user.communication);
+                    formData.append('description', $scope.user.description);
 
-                for (var i = 0; i < $scope.files.length; i++) {
-                    formData.append('files', $scope.files[i]);
+                    for (var i = 0; i < $scope.files.length; i++) {
+                        formData.append('files', $scope.files[i]);
+                    }
+
+                    $http.post('${pageContext.request.contextPath}/process', formData, {
+                        transformRequest: angular.identity,
+                        headers: {'Content-Type': undefined}
+                    }).then(function (response) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Form submitted successfully!',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        });
+
+                        $scope.user = {};
+                        $scope.files = [];
+                        $scope.valuationForm.$setPristine();
+                        $scope.valuationForm.$setUntouched();
+                    }, function (error) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An error occurred while submitting the form.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    });
                 }
+            };
 
-                $http.post('${pageContext.request.contextPath}/process', formData, {
-                    transformRequest: angular.identity,
-                    headers: {'Content-Type': undefined}
-                }).then(function (response) {
+            $scope.handleFileSelect = function (element) {
+                var files = element.files;
+                for (var i = 0; i < files.length; i++) {
+                    $scope.files.push(files[i]);
+                }
+                $scope.$apply();
+                element.value = '';
+            };
 
-                    console.log('Success:', response.data);
-                    alert('Form submitted successfully!');
+            $scope.removeFile = function (index) {
+                $scope.files.splice(index, 1);
+            };
+        });
 
-                    $scope.user = {};
-                    $scope.files = [];
-                    $scope.valuationForm.$setPristine();
-                    $scope.valuationForm.$setUntouched();
-                }, function (error) {
-                    console.log('Error:', error.data);
-                    alert('An error occurred while submitting the form.');
-                });
-            }
-        };
+        app.directive('phoneValidation', function () {
+            return {
+                require: 'ngModel',
+                link: function (scope, element, attrs, ctrl) {
+                    ctrl.$validators.phoneValidation = function (modelValue, viewValue) {
+                        if (ctrl.$isEmpty(modelValue)) {
+                            return false;
+                        }
+                        var PHONE_REGEX = /^[0-9]{10}$/;
+                        return PHONE_REGEX.test(viewValue);
+                    };
+                }
+            };
+        });
 
-        $scope.handleFileSelect = function (element) {
-            var files = element.files;
-            for (var i = 0; i < files.length; i++) {
-                $scope.files.push(files[i]);
-            }
-            $scope.$apply();
-            element.value = '';
-        };
+        app.directive('emailValidation', function () {
+            return {
+                require: 'ngModel',
+                link: function (scope, element, attrs, ctrl) {
+                    ctrl.$validators.emailValidation = function (modelValue, viewValue) {
+                        if (ctrl.$isEmpty(modelValue)) {
+                            return false;
+                        }
+                        var EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+                        return EMAIL_REGEX.test(viewValue);
+                    };
+                }
+            };
+        });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var dropdowns = document.querySelectorAll('.nav-item.dropdown');
 
-        $scope.removeFile = function (index) {
-            $scope.files.splice(index, 1);
-        };
-    });
-
-    app.directive('phoneValidation', function () {
-        return {
-            require: 'ngModel',
-            link: function (scope, element, attrs, ctrl) {
-                ctrl.$validators.phoneValidation = function (modelValue, viewValue) {
-                    if (ctrl.$isEmpty(modelValue)) {
-                        return false;
-                    }
-                    var PHONE_REGEX = /^[0-9]{10}$/;
-                    return PHONE_REGEX.test(viewValue);
-                };
-            }
-        };
-    });
-
-    app.directive('emailValidation', function () {
-        return {
-            require: 'ngModel',
-            link: function (scope, element, attrs, ctrl) {
-                ctrl.$validators.emailValidation = function (modelValue, viewValue) {
-                    if (ctrl.$isEmpty(modelValue)) {
-                        return false;
-                    }
-                    var EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-                    return EMAIL_REGEX.test(viewValue);
-                };
-            }
-        };
+        dropdowns.forEach(function (dropdown) {
+            dropdown.addEventListener('mouseenter', function () {
+                var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                if (dropdownMenu) {
+                    dropdownMenu.classList.add('show');
+                }
+            });
+            dropdown.addEventListener('mouseleave', function () {
+                var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                if (dropdownMenu) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
+        });
     });
 
     $(document).ready(function () {
-        $("a").on('click', function (event) {
+        $("a.nav-link").on('click', function (event) {
             if (this.hash !== "") {
                 event.preventDefault();
                 var hash = this.hash;
@@ -543,45 +488,15 @@ style="background-color: #000; color: #fff; position: relative; overflow: hidden
                 });
             }
         });
-
-        $(window).scroll(function () {
-            if ($(this).scrollTop() > 50) {
-                $('.navbar').addClass('navbar-scrolled');
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        window.addEventListener("scroll", function () {
+            if (window.scrollY > 50) {
+                document.querySelector(".navbar").classList.add("navbar-scrolled");
             } else {
-                $('.navbar').removeClass('navbar-scrolled');
+                document.querySelector(".navbar").classList.remove("navbar-scrolled");
             }
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            window.addEventListener("scroll", function () {
-                if (window.scrollY > 50) {
-                    document.querySelector(".navbar").classList.add("navbar-scrolled");
-                } else {
-                    document.querySelector(".navbar").classList.remove("navbar-scrolled");
-                }
-            });
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            var dropdowns = document.querySelectorAll('.nav-item.dropdown');
-
-            dropdowns.forEach(function (dropdown) {
-                dropdown.addEventListener('mouseenter', function () {
-                    var dropdownMenu = dropdown.querySelector('.dropdown-menu');
-                    if (dropdownMenu) {
-                        dropdownMenu.classList.add('show');
-                    }
-                });
-                dropdown.addEventListener('mouseleave', function () {
-                    var dropdownMenu = dropdown.querySelector('.dropdown-menu');
-                    if (dropdownMenu) {
-                        dropdownMenu.classList.remove('show');
-                    }
-                });
-            });
         });
     });
 </script>
-
-</body>
 </html>

@@ -9,19 +9,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Upcoming Auctions</title>
         <link rel="icon" type="image/png" sizes="64x64" href="../images/logo/Logo.png">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
         <style>
-            body {
-                font-family: 'Montserrat', sans-serif;
+            body, html {
+                font-family: Arial, sans-serif;
                 margin: 0;
                 padding: 0;
-                background-color: #f5f5f5;
+                background-color: #f9f9f9;
+                scroll-behavior: smooth;
             }
 
             nav {
                 background-color: white;
                 color: #000000;
                 padding: 10px 20px;
+                display: flex;
+                justify-content: flex-end; /* Center align navigation links */
             }
 
             nav a {
@@ -29,7 +31,6 @@
                 text-decoration: none;
                 margin-right: 10px;
                 padding: 8px;
-                border-radius: 5px;
                 transition: background-color 0.3s ease;
             }
 
@@ -39,78 +40,61 @@
             }
 
             .container {
-                max-width: 1200px;
-                margin: 20px auto;
+                max-width: 90%;
+                margin: 100px auto;
                 padding: 20px;
-                background-color: #fff;
-                border-radius: 5px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                box-sizing: border-box; /* Ensures padding and borders fit within container */
             }
 
             h1 {
                 text-align: center;
-                color: #333;
-                font-size: 32px;
-                font-weight: 600;
+                color: #000;
+                font-size: 36px;
+                font-weight: normal;
+                text-transform: uppercase;
                 margin-bottom: 20px;
+                letter-spacing: 1px;
             }
 
             .auction {
                 display: flex;
-                flex-wrap: wrap;
-                margin-bottom: 30px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                background-color: #f9f9f9;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                margin-bottom: 20px;
+                padding: 20px;
+                background-color: #fafafa;
                 overflow: hidden;
-            }
-
-            .auction:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             }
 
             .image-container {
-                width: 100%;
-                max-width: 400px;
+                width: 30%;
                 margin-right: 20px;
                 position: relative;
                 overflow: hidden;
-                flex: 1;
             }
 
             .image-container img {
                 width: 100%;
                 height: auto;
-                border-radius: 5px;
-                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-                transition: transform 0.3s ease, opacity 0.3s ease;
-            }
-
-            .image-container:hover img {
-                transform: scale(1.05);
             }
 
             .auction-details {
-                flex: 2;
-                padding: 20px;
+                flex: 1;
+                opacity: 1; /* Ensure details are visible */
+                padding: 10px;
             }
 
             .countdown {
                 text-align: center;
-                font-size: 32px;
+                font-size: 300%;
                 color: #333;
                 padding: 20px;
                 border-radius: 10px;
                 background-color: #f8f9fa;
                 display: inline-block;
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
+                font-family: Andale Mono;
             }
 
             .countdown-text {
-                font-weight: bold;
                 margin-bottom: 6px;
             }
 
@@ -126,34 +110,31 @@
 
             .button-container {
                 text-align: center;
-                margin-top: 20px;
+                margin-top: 10px;
             }
 
             button {
-                padding: 12px 24px;
-                font-size: 16px;
-                color: white;
-                background-color: #333;
-                border: none;
+                padding: 15px 300px;
+                font-size: 18px;
+                color: black;
+                background-color: white;
+                border: 2px solid #000000;
                 border-radius: 100px;
                 cursor: pointer;
                 transition: background-color 0.3s ease, color 0.3s ease;
-                font-weight: 600;
+                display: block;
+                margin-top: 100px;
+                margin-left: 120px
             }
 
             button:hover {
-                background-color: #555;
+                background-color: #000;
+                color: #fff;
             }
 
-            .auction h2 {
-                font-size: 24px;
-                margin-bottom: 10px;
-                color: #333;
-            }
 
-            .auction p {
-                font-size: 16px;
-                color: #666;
+            p {
+                font-size:200% ;
                 margin-bottom: 10px;
             }
         </style>
@@ -168,17 +149,18 @@
             <a href="#">CONTACT</a>
         </nav>
         <div class="container">
-            <h1>Upcoming Auctions</h1>
+            <div style="text-align: left; font-family: 'Zapf-Chancery'; font-size: 3.25em">Upcoming Auctions</div><br><br>
+            <hr>
+            <br><br>
             <c:choose>
                 <c:when test="${not empty AUCTIONS}">
                     <c:forEach var="auction" items="${AUCTIONS}">
                         <div class="auction">
                             <div class="image-container">
-                                <img src="https://www.fortunaauction.com/wp-content/uploads/2024/06/1122-collection-image-1500.jpg" alt="Auction Image"><br>
+                                <img src="https://www.fortunaauction.com/wp-content/uploads/2024/06/1122-collection-image-1500.jpg" alt="Auction Image" loading="lazy"><br>
                                 <div class="countdown" id="countdown_${auction.auctionID}"></div>
                             </div>
                             <div class="auction-details">
-                                <h2>Auction ID: ${auction.auctionID}</h2>
                                 <p>COMING SOON &#x2022; Bidding Open from 
                                     <fmt:formatDate value="${auction.startDate}" pattern="dd MMM"/> 
                                     to 
@@ -230,6 +212,7 @@
                                 }, 1000);
                             })('${auction.auctionID}', '${auction.endDate}', '${auction.startTime}');
                         </script>
+                        <hr>
                     </c:forEach>
                 </c:when>
                 <c:otherwise>

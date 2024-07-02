@@ -39,11 +39,14 @@ public class Jewelry {
     private String photos;
     private String final_Price;
     private Double currentBid;
+    private Double preBid;
+    private Double finalPrice;
+    private String statusBid;
 
     public Jewelry() {
     }
 
-    public Jewelry(String jewelryID, String categoryName, String jewelryName, String artist, String circa, String material, String dial, String braceletMaterial, String caseDimensions, String braceletSize, String serialNumber, String referenceNumber, String caliber, String movement, String condition, String metal, String gemstones, String measurements, String weight, String stamped, String ringSize, String temp_Price, String minPrice, String maxPrice, String valuationId, String status, String photos, String final_Price, Double currentBid) {
+    public Jewelry(String jewelryID, String categoryName, String jewelryName, String artist, String circa, String material, String dial, String braceletMaterial, String caseDimensions, String braceletSize, String serialNumber, String referenceNumber, String caliber, String movement, String condition, String metal, String gemstones, String measurements, String weight, String stamped, String ringSize, String temp_Price, String minPrice, String maxPrice, String valuationId, String status, String photos, String final_Price, Double currentBid, Double preBid, Double finalPrice, String statusBid) {
         this.jewelryID = jewelryID;
         this.categoryName = categoryName;
         this.jewelryName = jewelryName;
@@ -73,6 +76,9 @@ public class Jewelry {
         this.photos = photos;
         this.final_Price = final_Price;
         this.currentBid = currentBid;
+        this.preBid = preBid;
+        this.finalPrice = finalPrice;
+        this.statusBid = this.statusBid;
     }
 
     public String getJewelryID() {
@@ -306,4 +312,31 @@ public class Jewelry {
     public void setCurrentBid(Double currentBid) {
         this.currentBid = currentBid;
     }
+
+    public Double getPreBid() {
+        return preBid;
+    }
+
+    public void setPreBid(Double preBid) {
+        this.preBid = preBid;
+    }
+
+    public Double getFinalPrice() {
+        return finalPrice;
+    }
+
+    public void setFinalPrice(Double finalPrice) {
+        this.finalPrice = finalPrice;
+    }
+
+    public String getStatusBid() {
+        return statusBid;
+    }
+
+    public void setStatusBid(String statusBid) {
+        this.statusBid = statusBid;
+    }
+    
+    
+    
 }

@@ -1,4 +1,4 @@
-CREATE DATABASE Jewelry_Auction_System;
+CREATE DATABASE FROM Auction WHERE status = 1;
 GO
 
 USE Jewelry_Auction_System;
@@ -159,6 +159,7 @@ CREATE TABLE Auction (
     startDate DATE,
     startTime TIME,
 	endTime TIME,
+	endDate DATE,
     [status] BIT DEFAULT 0
 );
 GO
@@ -428,8 +429,11 @@ SET s.status = 0
 FROM Session s
 WHERE s.auctionID = (SELECT a.auctionId FROM Auction a WHERE a.auctionId = 'Auc73');
 
-select * from Session where auctionID = 'Auc73'
+Select * from Jewelry j, Session s, Register_Bid r where j.jewelryID = s.jewelryID and s.sessionID = r.sessionID and s.sessionID = 'Turn45'
 
+select j.jewelryID, j.photos, r.preBid_Amount  from Register_Bid r, Session s, Jewelry j where r.sessionID = s.sessionID and j.jewelryID = s.jewelryID and r.memberID = 'Member1' and s.status = 0
+select * from Session where auctionID = 'Auc72'
+select * from Session where status = 1
 delete from Bid_Track
 delete from Register_Bid
 select * from Register_Bid
@@ -438,7 +442,7 @@ select * from Bid_Track
 WITH MaxPreBid AS (
     SELECT 
         S.jewelryID,
-        MAX(RB.preBid_Amount) AS max_preBid_Amount
+        MAX(RB.preBid_Amount) AS max_preBid_Amount,
     FROM 
         Register_Bid RB
     JOIN 
@@ -449,7 +453,7 @@ WITH MaxPreBid AS (
 SELECT 
     J.*, 
     C.CATEGORYNAME, 
-    MP.max_preBid_Amount
+    MP.max_preBid_Amount,
 FROM 
     JEWELRY J
 JOIN 
@@ -463,11 +467,35 @@ LEFT JOIN
 WHERE 
     AUC.AUCTIONID = 'Auc73';
 
+	Update Register_Bid set status = 'Placed'
 
 select * from Register_Bid
 select * from Session
-
-select * from Register_Bid where sessionID = 'Turn48'
+Update Register_Bid Set status = 'Pending Payment' where memberID = ''
+select * from Register_Bid where sessionID = 'Turn47'
+SELECT MAX(MAX(bidAmount_Current) )AS maxBidAmount,  memberID FROM Register_Bid WHERE sessionID = 'Turn47' group by memberID, bidAmount_Current
 select * from Register_Bid r, Session s where s.sessionID = r.sessionID and s.auctionID = 'Auc72' 
 select * from Bid_Track
+
+select j.jewelryID, j.photos, r.preBid_Amount, r.status  from Register_Bid r, Session s, Jewelry j where r.sessionID = s.sessionID and j.jewelryID = s.jewelryID and r.memberID = 'Member1'
+select j.jewelryID, j.photos, r.preBid_Amount  from Register_Bid r, Session s, Jewelry j where r.sessionID = s.sessionID and j.jewelryID = s.jewelryID and r.memberID = ?
+
+select * from Users
+select * from Member
+
+select * from Register_Bid
+
+select * FROM Auction WHERE status = 1
+
+UPDATE Register_Bid 
+SET status = 'Paid'
+WHERE memberID = 'Member1' 
+  AND status = 'Pending Payment'
+  AND sessionID IN (
+    SELECT s.sessionID
+    FROM Session s
+    WHERE s.jewelryID = 'Lot44'
+  );
+
+  select * from Jewelry
 

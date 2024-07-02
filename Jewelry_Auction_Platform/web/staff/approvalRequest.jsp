@@ -4,7 +4,6 @@
     Author     : User
 --%>
 
-<%@page import="java.time.LocalTime"%>
 <%@page import="entity.product.Jewelry"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -16,22 +15,6 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <link rel="stylesheet" href="asset/approvalRequest.css">
-        <%
-            String greeting = "day!";
-            try {
-                LocalTime now = LocalTime.now();
-                int hour = now.getHour();
-                if (hour < 12) {
-                    greeting = "Morning!";
-                } else if (hour < 17) {
-                    greeting = "Afternoon!";
-                } else {
-                    greeting = "Evening!";
-                }
-            } catch (Exception ex) {
-                ex.getMessage();
-            }
-        %>
         <style>
             .sidebar {
                 position: fixed;
@@ -180,17 +163,7 @@
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <!-- Professional greeting -->
-                <div class="greeting-container">
-                    <h3 class="greeting">Good <%= greeting%>!</h3>
-                    <p class="greeting-message">Welcome back to the Staff Portal.</p>
-                </div>
-            </ul>
-        </div>
     </nav>
-
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
@@ -215,6 +188,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/approvedRequest">
                             <i class="fas fa-thumbs-up"></i> Approval Request
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/">
+                             Transaction History
                         </a>
                     </li>
                     <li class="nav-item">

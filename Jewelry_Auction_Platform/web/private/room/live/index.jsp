@@ -14,7 +14,7 @@
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 margin: 0;
                 padding: 0;
-                background-color: #333; /* Light grey background */
+                background-color: #f5f5f5; /* Light grey background */
                 color: #333; /* Dark grey text */
                 transition: background-color 0.3s, color 0.3s;
             }
@@ -23,7 +23,6 @@
                 max-width: 80%;
                 margin: 50px auto;
                 background-color: #fff; /* White container background */
-                border-radius: 15px;
                 box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
                 overflow: hidden;
                 padding: 20px;
@@ -62,9 +61,6 @@
                 display: none;
             }
 
-            .horizontal-scroll-container:hover {
-                padding: 15px;
-            }
 
             /* Horizontal Scroll Items */
             .horizontal-scroll-item {
@@ -76,7 +72,6 @@
                 cursor: pointer;
                 position: relative;
                 overflow: hidden;
-                border-radius: 10px;
             }
 
             .horizontal-scroll-item::before {
@@ -111,18 +106,13 @@
             .card {
                 position: relative;
                 overflow: hidden;
-                border-radius: 10px;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
                 transition: transform 0.3s, box-shadow 0.3s;
-            }
-
-            .card:hover {
-                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-                transform: translateY(-5px); /* Lift card on hover */
+                background-color: #a93226
             }
 
             .card img {
-                width: 100%;
+                width: 110%;
                 height: 300px;
                 object-fit: cover;
                 transition: transform 0.3s;
@@ -135,8 +125,7 @@
             .card-body {
                 padding: 15px;
                 text-align: center;
-                background-color: #f5f5f5; /* Light grey background */
-                border-radius: 0 0 10px 10px;
+                background-color: lightgray; /* Light grey background */
                 transition: background-color 0.3s;
             }
 
@@ -229,16 +218,13 @@
             }
 
 
-
-
             .chat-header {
-                background-color: black; /* Dark blue background */
+                background-color: lightgray; /* Dark blue background */
                 color: #ffffff; /* White text */
-                padding: 15px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                border: 2px solid transparent; /* Transparent border initially */
+                border: 1px solid transparent; /* Transparent border initially */
                 transition: background-color 0.3s, border-color 0.3s;
             }
 
@@ -285,11 +271,10 @@
             .chat-container {
                 display: flex;
                 flex-direction: column;
-                height: 400px; /* Adjust height as needed */
-                border: 1px solid grey; /* Optional: Add border or other styling */
+                height: 600px; /* Adjust height as needed */
                 overflow: hidden; /* Ensure overflow is set to handle scrolling */
-                border-radius: 20px;
-                background-color: black;
+                background-color: lightgray;
+                margin-left: 300px
             }
 
             .chat-messages {
@@ -307,7 +292,7 @@
                 max-width: 80%;
                 padding: 15px;
                 border-radius: 15px;
-                background-color: #007bff;
+                background-color: #a93226;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
                 position: relative;
                 overflow: hidden;
@@ -323,7 +308,7 @@
                 color: #FFFFFF;
             }
             .message.from-me {
-                background-color: #444;
+                background-color: gray;
                 color: #fff;
                 align-self: flex-end;
                 border-top-right-radius: 0;
@@ -343,8 +328,6 @@
                 justify-content: space-between;
                 align-items: center;
                 padding: 15px;
-                border-radius: 20px;
-                border: 4px solid black;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
 
@@ -356,19 +339,19 @@
                 margin-right: 15px;
                 outline: none;
                 transition: border-color 0.3s, box-shadow 0.3s;
-                background-color: #333;
+                background-color: #888;
                 color: white;
                 font-size: 20px;
 
             }
 
             .chat-input input[type="number"]:focus {
-                border-color: #007bff;
+                border-color: darkblue;
                 box-shadow: 0 0 10px rgba(0, 123, 255, 0.25);
             }
 
             .chat-input button {
-                background-color: #007bff;
+                background-color: #0056b3;
                 color: #fff;
                 border: none;
                 border-radius: 20px;
@@ -379,7 +362,7 @@
             }
 
             .chat-input button:hover {
-                background-color: #0056b3;
+                background-color: #007bff;
                 transform: scale(1.05);
             }
 
@@ -400,70 +383,24 @@
                 padding: 20px;
             }
             .btn {
-                height: 3rem;
-                width: 9rem;
+                padding: 7px 13px;
+                font-size: 14px;
+                font-weight: bold;
+                color: white;
+                background-color: darkred;
+                border: none;
                 border-radius: 5px;
-                border: 5px solid rgb(255, 255, 255);
                 cursor: pointer;
-                filter: drop-shadow(0px 0px 10px rgb(255, 255, 255));
-                animation: flickering 2s linear infinite both;
-                text-transform: uppercase;
-                background-color: rgb(83, 82, 82);
-                color: rgb(234, 234, 234);
-                font-weight: 700;
-                transition: 0.6s;
-                box-shadow: 0px 0px 60px #1f4c65;
-                -webkit-box-reflect: below 10px linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.4));
-            }
-
-            @keyframes flickering {
-                0%,
-                100% {
-                    opacity: 1;
-                }
-
-                41.99% {
-                    opacity: 1;
-                }
-
-                42% {
-                    opacity: 0;
-                }
-
-                43% {
-                    opacity: 0;
-                }
-
-                43.01% {
-                    opacity: 1;
-                }
-
-                47.99% {
-                    opacity: 1;
-                }
-
-                48% {
-                    opacity: 0;
-                }
-
-                49% {
-                    opacity: 0;
-                }
-
-                49.01% {
-                    opacity: 1;
-                }
-            }
-
-            .text {
-                font-size: 1.8rem;
-                font-family: Arial, Helvetica, sans-serif;
+                transition: background-color 0.3s ease, color 0.3s ease;
+                margin-top: 5px;
+                margin-bottom: 5px;
+                margin-right: 12px;
             }
 
             .btn:hover {
-                background-color: black;
-                border-radius: 0;
+                background-color: #cc0000;
             }
+
         </style>
     </head>
     <body>
@@ -475,14 +412,12 @@
             }
         %>
         <div class="chat-header">
-            <div class="header-text">
-                Live Auction
+            <div style="font-family: Tahoma;  font-size: 14px; color: #111; font-weight: bold">
+                LIVE AUCTION
             </div>
             <div class="exit-button">
                 <form action="${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>" method="post">
-                    <button type="submit" class="btn">
-                        <span class="text">EXIT</span>
-                    </button>
+                    <button  class="btn ">EXIT</button>
                 </form>
             </div>
         </div>
@@ -590,7 +525,10 @@
             function processError(event) {
                 appendMessage("Error: " + event);
             }
-
+            function scrollToBottom() {
+                var chatMessages = document.getElementById('chatMessages');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
             function sendMessage() {
                 var textMessage = document.getElementById('textMessage').value.trim();
                 if (textMessage !== "" && selectedJewelryID !== null) {
@@ -625,11 +563,13 @@
                 messageElement.appendChild(messageText);
                 messageElement.appendChild(messageTime);
                 chatMessages.appendChild(messageElement);
+                if (messageContent === "Jewelry no longer exists!") {
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+                }
             }
-            function scrollToBottom() {
-                var chatMessages = document.getElementById('chatMessages');
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
+
 
             function getTime() {
                 var now = new Date();
@@ -694,7 +634,7 @@
                                     // After all items are sent, redirect to another page after 30000 milliseconds
                                     window.location.href = `${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>`;
                                                             }
-                                                        }, 300000);
+                                                        }, 6000000);
                                                     }
                                                 }
 

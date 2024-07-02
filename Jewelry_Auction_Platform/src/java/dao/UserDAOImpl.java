@@ -36,36 +36,50 @@ public class UserDAOImpl implements UserDao {
     ResultSet rs = null;
 
     @Override
-    public UserDTO checkLogin(String username, String password) {
-        String query = "select tk.userID, tk.username, vt.role_name from Users tk, [Role] vt where vt.roleID = tk.roleID and tk.username = ? and tk.password = ?";
-        try {
-            conn = DBUtils.getConnection();
-            ps = conn.prepareStatement(query);
-            ps.setString(1, username);
+    public UserDTO checkLogin(String usernameOrEmailOrPhone, String password) {
+        String query = "SELECT TK.USERID, TK.USERNAME, VT.ROLE_NAME "
+                + "FROM USERS TK "
+                + "JOIN ROLE VT ON VT.ROLEID = TK.ROLEID "
+                + "LEFT JOIN Member M ON M.userID = TK.userID "
+                + "WHERE (TK.USERNAME = ? AND TK.PASSWORD = ? "
+                + "       OR TK.EMAIL = ? AND TK.PASSWORD = ? "
+                + "       OR M.phoneNumber = ? AND TK.PASSWORD = ?)";
+
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setString(1, usernameOrEmailOrPhone);
             ps.setString(2, password);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                return new UserDTO(rs.getString(1), rs.getString(2), rs.getString(3));
+            ps.setString(3, usernameOrEmailOrPhone);
+            ps.setString(4, password);
+            ps.setString(5, usernameOrEmailOrPhone);
+            ps.setString(6, password);
+
+            try ( ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new UserDTO(rs.getString("USERID"), rs.getString("USERNAME"), rs.getString("ROLE_NAME"));
+                }
             }
-        } catch (ClassNotFoundException | SQLException ex) {
-            ex.getMessage();
+        } catch (SQLException | ClassNotFoundException ex) {
+            // Handle or log the exception appropriately
+            ex.printStackTrace();
         }
-        return null;
+
+        return null; // Return null if no user found or an exception occurred
     }
 
     @Override
     public Member getInformation(String userID) {
-        String query = "select m.* from Member m, Users u where m.userID = u.userID and u.userID = ?";
+        String query = "SELECT m.* FROM Member m JOIN Users u ON m.userID = u.userID WHERE u.userID = ?";
         try {
             conn = DBUtils.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, userID);
             rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 return new Member(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7), rs.getString(8), rs.getInt(9));
             }
         } catch (ClassNotFoundException | SQLException ex) {
-            ex.getMessage();
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -93,7 +107,7 @@ public class UserDAOImpl implements UserDao {
             }
             return lst;
         } catch (ClassNotFoundException | SQLException ex) {
-            ex.getMessage();
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -760,15 +774,13 @@ public class UserDAOImpl implements UserDao {
     @Override
     public Jewelry getJewelryDetails(String jewelryID) {
         String query = "SELECT * FROM JEWELRY j, category c WHERE c.categoryID = j.categoryID and j.jewelryID = ?";
-
         try {
             conn = DBUtils.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, jewelryID);
             rs = ps.executeQuery();
             Jewelry jewelry = new Jewelry();
-
-            while (rs.next()) {
+            if (rs.next()) {
                 jewelry.setJewelryID(rs.getString("jewelryID"));
                 jewelry.setCategoryName(rs.getString("categoryName"));
                 jewelry.setJewelryName(rs.getString("jewelryName"));
@@ -893,7 +905,7 @@ public class UserDAOImpl implements UserDao {
 
     @Override
     public boolean editBid(String preBid_Amount, String jewelryID, String memberID) {
-        String mainQuery = "UPDATE REGISTER_BID SET PREBID_AMOUNT = ? WHERE MEMBERID = ? AND SESSIONID = ?";
+        String mainQuery = "UPDATE REGISTER_BID SET PREBID_AMOUNT = ?, PREBID_TIME = ? WHERE MEMBERID = ? AND SESSIONID = ?";
         String getSessionID = "SELECT s.sessionID FROM Session s JOIN Jewelry j ON s.jewelryID = j.jewelryID WHERE j.jewelryID = ?";
 
         try ( Connection conn = DBUtils.getConnection();  PreparedStatement psGetSessionID = conn.prepareStatement(getSessionID)) {
@@ -903,8 +915,9 @@ public class UserDAOImpl implements UserDao {
                     String sessionID = rs.getString(1);
                     try ( PreparedStatement psMainQuery = conn.prepareStatement(mainQuery)) {
                         psMainQuery.setString(1, preBid_Amount);
-                        psMainQuery.setString(2, memberID);
-                        psMainQuery.setString(3, sessionID);
+                        psMainQuery.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+                        psMainQuery.setString(3, memberID);
+                        psMainQuery.setString(4, sessionID);
                         int result = psMainQuery.executeUpdate();
                         return result > 0;
                     }
@@ -961,7 +974,6 @@ public class UserDAOImpl implements UserDao {
     public Double getTheHighestBid(String jewelryID) {
         String getSessionIDQuery = "SELECT sessionID FROM Session WHERE jewelryID = ?";
         String getHighestBidQuery = "SELECT MAX(bidAmount_Current) AS maxBidAmount FROM Register_Bid WHERE sessionID = ?";
-
         Connection connection = null;
         PreparedStatement getSessionIDStatement = null;
         PreparedStatement getHighestBidStatement = null;
@@ -1180,6 +1192,135 @@ public class UserDAOImpl implements UserDao {
             }
         } catch (ClassNotFoundException | SQLException ex) {
             ex.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public List<Jewelry> AuctionJewelryRegister(String memberID) {
+        List<Jewelry> listJewelry = new ArrayList<>();
+        String query = "select j.jewelryID, j.jewelryName, j.photos, r.bidAmount_Current, r.status from Register_Bid r, Session s, Jewelry j where r.sessionID = s.sessionID and j.jewelryID = s.jewelryID and r.memberID = ?";
+        try {
+            conn = DBUtils.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, memberID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Jewelry jewelry = new Jewelry();
+                jewelry.setJewelryID(rs.getString(1));
+                jewelry.setJewelryName(rs.getString(2));
+                jewelry.setPhotos(rs.getString(3));
+                jewelry.setCurrentBid(rs.getDouble(4));
+                jewelry.setStatusBid(rs.getString(5));
+                listJewelry.add(jewelry);
+            }
+            return listJewelry;
+        } catch (Exception ex) {
+            ex.getMessage();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean findAndSetWinner(String jewelryID) {
+        String selectQuery = "SELECT TOP 1 "
+                + "    rb.memberID, "
+                + "    MAX(rb.bidAmount_Current) AS maxBidAmount "
+                + "FROM "
+                + "    Register_Bid rb "
+                + "    JOIN [Session] s ON rb.sessionID = s.sessionID "
+                + "WHERE "
+                + "    s.jewelryID = ? AND "
+                + "    rb.status = 'Placed' "
+                + "GROUP BY "
+                + "    rb.memberID "
+                + "ORDER BY "
+                + "    maxBidAmount DESC";
+
+        String updateQuery = "UPDATE Register_Bid SET status = 'Pending Payment' "
+                + "WHERE memberID = ? AND sessionID IN "
+                + "    (SELECT sessionID FROM [Session] WHERE jewelryID = ?)";
+
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement psSelect = conn.prepareStatement(selectQuery);  PreparedStatement psUpdate = conn.prepareStatement(updateQuery)) {
+
+            // Set jewelryID parameter for select query
+            psSelect.setString(1, jewelryID);
+
+            // Execute select query to find memberID with max bid for given jewelryID
+            try ( ResultSet rs = psSelect.executeQuery()) {
+                if (rs.next()) {
+                    String memberID = rs.getString("memberID");
+
+                    // Update winnerID and status in Register_Bid table
+                    psUpdate.setString(1, memberID);
+                    psUpdate.setString(2, jewelryID);
+
+                    int updatedRows = psUpdate.executeUpdate();
+
+                    if (updatedRows > 0) {
+                        System.out.println("Winner updated for jewelryID " + jewelryID);
+                        return true;
+                    } else {
+                        System.out.println("No records updated.");
+                    }
+                } else {
+                    System.out.println("No winner found for jewelryID " + jewelryID);
+                }
+            }
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean updateAllPlacedToLost(String jewelryID) {
+        String updateQuery = "UPDATE Register_Bid "
+                + "SET status = 'Lost' "
+                + "WHERE sessionID IN (SELECT sessionID FROM [Session] WHERE jewelryID = ?) "
+                + "AND status = 'Placed'";
+
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(updateQuery)) {
+
+            ps.setString(1, jewelryID);
+
+            int updatedRows = ps.executeUpdate();
+
+            if (updatedRows > 0) {
+                return true; // Update successful
+            }
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return false; // Update failed or no records updated
+    }
+
+    @Override
+    public boolean updateRegisterBidStatus(String memberID, String jewelryID) {
+        String updateQuery = "UPDATE Register_Bid \n"
+                + "SET status = 'Paid'\n"
+                + "WHERE memberID = ? \n"
+                + "  AND status = 'Pending Payment'\n"
+                + "  AND sessionID IN (\n"
+                + "    SELECT s.sessionID\n"
+                + "    FROM Session s\n"
+                + "    WHERE s.jewelryID = ?\n"
+                + "  );";
+
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(updateQuery)) {
+
+            ps.setString(1, memberID);
+            ps.setString(2, jewelryID);
+
+            int rowAffected = ps.executeUpdate();
+            return rowAffected > 0;
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.printStackTrace();  // Consider using a logging framework like SLF4J for better logging
         }
         return false;
     }
