@@ -7,6 +7,22 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
+    <%
+    String greeting = "day!";
+    try {
+        LocalTime now = LocalTime.now();
+        int hour = now.getHour();
+        if (hour < 12) {
+            greeting = "Morning!";
+        } else if (hour < 17) {
+            greeting = "Afternoon!";
+        } else {
+            greeting = "Evening!";
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace(); // Or use a logger to log the exception
+    }
+%>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -313,6 +329,7 @@
                 transform: translateY(-2px);
             }
             .create-button {
+                margin-bottom: 30px;
                 margin-top: 40px;
                 display: block;
                 width: fit-content;
@@ -344,6 +361,7 @@
                 width: 100%; /* Adjust the width as needed */
                 background: linear-gradient(to right, #a8c0ff, #325fcf,#a8c0ff, #325fcf); /* Adjust the colors as needed */
                 margin: 20px 0; /* Adjust the margin as needed */
+                margin-bottom: 50px;
             }
         </style>
     </head>
@@ -378,7 +396,7 @@
                         <span class="tooltip">Pending Requests</span>
                     </li>
                     <li>
-                        <a class="link_names" href="${pageContext.request.contextPath}/createAuction.jsp">
+                        <a class="link_names" href="${pageContext.request.contextPath}/createAuction">
                             <i class='bx bx-book-content'></i> 
                             <span class="links_name">Create Auction</span>
                         </a>
@@ -418,6 +436,7 @@
                 UserDAOImpl dao = new UserDAOImpl();
                 List<Auction> listAuction = dao.displayAuction();
             %>
+            
             <% if (!listAuction.isEmpty()) { %>
                 <div class="auction-list">
                     <% for (Auction auction : listAuction) {
@@ -425,6 +444,45 @@
                           Date startDate = auction.getStartDate();
                           LocalTime startTime = auction.getStartTime();
                     %>
+                    <!-- JavaScript countdown timer -->
+        <script>
+            (function (auctionID, startDate, startTime) {
+                function getTimeDifference(startDateTime, elementID) {
+                    var now = new Date().getTime();
+                    var startTime = new Date(startDateTime).getTime();
+                    var difference = startTime - now;
+
+                    if (difference <= 0) {
+                        // If the start date is in the past or the countdown reaches zero
+                        document.getElementById(elementID).innerHTML = "Auction started!";
+                        clearInterval(window[elementID]); // Stop the interval
+                        return;
+                    }
+
+                    // Calculate days, hours, minutes, and seconds
+                    var days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                    // Display the countdown timer
+                    document.getElementById(elementID).innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s " + "left";
+                }
+
+                var elementID = "countdown_" + auctionID;
+                var startDateTime = startDate + "T" + startTime;
+
+                // Call getTimeDifference when the page loads
+                document.addEventListener('DOMContentLoaded', function () {
+                    getTimeDifference(startDateTime, elementID);
+                });
+
+                // Update the timer every second
+                window[elementID] = setInterval(function () {
+                    getTimeDifference(startDateTime, elementID);
+                }, 1000);
+            })('<%= auctionID %>', '<%= startDate %>', '<%= startTime %>');
+        </script>
                     <div class="relative flex w-80 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md mb-4">
                         <div class="relative mx-4 -mt-6 h-40 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40 bg-gradient-to-r from-blue-500 to-blue-600">
                           <div id="countdown_<%= auctionID %>" class="flex items-center justify-center h-full"></div>
@@ -479,45 +537,6 @@
                                                                                         closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");//replacing the iocns class
                                                                                     }
                                                                                 }
-        </script>
-        <!-- JavaScript countdown timer -->
-        <script>
-            (function (auctionID, startDate, startTime) {
-                function getTimeDifference(startDateTime, elementID) {
-                    var now = new Date().getTime();
-                    var startTime = new Date(startDateTime).getTime();
-                    var difference = startTime - now;
-
-                    if (difference <= 0) {
-                        // If the start date is in the past or the countdown reaches zero
-                        document.getElementById(elementID).innerHTML = "Auction started!";
-                        clearInterval(window[elementID]); // Stop the interval
-                        return;
-                    }
-
-                    // Calculate days, hours, minutes, and seconds
-                    var days = Math.floor(difference / (1000 * 60 * 60 * 24));
-                    var hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    var minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-                    // Display the countdown timer
-                    document.getElementById(elementID).innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s " + "left";
-                }
-
-                var elementID = "countdown_" + auctionID;
-                var startDateTime = startDate + "T" + startTime;
-
-                // Call getTimeDifference when the page loads
-                document.addEventListener('DOMContentLoaded', function () {
-                    getTimeDifference(startDateTime, elementID);
-                });
-
-                // Update the timer every second
-                window[elementID] = setInterval(function () {
-                    getTimeDifference(startDateTime, elementID);
-                }, 1000);
-            })('<%= auctionID %>', '<%= startDate %>', '<%= startTime %>');
         </script>
     </body>
 </html>

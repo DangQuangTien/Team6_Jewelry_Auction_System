@@ -593,7 +593,7 @@
                         <span class="tooltip">Pending Requests</span>
                     </li>
                     <li>
-                        <a class="link_names" href="${pageContext.request.contextPath}/createAuction.jsp">
+                        <a class="link_names" href="${pageContext.request.contextPath}/createAuction">
                             <i class='bx bx-book-content'></i> 
                             <span class="links_name">Create Auction</span>
                         </a>
