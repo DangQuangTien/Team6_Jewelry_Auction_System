@@ -396,7 +396,7 @@
                         <span class="tooltip">Pending Requests</span>
                     </li>
                     <li>
-                        <a class="link_names" href="${pageContext.request.contextPath}/createAuction">
+                        <a class="link_names" href="${pageContext.request.contextPath}/manager/createAuction.jsp">
                             <i class='bx bxs-calendar-plus'></i> 
                             <span class="links_name">Create Auction</span>
                         </a>
