@@ -594,10 +594,11 @@
                                                 <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID() %>">
                                                 <input type="number" name="finalPrice" value="<%= jewelry.getFinal_Price() %>" required class="px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
                                         </td>
-                                        <td class="px-6 py-4">
-                                                <input type="submit" class="btn btn-primary btn-md ml-2" name="action" value="Send">
-                                                <button type="button" class="btn btn-info btn-md ml-2" data-toggle="modal" data-target="#detailsModal<%= jewelry.getJewelryID() %>">Details</button>
+                                        <td class="px-6 py-4 flex items-center space-x-2">
+                                            <input type="submit" class="btn btn-primary text-white px-4 py-2 rounded-md" name="action" value="Send">
+                                            <button type="button" class="btn btn-info text-white px-4 py-2 rounded-md" data-toggle="modal" data-target="#detailsModal<%= jewelry.getJewelryID() %>">Details</button>
                                         </td>
+                                        
                                             </form>
                                     </tr>
                                     <% } %>
@@ -734,8 +735,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script src="asset/finalValuation.js"></script>
     <script>
-         let sidebar = document.querySelector(".sidebar");
-
          $(document).ready(function () {
         // Initialize DataTable with search and pagination
         $('#approvalTable').DataTable({
@@ -748,6 +747,7 @@
                                                                                         "pageLength": 10
         });
     });
+                                                                                let sidebar = document.querySelector(".sidebar");
                                                                                 let closeBtn = document.querySelector("#btn");
                                                                                 let searchBtn = document.querySelector(".bx-search");
                                                                                 closeBtn.addEventListener("click", () => {

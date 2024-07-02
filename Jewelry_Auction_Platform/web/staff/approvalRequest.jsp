@@ -586,8 +586,8 @@
                                     </td>
                                     <td class="px-6 py-4 text-sm text-gray-900"><%= jewelry.getJewelryName() %></td>
                                     <td class="px-6 py-4 text-sm text-gray-900"><%= jewelry.getArtist() %></td>
-                                    <td class="px-6 py-4  space-y-2">
-                                        <button type="button" class="btn btn-info btn-sm view-btn" data-toggle="modal" data-target="#detailModal" 
+                                    <td class="px-6 py-4 flex items-center space-x-2">
+                                        <button type="button" class="bg-indigo-400 hover:bg-indigo-700 text-white px-4 py-2 rounded-md" data-toggle="modal" data-target="#detailModal" 
                                             data-photo="<%= photoArray[0]%>" 
                                             data-name="<%= jewelry.getJewelryName()%>" 
                                             data-artist="<%= jewelry.getArtist()%>" 
@@ -609,11 +609,11 @@
                                             data-stamped="<%= jewelry.getStamped()%>" 
                                             data-ringsize="<%= jewelry.getRingSize()%>"
                                             data-finalprice="<%= jewelry.getFinal_Price()%>">
-                                            <i class="fas fa-eye"></i> View
+                                             View
                                         </button>
                                         <form action="${pageContext.request.contextPath}/sendToSeller" method="GET" onsubmit="confirmSend(event)" class="w-full">
                                             <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID()%>">
-                                            <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-paper-plane"></i> Send to Seller</button>
+                                            <button type="submit" class="btn-info text-white px-4 py-2 rounded-md"> Send to Seller</button>
                                         </form>
                                     </td>
                                     
@@ -785,7 +785,7 @@
                                                 modal.find('#modal-ringsize').text(button.data('ringsize'));
                                                 modal.find('#modal-finalprice').text(button.data('finalprice'));
                                             });
-                                            let sidebar = document.querySelector(".sidebar");
+                                                                                let sidebar = document.querySelector(".sidebar");
                                                                                 let closeBtn = document.querySelector("#btn");
                                                                                 let searchBtn = document.querySelector(".bx-search");
                                                                                 closeBtn.addEventListener("click", () => {
