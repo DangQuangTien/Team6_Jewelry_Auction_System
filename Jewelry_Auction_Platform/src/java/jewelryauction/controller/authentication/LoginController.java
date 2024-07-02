@@ -49,7 +49,7 @@ public class LoginController extends HttpServlet {
 
     private void initializeSession(HttpServletRequest request, UserDTO user) {
         HttpSession session = request.getSession(true);
-        UserDAOImpl dao = new UserDAOImpl();
+        UserDao dao = new UserDAOImpl();
         Member member = dao.getInformation(user.getUserID());
         if (member != null){
             session.setAttribute("MEMBER", member);
@@ -80,12 +80,13 @@ public class LoginController extends HttpServlet {
         try {
             UserDTO user = dao.checkLogin(username, password);
             if (user == null) {
-                request.setAttribute("error", "Username or password invalid!");
+                request.setAttribute("error", "Login failed!");
                 request.setAttribute("username", username);
                 request.setAttribute("password", password);
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             } else {
                 url = determinePageByRole(user.getRole());
+                request.setAttribute("succeed", "Login successfully!");
                 initializeSession(request, user);
             }
         } catch (Exception ex) {

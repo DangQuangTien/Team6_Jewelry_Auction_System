@@ -1,284 +1,557 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html lang="en">
-<head>
-    <title>Maximize Your Jewelry and Watch Sales with Jewelry Auction Online</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sell your jewelry and watches to the highest bidder with Jewelry Auction Online. Enjoy fully-insured shipping, cataloging, photography, and marketing at our expense.">
-    <meta name="keywords" content="Jewelry auction, sell jewelry online, watch auction, online jewelry sales, jewelry valuation, auction house">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            background-color: #f5f5f5;
-        }
+    <head>
+        <title>Maximize Your Jewelry and Watch Sales with Jewelry Auction Online</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+        <style>
+            body {
+                font-family: Andale Mono;
+                background-color: #fff;
+                margin: 0;
+                padding: 0;
+            }
+            .navbar {
+                background: radial-gradient(circle, rgba(255, 239, 166, 1) 0%, rgba(218, 165, 32, 0.8) 50%, rgba(184, 134, 11, 0.8) 100%);
+                background-size: 200% 200%;
+                background-position: 50% 50%;
+                transition: background 0.3s ease, box-shadow 0.3s ease, padding-top 0.3s ease, padding-bottom 0.3s ease;
+                padding-top: 15px;
+                padding-bottom: 15px;
+                z-index: 1000;
+                backdrop-filter: blur(15px);
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.19);
+            }
 
-        .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background-color: #343a40;
-            border-bottom: 3px solid #e4af11;
-        }
+            .navbar:hover {
+                background-position: 100% 100%;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.25);
+            }
 
-        .navbar-brand, .nav-link, .navbar-toggler-icon {
-            color: #ffc107 !important;
-        }
+            .navbar-scrolled {
+                background-color: black;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+                padding-top: 1px;
+                padding-bottom: 1px;
+            }
 
-        .navbar-brand:hover, .nav-link:hover {
-            color: #fff !important;
-        }
+            .navbar-brand .brand-name {
+                font-size: 2em;
+                font-family: 'Zapf-Chancery';
+                font-weight: 700;
+                color: black;
+            }
 
-        .hero-section {
-            background-image: url('images/hero-background.jpg');
-            background-size: cover;
-            background-position: center;
-            padding: 100px 20px;
-            color: white;
-            text-align: center;
-            background-color: rgba(52, 58, 64, 0.8); /* Dark background with opacity */
-            border-radius: 8px;
-        }
+            .nav-link {
+                color: black !important;
+                transition: color 0.3s;
+                font-family: Andale Mono;
+                font-size: 1.25em;
+            }
 
-        .hero-section h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            color: #ffc107; /* Gold color for heading */
-        }
+            .navbar-nav .nav-link {
+                position: relative;
+                transition: color 0.3s;
+            }
 
-        .hero-section p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            color: #f8f9fa; /* Light gray color for text */
-        }
+            .navbar-nav .nav-link::after {
+                content: '';
+                position: absolute;
+                bottom: -5px;
+                left: 50%;
+                width: 0;
+                height: 2px;
+                background-color: #ffc107;
+                transition: width 0.3s, left 0.3s;
+                visibility: hidden;
+            }
 
-        .hero-section button {
-            background-color: #ffc107;
-            color: #343a40;
-            padding: 15px 30px;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2em;
-            transition: background-color 0.3s ease;
-            border-radius: 4px;
-        }
 
-        .hero-section button:hover {
-            background-color: #e0a800;
-        }
+            .dropdown-menu {
+                background-color: #000;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                animation: fadeIn 0.5s;
+            }
 
-        main {
-            padding: 40px 20px;
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+            .dropdown-item {
+                color: #fff !important;
+                transition: background-color 0.3s, color 0.3s;
+                position: relative; /* Ensure pseudo-element positioning */
+            }
 
-        .feature-card {
-            border: none;
-            border-radius: 8px;
-            background-color: #f8f9fa;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
+            .dropdown-item::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: -2px;
+                width: 0;
+                height: 2px;
+                background-color: transparent;
+                transition: width 0.3s ease;
+            }
 
-        .feature-card .card-body {
-            padding: 20px;
-        }
+            .dropdown-item:hover {
+                background-color: rgba(255, 255, 255, 0.1) !important;
+                color: #ffc107 !important;
+            }
 
-        .feature-card .card-body h5 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
+            .dropdown-item:hover::after {
+                width: 100%;
+                background-color: #ffc107
+            }
+            .nav-item dropdown:hover::after {
+                width: 100%;
+                background-color: #ffc107
+            }
+            main {
+                padding: 40px 20px;
+                max-width: 900px;
+                margin: 0 auto;
+                background-color: #fff;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
 
-        .feature-card .card-body p {
-            font-size: 1rem;
-            line-height: 1.6;
-        }
+            #selling-content h1, #selling-content h2, #selling-content h3 {
+                color: #333;
+                text-align: center;
+            }
 
-        .feature-card img {
-            width: 100%;
-            border-radius: 8px 8px 0 0;
-        }
+            #selling-content h1 {
+                font-size: 2.5rem;
+                margin-bottom: 30px;
+            }
 
-        .carousel-item {
-            text-align: center;
-            padding: 20px;
-        }
+            #selling-content h2 {
+                font-size: 2rem;
+                border-bottom: 2px solid #dc3545;
+                padding-bottom: 5px;
+                margin-bottom: 30px;
+            }
 
-        .carousel-item img {
-            max-width: 100px;
-            margin: 0 auto 20px;
-        }
+            #selling-content p {
+                margin-bottom: 20px;
+                text-align: justify;
+                font-size: 1.1rem;
+                line-height: 1.6;
+            }
 
-        .carousel-item p {
-            font-size: 1.1rem;
-            font-style: italic;
-        }
+            #selling-content .highlight {
+                background-color: #f8d7da;
+                padding: 15px;
+                border-left: 5px solid #dc3545;
+                margin-bottom: 20px;
+                border-radius: 4px;
+            }
 
-        .carousel-item h5 {
-            font-size: 1.3rem;
-            margin-top: 10px;
-        }
+            #selling-content .example {
+                background-color: #e9ecef;
+                padding: 15px;
+                border-left: 5px solid #6c757d;
+                margin-bottom: 20px;
+                font-style: italic;
+                border-radius: 4px;
+            }
 
-        footer {
-            background-color: #343a40;
-            color: #fff;
-            padding: 1rem;
-            text-align: center;
-        }
+            #selling-content button {
+                background-color: #dc3545;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                cursor: pointer;
+                font-size: 1.2em;
+                transition: background-color 0.3s ease;
+                border-radius: 4px;
+            }
 
-        footer a {
-            color: #ffc107;
-            margin: 0 10px;
-        }
+            #selling-content button:hover {
+                background-color: #c82333;
+            }
 
-        footer a:hover {
-            color: #fff;
-        }
-    </style>
-</head>
-<body>
+            footer {
+                background-color: #343a40;
+                color: #fff;
+                padding: 1rem;
+                text-align: center;
+            }
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#"><i class="fas fa-gem"></i> Jewelry Auctions</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">          
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="home"><i class="fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
-                </li>                
-                <li class="nav-item">
-                    <a class="nav-link" href="auctions"><i class="fas fa-gavel"></i> Auction</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="valuation"><i class="fas fa-clipboard"></i> Request A Valuation</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="response"><i class="fas fa-reply"></i> Response</a>                                   
-                </li>                
-                <li class="nav-item">
-                    <a class="nav-link" href="notification"><i class="fas fa-bell"></i> Notification</a>
-                </li>
-            </ul>
+            footer a {
+                color: #ffc107;
+                margin: 0 10px;
+            }
+
+            footer a:hover {
+                color: #fff;
+            }
+
+            .fade-in {
+                animation: fadeIn 0.5s ease-in;
+            }
+            .btn {
+                width: 300px;
+                background-color: #c82333;
+                margin-top: 50px;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: background-color 0.3s, transform 0.3s;
+                font-family: Helvetica;
+            }
+
+            .btn:hover {
+                background-color: #a71d2a;
+                color: #e9ecef;
+                transform: scale(1.05);
+            }
+
+            .reason {
+                margin: 20px 0;
+            }
+
+            .reason h2 {
+                font-size: 1.5em;
+                color: #c82333;
+            }
+
+            .reason p {
+                margin: 10px 0;
+            }
+
+        </style>
+    </head>
+    <body>
+        <!-- Nav bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand"
+               href="${pageContext.request.contextPath}/home">
+                <span class="brand-name">F'RANKELLY</span>
+            </a>
+            <button class="navbar-toggler" type="button"
+                    data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home"> HOME</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#"
+                           id="auctionDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            AUCTIONS <i class="fas fa-caret-down"></i>
+                        </a>
+                        <div class="dropdown-menu"
+                             aria-labelledby="auctionDropdown">
+                            <a style="font-family:Andale Mono" class="dropdown-item"
+                               href="auctions">UPCOMING
+                                AUCTIONS</a>
+                            <a style="font-family:Andale Mono" class="dropdown-item" href="#">PAST
+                                AUCTION</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#"
+                           id="sellingDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            SELLING <i class="fas fa-caret-down"></i>
+                        </a>
+                        <div class="dropdown-menu"
+                             aria-labelledby="sellingDropdown">
+                            <a style="font-family:Andale Mono" class="dropdown-item"
+                               href="selling">ABOUT SELLING
+                            </a>
+                            <a style="font-family:Andale Mono" class="dropdown-item"
+                               href="response">APPRAISED ASSET
+                            </a>
+                            <a style="font-family:Andale Mono" class="dropdown-item"
+                               href="valuation">VALUATION REQUEST
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about"> ABOUT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about"> CONTACT</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
-
-    <div class="hero-section">
-        <h1>Maximize Your Jewelry and Watch Sales</h1>
-        <p>Join Jewelry Auction Online to sell your valuable jewelry and watches to the highest bidders. Our innovative platform ensures a seamless and profitable experience.</p>
-        <button onclick="myFunction()">Request A Valuation</button>
+    <div style="margin-top: 200px;" class="container">
+        <div class="row">
+            <div style="font-family: Helvetica" class="col-md-6">
+                <h1 style="font-size: 45px; font-family: 'Zapf-Chancery'; color: #333">Selling With F'RANKELLY</h1><br>
+                <p style="font-size: 20px">F'RANKELLY has been specifically designed to protect your interests and maximize your results in the shortest possible timeframe. With our unique model, we are at the forefront of revolutionizing the industry, merging the tried-and-true methods of traditional auction houses with the dynamism of modern innovative marketplace models, utilizing cutting-edge technology and focusing on an unyielding commitment to customer service.
+                </p>
+                <p style="font-size: 20px; color: #333"> With the lowest seller's fees/premiums, very frequent (bi-weekly) auctions, a substantial global following, record-breaking results, and a flawless 5-star Google rating, F'RANKELLY stands head and shoulders above the rest.</p>
+            </div>
+            <div class="col-md-6">
+                <h1 style="font-family: Helvetica; font-size: 22px; text-align: center; font-weight: bold; color: #333">Ready to jump ahead and submit your valuation request or want to learn more first?</h1>
+                <img style="width: 550px; height: 400px;" src="images/1-Hammer-John-Final-1-1536x1022.jpg" alt="alt"/>
+                <div style="font-family: Helvetica; font-size: 24px; text-align: center; color: #333">To jump ahead and submit a valuation request, click the button below.</div>
+                <button style="margin-left: 120px" class="btn" onclick="myFunction()">Request A Valuation</button>
+            </div>
+        </div>
+        <br><br><br>
+        <p style="font-family: Helvetica; font-size: 18px; text-align: center; color: #333">
+            Now that you have an understanding of our mission and approach to selling at F'RANKELLY, 
+            let's delve deeper into the mechanics of our operation, and explore the topics that every potential seller should know. 
+            The following sections will highlight what makes F'RANKELLY different and answer the question, "Why F'RANKELLY?", 
+            as well as walk you through the entire process from start to finish. This guide is designed to prepare you thoroughly for your selling journey with 
+            F'RANKELLY, giving you the confidence to make informed decisions at every step of the way.
+        </p>
     </div>
+    <div style="margin: 0 auto; background-color: #fff;padding: 20px; color: #333; font-family: Helvetica" class="container">
+        <div class="header">
+            <h1>Why Sell With F'RANKELLY?</h1>
+            <p>At F'RANKELLY, we're committed to setting and upholding the highest standards for our sellers. Selling jewelry and watches can be a challenging and confusing process, but it doesn't have to be. With F'RANKELLY by your side, you can rest assured that your valuable assets are in the best hands possible.</p>
+            <p>We think of ourselves as a torch-bearer on the dimly-lit, pitfall-filled path to selling jewelry and watches.</p>
+            <p>At F'RANKELLY, our core values of integrity, authenticity, accountability, and excellence are at the forefront of everything we do. We believe our values, performance, and reputation set us far apart from our competitors.</p>
+            <p>Here are the five (5) reasons that answer the question, "Why Sell with F'RANKELLY?":</p>
+        </div>
 
-    <main id="selling-content" class="container mt-4 fade-in">          
-        <h2 class="text-center">Why Choose Jewelry Auction Online?</h2>
-        <p class="text-center">Experience the best in auction services with our unique blend of traditional and modern approaches, ensuring your valuables receive the highest attention and bids.</p>
-        
-        <div class="card feature-card">
-            <img src="images/aligned-goals.jpg" alt="Aligned Goals">
-            <div class="card-body">
-                <h5>1. Aligned Goals</h5>
-                <p>Our interests are aligned with yours. We aim to sell your jewelry at the highest possible price, and our fees are only collected upon successful sales, ensuring our commitment to your success.</p>
+        <div class="reason">
+            <h2>1 of 5: Our Goals Are Aligned With Yours</h2>
+            <p>Unlike buyers who seek to purchase your jewelry and watches for as cheap as possible, F'RANKELLY is not interested in buying your jewelry at all—we are interested in selling your jewelry for you, to the highest bidder.</p>
+            <p>Additionally, we believe that we should only be paid for our services if we are able to sell your jewelry and watches for the prices that you agree with. We provide fully-insured shipping, cataloging, photography, and marketing of your jewelry and watches, all at our expense.</p>
+            <p>Furthermore, because we are only paid upon success via our premiums (and our premiums are lower than the other major auction houses), the more money that we make you, the more we get paid. Maximizing the value of your jewelry and watches is absolutely in our best interest.</p>
+            <p>The group lot depicted here illustrates the importance of correct pricing. The consignor initially desired to consign the lot with a reserve of $10,000. We agreed that the lot was potentially worth considerably more than $10,000 but requested a lower reserve and starting bid and the consignor agreed. On auction day the lot opened at $5,000 and, as a result of prudent pricing, a bidding war erupted during the live auction and the group of vintage Chanel costume jewelry sold for $25,000.</p>
+            <div class="image-container">
+                <img src="path/to/chanel-vintage-jewelry.jpg" alt="Group of Chanel Vintage Fashion Costume Jewelry. Sold at one of F'RANKELLY's auctions for $25,000.">
+                <p>Group of Chanel Vintage Fashion Costume Jewelry. Sold at one of F'RANKELLY's auctions for $25,000.</p>
             </div>
         </div>
-        
-        <div class="card feature-card">
-            <img src="images/bi-weekly-auctions.jpg" alt="Bi-Weekly Auctions">
-            <div class="card-body">
-                <h5>2. Bi-Weekly Auctions</h5>
-                <p>Unlike many auction houses that hold auctions every few months, we conduct live and online global auctions every two weeks, providing quicker results and more opportunities to sell your items.</p>
+
+        <div class="reason">
+            <h2>2 of 5: We Have Solutions That Others Simply Do Not</h2>
+            <p>While many auction houses hold jewelry and watch auctions every few months, we host live and online global auctions every two (2) weeks, allowing us to provide results for you in a much shorter period of time.</p>
+            <p>Need money even sooner? We've got a solution for that too.</p>
+            <p>Our Lightning Auctions, deliver auction results in just days. This auction format is a first-price sealed-bid auction where a list of pre-qualified bidders, who pay a premium to participate in the auctions, are presented the lots for sale and are allowed to submit their top bid, one time, in a sealed envelope. Once all envelopes have been collected, they are opened and the top bid is taken.</p>
+            <p>The owner of the Rolex Daytona "Rainbow" shown here was not happy with the cash offers that he was given by other buyers. He tried the watch once at auction and it did not sell and was then looking for more immediate solutions. He consigned the watch with F'RANKELLY and we hosted a Lightning Auction for him. The Watch sold to a private client for $375,000 and the consignor was very pleased.</p>
+            <div class="image-container">
+                <img src="path/to/rolex-daytona-rainbow.jpg" alt="Rolex Daytona 'Rainbow' in 18K Gold with Box and Papers Sold at F'RANKELLY for $375,000">
+                <p>Rolex Daytona 'Rainbow' in 18K Gold with Box and Papers Sold at F'RANKELLY for $375,000</p>
             </div>
         </div>
-        
-        <div class="card feature-card">
-            <img src="images/lightning-auctions.jpg" alt="Lightning Auctions">
-            <div class="card-body">
-                <h5>3. Lightning Auctions</h5>
-                <p>Need faster results? Our Lightning Auctions deliver quick outcomes through a first-price sealed-bid format, ensuring your items sell rapidly to pre-qualified bidders.</p>
+
+        <div class="reason">
+            <h2>3 of 5: We Are A Full-Service Specialty House, Not A Limited-Service Everything House</h2>
+            <p>We are a specialty auction house that focuses exclusively on jewelry and watches, making us the experts in our field. From our cutting-edge marketing department to our industry-leading in-house photography studio, our entire team is solely focused on jewelry and watches. Our team of jewelry and watch specialists are highly trained to recognize opportunities to enhance the value of your jewelry and watches, share that knowledge, and make recommendations-and we handle everything for you.</p>
+            <p>We pride ourselves on our industry-leading white glove service. If you decide to move forward with one of the enhancements mentioned above, we will handle the entire process for you and even cover the costs upfront. We believe in delivering excellence in service and taking the burden off of our clients.</p>
+            <p>The piece shown here was sourced from an important estate and came in with no documentation. Our team recognized the style immediately and arranged for the item to be inspected by the world's foremost authority on Suzanne Belperron, who, after study, provided documentation backing its authenticity. A prior appraisal of the item placed the value at $5,000, however, with the work that FORUTNA performed it sold for nearly $140,000 at auction.</p>
+            <div class="image-container">
+                <img src="path/to/suzanne-belperron.jpg" alt="Suzanne Belperron 'Cambodian' Chalcedony Cuff w/ Certificate of Authenticity Sold at F'RANKELLY for $137,500">
+                <p>Suzanne Belperron 'Cambodian' Chalcedony Cuff w/ Certificate of Authenticity Sold at F'RANKELLY for $137,500</p>
             </div>
         </div>
-        
-        <div class="card feature-card">
-            <img src="images/comprehensive-services.jpg" alt="Comprehensive Services">
-            <div class="card-body">
-                <h5>4. Comprehensive Services</h5>
-                <p>We offer fully-insured shipping, cataloging, photography, and marketing of your jewelry and watches at no extra cost. Our dedicated team ensures every item receives the best presentation.</p>
+
+        <div class="reason">
+            <h2>4 of 5: We Have A Global Following</h2>
+            <p>With a dedicated audience of enthusiasts and private collectors in around 100 countries, ready to compete and bid for your jewelry and watches, F'RANKELLY has an extensive global reach, and a finger on the pulse of the various markets around the world, allowing us to target the right market for your jewelry and watches and ensuring that we are able to deliver the best results for you.</p>
+            <p>The diamond shown here was is just one example of many of our international following-celebrities, royalty, billionaires and tycoons. This particular lot sold to a Princess from the Middle East for $260,000.</p>
+            <div class="image-container">
+                <img src="path/to/rare-diamond.jpg" alt="Exceptionally Rare Type IIA D/IF 6.01-Carat Emerald-Cut Diamond, GIA Certified with Mounting Sold at F'RANKELLY for $260,000">
+                <p>Exceptionally Rare Type IIA D/IF 6.01-Carat Emerald-Cut Diamond, GIA Certified with Mounting Sold at F'RANKELLY for $260,000</p>
             </div>
         </div>
-        
-        <div class="card feature-card">
-            <img src="images/success-stories.jpg" alt="Client Success Stories">
-            <div class="card-body">
-                <h5>5. Client Success Stories</h5>
-                <p>Our clients have achieved remarkable results. For instance, a group of vintage Chanel costume jewelry initially reserved at $10,000 was sold for $25,000 after a competitive bidding war.</p>
+
+        <div class="reason">
+            <h2>5 of 5: We Deliver Top Results and Have an Unparalleled Reputation</h2>
+            <p>Our reviews and testimonials speak for themselves. We have earned the trust of our clients through our ethical practices and our ability to deliver top results. <a href="valuation">CLICK HERE</a> to read some of the reviews and testimonials that clients have written about us.</p>
+            <p>Don't settle for less when it comes to selling your valuable assets. Let F'RANKELLY help you. Contact us today to get a free valuation by filling out the Free Valuation Form below.</p>
+            <p>As just one example of our performance (of thousands) we present a rare Cartier Crash watch, which set a world record at one of F'RANKELLY's auctions, fetching an astounding $81,250.</p>
+            <div class="image-container">
+                <img src="path/to/cartier-crash.jpg" alt="The Cartier Crash 1991 Limited Edition; achieved a record-high $81,250 at Fortuna's 2019 IMPORTANT WATCHES auction">
+                <p>The Cartier Crash 1991 Limited Edition; achieved a record-high $81,250 at Fortuna's 2019 IMPORTANT WATCHES auction</p>
             </div>
         </div>
-        
-        <h3 class="text-center">Client Testimonials</h3>
-        <div id="testimonialsCarousel" class="carousel slide mt-5" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="images/client1.jpg" alt="Client 1">
-                    <p>"Jewelry Auction Online made selling my vintage jewelry so easy and profitable. Highly recommend!"</p>
-                    <h5>John Doe</h5>
+
+        <div class="header">
+            <h2>The Process - from Start to Finish</h2>
+            <p>Embarking on your selling journey with F'RANKELLY begins with a valuation and ends with a check in your hand (assuming we are successful!). There are seven simple steps in the process. If you need assistance at any time, don't hesitate to contact us.</p>
+        </div>
+
+        <div class="reason">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Step 1: Preliminary Valuation</h3>
+                    <p>Understanding the true market value of your jewelry and/or watches is the first crucial step in your selling journey. The best way to do this is to obtain a "valuation report" from an auction house—preferably one that has an expertise in jewelry and watches, like F'RANKELLY.</p>
+                    <p>Several factors play a part in the valuation process – the item's make and model, condition, age, provenance, quality, current market conditions, and rarity are among the most important factors.</p>
+                    <p>The best way to begin this part of the process (and the process overall) is to fill out our valuation request form. Once F'RANKELLY's team of jewelry and watch specialists receive your request, they will reach out within just hours and either provide you with a valuation report immediately or request some additional information.</p>
                 </div>
-                <div class="carousel-item">
-                    <img src="images/client2.jpg" alt="Client 2">
-                    <p>"I was amazed by the speed and efficiency of their auction process. Got the best price for my watch!"</p>
-                    <h5>Jane Smith</h5>
+                <div class="col-md-6"><button class="btn" onclick="myFunction()">Request A Valuation</button></div>
+            </div>
+        </div>
+        <div class="reason">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Step 2: Shipping</h3>
+                    <p>At the conclusion of "Step 1" you will have received a preliminary valuation report as well as a prepaid fully-insured shipping label (for US-based consignors only), a packing slip (to be included inside of the package that you ship to us) which will list the contents of the package as well as the insured value of those contents, and "safe packing instructions".</p>
+                    <p>If you run into any issues or have any questions, reach out for help and we will gladly assist.</p>
                 </div>
-                <div class="carousel-item">
-                    <img src="images/client3.jpg" alt="Client 3">
-                    <p>"Professional service from start to finish. Will definitely use Jewelry Auction Online again."</p>
-                    <h5>Sarah Johnson</h5>
+                <div class="col-md-6">
+                    <button class="btn" onclick="myFunction()">Contact Us</button>
                 </div>
             </div>
-            <a class="carousel-control-prev" href="#testimonialsCarousel" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#testimonialsCarousel" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
         </div>
-    </main>
 
-    <footer class="footer text-center py-3 mt-auto">
-        <div>
-            <h6>Jewelry Auction</h6>
-            <a href="register.jsp">Register</a> |
-            <a href="login.jsp">Login</a> |
-            <a href="#">Help & FAQ</a> |
-            <a href="#">Support</a> |
-            <a href="#">Sitemap</a>
+        <div class="reason">
+            <h3>Step 3: Final Valuation & Consignment</h3>
+            <p>Once the package arrives at F'RANKELLY's New York City Fifth Avenue office, the team will unpack the items and email you to let you know that we've received the items in good order.</p>
+            <p>Following this, the team will perform a more-detailed inspection and study of the items and update the valuation report, if needed, and issue you a final valuation report. After you confirm that you are in agreement and would like to move forward, you will be sent a consignment agreement, which, among other things, gives us the legal authorization to represent and sell your jewelry and/or watches.</p>
         </div>
-        <div>
-            <span>&copy; <script>document.write(new Date().getFullYear())</script> Jewelry Auction. All rights reserved.</span>
+
+        <div class="reason">
+            <h3>Step 4: Pre-Auction Preparation</h3>
+            <p>After consignment is complete, our team of jewelry and watch specialists go to work preparing auction catalog descriptions and executing any value enhancement services that might be required (such as obtaining a report from a lab or performing a small repair), all of which would have to be approved by you beforehand and all of which is covered by F'RANKELLY fully upfront.</p>
+            <p>In addition, our industry-leading photo studio goes to work creating the beautiful content that we are known around the world for.</p>
         </div>
-    </footer>
 
-    <!-- jQuery, Popper.js, and Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
-    <script>
-    function myFunction() {
-        window.location = "valuation";
-    }
+        <div class="reason">
+            <h3>Step 5: Pre-Auction Marketing</h3>
+            <p>All items in an auction are organized into what are known as "lots". When lots are ready to be presented to our global audience of bidders/buyers, they are uploaded on our online auction platform and many third-party auction sites.</p>
+            <p>After this, our marketing team begins their work promoting the sale and lots to a global audience.</p>
+            <p>Interested bidders are allowed to "pre-bid" in any of our auctions, meaning that, for the two weeks (approx.) leading up to an auction, bidders are allowed to bid against one another—our online platform will reflect this bidding activity showing "current bid".</p>
+        </div>
 
-    // Google Analytics
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'UA-XXXXX-Y');
-    </script>
+        <div class="reason">
+            <h3>Step 6: Auction Day</h3>
+            <p>On the live auction day, each lot is opened by the auctioneer, bids are accepted from online, absentee, and phone bidders, and winning bidders are declared when the hammer falls. Invoices are sent out to winning bidders immediately following the auction.</p>
+        </div>
+
+        <div class="header">
+            <div>To jump ahead and submit a valuation request, click the button below.</div>
+            <button class="btn" onclick="myFunction()">Request A Valuation</button>
+        </div>
+    </div>
+    <br><br>
+    <footer class="text-center py-4 mt-auto"
+    style="background-color: #000; color: #fff; position: relative; overflow: hidden;">
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h5>Jewelry Auction</h5>
+            <p>Your premier destination for exquisite jewelry and
+                gemstones. Discover the timeless beauty and elegance
+                in our curated collections.</p>
+        </div>
+        <div class="col-md-4">
+            <h5>Quick Links</h5>
+            <ul class="list-unstyled">
+                <li><a
+                        href="${pageContext.request.contextPath}/register"
+                        style="color: #ffc107;">Register</a></li>
+                <li><a
+                        href="${pageContext.request.contextPath}/login"
+                        style="color: #ffc107;">Login</a></li>
+                <li><a
+                        href="${pageContext.request.contextPath}/auctions"
+                        style="color: #ffc107;">Auctions</a></li>
+                <li><a
+                        href="${pageContext.request.contextPath}/selling"
+                        style="color: #ffc107;">Selling</a></li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h5>Contact Us</h5>
+            <p><i class="fas fa-phone-alt"></i> +849872539999</p>
+            <p><i class="fas fa-envelope"></i>
+                support@jewelryauction.com</p>
+            <p><i class="fas fa-map-marker-alt"></i> 123 Jewelry
+                Street, New York, NY</p>
+            <div class="social-icons mt-3">
+                <a href="#" class="mx-2"
+                   style="color: #ffc107; transition: transform 0.3s;"><i
+                        class="fab fa-facebook-f"></i></a>
+                <a href="#" class="mx-2"
+                   style="color: #ffc107; transition: transform 0.3s;"><i
+                        class="fab fa-twitter"></i></a>
+                <a href="#" class="mx-2"
+                   style="color: #ffc107; transition: transform 0.3s;"><i
+                        class="fab fa-instagram"></i></a>
+                <a href="#" class="mx-2"
+                   style="color: #ffc107; transition: transform 0.3s;"><i
+                        class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4">
+        <p>&copy; 2024 Jewelry Auction. All rights reserved.</p>
+    </div>
+</div>
+<!-- Decorative Elements -->
+<div class="footer-decoration">
+    <div class="footer-diamond"
+         style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%);">
+        <i class="fas fa-gem"
+           style="color: #ffc107; font-size: 50px; animation: pulse 2s infinite;"></i>
+    </div>
+    <div class="footer-lines"
+         style="position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, #ffc107, transparent); animation: slide 10s infinite;"></div>
+</div>
+</footer>
 </body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+        function myFunction() {
+            window.location = "valuation";
+        }
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var dropdowns = document.querySelectorAll('.nav-item.dropdown');
+
+        dropdowns.forEach(function (dropdown) {
+            dropdown.addEventListener('mouseenter', function () {
+                var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                if (dropdownMenu) {
+                    dropdownMenu.classList.add('show');
+                }
+            });
+            dropdown.addEventListener('mouseleave', function () {
+                var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                if (dropdownMenu) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $("a.nav-link").on('click', function (event) {
+            if (this.hash !== "") {
+                event.preventDefault();
+                var hash = this.hash;
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 800, function () {
+                    window.location.hash = hash;
+                });
+            }
+        });
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        window.addEventListener("scroll", function () {
+            if (window.scrollY > 50) {
+                document.querySelector(".navbar").classList.add("navbar-scrolled");
+            } else {
+                document.querySelector(".navbar").classList.remove("navbar-scrolled");
+            }
+        });
+    });
+</script>
 </html>

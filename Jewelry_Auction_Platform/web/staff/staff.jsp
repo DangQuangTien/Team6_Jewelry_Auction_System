@@ -1,26 +1,9 @@
 <%@page import="entity.valuation.Valuation"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="java.time.LocalTime"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%
-    String greeting = "day!";
-    try {
-        LocalTime now = LocalTime.now();
-        int hour = now.getHour();
-        if (hour < 12) {
-            greeting = "Morning!";
-        } else if (hour < 17) {
-            greeting = "Afternoon!";
-        } else {
-            greeting = "Evening!";
-        }
-    } catch (Exception ex) {
-        ex.getMessage();
-    }
-%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -177,17 +160,7 @@
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <!-- Professional greeting -->
-                <div class="greeting-container">
-                    <h3 class="greeting">Good <%= greeting%>!</h3>
-                    <p class="greeting-message">Welcome back to the Staff Portal.</p>
-                </div>
-            </ul>
-        </div>
     </nav>
-
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
@@ -212,6 +185,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/approvedRequest">
                             <i class="fas fa-thumbs-up"></i> Approval Request
+                        </a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/">
+                             Transaction History
                         </a>
                     </li>
                     <li class="nav-item">

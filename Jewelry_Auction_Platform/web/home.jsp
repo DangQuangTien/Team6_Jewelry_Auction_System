@@ -44,8 +44,8 @@
             .navbar-scrolled {
                 background-color: black;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-                padding-top: 10px;
-                padding-bottom: 10px;
+                padding-top: 1px;
+                padding-bottom: 1px;
             }
 
             .navbar-brand .brand-name {
@@ -173,8 +173,10 @@
             }
 
             .card-title {
-                font-size: 18px;
-                font-weight: bold;
+                font-size: 15px;
+                color: #000;
+                font-family: Verdana;
+                text-align: center
             }
 
             .card-text {
@@ -380,69 +382,50 @@
                 text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             }
             .banner-text {
-   position: absolute;
-    top: 50%;
-    left: 20px; /* Adjust left spacing as needed */
-    transform: translateY(-50%);
-    color: #fff;
-    text-align: left; /* Align text to the left */
-    z-index: 1;
+                position: absolute;
+                top: 50%;
+                left: 20px; /* Adjust left spacing as needed */
+                transform: translateY(-50%);
+                color: #fff;
+                text-align: left; /* Align text to the left */
+                z-index: 1;
             }
 
- .banner-heading,
-.banner-subheading {
-    opacity: 0;
-    transform: translateY(-20px);
-    animation: slideIn 1s forwards;
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-.banner-heading {
-    font-size: 48px;
-    margin-bottom: 20px;
-    opacity: 0;
-    transform: translateY(-20px);
-    animation: slideIn 1s forwards 0.5s;
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    font-family: 'Zapf-Chancery';
-}
-
-.banner-subheading {
-    font-size: 20px;
-    margin-bottom: 30px;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: slideIn 1s forwards 0.7s;
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    font-family: Courier
-}
-
-            .btn-banner {
-                font-size: 18px;
-                padding: 12px 30px;
-                border-radius: 25px;
-                background-color: #000;
-                color: #ffc107;
-                transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+            .banner-heading,
+            .banner-subheading {
                 opacity: 0;
-                transform: translateY(40px);
-                animation: slideIn 1s forwards 0.9s;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                transform: translateY(-20px);
+                animation: slideIn 1s forwards;
+                text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             }
 
-            .btn-banner:hover {
-                background-color: #333;
-                color: #e4af11;
-                transform: scale(1.1);
+            .banner-heading {
+                font-size: 80px;
+                margin-bottom: 100px;
+                margin-left: 60px;
+                opacity: 0;
+                transform: translateY(-200px);
+                animation: slideIn 1s forwards 0.5s;
+                text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                font-family: 'Zapf-Chancery';
             }
 
+            .banner-subheading {
+                font-size: 30px;
+                margin-left: 70px;
+                margin-bottom: 300px;
+                opacity: 0;
+                transform: translateY(-100px);
+                animation: slideIn 1s forwards 0.7s;
+                text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                font-family: 'Andale Mono';
+            }
             @keyframes slideIn {
                 to {
                     opacity: 1;
                     transform: translateY(0);
                 }
             }
-
         </style>
     </head>
     <body>
@@ -497,8 +480,11 @@
                                    href="${pageContext.request.contextPath}/selling">ABOUT
                                     SELLING</a>
                                 <a style="font-family:Andale Mono" class="dropdown-item"
-                                   href="${pageContext.request.contextPath}/valuation">VALUATION
-                                    REQUEST</a>
+                                   href="response">APPRAISE ASSET
+                                </a>
+                                <a style="font-family:Andale Mono" class="dropdown-item"
+                                   href="valuation">VALUATION REQUEST
+                                </a>
                             </div>
                         </li>
                         <li class="nav-item">
@@ -555,9 +541,9 @@
                                     <div class="dropdown-menu"
                                          aria-labelledby="userDropdown">
                                         <a class="dropdown-item"
-                                           href="${url}">Profile</a>
+                                           href="${url}">PROFILE</a>
                                         <a class="dropdown-item"
-                                           href="${pageContext.request.contextPath}/logout">Logout</a>
+                                           href="${pageContext.request.contextPath}/logout">LOGOUT</a>
                                     </div>
                                 </li>
                             </c:otherwise>
@@ -569,22 +555,23 @@
 
         <!-- Banner -->
         <section class="welcome-section">
-    <div class="banner">
-        <div class="banner-image"></div>
-        <div class="particle-background"></div>
-        <div class="banner-text">
-            <h2 class="banner-heading">Welcome to F'RANKELLY</h2>
-            <p class="banner-subheading">
-                Where every piece of fine jewelry tells a story of elegance and timeless beauty<br> Explore our curated collection, <br>meticulously crafted to captivate and inspire, <br>as each gem and setting whispers tales of luxury and sophistication.
-            </p>
-        </div>
-    </div>
-</section>
+            <div class="banner">
+                <div class="banner-image"></div>
+                <div class="particle-background"></div>
+                <div class="banner-text">
+                    <h2 class="banner-heading">Welcome to F'RANKELLY</h2>
+                    <p class="banner-subheading">
+                        Where every piece of fine jewelry tells a story of elegance and timeless beauty<br>Explore our curated collection, <br><br>Meticulously crafted to captivate and inspire, <br>As each gem and setting whispers tales of luxury and sophistication.
+                    </p>
+                </div>
+            </div>
+        </section>
 
 
         <!-- Content -->
+        <hr>
         <div class="content container mt-5">
-            <h2>Upcoming Auction</h2>
+            <div style="text-align: center; margin: 0; padding: 20px 0; font-family: Verdana; font-size: 1.75em">AUCTION HIGHLIGHTS</div>
             <div id="carouselExampleControls" class="carousel slide"
                  data-ride="carousel">
                 <div class="carousel-inner">
@@ -599,8 +586,10 @@
                                                     <a style="text-decoration: none" href="${pageContext.request.contextPath}/auction?auctionID=${jewelry.auctionID}">
                                                         <div class="card">
                                                             <img src="${pageContext.request.contextPath}/${fn:split(jewelry.photo, ';')[0]}" class="card-img-top" alt="${jewelry.jewelryName}">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title">${jewelry.jewelryName}</h5>
+                                                            <div style="background-color: #f5f5f5" class="card-body">
+                                                                <div class="card-title">${jewelry.jewelryName}</div>
+                                                                <hr>
+                                                                <div style="font-style: italic" class="card-title">SOLD for $1500</div>
                                                             </div>
                                                         </div>
                                                     </a>

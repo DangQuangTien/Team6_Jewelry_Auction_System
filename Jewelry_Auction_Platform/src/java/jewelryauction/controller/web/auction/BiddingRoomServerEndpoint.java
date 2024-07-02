@@ -60,6 +60,8 @@ public class BiddingRoomServerEndpoint {
         dao.selectWinnerID(selectedJewelryID, dao.getTheHighestBid(selectedJewelryID));
         
         dao.closeSession(selectedJewelryID);
+        dao.findAndSetWinner(selectedJewelryID);
+        dao.updateAllPlacedToLost(selectedJewelryID);
         
     }
 
@@ -86,18 +88,16 @@ public class BiddingRoomServerEndpoint {
                 dao.saveBid(bid, jewelryID, memberID);
             }
             sendMessageToClient(session, "You are winning with $" + bidCurrent);
-            JSONObject bidMessage = createBidMessage(bid);
+             String bidMessage = createBidMessage(bid); 
             broadcastBid(auctionID, bidMessage);
         } else {
             sendMessageToClient(session, "Your bid must be higher than the current highest bid: $" + theHighestBid);
         }
     }
 
-    private JSONObject createBidMessage(String bid) {
-        JSONObject bidMessage = new JSONObject();
-        bidMessage.put("Floor Bid", bid);
-        bidMessage.put("Time", Timestamp.valueOf(LocalDateTime.now()));
-        return bidMessage;
+    private String createBidMessage(String bid) {
+        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
+        return String.format("Floor Bid: %s at %s", bid, timestamp.toString());
     }
 
     @OnClose
@@ -125,12 +125,12 @@ public class BiddingRoomServerEndpoint {
         }
     }
 
-    private void broadcastBid(String auctionID, JSONObject bidMessage) {
+    private void broadcastBid(String auctionID, String message) {
         Set<Session> sessions = auctionSessions.getOrDefault(auctionID, Collections.emptySet());
         for (Session session : sessions) {
             synchronized (session) {
                 try {
-                    session.getBasicRemote().sendText(bidMessage.toString());
+                    session.getBasicRemote().sendText(message);
                 } catch (IOException e) {
                 }
             }
