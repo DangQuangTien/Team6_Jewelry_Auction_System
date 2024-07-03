@@ -150,6 +150,7 @@ CREATE TABLE Jewelry (
     photos NVARCHAR(MAX),
     [status] VARCHAR(50) DEFAULT 'Re-Evaluated',
     final_Price VARCHAR(255),
+	Sold decimal(18,2) default 0,
     FOREIGN KEY (valuationId) REFERENCES RequestValuation(valuationId),
     FOREIGN KEY (categoryID) REFERENCES category(categoryID)
 );
@@ -234,13 +235,16 @@ GO
 drop trigger autogenerate_bidID
 CREATE TABLE Invoice(
     invoiceID VARCHAR(50) NOT NULL PRIMARY KEY,
-    registerBidID VARCHAR(50) NOT NULL,
-    invoiceDate DATETIME NOT NULL,
-    totalAmount DECIMAL(18,2) NOT NULL,
-    paymentMethod VARCHAR(50),  -- Field for payment method
-    shippingAddress NVARCHAR(500),  -- Field for shipping address
-    CONSTRAINT fk_RegisterBid FOREIGN KEY (registerBidID) REFERENCES Register_Bid(registerBidID)
-);    
+    memberID VARCHAR(50),
+	jewelryID VARCHAR(50),
+    invoiceDate DATETIME ,
+    totalAmount DECIMAL(18,2) ,
+    FOREIGN KEY (memberID) REFERENCES Member(memberID)
+);
+Insert Invoice(invoiceID, memberID, jewelryID, invoiceDate, totalAmount) values ('52446360', 'Member1', 'Lot44', '2024-07-03 01:43:07', '5100000000')
+delete from Invoice
+93 000 00 0 00.00
+
 GO
 -- Create triggers
 CREATE TRIGGER check_unique_username
@@ -483,5 +487,54 @@ select j.jewelryID, j.photos, r.preBid_Amount  from Register_Bid r, Session s, J
 select * from Users
 select * from Member
 
+select * from Register_Bid r, Session s where r.sessionID = s.sessionID and s.jewelryID = 'Lot44'
 
 select * FROM Auction WHERE status = 1
+
+UPDATE Register_Bid 
+SET status = 'Pending Payment'
+WHERE memberID = 'Member1' 
+  AND status = 'Paid'
+  AND sessionID IN (
+    SELECT s.sessionID
+    FROM Session s
+    WHERE s.jewelryID = 'Lot44'
+  );
+
+  select * from Jewelry
+  delete from Invoice
+  
+
+  select j.jewelryID, j.jewelryName, j.photos, m.firstName, m.lastName, r.bidAmount_Current from Jewelry j, Session s, Register_Bid r, Member m where j.jewelryID = s.jewelryID and s.sessionID = r.sessionID and r.status = 'Paid' and r.memberID = m.memberID
+  select inv.invoiceID, inv.invoiceDate, inv.totalAmount, j.jewelryID, j.jewelryName, j.photos, j.status,  m.firstName, m.lastName
+  from Invoice inv, Member m, Jewelry j where inv.jewelryID = j.jewelryID and inv.memberID = m.memberID
+
+  s
+  select * from Session
+  select * from Invoice
+
+UPDATE rb
+SET rb.status = 'Paid'
+FROM Register_Bid rb
+INNER JOIN [Session] s ON rb.sessionID = s.sessionID
+WHERE s.jewelryID = 'Lot44' and rb.status = 'Delivery'
+
+UPDATE Jewelry SET status = 'SOLD' where jewelryID = ?
+select * from Jewelry
+SELECT inv.invoiceID, inv.invoiceDate, inv.totalAmount, j.jewelryID, j.jewelryName, j.photos, m.firstName, m.lastName
+FROM Invoice inv
+JOIN Jewelry j ON inv.jewelryID = j.jewelryID
+JOIN Member m ON inv.memberID = m.memberID
+WHERE j.status = 'Confirmed';
+
+alter table Jewelry
+add Sold DECIMAL(18,2) default 0
+
+UPDATE j
+SET j.Sold = i.totalAmount
+FROM Jewelry j
+JOIN Invoice i ON j.jewelryID = i.jewelryID
+WHERE j.jewelryID = 'Lot48';
+
+
+select * from Users

@@ -6,12 +6,14 @@ package dao;
 
 import dto.UserDTO;
 import entity.Auction.Auction;
+import entity.Invoice.Invoice;
 import entity.member.Member;
 import entity.product.Category;
 import entity.product.Jewelry;
 import entity.product.RandomJewelry;
 import entity.request_shipment.RequestShipment;
 import entity.valuation.Valuation;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -69,17 +71,17 @@ public class UserDAOImpl implements UserDao {
 
     @Override
     public Member getInformation(String userID) {
-        String query = "select m.* from Member m, Users u where m.userID = u.userID and u.userID = ?";
+        String query = "SELECT m.* FROM Member m JOIN Users u ON m.userID = u.userID WHERE u.userID = ?";
         try {
             conn = DBUtils.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, userID);
             rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 return new Member(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7), rs.getString(8), rs.getInt(9));
             }
         } catch (ClassNotFoundException | SQLException ex) {
-            ex.getMessage();
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -107,7 +109,7 @@ public class UserDAOImpl implements UserDao {
             }
             return lst;
         } catch (ClassNotFoundException | SQLException ex) {
-            ex.getMessage();
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -240,6 +242,7 @@ public class UserDAOImpl implements UserDao {
                     jewelry.setValuationId(rs.getString("valuationID"));
                     jewelry.setStatus(rs.getString("status"));
                     jewelry.setPhotos(rs.getString("photos"));
+                    jewelry.setTotalAmount(rs.getBigDecimal("Sold"));
                     jewelryList.add(jewelry);
                 }
             }
@@ -774,15 +777,13 @@ public class UserDAOImpl implements UserDao {
     @Override
     public Jewelry getJewelryDetails(String jewelryID) {
         String query = "SELECT * FROM JEWELRY j, category c WHERE c.categoryID = j.categoryID and j.jewelryID = ?";
-
         try {
             conn = DBUtils.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, jewelryID);
             rs = ps.executeQuery();
             Jewelry jewelry = new Jewelry();
-
-            while (rs.next()) {
+            if (rs.next()) {
                 jewelry.setJewelryID(rs.getString("jewelryID"));
                 jewelry.setCategoryName(rs.getString("categoryName"));
                 jewelry.setJewelryName(rs.getString("jewelryName"));
@@ -1031,7 +1032,7 @@ public class UserDAOImpl implements UserDao {
     public boolean updateJewelry(Jewelry jewelry) {
         String sql = "UPDATE Jewelry SET artist=?, circa=?, material=?, dial=?, braceletMaterial=?, caseDimensions=?, braceletSize=?, "
                 + "serialNumber=?, referenceNumber=?, caliber=?, movement=?, [condition]=?, metal=?, gemstones=?, measurements=?, "
-                + "weight=?, stamped=?, ringSize=? WHERE jewelryID=?";
+                + "weight=?, stamped=?, ringSize=?, jewelryName = ? WHERE jewelryID=?";
 
         try ( Connection con = DBUtils.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -1053,8 +1054,8 @@ public class UserDAOImpl implements UserDao {
             ps.setString(16, jewelry.getWeight());
             ps.setString(17, jewelry.getStamped());
             ps.setString(18, jewelry.getRingSize());
-            ps.setString(19, jewelry.getJewelryID()); // Corrected index to 19
-
+            ps.setString(19, jewelry.getJewelryName());
+            ps.setString(20, jewelry.getJewelryID());
             int affectedRows = ps.executeUpdate();
             return affectedRows > 0;
 
@@ -1201,7 +1202,7 @@ public class UserDAOImpl implements UserDao {
     @Override
     public List<Jewelry> AuctionJewelryRegister(String memberID) {
         List<Jewelry> listJewelry = new ArrayList<>();
-        String query = "select j.jewelryID, j.jewelryName, j.photos, r.preBid_Amount, r.status from Register_Bid r, Session s, Jewelry j where r.sessionID = s.sessionID and j.jewelryID = s.jewelryID and r.memberID = ?";
+        String query = "select j.jewelryID, j.jewelryName, j.photos, r.bidAmount_Current, r.status from Register_Bid r, Session s, Jewelry j where r.sessionID = s.sessionID and j.jewelryID = s.jewelryID and r.memberID = ?";
         try {
             conn = DBUtils.getConnection();
             ps = conn.prepareStatement(query);
@@ -1212,7 +1213,7 @@ public class UserDAOImpl implements UserDao {
                 jewelry.setJewelryID(rs.getString(1));
                 jewelry.setJewelryName(rs.getString(2));
                 jewelry.setPhotos(rs.getString(3));
-                jewelry.setPreBid(rs.getDouble(4));
+                jewelry.setCurrentBid(rs.getDouble(4));
                 jewelry.setStatusBid(rs.getString(5));
                 listJewelry.add(jewelry);
             }
@@ -1301,4 +1302,176 @@ public class UserDAOImpl implements UserDao {
         return false; // Update failed or no records updated
     }
 
+    @Override
+    public boolean updateRegisterBidStatus(String memberID, String jewelryID) {
+        String updateQuery = "UPDATE Register_Bid \n"
+                + "SET status = 'Paid'\n"
+                + "WHERE memberID = ? \n"
+                + "  AND status = 'Pending Payment'\n"
+                + "  AND sessionID IN (\n"
+                + "    SELECT s.sessionID\n"
+                + "    FROM Session s\n"
+                + "    WHERE s.jewelryID = ?\n"
+                + "  );";
+
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(updateQuery)) {
+
+            ps.setString(1, memberID);
+            ps.setString(2, jewelryID);
+
+            int rowAffected = ps.executeUpdate();
+            return rowAffected > 0;
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.printStackTrace();  // Consider using a logging framework like SLF4J for better logging
+        }
+        return false;
+    }
+
+    @Override
+    public void insertInvoice(Invoice invoice) {
+        String INSERT_INVOICE_SQL = "INSERT INTO Invoice (invoiceID, memberID, jewelryID, invoiceDate, totalAmount) VALUES (?, ?, ?, ?, ?)";
+        try ( Connection connection = DBUtils.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(INSERT_INVOICE_SQL)) {
+            preparedStatement.setString(1, invoice.getInvoiceID());
+            preparedStatement.setString(2, invoice.getMemberID());
+            preparedStatement.setString(3, invoice.getJewelryID());
+            preparedStatement.setString(4, invoice.getInvoiceDate());
+            preparedStatement.setBigDecimal(5, invoice.getTotalAmount());
+            preparedStatement.executeUpdate();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public List<Invoice> showAllInvoices() {
+        String SELECT_ALL_INVOICES_SQL
+                = "SELECT inv.invoiceID, inv.invoiceDate, inv.totalAmount, j.jewelryID, j.jewelryName, j.photos, m.firstName, m.lastName\n"
+                + "FROM Invoice inv\n"
+                + "JOIN Jewelry j ON inv.jewelryID = j.jewelryID\n"
+                + "JOIN Member m ON inv.memberID = m.memberID\n"
+                + "WHERE j.status = 'Confirmed';";
+        List<Invoice> invoices = new ArrayList<>();
+        try ( Connection connection = DBUtils.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_INVOICES_SQL);  ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String invoiceID = resultSet.getString("invoiceID");
+                String invoiceDate = resultSet.getString("invoiceDate");
+                BigDecimal totalAmount = resultSet.getBigDecimal("totalAmount");
+                String jewelryID = resultSet.getString("jewelryID");
+                String jewelryName = resultSet.getString("jewelryName");
+                String photos = resultSet.getString("photos");
+                String firstName = resultSet.getString("firstName");
+                String lastName = resultSet.getString("lastName");
+
+                Invoice invoice = new Invoice();
+                invoice.setInvoiceID(invoiceID);
+                invoice.setInvoiceDate(invoiceDate);
+                invoice.setTotalAmount(totalAmount);
+                invoice.setJewelryID(jewelryID);
+                invoice.setJewelryName(jewelryName);
+                invoice.setPhotos(photos);
+                invoice.setFirstName(firstName);
+                invoice.setLastName(lastName);
+
+                invoices.add(invoice);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return invoices;
+    }
+
+    @Override
+    public boolean confirmPayment(String jewelryID) {
+        String sql = "UPDATE rb\n"
+                + "SET rb.status = 'Delivery'\n"
+                + "FROM Register_Bid rb\n"
+                + "INNER JOIN [Session] s ON rb.sessionID = s.sessionID\n"
+                + "WHERE s.jewelryID = ? and rb.status = 'Paid'";
+
+        String updateJewelryStatus = "UPDATE Jewelry SET status = 'SOLD' WHERE jewelryID = ?";
+
+        try ( Connection connection = DBUtils.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql);  PreparedStatement ps = connection.prepareStatement(updateJewelryStatus)) {
+
+            // Set parameter for jewelryID in the first query
+            preparedStatement.setString(1, jewelryID);
+            // Execute the first update
+            int rowsUpdated = preparedStatement.executeUpdate();
+
+            // Set parameter for jewelryID in the second query
+            ps.setString(1, jewelryID);
+            // Execute the second update
+            int rowsUpdatedJewelry = ps.executeUpdate();
+
+            // Return true if at least one row was updated in both queries
+            return rowsUpdated > 0 && rowsUpdatedJewelry > 0;
+
+        } catch (SQLException e) {
+            return false;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public List<Invoice> showAllPastInvoices() {
+        String SELECT_ALL_INVOICES_SQL
+                = "SELECT inv.invoiceID, inv.invoiceDate, inv.totalAmount, j.jewelryID, j.jewelryName, j.photos, m.firstName, m.lastName\n"
+                + "FROM Invoice inv\n"
+                + "JOIN Jewelry j ON inv.jewelryID = j.jewelryID\n"
+                + "JOIN Member m ON inv.memberID = m.memberID\n";
+        List<Invoice> invoices = new ArrayList<>();
+        try ( Connection connection = DBUtils.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_INVOICES_SQL);  ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                String invoiceID = resultSet.getString("invoiceID");
+                String invoiceDate = resultSet.getString("invoiceDate");
+                BigDecimal totalAmount = resultSet.getBigDecimal("totalAmount");
+                String jewelryID = resultSet.getString("jewelryID");
+                String jewelryName = resultSet.getString("jewelryName");
+                String photos = resultSet.getString("photos");
+                String firstName = resultSet.getString("firstName");
+                String lastName = resultSet.getString("lastName");
+
+                Invoice invoice = new Invoice();
+                invoice.setInvoiceID(invoiceID);
+                invoice.setInvoiceDate(invoiceDate);
+                invoice.setTotalAmount(totalAmount);
+                invoice.setJewelryID(jewelryID);
+                invoice.setJewelryName(jewelryName);
+                invoice.setPhotos(photos);
+                invoice.setFirstName(firstName);
+                invoice.setLastName(lastName);
+
+                invoices.add(invoice);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return invoices;
+    }
+
+    @Override
+    public void updateSoldAmount(String jewelryID) {
+        String query = "UPDATE j\n"
+                + "SET j.Sold = i.totalAmount\n"
+                + "FROM Jewelry j\n"
+                + "JOIN Invoice i ON j.jewelryID = i.jewelryID\n"
+                + "WHERE j.jewelryID = ?";
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, jewelryID);
+            ps.executeUpdate();
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
 }

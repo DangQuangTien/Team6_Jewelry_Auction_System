@@ -2,31 +2,27 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package jewelryauction.controller.member;
+package jewelryauction.controller.staff;
 
 import dao.UserDAOImpl;
 import dao.UserDao;
-import entity.member.Member;
-import entity.product.Jewelry;
+import entity.Invoice.Invoice;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author User
  */
-@WebServlet(name = "MyBidServlet", urlPatterns = {"/my-upcoming-bids"})
-public class MyBidServlet extends HttpServlet {
-    
-    private static final long serialVersionUID = 1L;
-    private final UserDao dao = new UserDAOImpl();
+@WebServlet(name = "TransactionReportServlet", urlPatterns = {"/transaction"})
+public class TransactionReportServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,20 +36,13 @@ public class MyBidServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            Member member = (Member) session.getAttribute("MEMBER");
-            if (member != null) {
-                List<Jewelry> listJewelry = dao.AuctionJewelryRegister(member.getMemberID());
-                request.setAttribute("JEWELRYLIST", listJewelry);
-                request.getRequestDispatcher("/bidder/mybids.jsp").forward(request, response);
-            } else {
-                // Handle case where member is null, maybe redirect to login or show an error page
-                response.sendRedirect("login"); // Example redirect to login page
-            }
-        } catch (IOException | ServletException e) {
-            // Log exception or handle it appropriately
-            throw new ServletException("Error processing request", e);
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            UserDao dao = new UserDAOImpl();
+            List<Invoice> invoices = new ArrayList<>();
+            invoices = dao.showAllInvoices();
+            request.setAttribute("INVOICES", invoices);
+            request.getRequestDispatcher("/staff/transaction.jsp").forward(request, response);
         }
     }
 

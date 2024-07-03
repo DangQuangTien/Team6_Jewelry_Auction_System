@@ -192,7 +192,7 @@
                 <input type="text" name="lastName" placeholder="Last name" autocomplete="family-name" required="required" style="width: 48%;">
             </div>
             <input type="email" name="email" placeholder="Email address" autocomplete="email" required="required" style="width: 100%;">
-            <input type="tel" name="phone" placeholder="Phone number" autocomplete="tel" style="width: 100%;">
+            <input type="text" name="username" placeholder="Username" autocomplete="" style="width: 100%;">
             <div class="dob-container">
                 <select name="dobDay" required>
                     <option value="">Day</option>
@@ -220,11 +220,12 @@
                 <label><input type="radio" name="gender" value="female" required> Female</label>
                 <label><input type="radio" name="gender" value="other" required> Other</label>
             </div>
+                <input type="password" name="password" placeholder="Password" autocomplete="" style="width: 100%;">
             <div class="checkbox-container">
                 <input type="checkbox" name="agreed" id="agreed" required>
                 <label for="agreed">By registering, you confirm you are 18 years old or older, and you have read and agreed to the privacy policy.</label>
             </div>
-            <input type="submit" name="action" value="Register User">
+            <input type="submit" name="action" value="Register">
         </form>
         <br>
         <div>Already registered? <a href="${pageContext.request.contextPath}/login">Log in instead</a></div>
