@@ -125,5 +125,6 @@ public interface UserDao {
     List<Invoice> showAllPastInvoices();
 
     boolean confirmPayment(String jewelryID);
+
     void updateSoldAmount(String jewelryID);
 }
