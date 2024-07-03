@@ -10,10 +10,11 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>F'RANKELLY® - Get A Jewelry and/or Watch Valuation Before Selling</title>
+        <title>F'RANKELLY? - Get A Jewelry and/or Watch Valuation Before Selling</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <style>
             body {
                 display: flex;
@@ -185,7 +186,7 @@
                 color: #e9ecef;
                 transform: scale(1.05);
             }
-            
+
         </style>
     </head>
     <body ng-controller="validateCtrl" class="d-flex flex-column min-vh-100">
@@ -359,7 +360,7 @@
     </div>
 </main>
 <footer style="background-color: #000407; font-family: Helvetica; height: 60px">
-    <span style="color: lightgrey; font-size: 14px">© F'RANKELLY AUCTION <script>document.write(new Date().getFullYear())</script></span>
+    <span style="color: lightgrey; font-size: 14px">? F'RANKELLY AUCTION <script>document.write(new Date().getFullYear())</script></span>
 </footer>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>

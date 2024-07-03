@@ -32,12 +32,10 @@ public class ConfirmPaymentServlet extends HttpServlet {
             jsonPayload.append(line);
         }
 
-        // Chuyển đổi JSON thành đối tượng Java (nếu cần)
         JSONObject jsonObject = new JSONObject(jsonPayload.toString());
         String invoiceID = jsonObject.getString("invoiceID");
         String jewelryID = jsonObject.getString("jewelryID");
 
-        // Xử lý logic xác nhận thanh toán ở đây
         UserDao dao = new UserDAOImpl();
         try {
             boolean result = dao.confirmPayment(jewelryID);
