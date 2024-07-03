@@ -400,6 +400,15 @@
             .btn:hover {
                 background-color: #cc0000;
             }
+            .countdown {
+                font-family: Arial, sans-serif;
+                font-size: 24px;
+                font-weight: bold;
+                color: #333;
+                text-align: center;
+                margin-top: 20px;
+                color: black
+            }
 
         </style>
     </head>
@@ -409,18 +418,23 @@
             String memberID = null;
             if (member != null) {
                 memberID = member.getMemberID();
+            } else {
+                // If member is not logged in, redirect to login page
+                response.sendRedirect("${pageContext.request.contextPath}/login");
             }
         %>
+
         <div class="chat-header">
-            <div style="font-family: Tahoma;  font-size: 14px; color: #111; font-weight: bold">
-                LIVE AUCTION
+            <div style="font-family: Tahoma; font-size: 14px; color: #111; font-weight: bold">
+                LIVE AUCTION <div id="countdown">99:99</div>
             </div>
             <div class="exit-button">
                 <form action="${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>" method="post">
-                    <button  class="btn ">EXIT</button>
+                    <button class="btn">EXIT</button>
                 </form>
             </div>
         </div>
+
 
         <!-- Display catalog of auction -->
         <div class="grid-container">
@@ -441,12 +455,12 @@
                                 <p class="card-text" style="display: none;">Current Bid: <%= jewelry.getCurrentBid()%></p> <!-- Hidden current bid -->
                                 <input type="hidden" class="current-bid-value" value="<%= jewelry.getCurrentBid()%>"> <!-- Hidden input with current bid value -->
                             </div>
+
                         </div>
                     </div>
                     <% }%>
                 </div>
             </div>
-
             <div class="chat-container">
                 <div class="chat-messages" id="chatMessages">
                     <!-- Messages will be displayed here -->
@@ -457,8 +471,33 @@
                 </div>
             </div>
         </div>
-
         <script>
+            function startCountdown(duration) {
+                let timer = duration, minutes, seconds;
+                const countdownElement = document.getElementById('countdown');
+
+                const interval = setInterval(() => {
+                    minutes = Math.floor(timer / 60);
+                    seconds = timer % 60;
+
+                    // Format the time as MM:SS
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                    countdownElement.textContent = minutes + ":" + seconds;
+
+                    if (--timer < 0) {
+                        // When the timer reaches zero, reset it to the original duration
+                        timer = duration;
+                    }
+                }, 1000); // Update every second
+            }
+
+            const duration = 900000 / 1000;
+            startCountdown(duration);
+        </script>
+        <script>
+
             document.addEventListener("DOMContentLoaded", function () {
                 var items = document.querySelectorAll('.horizontal-scroll-item');
 
@@ -482,7 +521,7 @@
             var currentIndex = 0;
             var items = document.querySelectorAll('.horizontal-scroll-item');
 
-            var websocketURL = "ws://localhost:8081/Jewelry_Auction_Platform/BiddingRoomServer/" + auctionID;
+            var websocketURL = "ws://localhost:8080/Jewelry_Auction_Platform/BiddingRoomServer/" + auctionID;
             var websocket = new WebSocket(websocketURL);
 
             websocket.onopen = function (event) {
@@ -525,10 +564,7 @@
             function processError(event) {
                 appendMessage("Error: " + event);
             }
-            function scrollToBottom() {
-                var chatMessages = document.getElementById('chatMessages');
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
+
             function sendMessage() {
                 var textMessage = document.getElementById('textMessage').value.trim();
                 if (textMessage !== "" && selectedJewelryID !== null) {
@@ -568,8 +604,13 @@
                         location.reload();
                     }, 1000);
                 }
+                scrollToBottom();
             }
 
+            function scrollToBottom() {
+                var chatMessages = document.getElementById('chatMessages');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
 
             function getTime() {
                 var now = new Date();
@@ -634,7 +675,7 @@
                                     // After all items are sent, redirect to another page after 30000 milliseconds
                                     window.location.href = `${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>`;
                                                             }
-                                                        }, 6000000);
+                                                        }, 900000);
                                                     }
                                                 }
 

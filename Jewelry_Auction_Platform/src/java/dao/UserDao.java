@@ -2,6 +2,7 @@ package dao;
 
 import dto.UserDTO;
 import entity.Auction.Auction;
+import entity.Invoice.Invoice;
 import entity.member.Member;
 import entity.product.Category;
 import entity.product.Jewelry;
@@ -113,7 +114,16 @@ public interface UserDao {
     boolean updateAllPlacedToLost(String jewelryID);
 
     boolean closeSession(String jewelryID);
-    
+
     //Payment online
     boolean updateRegisterBidStatus(String memberID, String jewelryID);
+
+    public void insertInvoice(Invoice invoice);
+
+    List<Invoice> showAllInvoices();
+
+    List<Invoice> showAllPastInvoices();
+
+    boolean confirmPayment(String jewelryID);
+    void updateSoldAmount(String jewelryID);
 }

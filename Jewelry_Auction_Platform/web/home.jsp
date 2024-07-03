@@ -155,6 +155,7 @@
             }
 
             .card {
+                height: 500px;
                 margin: 15px 0;
                 border: none;
                 border-radius: 0;
@@ -480,7 +481,7 @@
                                    href="${pageContext.request.contextPath}/selling">ABOUT
                                     SELLING</a>
                                 <a style="font-family:Andale Mono" class="dropdown-item"
-                                   href="response">APPRAISE ASSET
+                                   href="response">APPRAISED ASSET
                                 </a>
                                 <a style="font-family:Andale Mono" class="dropdown-item"
                                    href="valuation">VALUATION REQUEST
