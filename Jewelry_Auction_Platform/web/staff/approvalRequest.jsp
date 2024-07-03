@@ -621,7 +621,7 @@
                                         </button>
                                         <form action="${pageContext.request.contextPath}/sendToSeller" method="GET" onsubmit="confirmSend(event)" class="w-full">
                                             <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID()%>">
-                                            <button type="submit" class="btn btn-info text-white px-4 py-2 rounded-md"> Send to Seller</button>
+                                            <button type="submit" class="btn btn-info text-white px-4 py-2 rounded-md">Send to Seller</button>
                                         </form>
                                     </td>
                                     

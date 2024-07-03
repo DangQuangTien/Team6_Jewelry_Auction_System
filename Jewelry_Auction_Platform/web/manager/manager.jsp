@@ -13,6 +13,7 @@
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="../staff/asset/finalValuation.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
     <%
         String greeting = "day!";
@@ -535,7 +536,7 @@
                                 <div class="job">Manager</div>
                             </div>
                         </div>
-                        <a class="link_names" href="${pageContext.request.contextPath}/logout">
+                        <a class="link_names" onclick="confirmLogout(event)" href="${pageContext.request.contextPath}/logout">
                             <i class='bx bx-log-out' id="log_out"> 
                             </i>
                         </a>
@@ -572,10 +573,10 @@
                                     <img class="w-20 h-20 object-contain" src="${pageContext.request.contextPath}/<%= photoArray[0] %>" alt="Jewelry Photo">
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-900"><%= jewelry.getJewelryName() %></td>
-                                <td class="px-6 py-4 flex items-center space-x-2">
+                                <td class="px-6 py-4 items-center space-x-2">
                                     <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID() %>">
-                                    <button type="button" class="bg-indigo-400 hover:bg-indigo-700 text-white px-4 py-2 rounded-md" data-toggle="modal" data-target="#jewelryModal<%= jewelry.getJewelryID() %>">View</button>
-                                    <button type="submit" name="action" value="Approve" class="text-white bg-green-500 hover:bg-green-600 px-4 py-2 rounded-md">Confirm</button>
+                                    <button type="button" class="btn bg-indigo-400 hover:bg-indigo-700 text-white px-4 py-2 rounded-md" data-toggle="modal" data-target="#jewelryModal<%= jewelry.getJewelryID() %>">View</button>
+                                    <button type="submit" name="action" value="Approve" id="approve" onclick="confirmAuction(event)" class="btn text-white bg-green-500 hover:bg-green-600 px-4 py-2 rounded-md">Confirm</button>
                                 </td>
                             </tr>
                         </form>
@@ -618,10 +619,10 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer px-4 py-3 bg-gray-50 text-right rounded-b">
-                                        <form action="${pageContext.request.contextPath}/approve" method="POST" onsubmit="confirmAuction(event)">
+                                        <form action="${pageContext.request.contextPath}/approve" id="approve" method="POST" onsubmit="confirmAuction(event)">
                                             <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID() %>">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="submit" name="action" value="Approve" class="btn btn-success">Confirm</button>
+                                            <button type="submit" name="action" value="Approve" onclick="confirmAuction(event)" class="btn btn-success">Confirm</button>
                                         </form>
                                     </div>
                                 </div>
@@ -650,15 +651,40 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script>
         function confirmLogout(event) {
-            if (!confirm("Are you sure you want to log out?")) {
-                event.preventDefault();
-            }
+    event.preventDefault(); // Prevent the default action initially
+
+    Swal.fire({
+        title: 'Log Out',
+        text: 'Are you sure you want to log out?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, log out',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // If confirmed, proceed with the action
+            window.location.href = event.target.href; // or any specific logout logic
         }
-        function confirmAuction(event) {
-            if (!confirm("Do you confirm approving this bid?")) {
-                event.preventDefault();
+    });
+}
+
+function confirmAuction(event) {
+        event.preventDefault(); // Prevent the default action of the button
+
+        Swal.fire({
+            title: 'Do you confirm approving this bid?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If confirmed, submit the form programmatically
+                document.getElementById('approve').submit(); 
             }
-        }
+        });
+    }
+
         $(document).ready(function () {
             $('[data-toggle="modal"]').on('click', function () {
                 var targetModal = $(this).data('target');

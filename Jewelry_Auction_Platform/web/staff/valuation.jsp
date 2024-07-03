@@ -76,7 +76,7 @@
             </div>
             <div class="w-full md:w-1/2 px-4 mb-4">         
                 <div class="card-body bg-white shadow-lg rounded-lg p-6">
-                    <form action="${pageContext.request.contextPath}/evaluate" onsubmit="confirmValuation(event)" method="POST">
+                    <form action="${pageContext.request.contextPath}/evaluate" id="valuationForm" onsubmit="confirmValuation(event)" method="POST">
                         <div class="mb-4">
                             <label for="category" class="block text-gray-700">Category</label>
                             <select id="category" name="category" class="block w-full mt-2 p-2 border border-gray-300 rounded-md" onchange="showFormFields()">

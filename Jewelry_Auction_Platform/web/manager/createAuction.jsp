@@ -30,6 +30,7 @@
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="../staff/asset/finalValuation.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <title>Create Auction</title>
     </head>
     <style>
@@ -614,7 +615,7 @@
                                 <div class="job">Manager</div>
                             </div>
                         </div>
-                        <a class="link_names" href="${pageContext.request.contextPath}/logout">
+                        <a class="link_names" onclick="confirmLogout(event)" href="${pageContext.request.contextPath}/logout">
                             <i class='bx bx-log-out' id="log_out"> 
                             </i>
                         </a>
@@ -643,7 +644,7 @@
 
                             if (listJewelry != null && !listJewelry.isEmpty()) {
                         %>
-                        <form method="POST" action="${pageContext.request.contextPath}/createAuction" onsubmit="updateSelectedJewelryIDs()">
+                        <form method="POST" action="${pageContext.request.contextPath}/createAuction" id="createForm" onsubmit="updateSelectedJewelryIDs()">
                             <div class="form-group">
     <label for="auctionDate" class="block text-sm font-medium text-gray-700">Bidding Open </label><br>
     <span class="block text-sm font-medium text-gray-700">from</span>
@@ -660,7 +661,7 @@
 </div>
 <input type="hidden" id="selectedJewelryIDsInput" name="selectedJewelryIDs">
 <div class="form-group">
-    <button type="submit" name="action" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Auction</button>
+    <button type="submit" name="action" onclick="confirmCreate(event)" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Auction</button>
 </div>
 
                             <div class="table-responsive" style="overflow: hidden">
@@ -692,7 +693,7 @@
                                                 <%= jewelry.getJewelryName()%>
                                             </td>
                                             <td class="py-4">
-                                                <button type="button" class="bg-indigo-400 hover:bg-indigo-700 text-white px-4 py-2 rounded-md" onclick='showJewelryDetails(<%= new Gson().toJson(jewelry)%>)'>View Details</button>
+                                                <button type="button" class="btn bg-indigo-400 hover:bg-indigo-700 text-white px-4 py-2 rounded-md" style="margin-left: 20px" onclick='showJewelryDetails(<%= new Gson().toJson(jewelry)%>)'>View Details</button>
                                             </td>
                                         </tr>
                                         <%
@@ -717,10 +718,10 @@
                                 <% } %>
                             </div>
                         </form>
+                        <% } else { %>
+                            <p class="text-center text-gray-600 mt-8 py-4 bg-gray-100 border border-gray-200 rounded-md shadow-md">No jewelry found.</p>
+                            <% } %>
                         </div>
-            <% } else { %>
-            <p class="text-center text-gray-600 mt-8 py-4 bg-gray-100 border border-gray-200 rounded-md shadow-md">No jewelry found.</p>
-            <% } %>
         </div>
                 </main>
             </section>
@@ -829,7 +830,6 @@
                     </div>
                 </div>
             </div>
-        </div>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
