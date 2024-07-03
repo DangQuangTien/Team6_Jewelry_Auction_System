@@ -16,8 +16,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Valuation Form</title>    
+         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
     <style>
         /* Google Font Link */
@@ -31,16 +33,22 @@
         .hidden-fields label, .hidden-fields input {
             display: none;
         }
+        .gradient-line {
+                height: 2px; /* Adjust the height as needed */
+                width: 100%; /* Adjust the width as needed */
+                background: linear-gradient(to right, #a8c0ff, #325fcf,#a8c0ff, #325fcf); /* Adjust the colors as needed */
+                margin: 20px 0; /* Adjust the margin as needed */
+            }
     </style>
     <body class="bg-gray-100 flex justify-center">
     <main class="container mx-auto my-8 p-4 flex-grow-1">
-        <a href="${pageContext.request.contextPath}/requestList" class="btn btn-secondary mb-4 flex items-center text-gray-700">
+        <a href="${pageContext.request.contextPath}/requestList" class="btn bg-indigo-400 hover:bg-indigo-700 mb-4 flex items-center text-gray-700 rounded">
             <i class="fas fa-chevron-left mr-2"></i> Back
         </a>
         <div class="text-center mb-6">
-            <h2 class="text-2xl font-bold">Preliminary Assessment</h2>
+            <h2 class="text-2xl font-bold" style="color: #2563eb">Preliminary Assessment</h2>
         </div>
-        <hr class="mb-6">
+        <hr class="mb-6 gradient-line">
         <div class="flex flex-wrap -mx-4">
             <div class="w-full md:w-1/2 px-4 mb-4">
                 <div class="card bg-white shadow-lg rounded-lg overflow-hidden">
@@ -181,12 +189,15 @@
                         </div>
                         <input type="hidden" name="valuationID" value="<%= (String) request.getParameter("valuationID") %>">
                         <input type="hidden" name="photoURL" value="<%= (String) request.getParameter("photoURL") %>">
-                        <input type="submit" name="action" value="Submit" class="bg-indigo-400 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                        <input type="submit" name="action" value="Submit" class="btn bg-indigo-400 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
                     </form>
                 </div>
             </div>
         </div>
     </main>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
