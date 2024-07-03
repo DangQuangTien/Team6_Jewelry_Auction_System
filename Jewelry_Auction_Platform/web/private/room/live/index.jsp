@@ -227,7 +227,7 @@
                 border: 1px solid transparent; /* Transparent border initially */
                 transition: background-color 0.3s, border-color 0.3s;
             }
- 
+
             .header-text {
                 font-size: 3rem;
                 font-weight: bold;
@@ -400,15 +400,15 @@
             .btn:hover {
                 background-color: #cc0000;
             }
-.countdown {
-    font-family: Arial, sans-serif;
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    text-align: center;
-    margin-top: 20px;
-    color: black
-}
+            .countdown {
+                font-family: Arial, sans-serif;
+                font-size: 24px;
+                font-weight: bold;
+                color: #333;
+                text-align: center;
+                margin-top: 20px;
+                color: black
+            }
 
         </style>
     </head>
@@ -418,20 +418,23 @@
             String memberID = null;
             if (member != null) {
                 memberID = member.getMemberID();
+            } else {
+                // If member is not logged in, redirect to login page
+                response.sendRedirect("${pageContext.request.contextPath}/login");
             }
         %>
-           <div class="countdown" id="countdown"></div>
+
         <div class="chat-header">
-        <div style="font-family: Tahoma; font-size: 14px; color: #111; font-weight: bold">
-            LIVE AUCTION
+            <div style="font-family: Tahoma; font-size: 14px; color: #111; font-weight: bold">
+                LIVE AUCTION <div id="countdown">99:99</div>
+            </div>
+            <div class="exit-button">
+                <form action="${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>" method="post">
+                    <button class="btn">EXIT</button>
+                </form>
+            </div>
         </div>
-        <div class="exit-button">
-            <form action="${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>" method="post">
-                <button class="btn">EXIT</button>
-            </form>
-        </div>
-    </div>
-   
+
 
         <!-- Display catalog of auction -->
         <div class="grid-container">
@@ -452,7 +455,7 @@
                                 <p class="card-text" style="display: none;">Current Bid: <%= jewelry.getCurrentBid()%></p> <!-- Hidden current bid -->
                                 <input type="hidden" class="current-bid-value" value="<%= jewelry.getCurrentBid()%>"> <!-- Hidden input with current bid value -->
                             </div>
-                           
+
                         </div>
                     </div>
                     <% }%>
@@ -469,6 +472,32 @@
             </div>
         </div>
         <script>
+            function startCountdown(duration) {
+                let timer = duration, minutes, seconds;
+                const countdownElement = document.getElementById('countdown');
+
+                const interval = setInterval(() => {
+                    minutes = Math.floor(timer / 60);
+                    seconds = timer % 60;
+
+                    // Format the time as MM:SS
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                    countdownElement.textContent = minutes + ":" + seconds;
+
+                    if (--timer < 0) {
+                        // When the timer reaches zero, reset it to the original duration
+                        timer = duration;
+                    }
+                }, 1000); // Update every second
+            }
+
+            const duration = 900000 / 1000;
+            startCountdown(duration);
+        </script>
+        <script>
+
             document.addEventListener("DOMContentLoaded", function () {
                 var items = document.querySelectorAll('.horizontal-scroll-item');
 
@@ -582,7 +611,7 @@
                 var chatMessages = document.getElementById('chatMessages');
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
-            
+
             function getTime() {
                 var now = new Date();
                 var hours = now.getHours().toString().padStart(2, '0');
@@ -646,7 +675,7 @@
                                     // After all items are sent, redirect to another page after 30000 milliseconds
                                     window.location.href = `${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>`;
                                                             }
-                                                        }, 6000000);
+                                                        }, 900000);
                                                     }
                                                 }
 
@@ -670,38 +699,5 @@
                                         };
         </script>
     </body>
-<script>
-    // Th?i gian ??m ng??c ban ??u là 15 phút (15 * 60 giây)
-    let countdownTime = 15 * 60;
-    let timerInterval;
-
-    // Ph?n t? hi?n th? ??ng h? ??m ng??c
-    const countdown = document.getElementById('countdown');
-
-    // Hàm c?p nh?t ??ng h? ??m ng??c
-    function updateCountdown() {
-        let minutes = Math.floor(countdownTime / 60);
-        let seconds = countdownTime % 60;
-
-        minutes = minutes < 10 ? `0${minutes}` : minutes;
-        seconds = seconds < 10 ? `0${seconds}` : seconds;
-
-        countdown.textContent = `${minutes}:${seconds}`;
-
-        if (countdownTime <= 0) {
-            countdownTime = 15 * 60; // ??t l?i ??ng h? ??m ng??c v? 15 phút sau khi k?t thúc
-        }
-
-        countdownTime--; // Gi?m timer ?i 1 giây
-    }
-
-    // B?t ??u ??ng h? ??m ng??c ban ??u và c?p nh?t m?i giây
-    function startCountdown() {
-        timerInterval = setInterval(updateCountdown, 1000); // G?i l?i hàm updateCountdown sau m?i giây (1000 milliseconds)
-    }
-
-    // B?t ??u ??ng h? ??m ng??c
-    startCountdown();
-</script>
 </html>
 

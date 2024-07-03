@@ -14,6 +14,7 @@
         <link rel="stylesheet" type="text/css" href="../component/footer.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
     <style>
         body {
@@ -122,19 +123,42 @@
         .countdown-container div {
             margin-right: 10px;
         }
-        .alert {
-            display: none;
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #888;
-            color: white;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
+ .alert {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 40%;
+    transform: translateX(-50%);
+    background-color: #71a96d;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    animation: alertBounce 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards,
+               fadeOut 0.5s ease-in-out 2.5s forwards;
+}
+
+@keyframes alertBounce {
+    0% {
+        transform: scale(0.8);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+
+
 
         .content {
             flex: 1;
@@ -559,9 +583,16 @@
     </nav>
     <!-- Navigator -->
     <div class="container">
-        <% String status = (String) request.getAttribute("PlACEBIDSTATUS");%>
-        <div id="statusAlert" class="alert" style="display: none;">
-            <%= (status != null) ? status : ""%>
+        <c:set var="statusbid" value="${requestScope.PLACEDBIDSTATUS}" />
+        <div style=" font-family:  Helvetica; font-size: 20px" id="statusAlert" class="alert" style="display: none;">
+            <c:choose>
+                <c:when test="${not empty status}">
+                    ${statusbid}
+                </c:when>
+                <c:otherwise>
+                    Nothing shown
+                </c:otherwise>
+            </c:choose>
         </div>
         <h1 style="margin-top: 120px; font-weight: bold; font-size: 3em; font-family:  Optima">Fine Jewels & Watches - <fmt:formatDate value="${auction.endDate}" pattern="dd MMM YYYY"/></h1>
         <font style="font-size: 20px; font-family:  Helvetica; font-weight: bold">Live Auction</font>
@@ -680,7 +711,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="bidForm" action="${pageContext.request.contextPath}/placebid">
+                <form id="bidForm" action="${pageContext.request.contextPath}/placebid"  onsubmit="handleBidSuccess();">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="bidAmount">Enter your bid amount:</label>

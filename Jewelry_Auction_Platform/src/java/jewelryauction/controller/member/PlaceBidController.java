@@ -36,10 +36,10 @@ public class PlaceBidController extends HttpServlet {
                         boolean check = dao.placeBid(preBidAmount, jewelryID, member.getMemberID());
                         if (!check) {
                             String message = "You have placed this jewelry";
-                            request.setAttribute("PlACEBIDSTATUS", message);
+                            request.setAttribute("PLACEDBIDSTATUS", message);
                         } else {
                             String message = "PLACED BID SUCCESSFULLY!";
-                            request.setAttribute("PlACEBIDSTATUS", message);
+                            request.setAttribute("PLACEDBIDSTATUS", message);
                         }
                         url = AUCTION_PAGE + auctionID;
                     } catch (Exception ex) {

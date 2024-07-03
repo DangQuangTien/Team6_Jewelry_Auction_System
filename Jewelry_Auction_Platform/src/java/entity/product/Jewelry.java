@@ -4,6 +4,8 @@
  */
 package entity.product;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author User
@@ -42,11 +44,12 @@ public class Jewelry {
     private Double preBid;
     private Double finalPrice;
     private String statusBid;
-
+    private BigDecimal totalAmount;
+    
     public Jewelry() {
     }
 
-    public Jewelry(String jewelryID, String categoryName, String jewelryName, String artist, String circa, String material, String dial, String braceletMaterial, String caseDimensions, String braceletSize, String serialNumber, String referenceNumber, String caliber, String movement, String condition, String metal, String gemstones, String measurements, String weight, String stamped, String ringSize, String temp_Price, String minPrice, String maxPrice, String valuationId, String status, String photos, String final_Price, Double currentBid, Double preBid, Double finalPrice, String statusBid) {
+    public Jewelry(String jewelryID, String categoryName, String jewelryName, String artist, String circa, String material, String dial, String braceletMaterial, String caseDimensions, String braceletSize, String serialNumber, String referenceNumber, String caliber, String movement, String condition, String metal, String gemstones, String measurements, String weight, String stamped, String ringSize, String temp_Price, String minPrice, String maxPrice, String valuationId, String status, String photos, String final_Price, Double currentBid, Double preBid, Double finalPrice, String statusBid,  BigDecimal totalAmount) {
         this.jewelryID = jewelryID;
         this.categoryName = categoryName;
         this.jewelryName = jewelryName;
@@ -78,7 +81,8 @@ public class Jewelry {
         this.currentBid = currentBid;
         this.preBid = preBid;
         this.finalPrice = finalPrice;
-        this.statusBid = this.statusBid;
+        this.statusBid = statusBid;
+        this.totalAmount = totalAmount;
     }
 
     public String getJewelryID() {
@@ -336,7 +340,14 @@ public class Jewelry {
     public void setStatusBid(String statusBid) {
         this.statusBid = statusBid;
     }
-    
+
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
+    }
     
     
 }

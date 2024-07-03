@@ -515,6 +515,7 @@
                                     var photos = jewelry.photos.split(";");
                                     var status = jewelry.status;
                                     var finalPrice = (jewelry.final_Price != null) ? jewelry.final_Price : "Updating";
+                                    var sold = (jewelry.totalAmount != null) ? jewelry.totalAmount : "Unknown";
                                     var statusText = '';
 
                                     if (status === 'Re-Evaluated') {
@@ -537,6 +538,9 @@
                                                 '<td style="color: red; font-size: 24px; text-align: center; font-family: Helvetica">' +
                                                 "$" + finalPrice +
                                                 '</td><td style="color: rgb(11, 224, 71); font-weight: bold; font-size: 20px; text-align: center; font-family: Helvetica">Ready To Auction</td>';
+                                    } else if (status === 'SOLD') {
+                                        statusText = '<td style="color: red; font-size: 24px; text-align: center; font-family: Helvetica">'  + "$" + finalPrice + '</td>' +
+                                                '<td style="color: blue; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">' + 'SOLD ' + sold + " VND" + '</td>';
                                     } else {
                                         statusText = '<td style="color: orangered; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">Updating</td>\n\
                                                          <td style="color: blue; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">In Progress</td>';
@@ -594,7 +598,9 @@
                                 '<p><strong>Ring Size:</strong> ' + jewelry.ringSize + '</p>' +
                                 '<p><strong>Min Price:</strong> ' + jewelry.minPrice + '</p>' +
                                 '<p><strong>Max Price:</strong> ' + jewelry.maxPrice + '</p>' +
-                                '<p><strong>Temporary Price:</strong> ' + jewelry.temp_Price + '</p>' + ' </div>' + '</div>'
+                                '<p><strong>Temporary Price:</strong> ' + jewelry.temp_Price + '</p>' + 
+                                 '<p><strong>Sold:</strong> ' + jewelry.totalAmount  + '</p>' +
+                                ' </div>' + '</div>'
                                 );
                     });
                 });

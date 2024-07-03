@@ -130,7 +130,7 @@
     </head>
     <body>
         <c:set var="jewelry" value="${requestScope.JEWELRY}" />
-        <a  style="margin-left: 100px; text-decoration: none; font-size: 20px" href="${pageContext.request.contextPath}/my-upcoming-bids"><< Back</a>
+        <a  style="margin-left: 100px; text-decoration: none; font-size: 20px" href="${pageContext.request.contextPath}/my-upcoming-bids">< Back</a>
         <div class="container">
             <div class="header clearfix">
                 <h3 class="text-muted">F'RENKELLY WITH THE COOPERATION OF VNPAY</h3>
@@ -226,7 +226,7 @@
                                        data-val-number="The field Amount must be a number." 
                                        data-val-required="The Amount field is required."/>
                             </div>
-                                       <!-- Hidden fields to send jewelry data -->
+                            <!-- Hidden fields to send jewelry data -->
                             <input type="hidden" name="jewelryID" value="${jewelry.jewelryID}"/>
                             <input type="hidden" name="memberID" value="${param.memberID}"/>
                             <h4>Select Payment Method</h4>

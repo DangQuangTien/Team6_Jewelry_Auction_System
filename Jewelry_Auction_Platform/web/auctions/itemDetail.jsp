@@ -13,25 +13,36 @@
     <head>
         <meta charset="UTF-8">
         <title><%= jewelry.getJewelryName()%> | Global F'Rankelly 's Premier Jewelry Auction House</title>
-        <link rel="icon" type="image/png" sizes="64x64" href="../images/logo/Logo.png">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../component/header.css">
         <link rel="stylesheet" type="text/css" href="../component/footer.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+        
         <style>
-            body {
-                font-family: Arial, sans-serif;
+            body, html {
+                height: 100%;
                 margin: 0;
-                padding: 0;
-                background-color: #f9f9f9;
+                font-family: Arial, sans-serif;
             }
             nav {
                 background-color: white;
                 color: #000000;
                 padding: 10px 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                position: fixed;
+                top: 0;
+                width: 100%; /* Full width */
+                z-index: 1000; /* Ensure it's above other content */
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: Add shadow for depth */
             }
 
-            nav a {
+            .nav-links {
+                display: flex;
+            }
+
+            .nav-links a {
                 color: #000000;
                 text-decoration: none;
                 margin-right: 10px;
@@ -40,12 +51,31 @@
                 transition: background-color 0.3s ease;
             }
 
-            nav a:hover {
+            .nav-links a:hover {
+                background-color: rgba(85, 85, 85, 0.5);
+                color: white;
+            }
+
+            .nav-logout {
+                margin-left: auto; /* Pushes the logout link to the right */
+                margin-right:  40px
+            }
+
+            .nav-logout a {
+                color: #000000;
+                text-decoration: none;
+                padding: 8px;
+                border-radius: 5px;
+                transition: background-color 0.3s ease;
+            }
+
+            .nav-logout a:hover {
                 background-color: rgba(85, 85, 85, 0.5);
                 color: white;
             }
             .container {
-                margin-top: 20px;
+                margin-top: 110px;
+                font-family: Helvetica
             }
             .card {
                 margin-top: 20px;
@@ -97,29 +127,54 @@
                 border-radius: 100px;
                 cursor: pointer;
                 transition: background-color 0.3s ease, color 0.3s ease;
+                margin-top: auto;
+                flex: 1; /* Make buttons grow to fill the available space equally */
+                margin-right: 5px; /* Space between buttons */
             }
-            .btn-primary :hover {
-                background-color: #000;
-                color: #fff;
+
+            .btn-primary:hover {
+                background-color: #000 !important;
+                color: #fff !important;
+                border: 2px solid #000000;
+            }
+            .thumbnail-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+                margin-top: 15px;
+            }
+            .thumbnail-img {
+                width: 80px;
+                height: 80px;
+                cursor: pointer;
+                transition: transform 0.2s ease-in-out;
+            }
+            .thumbnail-img:hover {
+                transform: scale(1.1);
             }
         </style>
     </head>
     <body>
         <c:set var="member" value="${sessionScope.MEMBER}" />
         <nav>
-            <a style="text-decoration: none" href="${pageContext.request.contextPath}/home">Home</a>
-            <a style="text-decoration: none" href="${pageContext.request.contextPath}/auctions">Auctions</a>
-            <a style="text-decoration: none" href="${pageContext.request.contextPath}/auctions">My Bids</a>
-            <a style="text-decoration: none" href="#">Watched Lots</a>
-            <c:choose>
-                <c:when test="${member != null}">
-                    <a href="${pageContext.request.contextPath}/profile" style="text-decoration: none">${member.firstName}</a>
-                </c:when>
-                <c:otherwise>
-                    <a href="${pageContext.request.contextPath}/login" style="text-decoration: none">Login</a>
-                </c:otherwise>
-            </c:choose>
-            <a style="text-decoration: none" href="#">Search</a>
+            <div class="nav-links">
+                <a href="${pageContext.request.contextPath}/home">Home</a>
+                <a href="${pageContext.request.contextPath}/auctions">Auctions</a>
+                <a href="${pageContext.request.contextPath}/valuation">Selling</a>
+                <a href="${pageContext.request.contextPath}/my-upcoming-bids">My Bids</a>
+                <a href="${pageContext.request.contextPath}/response">My Asset</a>
+            </div>
+            <div class="nav-logout">
+                <c:choose>
+                    <c:when test="${not empty member}">
+                         <a href="${pageContext.request.contextPath}/logout">Logout</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${pageContext.request.contextPath}/login">Login</a>
+                    </c:otherwise>
+                </c:choose>
+            </div>
         </nav>
         <c:set var="username" value="${sessionScope.USERNAME}" />
         <c:set var="role" value="${sessionScope.ROLE}" />
@@ -140,7 +195,9 @@
                     <div class="card">
                         <div class="card-body">
                             <img id="mainImage" src="${pageContext.request.contextPath}/<%=photoArray[0]%>" class="card-img-top">
-                            <% for (int i = 0; i < photoArray.length; i++) {%><img id="smallImage<%=i%>" style="width: 100px; height: 100px" src="${pageContext.request.contextPath}/<%= photoArray[i]%>" onclick="changeMainImage('<%= photoArray[i]%>')"><% }%>
+                            <div class="thumbnail-container">
+                                <% for (int i = 0; i < photoArray.length; i++) {%><img class="thumbnail-img" id="smallImage<%=i%>" style="width: 100px; height: 100px" src="${pageContext.request.contextPath}/<%= photoArray[i]%>" onclick="changeMainImage('<%= photoArray[i]%>')"><% }%>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -218,17 +275,8 @@
             <p>No item details available.</p>
             <% }%>
         </div>
-
-        <!-- START OF FOOTER -->
-        <footer class="text-center py-3 mt-auto">
-            <div>
-                <h6>Jewelry Auction</h6>
-                <a href="register.jsp">Register</a> |
-                <a href="login.jsp">Login</a> |
-                <a href="#">Help & FAQ</a> |
-                <a href="#">Support</a> |
-                <a href="#">Sitemap</a>
-            </div>
+        <footer style="background-color: #000407; font-family: Helvetica; height: 60px; bottom: 0; width: 100%; text-align: center;">
+            <span style="color: lightgrey; font-size: 14px;">&#169; F'RANKELLY AUCTION <script>document.write(new Date().getFullYear())</script></span>
         </footer>
         <!-- END OF FOOTER -->
         <% String preBid_Amount = (String) request.getParameter("preBid_Amount");%>
@@ -287,14 +335,15 @@
                 </div>
             </div>
         </div>
+
         <!-- Include Bootstrap JS and dependencies -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script>
-                                function changeMainImage(imageSrc) {
-                                    document.getElementById('mainImage').src = '${pageContext.request.contextPath}/' + imageSrc;
-                                }
+                function changeMainImage(imageSrc) {
+                    document.getElementById('mainImage').src = '${pageContext.request.contextPath}/' + imageSrc;
+                }
         </script>
     </body>
 </html>

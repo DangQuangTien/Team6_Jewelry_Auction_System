@@ -3,6 +3,7 @@
     Created on : May 23, 2024, 9:20:58 AM
     Author     : User
 --%>
+
 <%@page import="dao.UserDAOImpl"%>
 <%@page import="entity.product.Category"%>
 <%@page import="java.util.ArrayList"%>
@@ -15,53 +16,35 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Valuation Form</title>    
-        <link rel="stylesheet" type="text/css" href="asset/valuation.css">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">  
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     </head>
     <style>
-
-        .back-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-        }
-        .form-section {
-            margin-bottom: 20px;
-        }
-        .submit-btn {
-            margin-top: 10px;
-        }
-        body {
-            background-color: #f8f9fa;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-        }
-        .back-button {
-            margin-bottom: 20px;
-        }
-
-        #jewelryName, #artist, #watchFields, #braceletFields,
-        label[for="jewelryName"], label[for="artist"],
-        label[for="circa"], label[for="material"], label[for="dial"],
-        label[for="braceletMaterial"], label[for="caseDimensions"], label[for="braceletSize"],
-        label[for="serialNumber"], label[for="referenceNumber"], label[for="caliber"],
-        label[for="movement"], label[for="condition"], label[for="braceletMetal"],
-        label[for="braceletGemstones"], label[for="braceletMeasurements"],
-        label[for="braceletWeight"], label[for="braceletCondition"],
-        label[for="braceletStamped"], label[for="ringSize"] {
+        /* Google Font Link */
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+            *{
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: "Poppins" , sans-serif;
+            }
+        .hidden-fields label, .hidden-fields input {
             display: none;
         }
     </style>
-    <body>
-    <main class="container my-4 flex-grow-1">
-        <a href="${pageContext.request.contextPath}/requestList" class="btn btn-secondary back-button"><i class="fas fa-chevron-left"></i> Back</a>
-        <div align="center"><h2 class="card-title">Preliminary Assessment</h2></div><hr>
-        <div class="row">
-            <div class="col-md-6 mb-4">
-                <div class="card product-display">
-                    <div class="card-body" style="overflow-y: auto; max-height: 500px;">
+    <body class="bg-gray-100 flex justify-center">
+    <main class="container mx-auto my-8 p-4 flex-grow-1">
+        <a href="${pageContext.request.contextPath}/requestList" class="btn btn-secondary mb-4 flex items-center text-gray-700">
+            <i class="fas fa-chevron-left mr-2"></i> Back
+        </a>
+        <div class="text-center mb-6">
+            <h2 class="text-2xl font-bold">Preliminary Assessment</h2>
+        </div>
+        <hr class="mb-6">
+        <div class="flex flex-wrap -mx-4">
+            <div class="w-full md:w-1/2 px-4 mb-4">
+                <div class="card bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="card-body overflow-y-auto max-h-80 p-4">
                         <%
                             String photos = (String) request.getParameter("photoURL");
                             String[] photoArray = photos.split(";");
@@ -73,138 +56,140 @@
                                 e.printStackTrace();
                             }
                         %>
-                        <div class="image-grid">
-                            <% for (String photo : photoArray) {%>
-                            <div class="image-item">
-                                <img src="${pageContext.request.contextPath}/<%= photo%>" alt="Photo" class="grid-image">
-                            </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <% for (String photo : photoArray) { %>
+                                <div class="image-item">
+                                    <img src="${pageContext.request.contextPath}/<%= photo %>" alt="Photo" class="w-full h-full object-cover">
+                                </div>
                             <% } %>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 mb-4">         
-                <div class="card-body">
+            <div class="w-full md:w-1/2 px-4 mb-4">         
+                <div class="card-body bg-white shadow-lg rounded-lg p-6">
                     <form action="${pageContext.request.contextPath}/evaluate" onsubmit="confirmValuation(event)" method="POST">
-                        <div>
-                            <label for="category">Category</label>
-                            <select id="category" name="category" onchange="showFormFields()">
-                                <% for (Category category : listCategory) {%>
-                                <option value="<%= category.getCategoryID()%>"><%= category.getCategoryName()%></option>
-                                <% }%>
+                        <div class="mb-4">
+                            <label for="category" class="block text-gray-700">Category</label>
+                            <select id="category" name="category" class="block w-full mt-2 p-2 border border-gray-300 rounded-md" onchange="showFormFields()">
+                                <% for (Category category : listCategory) { %>
+                                    <option value="<%= category.getCategoryID() %>"><%= category.getCategoryName() %></option>
+                                <% } %>
                             </select>
                         </div>
-                        <div>
-                            <label for="jewelryName">Jewelry Name</label>
+                        <div class="hidden-fields">
+                            <label for="jewelryName" class="block text-gray-700">Jewelry Name</label>
                             <input type="hidden" id="jewelryName" name="jewelryName" value="">
                         </div>
-                        <div>
-                            <label for="artist">Artist</label>
+                        <div class="hidden-fields">
+                            <label for="artist" class="block text-gray-700">Artist</label>
                             <input type="hidden" id="artist" name="artist" value="">
                         </div>
 
                         <!-- Watch Fields -->
-                        <div id="watchFields" class="form-section">
-                            <h3>Watch Details</h3>
-                            <div>
-                                <label for="circa">Circa</label>
+                        <div id="watchFields" class="form-section hidden-fields">
+                            <h3 class="text-xl font-bold mb-4">Watch Details</h3>
+                            <div class="mb-4">
+                                <label for="circa" class="block text-gray-700">Circa</label>
                                 <input type="hidden" id="circa" name="circa" value="">
                             </div>
-                            <div>
-                                <label for="material">Case Material</label>
+                            <div class="mb-4">
+                                <label for="material" class="block text-gray-700">Case Material</label>
                                 <input type="hidden" id="material" name="material" value="">
                             </div>
-                            <div>
-                                <label for="dial">Dial</label>
+                            <div class="mb-4">
+                                <label for="dial" class="block text-gray-700">Dial</label>
                                 <input type="hidden" id="dial" name="dial" value="">
                             </div>
-                            <div>
-                                <label for="braceletMaterial">Bracelet Material</label>
+                            <div class="mb-4">
+                                <label for="braceletMaterial" class="block text-gray-700">Bracelet Material</label>
                                 <input type="hidden" id="braceletMaterial" name="braceletMaterial" value="">
                             </div>
-                            <div>
-                                <label for="caseDimensions">Case Dimensions</label>
+                            <div class="mb-4">
+                                <label for="caseDimensions" class="block text-gray-700">Case Dimensions</label>
                                 <input type="hidden" id="caseDimensions" name="caseDimensions" value="">
                             </div>
-                            <div>
-                                <label for="braceletSize">Bracelet Size</label>
+                            <div class="mb-4">
+                                <label for="braceletSize" class="block text-gray-700">Bracelet Size</label>
                                 <input type="hidden" id="braceletSize" name="braceletSize" value="">
                             </div>
-                            <div>
-                                <label for="serialNumber">Serial Number</label>
+                            <div class="mb-4">
+                                <label for="serialNumber" class="block text-gray-700">Serial Number</label>
                                 <input type="hidden" id="serialNumber" name="serialNumber" value="">
                             </div>
-                            <div>
-                                <label for="referenceNumber">Reference Number</label>
+                            <div class="mb-4">
+                                <label for="referenceNumber" class="block text-gray-700">Reference Number</label>
                                 <input type="hidden" id="referenceNumber" name="referenceNumber" value="">
                             </div>
-                            <div>
-                                <label for="caliber">Caliber</label>
+                            <div class="mb-4">
+                                <label for="caliber" class="block text-gray-700">Caliber</label>
                                 <input type="hidden" id="caliber" name="caliber" value="">
                             </div>
-                            <div>
-                                <label for="movement">Movement</label>
+                            <div class="mb-4">
+                                <label for="movement" class="block text-gray-700">Movement</label>
                                 <input type="hidden" id="movement" name="movement" value="">
                             </div>
-                            <div>
-                                <label for="condition">Condition</label>
+                            <div class="mb-4">
+                                <label for="condition" class="block text-gray-700">Condition</label>
                                 <input type="hidden" id="condition" name="condition" value="">
                             </div>
                         </div>
 
                         <!-- Bracelet Fields -->
-                        <div id="braceletFields" class="form-section">
-                            <h3>Details</h3>
-                            <div>
-                                <label for="braceletMetal">Metal</label>
+                        <div id="braceletFields" class="form-section hidden-fields">
+                            <h3 class="text-xl font-bold mb-4">Details</h3>
+                            <div class="mb-4">
+                                <label for="braceletMetal" class="block text-gray-700">Metal</label>
                                 <input type="hidden" id="braceletMetal" name="metal" value="">
                             </div>
-                            <div>
-                                <label for="braceletGemstones">Gemstone(s)</label>
+                            <div class="mb-4">
+                                <label for="braceletGemstones" class="block text-gray-700">Gemstone(s)</label>
                                 <input type="hidden" id="braceletGemstones" name="gemstones" value="">
                             </div>
-                            <div>
-                                <label for="braceletMeasurements">Measurements</label>
+                            <div class="mb-4">
+                                <label for="braceletMeasurements" class="block text-gray-700">Measurements</label>
                                 <input type="hidden" id="braceletMeasurements" name="measurements" value="">
                             </div>
-                            <div>
-                                <label for="braceletWeight">Weight</label>
+                            <div class="mb-4">
+                                <label for="braceletWeight" class="block text-gray-700">Weight</label>
                                 <input type="hidden" id="braceletWeight" name="weight" value="">
                             </div>
-                            <div>
-                                <label for="braceletCondition">Condition</label>
+                            <div class="mb-4">
+                                <label for="braceletCondition" class="block text-gray-700">Condition</label>
                                 <input type="hidden" id="braceletCondition" name="condition" value="">
                             </div>
-                            <div>
-                                <label for="braceletStamped">Stamped</label>
+                            <div class="mb-4">
+                                <label for="braceletStamped" class="block text-gray-700">Stamped</label>
                                 <input type="hidden" id="braceletStamped" name="stamped" value="">
                             </div>
-                            <div>
-                                <label style="color: red" for="ringSize">Ring Size (for rings)</label>
+                            <div class="mb-4">
+                                <label style="color: red" for="ringSize" class="block text-gray-700">Ring Size (for rings)</label>
                                 <input type="hidden" id="ringSize" name="ringSize" value="">
                             </div>
                         </div>
 
-                        <div>
-                            <label for="Price">Estimate</label>
-                            <input type="number" id="minPrice" name="minPrice" placeholder="Min">
-                            <input type="number" id="maxPrice" name="maxPrice" placeholder="Max">
+                        <div class="mb-4">
+                            <label for="Price" class="block text-gray-700">Estimate</label>
+                            <div class="flex">
+                                <input type="number" id="minPrice" name="minPrice" placeholder="Min" class="w-1/2 p-2 border border-gray-300 rounded-md mr-2">
+                                <input type="number" id="maxPrice" name="maxPrice" placeholder="Max" class="w-1/2 p-2 border border-gray-300 rounded-md">
+                            </div>
                         </div>
-                        <div>
-                            <label for="tempPrice">Temporary Price</label>
-                            <input type="number" id="tempPrice" name="tempPrice" placeholder="Temporary Price">
+                        <div class="mb-4">
+                            <label for="tempPrice" class="block text-gray-700">Temporary Price</label>
+                            <input type="number" id="tempPrice" name="tempPrice" placeholder="Temporary Price" class="w-full p-2 border border-gray-300 rounded-md">
                         </div>
-                        <input type="hidden" name="valuationID" value="<%= (String) request.getParameter("valuationID")%>">
-                        <input type="hidden" name="photoURL" value="<%= (String) request.getParameter("photoURL")%>">
-                        <input type="submit" name="action" value="Submit" class="submit-btn">
-                    </form>                    
-                </div>          
+                        <input type="hidden" name="valuationID" value="<%= (String) request.getParameter("valuationID") %>">
+                        <input type="hidden" name="photoURL" value="<%= (String) request.getParameter("photoURL") %>">
+                        <input type="submit" name="action" value="Submit" class="bg-indigo-400 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                    </form>
+                </div>
             </div>
         </div>
     </main>
-    <script type="text/javascript" src="asset/valuation.js"></script> 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="asset/valuation.js"></script>
 </body>
 </html>

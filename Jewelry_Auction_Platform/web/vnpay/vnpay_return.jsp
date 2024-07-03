@@ -1,9 +1,12 @@
+<%@page import="java.util.logging.Level"%>
+<%@page import="java.math.BigDecimal"%>
+<%@page import="entity.Invoice.Invoice"%>
 <%@page import="dao.UserDao"%>
 <%@page import="dao.UserDAOImpl"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="java.nio.charset.StandardCharsets"%>
 <%@page import="jewelryauction.controller.payment.Config"%>
-
+<%@ page import="java.text.SimpleDateFormat, java.util.Date" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@page import="java.util.Iterator"%>
@@ -50,7 +53,6 @@
                 fields.remove("vnp_SecureHash");
             }
             String signValue = Config.hashAllFields(fields);
-            String memberID = (String)request.getAttribute("JEWELRYID");
         %>
         <!--Begin display -->
         <div class="container">
@@ -59,20 +61,25 @@
             </div>
             <div class="table-responsive">
                 <div class="form-group">
-                     <label>Transaction ID:</label>
+                    <label>Transaction ID:</label>
                     <label><%=request.getParameter("vnp_TxnRef")%></label>
                 </div>    
                 <div class="form-group">
                     <label>Amount:</label>
-                    <label><%=request.getParameter("vnp_Amount")%></label>
+                    <%
+                        String amountParam = request.getParameter("vnp_Amount");
+                        long totalAmount = Long.parseLong(amountParam.trim());
+                        long actualAmount = totalAmount / 100;
+                    %>
+                    <label><% out.print(actualAmount); %></label>
                 </div>  
                 <div class="form-group">
                     <label>Transaction Description:</label>
-                    <% 
+                    <%
                         String orderInfo = request.getParameter("vnp_OrderInfo");
                         String[] orderInfoParts = orderInfo.split(";");
                     %>
-                    <label><%  out.print(orderInfoParts[0]); %></label>
+                    <label><%  out.print(orderInfoParts[0]);%></label>
                 </div> 
                 <div class="form-group">
                     <label>Payment Error Code:</label>
@@ -88,7 +95,29 @@
                 </div> 
                 <div class="form-group">
                     <label>Payment Time:</label>
-                    <label><%=request.getParameter("vnp_PayDate")%></label>
+                    <label><%
+                        String vnpPayDate = request.getParameter("vnp_PayDate");
+
+                        // Define the original format
+                        SimpleDateFormat originalFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+
+                        // Define the desired format
+                        SimpleDateFormat desiredFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                        try {
+                            // Parse the date string into a Date object
+                            Date date = originalFormat.parse(vnpPayDate);
+
+                            // Format the Date object into the desired format
+                            String formattedDate = desiredFormat.format(date);
+
+                            // Output the formatted date
+                            out.println(formattedDate);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            out.println("Invalid date format");
+                        }
+                        %></label>
                 </div> 
                 <div class="form-group">
                     <label>Transaction Status:</label>
@@ -98,7 +127,16 @@
                                 if ("00".equals(request.getParameter("vnp_TransactionStatus"))) {
                                     out.println("Successful");
                                     UserDao dao = new UserDAOImpl();
-                                    dao.updateRegisterBidStatus(orderInfoParts[2],orderInfoParts[1]);
+                                    dao.updateRegisterBidStatus(orderInfoParts[2], orderInfoParts[1]);
+                                    String memberID = orderInfoParts[2];
+                                    String jewelryID = orderInfoParts[1];
+                                    String invoiceID = request.getParameter("vnp_TxnRef");
+                                    Date date = originalFormat.parse(vnpPayDate);
+                                    String formattedDate = desiredFormat.format(date);
+                                    BigDecimal decimalValue = new BigDecimal(actualAmount);
+                                    decimalValue = decimalValue.setScale(2, BigDecimal.ROUND_HALF_UP);
+                                    Invoice invoice = new Invoice(invoiceID, memberID, jewelryID, formattedDate, decimalValue);
+                                    dao.insertInvoice(invoice);
                                 } else {
                                     out.print("Failed");
                                 }
@@ -109,7 +147,7 @@
                         %></label>
                 </div> 
             </div>
-                 <p>
+            <p>
                 <%
                     out.println("<a href=\"" + request.getContextPath() + "/my-upcoming-bids\">Back</a>");
                 %>
