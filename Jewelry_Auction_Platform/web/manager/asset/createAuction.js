@@ -1,20 +1,3 @@
-function confirmLogout(event) {
-    event.preventDefault(); // Prevent the default action initially
-
-    Swal.fire({
-        title: 'Log Out',
-        text: 'Are you sure you want to log out?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, log out',
-        cancelButtonText: 'Cancel'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // If confirmed, proceed with the action
-            window.location.href = event.target.href; // or any specific logout logic
-        }
-    });
-}
 
 function confirmCreate(event) {
     event.preventDefault(); // Prevent the form from submitting immediately

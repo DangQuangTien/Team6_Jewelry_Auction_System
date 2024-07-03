@@ -418,7 +418,7 @@
                                 <div class="job">Manager</div>
                             </div>
                         </div>
-                        <a class="link_names" onclick="confirmLogout(event)" href="${pageContext.request.contextPath}/logout">
+                        <a class="link_names" href="${pageContext.request.contextPath}/logout">
                             <i class='bx bx-log-out' id="log_out"> 
                             </i>
                         </a>
@@ -545,23 +545,7 @@
                                                                                     }
                                                                                 }
 
-    function confirmLogout(event) {
-    event.preventDefault(); // Prevent the default action initially
 
-    Swal.fire({
-        title: 'Log Out',
-        text: 'Are you sure you want to log out?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, log out',
-        cancelButtonText: 'Cancel'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // If confirmed, proceed with the action
-            window.location.href = event.target.href; // or any specific logout logic
-        }
-    });
-}
         </script>
     </body>
 </html>

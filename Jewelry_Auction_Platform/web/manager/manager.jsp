@@ -536,7 +536,7 @@
                                 <div class="job">Manager</div>
                             </div>
                         </div>
-                        <a class="link_names" onclick="confirmLogout(event)" href="${pageContext.request.contextPath}/logout">
+                        <a class="link_names" href="${pageContext.request.contextPath}/logout">
                             <i class='bx bx-log-out' id="log_out"> 
                             </i>
                         </a>
@@ -596,6 +596,7 @@
                                                 <img class="img-fluid" src="${pageContext.request.contextPath}/<%= photoArray[0] %>" alt="Jewelry Photo">
                                             </div>
                                             <div class="col-6">
+                                                <p><strong>Name:</strong> <%= jewelry.getJewelryName() %></p>
                                                 <p><strong>Artist:</strong> <%= jewelry.getArtist() %></p>
                                                 <p><strong>Circa:</strong> <%= jewelry.getCirca() %></p>
                                                 <p><strong>Material:</strong> <%= jewelry.getMaterial() %></p>
@@ -650,24 +651,7 @@
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script>
-        function confirmLogout(event) {
-    event.preventDefault(); // Prevent the default action initially
-
-    Swal.fire({
-        title: 'Log Out',
-        text: 'Are you sure you want to log out?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, log out',
-        cancelButtonText: 'Cancel'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // If confirmed, proceed with the action
-            window.location.href = event.target.href; // or any specific logout logic
-        }
-    });
-}
-
+        
 function confirmAuction(event) {
         event.preventDefault(); // Prevent the default action of the button
 

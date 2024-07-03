@@ -1,20 +1,5 @@
-function confirmSend(event) {
-    event.preventDefault(); // Prevent the default action initially
 
-    Swal.fire({
-        title: 'Approve Request',
-        html: 'Are you sure you want to approve this request?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, approve it!',
-        cancelButtonText: 'Cancel'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // If confirmed, proceed with the form submission or action
-            event.target.submit(); // for form submission or specific approval logic
-        }
-    });
-}
+
 
 
 

@@ -560,7 +560,7 @@
                             </div>
                         </div>
                         <a class="link_names" href="${pageContext.request.contextPath}/logout">
-                            <i class='bx bx-log-out' onclick="confirmLogout(event)" id="log_out"> 
+                            <i class='bx bx-log-out' id="log_out"> 
                             </i>
                         </a>
                     </li>
@@ -584,7 +584,7 @@
                                 <thead>
                                     <tr style="background-color:#a8a1f7">
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Photo</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Jewelry Name</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Jewelry ID</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Final Price</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Action</th>
                                     </tr>
@@ -596,13 +596,13 @@
                                         <td class="px-6 py-4">
                                             <img class="w-20 h-20 object-contain" src="${pageContext.request.contextPath}/<%= photoArray[0] %>" alt="Photo">
                                         </td>
-                                        <td class="px-6 py-4 text-sm text-gray-900"><%= jewelry.getJewelryName() %></td>
+                                        <td class="px-6 py-4 text-sm text-gray-900"><%= jewelry.getJewelryID()%></td>
                                         <td class="px-6 py-4">
                                             <form action="${pageContext.request.contextPath}/updateFinalPrice" method="POST" onsubmit="confirmAuction(event)">
                                                 <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID() %>">
                                                 <input type="number" name="finalPrice" value="<%= jewelry.getFinal_Price() %>" required class="px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
                                                 <td class="px-6 py-4 items-center space-x-2">
-                                                    <input type="submit" class="btn btn-primary text-white px-4 py-2 rounded-md" name="action" value="Send">
+                                                    <input type="submit" class="btn btn-primary text-white px-4 py-2 rounded-md" onclick="confirmAuction(event)" name="action" value="Send">
                                                     <button type="button" class="btn btn-info text-white px-4 py-2 rounded-md" data-toggle="modal" data-target="#detailsModal<%= jewelry.getJewelryID() %>">Details</button>
                                                 </td>
                                                 
@@ -634,6 +634,10 @@
                                             <!-- Group 1: General Information -->
                                             <h6 class="mt-4 text-lg font-semibold text-gray-800">General Information</h6>
                                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                                                <div>
+                                                    <label for="name<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Name:</label>
+                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="artist<%= jewelry.getJewelryID() %>" name="name" value="<%= jewelry.getJewelryName() %>">
+                                                </div>
                                                 <div>
                                                     <label for="artist<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Artist:</label>
                                                     <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="artist<%= jewelry.getJewelryID() %>" name="artist" value="<%= jewelry.getArtist() %>">
@@ -786,23 +790,7 @@
                                                                                         closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");//replacing the iocns class
                                                                                     }
                                                                                 }
-                                                                                function confirmLogout(event) {
-    event.preventDefault(); // Prevent the default action initially
-
-    Swal.fire({
-        title: 'Log Out',
-        text: 'Are you sure you want to log out?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, log out',
-        cancelButtonText: 'Cancel'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // If confirmed, proceed with the action
-            window.location.href = event.target.href; // or any specific logout logic
-        }
-    });
-}
+                                                                                
     </script>
 </body>
 </html>

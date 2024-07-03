@@ -552,7 +552,7 @@
                                     <div class="job">Staff</div>
                                 </div>
                             </div>
-                            <a class="link_names" onclick="confirmLogout(event)" href="${pageContext.request.contextPath}/logout">
+                            <a class="link_names" href="${pageContext.request.contextPath}/logout">
                                 <i class='bx bx-log-out' id="log_out"> 
                                 </i>
                             </a>
