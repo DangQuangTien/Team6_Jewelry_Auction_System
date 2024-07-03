@@ -373,7 +373,7 @@
         }
     </style>
 </head>
-<>
+<body>
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
