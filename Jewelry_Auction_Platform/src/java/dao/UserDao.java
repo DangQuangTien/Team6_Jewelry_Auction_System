@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import dto.UserDTO;
 import entity.Auction.Auction;
+import entity.Invoice.Invoice;
 import entity.member.Member;
 import entity.product.Category;
 import entity.product.Jewelry;
@@ -16,22 +13,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author User
+ * UserDao Interface
  */
 public interface UserDao {
 
+    // Authentication
     UserDTO checkLogin(String username, String password);
 
+    boolean registerUser(String firstName, String lastName, String email, String username, String password);
+
+    boolean checkDuplicateUsername(String username);
+
+    // Member Information
     Member getInformation(String userID);
 
+    // Category Operations
     ArrayList<Category> listCategory();
 
+    // Valuation Operations
     boolean insertValuationRequest(String name, String email, String phone, String communicationMethod, String photos, String description, String memberID);
 
     ArrayList<Valuation> displayValuationRequest();
 
-    public boolean insertJewelry(String category, String jewelryName, String artist,
+    // Jewelry Operations
+    boolean insertJewelry(String category, String jewelryName, String artist,
             String circa, String material, String dial,
             String braceletMaterial, String caseDimensions,
             String braceletSize, String serialNumber,
@@ -43,23 +48,11 @@ public interface UserDao {
 
     List<Jewelry> getJewelryByUserID(String userID);
 
-    boolean requestShipment(String valuationID, String content);
-
-    List<RequestShipment> displayRequestShipment(String userID);
-
-    boolean confirmReceipt(String valuationID);
-
-    List<Jewelry> displayAllJewelryForManager();
-
-    List<Jewelry> displayAllJewelryForStaff();
-
     boolean updateJewelry(Jewelry jewelry);
 
     boolean updateFinalPrice(String jewelryID, String finalPrice);
 
     boolean approveFinalPrice(String jewelryID);
-
-    List<Jewelry> displayApprovedJewelry();
 
     boolean sendToSeller(String jewelryID);
 
@@ -67,11 +60,22 @@ public interface UserDao {
 
     boolean rejectToAuction(String jewelryID);
 
+    List<Jewelry> displayAllJewelryForManager();
+
+    List<Jewelry> displayAllJewelryForStaff();
+
+    List<Jewelry> displayApprovedJewelry();
+
     List<Jewelry> displayConfirmedJewelry(int page, int pageSize);
 
-    boolean createAuction(String auctionStartDate, String auctionEndDate, String startTime, String endTime, String[] selectedJewelryIDs);
-
     List<RandomJewelry> displayRandomJewelry();
+
+    List<Jewelry> AuctionJewelryRegister(String memberID);
+
+    Jewelry getJewelryDetails(String jewelryID);
+
+    // Auction Operations
+    boolean createAuction(String auctionStartDate, String auctionEndDate, String startTime, String endTime, String[] selectedJewelryIDs);
 
     List<Auction> displayAuction();
 
@@ -79,13 +83,16 @@ public interface UserDao {
 
     List<Jewelry> displayCatalog(String auctionID);
 
-    Jewelry getJewelryDetails(String jewelryID);
+    // Request Shipment Operations
+    boolean requestShipment(String valuationID, String content);
 
-    boolean insertAddress(String country, String state, String city, String address1, String address2, String zipCode, String memberID);
+    List<RequestShipment> displayRequestShipment(String userID);
 
+    boolean confirmReceipt(String valuationID);
+
+    // Bidding Operations
     boolean registerToBid(String memberID);
 
-    //Member Bidding
     List<Jewelry> displayJewelryInRoom(String auctionID);
 
     boolean checkAvailableSession(String jewelryID);
@@ -97,21 +104,27 @@ public interface UserDao {
     boolean saveBid(String preBid_Amount, String jewelryID, String memberID);
 
     Double getTheHighestBid(String jewelryID);
-    //-----------------------------------------------
-    boolean selectWinnerID(String sessionID, double highestBid);
-    
-    String getWinnerIDEmail(String jewelryID);
-    
-    void sendEmailToWinner(String recipient);
-    
-    //------------------------------------------------
 
-    //User register
-    boolean registerUser(String firstName, String lastName, String email, String username, String password);
+    // Address Operations
+    boolean insertAddress(String country, String state, String city, String address1, String address2, String zipCode, String memberID);
 
-    //check if duplicated username
-    boolean checkDuplicateUsername(String username);
+    // Additional Operations
+    boolean findAndSetWinner(String jewelryID);
+
+    boolean updateAllPlacedToLost(String jewelryID);
 
     boolean closeSession(String jewelryID);
 
+    //Payment online
+    boolean updateRegisterBidStatus(String memberID, String jewelryID);
+
+    public void insertInvoice(Invoice invoice);
+
+    List<Invoice> showAllInvoices();
+
+    List<Invoice> showAllPastInvoices();
+
+    boolean confirmPayment(String jewelryID);
+
+    void updateSoldAmount(String jewelryID);
 }

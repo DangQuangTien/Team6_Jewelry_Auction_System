@@ -1,8 +1,9 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Log in to Jewelry Auctions Online</title>
+        <title>F'RANKELLY AUCTION HOUSE - LOGIN</title>
         <link rel="stylesheet" href="component/main.css">
         <style>
             body {
@@ -21,13 +22,32 @@
                 height: 650px;
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
                 background-color: #fff;
-                border-radius: 15px;
                 overflow: hidden;
+                animation: slideIn 0.5s ease forwards;
+            }
+            @keyframes slideIn {
+                from {
+                    transform: translateY(-100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
             }
             .login-image {
                 width: 50%;
                 background: url('images/logo/login.jpg') no-repeat center center;
                 background-size: cover;
+                animation: fadeIn 1s ease forwards;
+            }
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
             }
             .login-form {
                 width: 50%;
@@ -55,7 +75,6 @@
                 padding: 15px;
                 margin: 10px 0;
                 border: 1px solid #ccc;
-                border-radius: 10px;
                 box-sizing: border-box;
                 box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
                 transition: all 0.3s ease;
@@ -70,7 +89,6 @@
                 padding: 15px;
                 margin: 20px 0;
                 border: none;
-                border-radius: 10px;
                 background-color: #000000;
                 color: #fff;
                 font-size: 18px;
@@ -93,57 +111,30 @@
             }
             .error-message {
                 color: red;
-                background-color: #f8d7da;
-                border: 1px solid #f5c2c7;
-                padding: 10px;
-                margin-bottom: 15px;
-                border-radius: 5px;
                 position: relative;
-            }
-            .error-message .close-btn {
-                position: absolute;
-                top: 50%;
-                right: 10px;
-                transform: translateY(-50%);
-                background: none;
-                border: none;
-                font-size: 16px;
-                cursor: pointer;
-            }
-            a {
-                color: #000000;
+                font-family: monospace;
+                font-size: 18px
             }
         </style>
-        <script>
-            function closeErrorMessage() {
-                var errorDiv = document.getElementById("error-message");
-                errorDiv.style.display = "none";
-            }
-        </script>
     </head>
     <body>
         <div class="login-container">
             <div class="login-image"></div>
             <div class="login-form">
-                <a href="home.jsp">
-                    <h1>Jewelry Auctions Online</h1>
+                <a style="text-decoration: none" href="${pageContext.request.contextPath}/home">
+                    <h1 style="font-family: 'Zapf-Chancery'; font-size: 3em; font-weight: bold">F'RANKELLY</h1>
                 </a>
-                <p>Explore the World of Auctions with Us</p>
-                <%
-                    String error = (String) request.getAttribute("error");
-                    String username = (String) request.getAttribute("username");
-                    String password = (String) request.getAttribute("password");
-                %>
-                <% if (error != null) { %>
-                <div id="error-message" class="error-message">
-                    <%= error %>
-                    <button class="close-btn" onclick="closeErrorMessage()">X</button>
-                </div>
-                <% } %>
+                <p>Explore the World of Auctions with Us</p>.
+                <c:set var="error" value="${requestScope.error}" />
+                <c:set var="username" value="${requestScope.username}" />
+                <c:set var="password" value="${requestScope.password}" />
                 <form action="login" method="POST">
-                    <input type="text" name="email" placeholder="Phone number/ Username/ Email" required="required" value="<%= (username != null) ? username : "" %>" />
-                    <input type="password" name="password" placeholder="Password" required="required" value="<%= (password != null) ? password : "" %>" />
-                    <br><br>
+                    <input type="text" name="email" placeholder="Phone number/ Username/ Email" required="required" value="<c:if  test="${not empty  username}"></c:if>" />
+                    <input type="password" name="password" placeholder="Password" required="required" value="<c:if  test="${not empty  password}"></c:if>" />
+                        <br><br>
+                    <c:if  test="${not empty  error}">
+                        <div id="error-message" class="error-message"> ${error}</div><br>
+                    </c:if>
                     <input type="checkbox" name="remember" checked=""> Remember me
                     <a href="#forgot">Forgot your password?</a>
                     <br><br>
@@ -151,9 +142,17 @@
                 </form>
                 <br>
                 <div class="additional-links">
-                    Don't have an account? <a href="register.jsp">Register instead</a>
+                    Don't have an account? <a href="${pageContext.request.contextPath}/register">Register instead</a>
                 </div>
             </div>
         </div>
     </body>
+    <script>
+        setTimeout(function () {
+            var errorMessage = document.getElementById('error-message');
+            if (errorMessage) {
+                errorMessage.style.display = 'none';
+            }
+        }, 3000);
+    </script>
 </html>

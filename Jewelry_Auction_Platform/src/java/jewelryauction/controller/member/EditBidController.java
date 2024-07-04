@@ -44,11 +44,11 @@ public class EditBidController extends HttpServlet {
                         try {
                             boolean check = dao.editBid(preBidAmount, jewelryID, member.getMemberID());
                             if (!check) {
-                                String message = "Please place bid first!";
-                                request.setAttribute("PlACEBIDSTATUS", message);
+                                String message = "PLEASE PLACE BID FIRST!";
+                                request.setAttribute("PLACEDBIDSTATUS", message);
                             } else {
                                 String message = "UPDATE BID SUCCESSFULLY!";
-                                request.setAttribute("PlACEBIDSTATUS", message);
+                                request.setAttribute("PLACEDBIDSTATUS", message);
                             }
                             url = AUCTION_PAGE + auctionID;
                         } catch (Exception ex) {

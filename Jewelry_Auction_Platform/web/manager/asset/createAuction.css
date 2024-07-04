@@ -136,3 +136,8 @@ tr:hover {
         transform: translateY(5px);
     }
 }
+
+.mt-4, .my-4 {
+    margin-top: 1.5rem !important;
+    margin-right: 213px;
+}
