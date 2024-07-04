@@ -530,11 +530,9 @@ WHERE j.status = 'Confirmed';
 alter table Jewelry
 add Sold DECIMAL(18,2) default 0
 
-UPDATE j
-SET j.Sold = i.totalAmount
-FROM Jewelry j
-JOIN Invoice i ON j.jewelryID = i.jewelryID
-WHERE j.jewelryID = 'Lot48';
+UPDATE r
+SET r.bidAmount_Current = 220
+FROM Register_Bid r, Session s where r.sessionID = s.sessionID and s.jewelryID = 'Lot46'
 
 
 select * from Users

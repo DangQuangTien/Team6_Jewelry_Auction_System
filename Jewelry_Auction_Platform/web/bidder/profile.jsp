@@ -127,7 +127,7 @@
 
             .btn-update {
                 width: fit-content;
-                height: 40px;
+                height: 45px;
                 background: #ffffff0d;
                 border-radius: 8px;
                 border: 2px solid #334b79;
@@ -256,7 +256,7 @@
                     </div>
             </div>
         </div>
-         <footer style="background-color: #000407; font-family: Helvetica; height: 30px; position: fixed; bottom: 0; width: 100%; text-align: center;">
+        <footer style="background-color: #000407; font-family: Helvetica; height: 30px; position: fixed; bottom: 0; width: 100%; text-align: center;">
             <span style="color: lightgrey; font-size: 14px;">&#169; F'RANKELLY AUCTION <script>document.write(new Date().getFullYear())</script></span>
         </footer>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>

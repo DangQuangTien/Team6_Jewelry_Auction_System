@@ -360,7 +360,7 @@
     </div>
 </main>
 <footer style="background-color: #000407; font-family: Helvetica; height: 60px">
-    <span style="color: lightgrey; font-size: 14px">? F'RANKELLY AUCTION <script>document.write(new Date().getFullYear())</script></span>
+    <span style="color: lightgrey; font-size: 14px">&copy; F'RANKELLY AUCTION <script>document.write(new Date().getFullYear())</script></span>
 </footer>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
