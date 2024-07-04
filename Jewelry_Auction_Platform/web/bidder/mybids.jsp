@@ -192,50 +192,50 @@
             }
 
             .filter-form {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: darkred;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    
-}
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+                padding: 10px;
+                background-color: darkred;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
-.filter-form label {
-    margin-right: 10px;
-    font-weight: bold;
-    font-family: 'Helvetica', sans-serif;
-    color: #ffffff
-}
+            }
 
-.custom-select {
-    display: inline-block;
-    width: 160px;
-    height: 55px;
-    padding: 10px;
-    font-size: 15px;
-    font-family: 'Helvetica', sans-serif;
-    color: #555;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-    appearance: none;
-    background-color: #fff;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="#aaa" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 8px 12px;
-}
+            .filter-form label {
+                margin-right: 10px;
+                font-weight: bold;
+                font-family: 'Helvetica', sans-serif;
+                color: #ffffff
+            }
 
-.custom-select:focus {
-    border-color: #aaa;
-    outline: none;
-}
+            .custom-select {
+                display: inline-block;
+                width: 160px;
+                height: 40px;
+                padding: 10px;
+                font-size: 14px;
+                font-family: 'Helvetica', sans-serif;
+                color: #555;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+                appearance: none;
+                background-color: #fff;
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="#aaa" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>');
+                background-repeat: no-repeat;
+                background-position: right 10px center;
+                background-size: 8px 12px;
+            }
 
-.custom-select:hover {
-    border-color: #888;
-}
+            .custom-select:focus {
+                border-color: #aaa;
+                outline: none;
+            }
+
+            .custom-select:hover {
+                border-color: #888;
+            }
 
         </style>
     </head>

@@ -633,6 +633,10 @@
                                             <!-- Group 1: General Information -->
                                             <h6 class="mt-4 text-lg font-semibold text-gray-800">General Information</h6>
                                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                                                <div class="block text-sm font-medium text-gray-700">
+                                                    <label for="name<%= jewelry.getJewelryID()%>">Name:</label>
+                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="name<%= jewelry.getJewelryID()%>" name="name" value="<%= jewelry.getJewelryName() %>">
+                                                </div>
                                                 <div>
                                                     <label for="artist<%= jewelry.getJewelryID() %>" class="block text-sm font-medium text-gray-700">Artist:</label>
                                                     <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="artist<%= jewelry.getJewelryID() %>" name="artist" value="<%= jewelry.getArtist() %>">
