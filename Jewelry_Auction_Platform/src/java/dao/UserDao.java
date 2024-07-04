@@ -11,7 +11,7 @@ import entity.request_shipment.RequestShipment;
 import entity.valuation.Valuation;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.math.BigDecimal;
 /**
  * UserDao Interface
  */
