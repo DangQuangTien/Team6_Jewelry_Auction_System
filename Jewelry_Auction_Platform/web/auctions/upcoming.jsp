@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <style>
             body {
-                font-family: Andale Mono;
+                font-family: 'Helvetica Neue', Arial, sans-serif;
                 background-color: #fff;
                 margin: 0;
                 padding: 0;
@@ -56,7 +56,6 @@
             .nav-link {
                 color: black !important;
                 transition: color 0.3s;
-                font-family: Andale Mono;
                 font-size: 1.25em;
             }
 
@@ -77,7 +76,6 @@
                 visibility: hidden;
             }
 
-
             .dropdown-menu {
                 background-color: #000;
                 border: 1px solid rgba(255, 255, 255, 0.1);
@@ -87,7 +85,7 @@
             .dropdown-item {
                 color: #fff !important;
                 transition: background-color 0.3s, color 0.3s;
-                position: relative; /* Ensure pseudo-element positioning */
+                position: relative;
             }
 
             .dropdown-item::after {
@@ -108,12 +106,60 @@
 
             .dropdown-item:hover::after {
                 width: 100%;
-                background-color: #ffc107
+                background-color: #ffc107;
             }
-            .nav-item dropdown:hover::after {
+
+            .nav-item.dropdown:hover::after {
                 width: 100%;
-                background-color: #ffc107
+                background-color: #ffc107;
             }
+
+            /* Ensure the navbar items are correctly aligned */
+.navbar-nav {
+    flex-direction: row;
+    justify-content: flex-end; /* Aligns navbar items to the right */
+}
+
+@media (max-width: 768px) {
+    .navbar-collapse {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-nav {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .nav-item {
+        width: 100%;
+    }
+
+    .nav-link {
+        width: 100%;
+        text-align: left;
+    }
+
+    .dropdown-menu {
+        position: static;
+        float: none;
+        width: 100%;
+        text-align: left;
+    }
+
+    .navbar-collapse .navbar-nav .nav-item .nav-link {
+        text-align: left;
+    }
+
+    .navbar-nav.ml-auto {
+        justify-content: flex-end;
+    }
+
+
+    .navbar-nav .dropdown-menu {
+        text-align: right;
+    }
 
             h1 {
                 text-align: center;
@@ -130,7 +176,14 @@
                 margin-bottom: 20px;
                 padding: 20px;
                 background-color: #fafafa;
-                overflow: hidden;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s, box-shadow 0.3s;
+            }
+
+            .auction:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             }
 
             .image-container {
@@ -138,29 +191,37 @@
                 margin-right: 20px;
                 position: relative;
                 overflow: hidden;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
 
             .image-container img {
                 width: 100%;
                 height: auto;
+                border-radius: 10px;
+                transition: transform 0.3s ease-in-out;
+            }
+
+            .image-container img:hover {
+                transform: scale(1.05);
             }
 
             .auction-details {
                 flex: 1;
-                opacity: 1; /* Ensure details are visible */
                 padding: 10px;
             }
 
             .countdown {
                 text-align: center;
-                font-size: 35px;
+                font-size: 24px;
                 color: #333;
-                padding: 20px;
+                padding: 10px;
                 border-radius: 10px;
                 background-color: #f8f9fa;
                 display: inline-block;
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
-                font-family: Andale Mono;
+                font-family: 'Andale Mono', monospace;
+                margin-top: 10px;
             }
 
             .countdown-text {
@@ -179,117 +240,246 @@
 
             .button-container {
                 text-align: center;
-                margin-top: 10px;
+                margin-top: 20px;
             }
 
             button {
-                padding: 15px 200px;
-                font-size: 20px;
-                color: black;
-                background-color: white;
-                border: 2px solid #000000;
-                border-radius: 100px;
+                padding: 12px 24px;
+                font-size: 18px;
+                color: #1b1b1b;
+                background-color: #ffc107;
+                border: none;
+                border-radius: 50px;
                 cursor: pointer;
                 transition: background-color 0.3s ease, color 0.3s ease;
                 display: block;
-                margin-top: 100px;
-                margin-left: 120px;
-                font-family: Helvetica;
+                margin: 0 auto;
+                font-family: 'Helvetica Neue', Arial, sans-serif;
             }
 
             button:hover {
-                background-color: #000;
-                color: #fff;
+                background-color: #ffc107;
             }
-
 
             p {
-                font-size:200% ;
+                font-size: 1.25em;
                 margin-bottom: 10px;
             }
+
             .container-bid {
                 width: 90%;
                 margin: 0 auto;
-                padding: 0 20px;
+                padding: 20px;
                 box-sizing: border-box;
+            }
+
+            .pagination {
+                display: flex;
+                justify-content: center;
+                padding: 20px 0;
+            }
+
+            .pagination a {
+                color: #1b1b1b;
+                text-decoration: none;
+                padding: 10px 15px;
+                margin: 0 5px;
+                border-radius: 5px;
+                transition: background-color 0.3s, color 0.3s;
+            }
+
+            .pagination a:hover {
+                background-color: #ffc107;
+                color: #1b1b1b;
+            }
+
+            .pagination a.active {
+                background-color: #ffc107;
+                color: #1b1b1b;
+            }
+
+            footer {
+                background-color: #1b1b1b;
+                color: #fff;
+                position: relative;
+                overflow: hidden;
+            }
+
+            footer .container {
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+
+            footer h5 {
+                font-family: 'Zapf-Chancery', cursive;
+                color: #ffc107;
+            }
+
+            footer p {
+                font-family: Helvetica, sans-serif;
+            }
+
+            footer a {
+                color: #ffc107;
+                text-decoration: none;
+            }
+
+            footer a:hover {
+                text-decoration: underline;
+            }
+
+            .social-icons {
+                display: flex;
+                justify-content: center;
+                margin-top: 10px;
+            }
+
+            .social-icons ul {
+                list-style: none;
+                padding: 0;
+            }
+
+            .social-icons li {
+                display: inline;
+                margin: 0 10px;
+            }
+
+            .social-icons a {
+                color: #ffc107;
+                font-size: 24px;
+                transition: color 0.3s ease;
+            }
+
+            .social-icons a:hover {
+                color: #fff;
+            }
+
+            .footer-decoration {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                pointer-events: none;
+            }
+
+            .footer-diamond {
+                position: absolute;
+                top: -20px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .footer-lines {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: linear-gradient(90deg, #ffc107, transparent);
+                animation: slide 10s infinite;
+            }
+
+            @keyframes slide {
+                0% {
+                    transform: translateX(0);
+                }
+                100% {
+                    transform: translateX(100%);
+                }
+            }
+
+            @keyframes pulse {
+                0%, 100% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.1);
+                }
+            }
+            .social-icons {
+                display: flex;
+                justify-content: center;
+                margin-top: 10px;
+            }
+        
+            .social-icons ul {
+                list-style: none;
+                padding: 0;
+                display: flex;
+            }
+        
+            .social-icons li {
+                display: inline;
+                margin: 0 10px;
+            }
+        
+            .social-icons a {
+                color: #ffc107;
+                font-size: 24px;
+                transition: color 0.3s ease;
+            }
+        
+            .social-icons a:hover {
+                color: #fff;
             }
         </style>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
             <div class="container">
-                <a class="navbar-brand"
-                   href="${pageContext.request.contextPath}/home">
+                <a class="navbar-brand" href="${pageContext.request.contextPath}/home">
                     <span class="brand-name">F'RANKELLY</span>
                 </a>
-                <button class="navbar-toggler" type="button"
-                        data-toggle="collapse" data-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false"
-                        aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="home"> HOME</a>
+                            <a class="nav-link" href="home">HOME</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#"
-                               id="auctionDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true"
-                               aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="auctionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 AUCTIONS <i class="fas fa-caret-down"></i>
                             </a>
-                            <div class="dropdown-menu"
-                                 aria-labelledby="auctionDropdown">
-                                <a style="font-family:Andale Mono" class="dropdown-item"
-                                   href="auctions">UPCOMING
-                                    AUCTIONS</a>
-                                <a style="font-family:Andale Mono" class="dropdown-item" href="#">PAST
-                                    AUCTION</a>
+                            <div class="dropdown-menu" aria-labelledby="auctionDropdown">
+                                <a class="dropdown-item" href="auctions">UPCOMING AUCTIONS</a>
+                                <a class="dropdown-item" href="#">PAST AUCTIONS</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#"
-                               id="sellingDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true"
-                               aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="sellingDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 SELLING <i class="fas fa-caret-down"></i>
                             </a>
-                            <div class="dropdown-menu"
-                                 aria-labelledby="sellingDropdown">
-                                <a style="font-family:Andale Mono" class="dropdown-item"
-                                   href="selling">ABOUT SELLING
-                                </a>
-                                <a style="font-family:Andale Mono" class="dropdown-item"
-                                   href="response">APPRAISED ASSET
-                                </a>
-                                <a style="font-family:Andale Mono" class="dropdown-item"
-                                   href="valuation">VALUATION REQUEST
-                                </a>
+                            <div class="dropdown-menu" aria-labelledby="sellingDropdown">
+                                <a class="dropdown-item" href="selling">ABOUT SELLING</a>
+                                <a class="dropdown-item" href="response">APPRAISED ASSET</a>
+                                <a class="dropdown-item" href="valuation">VALUATION REQUEST</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#about"> ABOUT</a>
+                            <a class="nav-link" href="#about">ABOUT</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#about"> CONTACT</a>
+                            <a class="nav-link" href="#contact">CONTACT</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <div  style="margin-top: 200px;" class="container-bid">
-            <div style="text-align: left; font-family: 'Zapf-Chancery'; font-size: 3.25em">Upcoming Auctions</div><br><br>
+        <div class="container-bid" style="margin-top: 100px;">
+            <div style="text-align: left; font-family: 'Zapf-Chancery', cursive; font-size: 3.25em;">Upcoming Auctions</div>
+            <br><br>
             <hr>
             <br><br>
             <c:choose>
                 <c:when test="${not empty AUCTIONS}">
-                    <c:forEach var="auction" items="${AUCTIONS}">
+                    <c:forEach var="auction" items="${AUCTIONS}" varStatus="status" begin="${param.begin != null ? param.begin : 0}" end="${param.end != null ? param.end : 3}">
                         <div class="auction">
                             <div class="image-container">
                                 <img src="https://www.fortunaauction.com/wp-content/uploads/2024/06/1122-collection-image-1500.jpg" alt="Auction Image" loading="lazy"><br>
-                                <div style="font-family: Helvetica" class="countdown" id="countdown_${auction.auctionID}"></div>
+                                <div class="countdown" id="countdown_${auction.auctionID}"></div>
                             </div>
                             <div class="auction-details">
                                 <p>COMING SOON &#x2022; Bidding Open from 
@@ -297,7 +487,6 @@
                                     to 
                                     <fmt:formatDate value="${auction.endDate}" pattern="dd MMM"/>
                                 </p>
-
                                 <p>(Live Sale Conclusion on 
                                     <fmt:formatDate value="${auction.endDate}" pattern="dd MMM"/> 
                                     Starting at ${auction.startTime} ET)
@@ -305,7 +494,7 @@
                                 <div class="button-container">
                                     <form action="auction" method="POST">
                                         <input type="hidden" name="auctionID" value="${auction.auctionID}">
-                                        <button  type="submit">View Lots</button>
+                                        <button type="submit">View Lots</button>
                                     </form>
                                 </div>
                             </div>
@@ -350,52 +539,123 @@
                     <p>No upcoming auctions.</p>
                 </c:otherwise>
             </c:choose>
+            <div class="pagination">
+                <c:forEach var="i" begin="0" end="${fn:length(AUCTIONS) / 4}" step="1">
+                    <a href="?begin=${i * 4}&end=${i * 4 + 3}" class="${param.begin == (i * 4) ? 'active' : ''}">${i + 1}</a>
+                </c:forEach>
+            </div>
         </div>
+
+        <footer class="text-center py-4 mt-auto" style="background-color: #1b1b1b; color: #fff; position: relative; overflow: hidden;">
+            <div class="container">
+                <div class="row">
+                    <div style="color: lightgray" class="col-md-4">
+                        <br><br>
+                        <h5 style="font-family: 'Zapf-Chancery'">F'RANKELLY AUCTION HOUSE</h5>
+                        <p style="font-family: Helvetica">Your premier destination for exquisite jewelry and gemstones. Discover the timeless beauty and elegance in our curated collections.</p>
+                    </div>
+                    <div style="color: lightgray" class="col-md-4">
+                        <br><br>
+                        <h5 style="font-family: 'Zapf-Chancery'">Quick Links</h5>
+                        <ul class="list-unstyled">
+                            <li><a style="text-decoration: none" href="${pageContext.request.contextPath}/register" style="color: #fdfdc7;">Join us</a></li>
+                            <li><a style="text-decoration: none" href="${pageContext.request.contextPath}/auctions" style="color: #ffc107;">Start auction</a></li>
+                            <li><a style="text-decoration: none" href="${pageContext.request.contextPath}/selling" style="color: #ffc107;">Appraise jewelry</a></li>
+                        </ul>
+                    </div>
+                    <div style="color: lightgray" class="col-md-4">
+                        <br><br>
+                        <h5 style="font-family: 'Zapf-Chancery'">Contact Us</h5>
+                        <p><i class="fas fa-phone-alt"></i> +849872539999</p>
+                        <p><i class="fas fa-envelope"></i> support@jewelryauction.com</p>
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Jewelry Street, New York, NY</p>
+                        <!-- Social Icons -->
+                        <div class="social-icons mt-3">
+                            <ul class="example-2">
+                                <li class="icon-content">
+                                    <a href="https://linkedin.com/" aria-label="LinkedIn" data-social="linkedin">
+                                        <i class="fab fa-linkedin"></i>
+                                    </a>
+                                </li>
+                                <li class="icon-content">
+                                    <a href="https://www.github.com/" aria-label="GitHub" data-social="github">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                </li>
+                                <li class="icon-content">
+                                    <a href="https://www.instagram.com/" aria-label="Instagram" data-social="instagram">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                </li>
+                                <li class="icon-content">
+                                    <a href="https://youtube.com/" aria-label="Youtube" data-social="youtube">
+                                        <i class="fab fa-youtube"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <p>&copy; 2024 Jewelry Auction. All rights reserved.</p>
+                </div>
+            </div>
+            <!-- Decorative Elements -->
+            <div class="footer-decoration">
+                <div class="footer-diamond" style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%);">
+                    <i class="fas fa-gem" style="color: #ffc107; font-size: 50px; animation: pulse 2s infinite;"></i>
+                </div>
+                <div class="footer-lines" style="position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, #ffc107, transparent); animation: slide 10s infinite;"></div>
+            </div>
+        </footer>
+   
+        <!-- Include Bootstrap JS and dependencies -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var dropdowns = document.querySelectorAll('.nav-item.dropdown');
+
+                dropdowns.forEach(function (dropdown) {
+                    dropdown.addEventListener('mouseenter', function () {
+                        var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                        if (dropdownMenu) {
+                            dropdownMenu.classList.add('show');
+                        }
+                    });
+                    dropdown.addEventListener('mouseleave', function () {
+                        var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                        if (dropdownMenu) {
+                            dropdownMenu.classList.remove('show');
+                        }
+                    });
+                });
+            });
+
+            $(document).ready(function () {
+                $("a.nav-link").on('click', function (event) {
+                    if (this.hash !== "") {
+                        event.preventDefault();
+                        var hash = this.hash;
+                        $('html, body').animate({
+                            scrollTop: $(hash).offset().top
+                        }, 800, function () {
+                            window.location.hash = hash;
+                        });
+                    }
+                });
+            });
+
+            document.addEventListener("DOMContentLoaded", function () {
+                window.addEventListener("scroll", function () {
+                    if (window.scrollY > 50) {
+                        document.querySelector(".navbar").classList.add("navbar-scrolled");
+                    } else {
+                        document.querySelector(".navbar").classList.remove("navbar-scrolled");
+                    }
+                });
+            });
+        </script>
     </body>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-                            document.addEventListener("DOMContentLoaded", function () {
-                                var dropdowns = document.querySelectorAll('.nav-item.dropdown');
-
-                                dropdowns.forEach(function (dropdown) {
-                                    dropdown.addEventListener('mouseenter', function () {
-                                        var dropdownMenu = dropdown.querySelector('.dropdown-menu');
-                                        if (dropdownMenu) {
-                                            dropdownMenu.classList.add('show');
-                                        }
-                                    });
-                                    dropdown.addEventListener('mouseleave', function () {
-                                        var dropdownMenu = dropdown.querySelector('.dropdown-menu');
-                                        if (dropdownMenu) {
-                                            dropdownMenu.classList.remove('show');
-                                        }
-                                    });
-                                });
-                            });
-
-                            $(document).ready(function () {
-                                $("a.nav-link").on('click', function (event) {
-                                    if (this.hash !== "") {
-                                        event.preventDefault();
-                                        var hash = this.hash;
-                                        $('html, body').animate({
-                                            scrollTop: $(hash).offset().top
-                                        }, 800, function () {
-                                            window.location.hash = hash;
-                                        });
-                                    }
-                                });
-                            });
-                            document.addEventListener("DOMContentLoaded", function () {
-                                window.addEventListener("scroll", function () {
-                                    if (window.scrollY > 50) {
-                                        document.querySelector(".navbar").classList.add("navbar-scrolled");
-                                    } else {
-                                        document.querySelector(".navbar").classList.remove("navbar-scrolled");
-                                    }
-                                });
-                            });
-    </script>
 </html>
