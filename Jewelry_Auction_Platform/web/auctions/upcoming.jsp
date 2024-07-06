@@ -1,16 +1,17 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Upcoming Auctions</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-        <style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Auctions</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     background-color: #fff;
@@ -171,10 +172,17 @@ h1 {
     letter-spacing: 1px;
 }
 
+.auction-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
 .auction {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    width: calc(50% - 10px);
     margin-bottom: 20px;
     padding: 20px;
     background-color: #fafafa;
@@ -189,8 +197,8 @@ h1 {
 }
 
 .image-container {
-    width: 100%;
-    max-width: 300px;
+    width: 150px;
+    height: 150px;
     margin-right: 20px;
     position: relative;
     overflow: hidden;
@@ -200,7 +208,8 @@ h1 {
 
 .image-container img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     border-radius: 10px;
     transition: transform 0.3s ease-in-out;
 }
@@ -212,12 +221,11 @@ h1 {
 .auction-details {
     flex: 1;
     padding: 10px;
-    width: calc(100% - 320px); /* Adjust width for details section */
 }
 
 .countdown {
     text-align: center;
-    font-size: 24px;
+    font-size: 18px;
     color: #333;
     padding: 10px;
     border-radius: 10px;
@@ -233,11 +241,11 @@ h1 {
 }
 
 .countdown-number {
-    font-size: 48px;
+    font-size: 24px;
 }
 
 .countdown-unit {
-    font-size: 18px;
+    font-size: 14px;
     color: #666;
     margin-left: 4px;
 }
@@ -248,8 +256,8 @@ h1 {
 }
 
 button {
-    padding: 12px 24px;
-    font-size: 18px;
+    padding: 8px 16px;
+    font-size: 14px;
     color: #1b1b1b;
     background-color: #ffc107;
     border: none;
@@ -266,7 +274,7 @@ button:hover {
 }
 
 p {
-    font-size: 1.25em;
+    font-size: 1em;
     margin-bottom: 10px;
 }
 
@@ -429,58 +437,60 @@ footer a:hover {
     color: #fff;
 }
 
-        </style>
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-            <div class="container">
-                <a class="navbar-brand" href="${pageContext.request.contextPath}/home">
-                    <span class="brand-name">F'RANKELLY</span>
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="home">HOME</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="auctionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                AUCTIONS <i class="fas fa-caret-down"></i>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="auctionDropdown">
-                                <a class="dropdown-item" href="auctions">UPCOMING AUCTIONS</a>
-                                <a class="dropdown-item" href="#">PAST AUCTIONS</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="sellingDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                SELLING <i class="fas fa-caret-down"></i>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="sellingDropdown">
-                                <a class="dropdown-item" href="selling">ABOUT SELLING</a>
-                                <a class="dropdown-item" href="response">APPRAISED ASSET</a>
-                                <a class="dropdown-item" href="valuation">VALUATION REQUEST</a>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#about">ABOUT</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#contact">CONTACT</a>
-                        </li>
-                    </ul>
-                </div>
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/home">
+                <span class="brand-name">F'RANKELLY</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home">HOME</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="auctionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            AUCTIONS <i class="fas fa-caret-down"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="auctionDropdown">
+                            <a class="dropdown-item" href="auctions">UPCOMING AUCTIONS</a>
+                            <a class="dropdown-item" href="#">PAST AUCTIONS</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="sellingDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            SELLING <i class="fas fa-caret-down"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="sellingDropdown">
+                            <a class="dropdown-item" href="selling">ABOUT SELLING</a>
+                            <a class="dropdown-item" href="response">APPRAISED ASSET</a>
+                            <a class="dropdown-item" href="valuation">VALUATION REQUEST</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">ABOUT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">CONTACT</a>
+                    </li>
+                </ul>
             </div>
-        </nav>
-        <div class="container-bid" style="margin-top: 100px;">
-            <div style="text-align: left; font-family: 'Zapf-Chancery', cursive; font-size: 3.25em;">Upcoming Auctions</div>
-            <br><br>
-            <hr>
-            <br><br>
-            <c:choose>
-                <c:when test="${not empty AUCTIONS}">
+        </div>
+    </nav>
+    <div class="container-bid" style="margin-top: 100px;">
+        <div style="text-align: left; font-family: 'Zapf-Chancery', cursive; font-size: 3.25em;">Upcoming Auctions</div>
+        <br><br>
+        <hr>
+        <br><br>
+        <c:choose>
+            <c:when test="${not empty AUCTIONS}">
+                <div class="auction-container">
                     <c:forEach var="auction" items="${AUCTIONS}" varStatus="status" begin="${param.begin != null ? param.begin : 0}" end="${param.end != null ? param.end : 3}">
                         <div class="auction">
                             <div class="image-container">
@@ -488,13 +498,13 @@ footer a:hover {
                                 <div class="countdown" id="countdown_${auction.auctionID}"></div>
                             </div>
                             <div class="auction-details">
-                                <p>COMING SOON &#x2022; Bidding Open from 
-                                    <fmt:formatDate value="${auction.startDate}" pattern="dd MMM"/> 
-                                    to 
-                                    <fmt:formatDate value="${auction.endDate}" pattern="dd MMM"/>
+                                <p>COMING SOON &#x2022; Bidding Open from
+                                    <fmt:formatDate value="${auction.startDate}" pattern="dd MMM" />
+                                    to
+                                    <fmt:formatDate value="${auction.endDate}" pattern="dd MMM" />
                                 </p>
-                                <p>(Live Sale Conclusion on 
-                                    <fmt:formatDate value="${auction.endDate}" pattern="dd MMM"/> 
+                                <p>(Live Sale Conclusion on
+                                    <fmt:formatDate value="${auction.endDate}" pattern="dd MMM" />
                                     Starting at ${auction.startTime} ET)
                                 </p>
                                 <div class="button-container">
@@ -506,7 +516,7 @@ footer a:hover {
                             </div>
                         </div>
                         <script>
-                            (function (auctionID, endDate, startTime) {
+                            (function(auctionID, endDate, startTime) {
                                 function getTimeDifference(endDateTime, startTime, elementID) {
                                     var now = new Date().getTime();
                                     var endTime = new Date(endDateTime + ' ' + startTime).getTime();
@@ -529,139 +539,140 @@ footer a:hover {
                                 var elementID = "countdown_" + auctionID;
                                 var endDateTime = "${auction.endDate}";
 
-                                document.addEventListener('DOMContentLoaded', function () {
+                                document.addEventListener('DOMContentLoaded', function() {
                                     getTimeDifference(endDateTime, "${auction.startTime}", elementID);
                                 });
 
-                                window[elementID] = setInterval(function () {
+                                window[elementID] = setInterval(function() {
                                     getTimeDifference(endDateTime, "${auction.startTime}", elementID);
                                 }, 1000);
                             })('${auction.auctionID}', '${auction.endDate}', '${auction.startTime}');
                         </script>
-                        <hr>
                     </c:forEach>
-                </c:when>
-                <c:otherwise>
-                    <p>No upcoming auctions.</p>
-                </c:otherwise>
-            </c:choose>
-            <div class="pagination">
-                <c:forEach var="i" begin="0" end="${fn:length(AUCTIONS) / 4}" step="1">
-                    <a href="?begin=${i * 4}&end=${i * 4 + 3}" class="${param.begin == (i * 4) ? 'active' : ''}">${i + 1}</a>
-                </c:forEach>
-            </div>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <p>No upcoming auctions.</p>
+            </c:otherwise>
+        </c:choose>
+        <div class="pagination">
+            <c:forEach var="i" begin="0" end="${fn:length(AUCTIONS) / 4}" step="1">
+                <a href="?begin=${i * 4}&end=${i * 4 + 3}" class="${param.begin == (i * 4) ? 'active' : ''}">${i + 1}</a>
+            </c:forEach>
         </div>
+    </div>
 
-        <footer class="text-center py-4 mt-auto" style="background-color: #1b1b1b; color: #fff; position: relative; overflow: hidden;">
-            <div class="container">
-                <div class="row">
-                    <div style="color: lightgray" class="col-md-4">
-                        <br><br>
-                        <h5 style="font-family: 'Zapf-Chancery'">F'RANKELLY AUCTION HOUSE</h5>
-                        <p style="font-family: Helvetica">Your premier destination for exquisite jewelry and gemstones. Discover the timeless beauty and elegance in our curated collections.</p>
-                    </div>
-                    <div style="color: lightgray" class="col-md-4">
-                        <br><br>
-                        <h5 style="font-family: 'Zapf-Chancery'">Quick Links</h5>
-                        <ul class="list-unstyled">
-                            <li><a style="text-decoration: none" href="${pageContext.request.contextPath}/register" style="color: #fdfdc7;">Join us</a></li>
-                            <li><a style="text-decoration: none" href="${pageContext.request.contextPath}/auctions" style="color: #ffc107;">Start auction</a></li>
-                            <li><a style="text-decoration: none" href="${pageContext.request.contextPath}/selling" style="color: #ffc107;">Appraise jewelry</a></li>
+    <footer class="text-center py-4 mt-auto" style="background-color: #1b1b1b; color: #fff; position: relative; overflow: hidden;">
+        <div class="container">
+            <div class="row">
+                <div style="color: lightgray" class="col-md-4">
+                    <br><br>
+                    <h5 style="font-family: 'Zapf-Chancery'">F'RANKELLY AUCTION HOUSE</h5>
+                    <p style="font-family: Helvetica">Your premier destination for exquisite jewelry and gemstones. Discover the timeless beauty and elegance in our curated collections.</p>
+                </div>
+                <div style="color: lightgray" class="col-md-4">
+                    <br><br>
+                    <h5 style="font-family: 'Zapf-Chancery'">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a style="text-decoration: none" href="${pageContext.request.contextPath}/register" style="color: #fdfdc7;">Join us</a></li>
+                        <li><a style="text-decoration: none" href="${pageContext.request.contextPath}/auctions" style="color: #ffc107;">Start auction</a></li>
+                        <li><a style="text-decoration: none" href="${pageContext.request.contextPath}/selling" style="color: #ffc107;">Appraise jewelry</a></li>
+                    </ul>
+                </div>
+                <div style="color: lightgray" class="col-md-4">
+                    <br><br>
+                    <h5 style="font-family: 'Zapf-Chancery'">Contact Us</h5>
+                    <p><i class="fas fa-phone-alt"></i> +849872539999</p>
+                    <p><i class="fas fa-envelope"></i> support@jewelryauction.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Jewelry Street, New York, NY</p>
+                    <!-- Social Icons -->
+                    <div class="social-icons mt-3">
+                        <ul class="example-2">
+                            <li class="icon-content">
+                                <a href="https://linkedin.com/" aria-label="LinkedIn" data-social="linkedin">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                            </li>
+                            <li class="icon-content">
+                                <a href="https://www.github.com/" aria-label="GitHub" data-social="github">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </li>
+                            <li class="icon-content">
+                                <a href="https://www.instagram.com/" aria-label="Instagram" data-social="instagram">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </li>
+                            <li class="icon-content">
+                                <a href="https://youtube.com/" aria-label="Youtube" data-social="youtube">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </li>
                         </ul>
                     </div>
-                    <div style="color: lightgray" class="col-md-4">
-                        <br><br>
-                        <h5 style="font-family: 'Zapf-Chancery'">Contact Us</h5>
-                        <p><i class="fas fa-phone-alt"></i> +849872539999</p>
-                        <p><i class="fas fa-envelope"></i> support@jewelryauction.com</p>
-                        <p><i class="fas fa-map-marker-alt"></i> 123 Jewelry Street, New York, NY</p>
-                        <!-- Social Icons -->
-                        <div class="social-icons mt-3">
-                            <ul class="example-2">
-                                <li class="icon-content">
-                                    <a href="https://linkedin.com/" aria-label="LinkedIn" data-social="linkedin">
-                                        <i class="fab fa-linkedin"></i>
-                                    </a>
-                                </li>
-                                <li class="icon-content">
-                                    <a href="https://www.github.com/" aria-label="GitHub" data-social="github">
-                                        <i class="fab fa-github"></i>
-                                    </a>
-                                </li>
-                                <li class="icon-content">
-                                    <a href="https://www.instagram.com/" aria-label="Instagram" data-social="instagram">
-                                        <i class="fab fa-instagram"></i>
-                                    </a>
-                                </li>
-                                <li class="icon-content">
-                                    <a href="https://youtube.com/" aria-label="Youtube" data-social="youtube">
-                                        <i class="fab fa-youtube"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-4">
-                    <p>&copy; 2024 Jewelry Auction. All rights reserved.</p>
                 </div>
             </div>
-            <!-- Decorative Elements -->
-            <div class="footer-decoration">
-                <div class="footer-diamond" style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%);">
-                    <i class="fas fa-gem" style="color: #ffc107; font-size: 50px; animation: pulse 2s infinite;"></i>
-                </div>
-                <div class="footer-lines" style="position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, #ffc107, transparent); animation: slide 10s infinite;"></div>
+            <div class="mt-4">
+                <p>&copy; 2024 Jewelry Auction. All rights reserved.</p>
             </div>
-        </footer>
-   
-        <!-- Include Bootstrap JS and dependencies -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                var dropdowns = document.querySelectorAll('.nav-item.dropdown');
+        </div>
+        <!-- Decorative Elements -->
+        <div class="footer-decoration">
+            <div class="footer-diamond" style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%);">
+                <i class="fas fa-gem" style="color: #ffc107; font-size: 50px; animation: pulse 2s infinite;"></i>
+            </div>
+            <div class="footer-lines" style="position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, #ffc107, transparent); animation: slide 10s infinite;"></div>
+        </div>
+    </footer>
 
-                dropdowns.forEach(function (dropdown) {
-                    dropdown.addEventListener('mouseenter', function () {
-                        var dropdownMenu = dropdown.querySelector('.dropdown-menu');
-                        if (dropdownMenu) {
-                            dropdownMenu.classList.add('show');
-                        }
-                    });
-                    dropdown.addEventListener('mouseleave', function () {
-                        var dropdownMenu = dropdown.querySelector('.dropdown-menu');
-                        if (dropdownMenu) {
-                            dropdownMenu.classList.remove('show');
-                        }
-                    });
+    <!-- Include Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var dropdowns = document.querySelectorAll('.nav-item.dropdown');
+
+            dropdowns.forEach(function(dropdown) {
+                dropdown.addEventListener('mouseenter', function() {
+                    var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                    if (dropdownMenu) {
+                        dropdownMenu.classList.add('show');
+                    }
                 });
-            });
-
-            $(document).ready(function () {
-                $("a.nav-link").on('click', function (event) {
-                    if (this.hash !== "") {
-                        event.preventDefault();
-                        var hash = this.hash;
-                        $('html, body').animate({
-                            scrollTop: $(hash).offset().top
-                        }, 800, function () {
-                            window.location.hash = hash;
-                        });
+                dropdown.addEventListener('mouseleave', function() {
+                    var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                    if (dropdownMenu) {
+                        dropdownMenu.classList.remove('show');
                     }
                 });
             });
+        });
 
-            document.addEventListener("DOMContentLoaded", function () {
-                window.addEventListener("scroll", function () {
-                    if (window.scrollY > 50) {
-                        document.querySelector(".navbar").classList.add("navbar-scrolled");
-                    } else {
-                        document.querySelector(".navbar").classList.remove("navbar-scrolled");
-                    }
-                });
+        $(document).ready(function() {
+            $("a.nav-link").on('click', function(event) {
+                if (this.hash !== "") {
+                    event.preventDefault();
+                    var hash = this.hash;
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 800, function() {
+                        window.location.hash = hash;
+                    });
+                }
             });
-        </script>
-    </body>
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            window.addEventListener("scroll", function() {
+                if (window.scrollY > 50) {
+                    document.querySelector(".navbar").classList.add("navbar-scrolled");
+                } else {
+                    document.querySelector(".navbar").classList.remove("navbar-scrolled");
+                }
+            });
+        });
+    </script>
+</body>
+
 </html>
