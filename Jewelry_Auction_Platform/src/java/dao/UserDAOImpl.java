@@ -1027,6 +1027,30 @@ public class UserDAOImpl implements UserDao {
 
         return maxBidAmount;
     }
+    
+    //-----------------
+    @Override
+    public boolean selectWinnerID(String jewelryID, double highestBid){
+        String getMemberIDQuery = "SELECT memberID FROM Register_Bid WHERE bidAmount_Current = ?";
+        String insertSessionQuery = "UPDATE Session SET winnerID = ? WHERE jewelryID = ?";
+        try( Connection conn = DBUtils.getConnection();
+                PreparedStatement ps1 = conn.prepareStatement(getMemberIDQuery);
+                PreparedStatement ps2 = conn.prepareStatement(insertSessionQuery)){
+            ps.setDouble(1, highestBid);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                ps2.setString(1, rs.getString("memberID"));
+                ps2.setString(2, jewelryID);
+                int rowsAffected = ps2.executeUpdate();
+                if(rowsAffected > 0){
+                    return true;
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
 
     @Override
     public boolean updateJewelry(Jewelry jewelry) {

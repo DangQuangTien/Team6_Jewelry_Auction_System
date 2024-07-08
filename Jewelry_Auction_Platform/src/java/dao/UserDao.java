@@ -104,6 +104,8 @@ public interface UserDao {
     boolean saveBid(String preBid_Amount, String jewelryID, String memberID);
 
     Double getTheHighestBid(String jewelryID);
+    //-------------
+    boolean selectWinnerID(String sessionID, double highestBid);
 
     // Address Operations
     boolean insertAddress(String country, String state, String city, String address1, String address2, String zipCode, String memberID);
