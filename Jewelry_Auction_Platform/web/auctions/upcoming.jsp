@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <style>
-        body {
+                body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             background-color: #fff;
             margin: 0;
@@ -223,7 +223,7 @@
         }
 
         .countdown {
-            text-align: center;
+            text-align: left;
             font-size: 18px;
             color: #333;
             padding: 10px;
@@ -435,7 +435,6 @@
         .social-icons a:hover {
             color: #fff;
         }
-
     </style>
 </head>
 
@@ -486,7 +485,7 @@
     </div>
 </nav>
 <div class="container-bid" style="margin-top: 100px;">
-    <div style="text-align: left; font-family: 'Zapf-Chancery', cursive; font-size: 3.25em;">Upcoming Auctions</div>
+    <div style="text-align: left; font-family:Arial, sans-serif; font-size: 3.25em;">Upcoming Auctions</div>
     <br><br>
     <hr>
     <br><br>
@@ -497,7 +496,7 @@
                     <div class="auction">
                         <div class="image-container">
                             <img src="https://www.fortunaauction.com/wp-content/uploads/2024/06/1122-collection-image-1500.jpg" alt="Auction Image" loading="lazy"><br>
-                            <div class="countdown" id="countdown_${auction.auctionID}"></div>
+                            
                         </div>
                         <div class="auction-details">
                             <p>COMING SOON &#x2022; Bidding Open from
@@ -512,7 +511,9 @@
                             <div class="button-container">
                                 <form action="auction" method="POST">
                                     <input type="hidden" name="auctionID" value="${auction.auctionID}">
+                                    <div class="countdown" id="countdown_${auction.auctionID}"></div>
                                     <button type="submit">View Lots</button>
+                                    
                                 </form>
                             </div>
                         </div>
