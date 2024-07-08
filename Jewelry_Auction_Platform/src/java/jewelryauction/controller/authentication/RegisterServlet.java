@@ -106,9 +106,7 @@ public class RegisterServlet extends HttpServlet {
                 // Redirect to login page
                 boolean result = dao.registerUser(firstName, lastName, email, userName, password);
                 if (result) {
-                    request.setAttribute("username", userName);
-                    request.setAttribute("password", password);
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                    response.sendRedirect(request.getContextPath() + "/login");
                 }
             }
 

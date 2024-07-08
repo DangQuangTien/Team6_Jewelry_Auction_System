@@ -18,6 +18,7 @@ public class UpdateJewelry extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String jewelryName = request.getParameter("name");
         String jewelryID = request.getParameter("jewelryID");
         String artist = request.getParameter("artist");
         String circa = request.getParameter("circa");
@@ -38,6 +39,7 @@ public class UpdateJewelry extends HttpServlet {
         String stamped = request.getParameter("stamped");
         String ringSize = request.getParameter("ringSize");
         Jewelry jewelry = new Jewelry();
+        jewelry.setJewelryName(jewelryName);
         jewelry.setJewelryID(jewelryID);
         jewelry.setArtist(artist != null ? artist : "");
         jewelry.setCirca(circa != null ? circa : "");

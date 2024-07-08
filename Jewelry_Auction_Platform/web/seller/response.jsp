@@ -252,6 +252,16 @@
                 color: #e9ecef;
                 transform: scale(1.05);
             }
+
+            .button-group {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px; /* Adjust the gap between the buttons as needed */
+            }
+            .inline-form {
+                display: inline;
+            }
         </style>
     </head>
     <body>
@@ -331,9 +341,9 @@
                                     <div class="dropdown-menu"
                                          aria-labelledby="userDropdown">
                                         <a style="font-family:Andale Mono" class="dropdown-item"
-                                           href="${pageContext.request.contextPath}/register">Register</a>
+                                           href="${pageContext.request.contextPath}/register">REGISTER</a>
                                         <a style="font-family:Andale Mono" class="dropdown-item"
-                                           href="${pageContext.request.contextPath}/login">Login</a>
+                                           href="${pageContext.request.contextPath}/login">LOGIN</a>
                                     </div>
                                 </li>
                             </c:when>
@@ -404,14 +414,14 @@
                                     <c:choose>
                                         <c:when test="${jewelry.status eq 'Re-Evaluated'}">
                                             <td style="color: orangered; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">${not empty jewelry.finalPrice ? jewelry.finalPrice : 'Updating'}</td>
-                                             <td style="color: red; font-family: Helvetica; text-align: center; font-size: 20px" class="text-danger"><a style="text-decoration: none" href="${pageContext.request.contextPath}/notification">Waiting for shipment</a></td>
+                                            <td style="color: red; font-family: Helvetica; text-align: center; font-size: 20px" class="text-danger"><a style="text-decoration: none" href="${pageContext.request.contextPath}/notification">Waiting for shipment</a></td>
                                         </c:when>
                                         <c:when test="${jewelry.status eq 'Received'}">
-                                            <td style="color: red">${not empty jewelry.finalPrice ? jewelry.finalPrice : 'Updating'}</td>
-                                            <td style="color: green">Received</td>
+                                            <td style="color: orangered; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">${not empty jewelry.finalPrice ? jewelry.finalPrice : 'Updating'}</td>
+                                            <td style="color: red; font-family: Helvetica; text-align: center; font-size: 20px">Received</td>
                                         </c:when>
                                         <c:when test="${jewelry.status eq 'Pending Confirm'}">
-                                            <td style="color: red">${not empty jewelry.finalPrice ? jewelry.finalPrice : 'Updating'}</td>
+                                            <td style="color: orangered; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">${not empty jewelry.finalPrice ? jewelry.finalPrice : 'Updating'}</td>
                                             <td style="color: green">
                                                 <strong>Pending Confirm</strong><br>
                                                 <form action="${pageContext.request.contextPath}/confirm">
@@ -429,8 +439,8 @@
                                             <td style="color: rgb(11, 224, 71); font-weight: bold; font-size: 20px; text-align: center; font-family: Helvetica">Ready To Auction</td>
                                         </c:when>
                                         <c:otherwise>
-                                            <td style="color: rgb(215, 218, 33)">Updating</td>
-                                            <td style="color: red">In Progress</td>
+                                            <td style="color: orangered; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">Updating</td>
+                                            <td style="color: blue; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">In Progress</td>
                                         </c:otherwise>
                                     </c:choose>
                                     <td><button class="btn btn-primary details-btn" data-toggle="modal" data-target="#detailsModal" data-jewelry='${jewelry}'>Details</button></td>
@@ -457,7 +467,6 @@
                     </table>
                 </div>
             </c:if>
-
         </div>
         <footer class="text-center py-4 mt-auto"
                 style="background-color: #000; color: #fff; position: relative; overflow: hidden;">
@@ -549,102 +558,114 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script>
-            function fetchJewelryData() {
-                $.ajax({
-                    url: '${pageContext.request.contextPath}/UpdateJewelryServlet',
-                    type: 'GET',
-                    success: function (data) {
-                        var tableBody = $('#jewelryTableBody');
-                        tableBody.empty();
+                function fetchJewelryData() {
+                    $.ajax({
+                        url: '${pageContext.request.contextPath}/UpdateJewelryServlet',
+                        type: 'GET',
+                        success: function (data) {
+                            var tableBody = $('#jewelryTableBody');
+                            tableBody.empty();
 
-                        if (data.length === 0) {
-                            $('.no-jewelry').removeClass('hidden');
-                            $('#jewelryTable').addClass('hidden');
-                        } else {
-                            $('.no-jewelry').addClass('hidden');
-                            $('#jewelryTable').removeClass('hidden');
+                            if (data.length === 0) {
+                                $('.no-jewelry').removeClass('hidden');
+                                $('#jewelryTable').addClass('hidden');
+                            } else {
+                                $('.no-jewelry').addClass('hidden');
+                                $('#jewelryTable').removeClass('hidden');
 
-                            data.forEach(function (jewelry) {
-                                var photos = jewelry.photos.split(";");
-                                var status = jewelry.status;
-                                var finalPrice = (jewelry.final_Price != null) ? jewelry.final_Price : "Updating";
-                                var statusText = '';
+                                data.forEach(function (jewelry) {
+                                    var photos = jewelry.photos.split(";");
+                                    var status = jewelry.status;
+                                    var finalPrice = (jewelry.final_Price != null) ? jewelry.final_Price : "Updating";
+                                    var sold = (jewelry.totalAmount != null) ? jewelry.totalAmount : "Unknown";
+                                    var statusText = '';
 
-                                if (status === 'Re-Evaluated') {
-                                    statusText = '<td style="color: orangered; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">' + finalPrice + '</td>\n\
+                                    if (status === 'Re-Evaluated') {
+                                        statusText = '<td style="color: orangered; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">' + finalPrice + '</td>\n\
                                                          <td style="color: red; font-family: Helvetica; text-align: center; font-size: 20px" class="text-danger"><a style="text-decoration: none" href="${pageContext.request.contextPath}/notification">Waiting for shipment</a></td>';
-                                } else if (status === 'Received') {
-                                    statusText = '<td style="color: red; font-family: Helvetica; text-align: center; font-size: 20px">' + finalPrice + '</td>\n\
-                                                           <td style="color: green">Received</td>';
-                                } else if (status === 'Pending Confirm') {
-                                    statusText = '<td style="color: red">' + finalPrice + '</td><td style="color: green"><strong>Pending Confirm</strong><br>' +
-                                            '<form action="${pageContext.request.contextPath}/confirm"><input type="hidden" name="jewelryID" value="' + jewelry.jewelryID + '"><input type="submit" class="btn btn-success btn-sm" name="action" value="Confirm"></form><br>' +
-                                            '<form action="${pageContext.request.contextPath}/reject"><input type="hidden" name="jewelryID" value="' + jewelry.jewelryID + '"><input type="submit" class="btn btn-danger btn-sm" name="action" value="Reject"></form></td>';
-                                } else if (status === 'Confirmed') {
-                                    statusText =
-                                            '<td style="color: red; font-size: 24px; text-align: center; font-family: Helvetica">' +
-                                            "$" + finalPrice +
-                                            '</td><td style="color: rgb(11, 224, 71); font-weight: bold; font-size: 20px; text-align: center; font-family: Helvetica">Ready To Auction</td>';
-                                } else {
-                                    statusText = '<td style="color: rgb(215, 218, 33)">Updating</td><td style="color: red">In Progress</td>';
-                                }
-                                tableBody.append(
-                                        '<tr>' +
-                                        '<td><img class="img-fluid" src="${pageContext.request.contextPath}/' + photos[0] + '" alt="Jewelry Image" style="max-width: 200px; max-height: 200px;"></td>' +
-                                        '<td style="font-size: 20px; font-family: Helvetica">' + jewelry.jewelryName + '</td>' +
-                                        '<td style="font-size: 20px; text-align: center;  font-family: Helvetica">' + jewelry.artist + '</td>' + statusText +
-                                        '<td style="font-size: 20px; text-align: center"><button style="font-family: Helvetica" class="btn btn-primary details-btn" data-toggle="modal" data-target="#detailsModal" data-jewelry=\'' + JSON.stringify(jewelry) + '\'>DETAIL</button></td>' +
-                                        '</tr>'
-                                        );
-                            });
+                                    } else if (status === 'Received') {
+                                        statusText = '<td style="color: orangered; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">' + finalPrice + '</td>\n\
+                                                          <td style="color: blue; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">Received</td>';
+                                    } else if (status === 'Pending Confirm') {
+                                        statusText = '<td style="color: red; font-size: 24px; text-align: center; font-family: Helvetica">' + "$" + finalPrice + '</td>' +
+                                                '<td style="color: green; font-family: Helvetica; text-align: center; font-size: 20px;"><strong>Pending Confirm</strong><br>' +
+                                                '<div class="button-group">' +
+                                                '<form action="${pageContext.request.contextPath}/confirm" class="inline-form"><input type="hidden" name="jewelryID" value="' + jewelry.jewelryID + '">' +
+                                                '<input type="submit" class="btn btn-success btn-sm" name="action" value="Confirm"></form>' +
+                                                '<form action="${pageContext.request.contextPath}/reject" class="inline-form"><input type="hidden" name="jewelryID" value="' + jewelry.jewelryID + '">' +
+                                                '<input type="submit" class="btn btn-danger btn-sm" name="action" value="Reject"></form>' +
+                                                '</div></td>';
+                                    } else if (status === 'Confirmed') {
+                                        statusText =
+                                                '<td style="color: red; font-size: 24px; text-align: center; font-family: Helvetica">' +
+                                                "$" + finalPrice +
+                                                '</td><td style="color: rgb(11, 224, 71); font-weight: bold; font-size: 20px; text-align: center; font-family: Helvetica">Ready To Auction</td>';
+                                    } else if (status === 'SOLD') {
+                                        statusText = '<td style="color: red; font-size: 24px; text-align: center; font-family: Helvetica">'  + "$" + finalPrice + '</td>' +
+                                                '<td style="color: blue; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">' + 'SOLD ' + sold + " VND" + '</td>';
+                                    } else {
+                                        statusText = '<td style="color: orangered; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">Updating</td>\n\
+                                                         <td style="color: blue; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">In Progress</td>';
+                                    }
+                                    tableBody.append(
+                                            '<tr>' +
+                                            '<td><img class="img-fluid" src="${pageContext.request.contextPath}/' + photos[0] + '" alt="Jewelry Image" style="max-width: 200px; max-height: 200px;"></td>' +
+                                            '<td style="font-size: 20px; font-family: Helvetica">' + jewelry.jewelryName + '</td>' +
+                                            '<td style="font-size: 20px; text-align: center;  font-family: Helvetica">' + jewelry.artist + '</td>' + statusText +
+                                            '<td style="font-size: 20px; text-align: center"><button style="font-family: Helvetica" class="btn btn-primary details-btn" data-toggle="modal" data-target="#detailsModal" data-jewelry=\'' + JSON.stringify(jewelry) + '\'>DETAIL</button></td>' +
+                                            '</tr>'
+                                            );
+                                });
+                            }
+                        },
+                        error: function () {
+                            console.error('Failed to fetch jewelry data');
                         }
-                    },
-                    error: function () {
-                        console.error('Failed to fetch jewelry data');
-                    }
+                    });
+                }
+
+                $(document).ready(function () {
+                    // Fetch jewelry data initially
+                    fetchJewelryData();
+
+                    // Set interval to fetch jewelry data periodically (every minute)
+                    setInterval(fetchJewelryData, 5000);
+
+                    // Load jewelry details into the modal
+                    $('#detailsModal').on('show.bs.modal', function (event) {
+                        var button = $(event.relatedTarget);
+                        var jewelry = button.data('jewelry');
+                        var modal = $(this);
+                        modal.find('.modal-body').html(
+                                ' <div style="font-family: Helvetica" class="row">' +
+                                '<div class="col-md-6">' +
+                                '<p><strong>Jewelry Name:</strong> ' + jewelry.jewelryName + '</p>' +
+                                '<p><strong>Artist:</strong> ' + jewelry.artist + '</p>' +
+                                '<p><strong>Circa:</strong> ' + jewelry.circa + '</p>' +
+                                '<p><strong>Material:</strong> ' + jewelry.material + '</p>' +
+                                '<p><strong>Dial:</strong> ' + jewelry.dial + '</p>' +
+                                '<p><strong>Bracelet Material:</strong> ' + jewelry.braceletMaterial + '</p>' +
+                                '<p><strong>Case Dimensions:</strong> ' + jewelry.caseDimensions + '</p>' +
+                                '<p><strong>Bracelet Size:</strong> ' + jewelry.braceletSize + '</p>' +
+                                '<p><strong>Serial Number:</strong> ' + jewelry.serialNumber + '</p>' +
+                                '<p><strong>Reference Number:</strong> ' + jewelry.referenceNumber + '</p>' +
+                                '<p><strong>Caliber:</strong> ' + jewelry.caliber + '</p>' +
+                                '<p><strong>Movement:</strong> ' + jewelry.movement + '</p>' + ' </div>' + '<div class="col-md-6">' +
+                                '<p><strong>Condition:</strong> ' + jewelry.condition + '</p>' +
+                                '<p><strong>Metal:</strong> ' + jewelry.metal + '</p>' +
+                                '<p><strong>Gemstones:</strong> ' + jewelry.gemstones + '</p>' +
+                                '<p><strong>Measurements:</strong> ' + jewelry.measurements + '</p>' +
+                                '<p><strong>Weight:</strong> ' + jewelry.weight + '</p>' +
+                                '<p><strong>Stamped:</strong> ' + jewelry.stamped + '</p>' +
+                                '<p><strong>Ring Size:</strong> ' + jewelry.ringSize + '</p>' +
+                                '<p><strong>Min Price:</strong> ' + jewelry.minPrice + '</p>' +
+                                '<p><strong>Max Price:</strong> ' + jewelry.maxPrice + '</p>' +
+                                '<p><strong>Temporary Price:</strong> ' + jewelry.temp_Price + '</p>' + 
+                                 '<p><strong>Sold:</strong> ' + jewelry.totalAmount  + '</p>' +
+                                ' </div>' + '</div>'
+                                );
+                    });
                 });
-            }
-
-            $(document).ready(function () {
-                // Fetch jewelry data initially
-                fetchJewelryData();
-
-                // Set interval to fetch jewelry data periodically (every minute)
-                setInterval(fetchJewelryData, 5000);
-
-                // Load jewelry details into the modal
-                $('#detailsModal').on('show.bs.modal', function (event) {
-                    var button = $(event.relatedTarget);
-                    var jewelry = button.data('jewelry');
-                    var modal = $(this);
-                    modal.find('.modal-body').html(
-                            ' <div style="font-family: Helvetica" class="row">' +
-                            '<div class="col-md-6">' +
-                            '<p><strong>Jewelry Name:</strong> ' + jewelry.jewelryName + '</p>' +
-                            '<p><strong>Artist:</strong> ' + jewelry.artist + '</p>' +
-                            '<p><strong>Circa:</strong> ' + jewelry.circa + '</p>' +
-                            '<p><strong>Material:</strong> ' + jewelry.material + '</p>' +
-                            '<p><strong>Dial:</strong> ' + jewelry.dial + '</p>' +
-                            '<p><strong>Bracelet Material:</strong> ' + jewelry.braceletMaterial + '</p>' +
-                            '<p><strong>Case Dimensions:</strong> ' + jewelry.caseDimensions + '</p>' +
-                            '<p><strong>Bracelet Size:</strong> ' + jewelry.braceletSize + '</p>' +
-                            '<p><strong>Serial Number:</strong> ' + jewelry.serialNumber + '</p>' +
-                            '<p><strong>Reference Number:</strong> ' + jewelry.referenceNumber + '</p>' +
-                            '<p><strong>Caliber:</strong> ' + jewelry.caliber + '</p>' +
-                            '<p><strong>Movement:</strong> ' + jewelry.movement + '</p>' + ' </div>' + '<div class="col-md-6">' +
-                            '<p><strong>Condition:</strong> ' + jewelry.condition + '</p>' +
-                            '<p><strong>Metal:</strong> ' + jewelry.metal + '</p>' +
-                            '<p><strong>Gemstones:</strong> ' + jewelry.gemstones + '</p>' +
-                            '<p><strong>Measurements:</strong> ' + jewelry.measurements + '</p>' +
-                            '<p><strong>Weight:</strong> ' + jewelry.weight + '</p>' +
-                            '<p><strong>Stamped:</strong> ' + jewelry.stamped + '</p>' +
-                            '<p><strong>Ring Size:</strong> ' + jewelry.ringSize + '</p>' +
-                            '<p><strong>Min Price:</strong> ' + jewelry.minPrice + '</p>' +
-                            '<p><strong>Max Price:</strong> ' + jewelry.maxPrice + '</p>' +
-                            '<p><strong>Temporary Price:</strong> ' + jewelry.temp_Price + '</p>' + ' </div>' + '</div>'
-                            );
-                });
-            });
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {

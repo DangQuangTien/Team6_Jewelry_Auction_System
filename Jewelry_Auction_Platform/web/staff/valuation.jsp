@@ -3,6 +3,7 @@
     Created on : May 23, 2024, 9:20:58 AM
     Author     : User
 --%>
+
 <%@page import="dao.UserDAOImpl"%>
 <%@page import="entity.product.Category"%>
 <%@page import="java.util.ArrayList"%>

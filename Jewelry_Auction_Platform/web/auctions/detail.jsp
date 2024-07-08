@@ -14,6 +14,7 @@
         <link rel="stylesheet" type="text/css" href="../component/footer.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
     <style>
         body {
@@ -122,19 +123,42 @@
         .countdown-container div {
             margin-right: 10px;
         }
-        .alert {
-            display: none;
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #888;
-            color: white;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
+ .alert {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 40%;
+    transform: translateX(-50%);
+    background-color: #71a96d;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    animation: alertBounce 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards,
+               fadeOut 0.5s ease-in-out 2.5s forwards;
+}
+
+@keyframes alertBounce {
+    0% {
+        transform: scale(0.8);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+
+
 
         .content {
             flex: 1;
@@ -190,26 +214,50 @@
             position: relative;
             overflow: hidden;
         }
-
-        .card {
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .card-wrapper {
+            transition: box-shadow 0.3s ease;
         }
 
+        .card-wrapper:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
 
+        .card {
+            height: 600px; /* Ensure the card takes up all available height */
+            border: 1px solid #ddd;
+            overflow: hidden; /* Hide any overflow content */
+            transition: box-shadow 0.3s ease;
+            display: flex; /* Use flexbox for layout */
+            flex-direction: column;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-body {
+            flex: 1;
+            padding: 15px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1rem;
+        }
         .card-img-top {
             width: 100%;
             height: auto;
-            transition: transform 0.3s ease;
+            object-fit: cover;
         }
 
         .card-title {
+            font-size: 18px;
             margin-bottom: 10px;
-            font-family: Verdana;
         }
-
-
+        .btn-group {
+            display: flex;
+            justify-content: space-between; /* Ensure buttons are evenly spaced */
+            margin-top: auto; /* Push button group to the bottom of the card body */
+        }
         .btn-primary {
             padding: 10px 20px;
             font-size: 16px;
@@ -219,12 +267,17 @@
             border-radius: 100px;
             cursor: pointer;
             transition: background-color 0.3s ease, color 0.3s ease;
+            margin-top: auto;
+            flex: 1; /* Make buttons grow to fill the available space equally */
+            margin-right: 5px; /* Space between buttons */
         }
+
         .btn-primary:hover {
-            background-color: #000;
-            color: #fff;
+            background-color: #000 !important;
+            color: #fff !important;
+            border: 2px solid #000000;
         }
-        
+
         .loader {
             width: 40px;
             height: 40px;
@@ -345,6 +398,9 @@
             to {
                 opacity: 1;
             }
+        }
+        .catalog-item {
+            width: 100%; /* Đảm bảo các card chiếm hết không gian của cột */
         }
 
     </style>
@@ -527,9 +583,16 @@
     </nav>
     <!-- Navigator -->
     <div class="container">
-        <% String status = (String) request.getAttribute("PlACEBIDSTATUS");%>
-        <div id="statusAlert" class="alert" style="display: none;">
-            <%= (status != null) ? status : ""%>
+        <c:set var="statusbid" value="${requestScope.PLACEDBIDSTATUS}" />
+        <div style=" font-family:  Helvetica; font-size: 20px" id="statusAlert" class="alert" style="display: none;">
+            <c:choose>
+                <c:when test="${not empty status}">
+                    ${statusbid}
+                </c:when>
+                <c:otherwise>
+                    Nothing shown
+                </c:otherwise>
+            </c:choose>
         </div>
         <h1 style="margin-top: 120px; font-weight: bold; font-size: 3em; font-family:  Optima">Fine Jewels & Watches - <fmt:formatDate value="${auction.endDate}" pattern="dd MMM YYYY"/></h1>
         <font style="font-size: 20px; font-family:  Helvetica; font-weight: bold">Live Auction</font>
@@ -606,22 +669,20 @@
                                     <span class="max-price">
                                         <fmt:formatNumber value="${j.maxPrice}" type="currency" minFractionDigits="0" maxFractionDigits="0"/>
                                     </span>
-                                </font><br>
+                                </font>
                                 <c:if test="${j.currentBid != 0.00}">
-                                    <b><font style="color: orangered; font-size: 20px">Current bid: </font></b>
-                                    <font style="color: orangered; font-size: 24px">
-                                        <fmt:formatNumber value="${j.currentBid}" type="currency" minFractionDigits="2" maxFractionDigits="2"/>
-                                    </font>
+                                    <div style="color: #d11e1e; font-size: 18px; font-family:  Helvetica; text-align: end">Current bid:  <fmt:formatNumber value="${j.currentBid}" type="currency" minFractionDigits="2" maxFractionDigits="2"/> </div>
                                 </c:if>
-
                                 <br>
                                 <c:choose>
                                     <c:when test="${status == 0 && member != null}">
                                         <a href="${pageContext.request.contextPath}/registerbid?auctionID=${param.auctionID}"><button class="btn btn-primary">PLACE BID</button</a>
                                     </c:when>
                                     <c:when test="${status == 1 && member != null}">
-                                        <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal">PLACE BID</button>
-                                        <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal_">EDIT BID</button>
+                                        <div class="btn-group">
+                                            <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal">PLACE BID</button>
+                                            <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal_">EDIT BID</button>
+                                        </div>
                                     </c:when>
                                     <c:otherwise>
                                         <form action="${pageContext.request.contextPath}/login">
@@ -650,7 +711,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="bidForm" action="${pageContext.request.contextPath}/placebid">
+                <form id="bidForm" action="${pageContext.request.contextPath}/placebid"  onsubmit="handleBidSuccess();">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="bidAmount">Enter your bid amount:</label>
