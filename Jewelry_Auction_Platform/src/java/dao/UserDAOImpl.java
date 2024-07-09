@@ -15,6 +15,7 @@ import entity.request_shipment.RequestShipment;
 import entity.valuation.Valuation;
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -1027,30 +1028,6 @@ public class UserDAOImpl implements UserDao {
 
         return maxBidAmount;
     }
-    
-    //-----------------
-    @Override
-    public boolean selectWinnerID(String jewelryID, double highestBid){
-        String getMemberIDQuery = "SELECT memberID FROM Register_Bid WHERE bidAmount_Current = ?";
-        String insertSessionQuery = "UPDATE Session SET winnerID = ? WHERE jewelryID = ?";
-        try( Connection conn = DBUtils.getConnection();
-                PreparedStatement ps1 = conn.prepareStatement(getMemberIDQuery);
-                PreparedStatement ps2 = conn.prepareStatement(insertSessionQuery)){
-            ps.setDouble(1, highestBid);
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                ps2.setString(1, rs.getString("memberID"));
-                ps2.setString(2, jewelryID);
-                int rowsAffected = ps2.executeUpdate();
-                if(rowsAffected > 0){
-                    return true;
-                }
-            }
-        } catch (ClassNotFoundException | SQLException ex) {
-            ex.printStackTrace();
-        }
-        return false;
-    }
 
     @Override
     public boolean updateJewelry(Jewelry jewelry) {
@@ -1093,11 +1070,11 @@ public class UserDAOImpl implements UserDao {
     }
 
     @Override
-    public boolean registerUser(String firstName, String lastName, String email, String username, String password) {
+    public boolean registerUser(String firstName, String lastName, String email, String username, String password, String phoneNumber, String gender, Date dob) {
         String insertUserSql = "INSERT INTO Users (username, email, password, roleID, joined_at) VALUES (?, ?, ?, 'Role01', GETDATE())";
         //String getLastInsertIdSql = "SELECT CAST(SCOPE_IDENTITY() AS VARCHAR(50)) AS lastUserId";
         String selectUserId = "SELECT userID FROM Users WHERE username = ?";
-        String insertMemberSql = "INSERT INTO Member (userID, firstName, lastName) VALUES (?, ?, ?)";
+        String insertMemberSql = "INSERT INTO Member (userID, firstName, lastName, phoneNumber, gender, dob) VALUES (?, ?, ?, ?, ?, ?)";
         try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps1 = conn.prepareStatement(insertUserSql);  PreparedStatement ps2 = conn.prepareStatement(selectUserId);  PreparedStatement ps3 = conn.prepareStatement(insertMemberSql)) {
             ps1.setString(1, username);
             ps1.setString(2, email);
@@ -1111,6 +1088,9 @@ public class UserDAOImpl implements UserDao {
                         ps3.setString(1, userID);
                         ps3.setString(2, firstName);
                         ps3.setString(3, lastName);
+                        ps3.setString(4, phoneNumber);
+                        ps3.setString(5, gender);
+                        ps3.setDate(6, dob);
                         int rowsAffected2 = ps3.executeUpdate();
                         if (rowsAffected2 > 0) {
                             return true;

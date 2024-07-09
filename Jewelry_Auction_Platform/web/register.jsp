@@ -133,10 +133,10 @@
             margin-right: 10px;
         }
         .gender-container label:first-child {
-            margin-left: 10px; /* ?? t?o kho?ng c·ch t? ??u */
+            margin-left: 10px; /* ?? t?o kho?ng c√°ch t? ??u */
         }
         .gender-container label:last-child {
-            margin-right: 0; /* ?? lo?i b? kho?ng c·ch ? label cu?i c˘ng */
+            margin-right: 0; /* ?? lo?i b? kho?ng c√°ch ? label cu?i c√πng */
         }
     </style>
     <script>
@@ -146,8 +146,10 @@
             var email = document.forms["registerForm"]["email"].value;
             var username = document.forms["registerForm"]["username"].value;
             var password = document.forms["registerForm"]["password"].value;
+            var phoneNumber = document.forms["registerForm"]["phoneNumber"].value;
             var nameRegex = /^[A-Za-z]{1,15}$/;
             var passwordRegex = /^(?=.*[A-Z]).{6,}$/;
+            var phoneRegex = /^[0-9]{10,11}$/;
 
             if (!nameRegex.test(firstName)) {
                 alert("First name must be between 1 and 15 characters and contain no numbers.");
@@ -155,6 +157,10 @@
             }
             if (!nameRegex.test(lastName)) {
                 alert("Last name must be between 1 and 15 characters and contain no numbers.");
+                return false;
+            }
+            if(!phoneRegex.test(phoneNumber)){
+                alert("Phone number must be 10 or 11 number characters.")
                 return false;
             }
             if (username.length === 0) {
@@ -193,6 +199,8 @@
             </div>
             <input type="email" name="email" placeholder="Email address" autocomplete="email" required="required" style="width: 100%;">
             <input type="text" name="username" placeholder="Username" autocomplete="" style="width: 100%;">
+            <input type="tel" name="phoneNumber" placeholder="Phone Number" autocomplete="" required="required" style="width: 100%;">
+<!--            <input type="tel" class="form-control" id="phone" name="phone"  ng-model="user.phone" phone-validation required>-->
             <div class="dob-container">
                 <select name="dobDay" required>
                     <option value="">Day</option>

@@ -22,7 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 public class Config {
 
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+
     public static String vnp_ReturnUrl = "http://localhost:8080/Jewelry_Auction_Platform/vnpay/vnpay_return.jsp";
+  
     public static String vnp_TmnCode = "GF6L1L55";
     public static String secretKey = "XUG4MYZJPG8NHDJU9C82SWG70A1ZKURB";
     public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
