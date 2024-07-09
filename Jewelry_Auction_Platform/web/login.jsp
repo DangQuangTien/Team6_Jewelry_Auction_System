@@ -1,4 +1,4 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -126,11 +126,11 @@
                 </a>
                 <p>Explore the World of Auctions with Us</p>.
                 <c:set var="error" value="${requestScope.error}" />
-                <c:set var="username" value="${requestScope.username}" />
-                <c:set var="password" value="${requestScope.password}" />
+                <c:set var="username" value="${sessionScope.regUsername}" />
+                <c:set var="password" value="${sessionScope.regPassword}" />
                 <form action="login" method="POST">
-                    <input type="text" name="email" placeholder="Phone number/ Username/ Email" required="required" value="<c:if  test="${not empty  username}"></c:if>" />
-                    <input type="password" name="password" placeholder="Password" required="required" value="<c:if  test="${not empty  password}"></c:if>" />
+                    <input type="text" name="email" placeholder="Phone number/ Username/ Email" required="required" value="${username != null ? username : ''}" />
+                    <input type="password" name="password" placeholder="Password" required="required" value="${password != null ? password : ''}" />
                         <br><br>
                     <c:if  test="${not empty  error}">
                         <div id="error-message" class="error-message"> ${error}</div><br>
@@ -155,4 +155,9 @@
             }
         }, 3000);
     </script>
+    <%
+        // Remove the session attributes after pre-filling the form
+        session.removeAttribute("regUsername");
+        session.removeAttribute("regPassword");
+    %>
 </html>

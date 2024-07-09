@@ -9,6 +9,7 @@ import entity.product.Jewelry;
 import entity.product.RandomJewelry;
 import entity.request_shipment.RequestShipment;
 import entity.valuation.Valuation;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface UserDao {
     // Authentication
     UserDTO checkLogin(String username, String password);
 
-    boolean registerUser(String firstName, String lastName, String email, String username, String password);
+    boolean registerUser(String firstName, String lastName, String email, String username, String password, String phoneNumber, String gender, Date dob);
 
     boolean checkDuplicateUsername(String username);
 
