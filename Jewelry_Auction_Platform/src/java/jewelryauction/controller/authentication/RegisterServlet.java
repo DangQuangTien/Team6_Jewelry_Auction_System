@@ -120,9 +120,6 @@ public class RegisterServlet extends HttpServlet {
                 // Redirect to login page
                 boolean result = dao.registerUser(firstName, lastName, email, userName, password, phoneNumber, gender, dob);
                 if (result) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("regUsername", userName);
-                    session.setAttribute("regPassword", password);
                     response.sendRedirect(request.getContextPath() + "/login");
                 }
             }
