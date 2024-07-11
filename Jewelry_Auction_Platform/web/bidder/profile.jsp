@@ -226,7 +226,10 @@
             }
 
             .card-header {
-                background-color: #ffc107;
+                background: radial-gradient(circle, rgba(255, 239, 166, 1) 0%, rgba(218, 165, 32, 0.8) 50%, rgba(184, 134, 11, 0.8) 100%);
+                background-size: 200% 200%;
+                background-position: 50% 50%;
+                transition: background 0.3s ease, box-shadow 0.3s ease, padding-top 0.3s ease, padding-bottom 0.3s ease;
                 color: #000000;
             }
 
