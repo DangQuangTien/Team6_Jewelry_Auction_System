@@ -1,8 +1,7 @@
-function confirmSend(event) {
-    if (!confirm("Are you sure you want to send this final valuation?")) {
-        event.preventDefault();
-    }
-}
+
+
+
+
 
 $(document).ready(function(){
     $('#detailModal').on('show.bs.modal', function (event) {

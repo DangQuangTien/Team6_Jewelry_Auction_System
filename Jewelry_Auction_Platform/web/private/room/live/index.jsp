@@ -493,7 +493,7 @@
                 }, 1000); // Update every second
             }
 
-            const duration = 900000 / 1000;
+            const duration = 90000 / 1000;
             startCountdown(duration);
         </script>
         <script>
@@ -521,7 +521,7 @@
             var currentIndex = 0;
             var items = document.querySelectorAll('.horizontal-scroll-item');
 
-            var websocketURL = "ws://localhost:8080/Jewelry_Auction_Platform/BiddingRoomServer/" + auctionID;
+            var websocketURL = "ws://localhost:8081/Jewelry_Auction_Platform/BiddingRoomServer/" + auctionID;
             var websocket = new WebSocket(websocketURL);
 
             websocket.onopen = function (event) {
@@ -675,7 +675,7 @@
                                     // After all items are sent, redirect to another page after 30000 milliseconds
                                     window.location.href = `${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>`;
                                                             }
-                                                        }, 900000);
+                                                        }, 90000);
                                                     }
                                                 }
 

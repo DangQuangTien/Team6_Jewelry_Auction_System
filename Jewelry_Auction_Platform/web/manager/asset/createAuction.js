@@ -1,8 +1,31 @@
-function confirmLogout(event) {
-    if (!confirm("Are you sure you want to log out?")) {
-        event.preventDefault();
-    }
+
+function confirmCreate(event) {
+    event.preventDefault(); // Prevent the form from submitting immediately
+
+    // Using SweetAlert for confirmation
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'You are about to create an auction.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, create it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // If confirmed, show success alert
+            Swal.fire({
+                title: 'Auction created successfully!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                // Optionally submit the form or perform the desired action after success alert
+                // For example, you can submit the form programmatically
+                document.getElementById('createForm').submit();
+            });
+        }
+    });
 }
+
+
 
 var selectedJewelryIDs = [];
 
