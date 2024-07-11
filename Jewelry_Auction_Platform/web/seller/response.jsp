@@ -468,8 +468,70 @@
                 </div>
             </c:if>
         </div>
-        <footer style="background-color: #000407; font-family: Helvetica; height: 40px; text-align: center;">
-            <span style="color: lightgrey; font-size: 14px;">&#169 F'RANKELLY AUCTION <script>document.write(new Date().getFullYear())</script></span>
+        <footer class="text-center py-4 mt-auto"
+                style="background-color: #000; color: #fff; position: relative; overflow: hidden;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5>Jewelry Auction</h5>
+                        <p>Your premier destination for exquisite jewelry and
+                            gemstones. Discover the timeless beauty and elegance
+                            in our curated collections.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Quick Links</h5>
+                        <ul class="list-unstyled">
+                            <li><a
+                                    href="${pageContext.request.contextPath}/register"
+                                    style="color: #ffc107;">Register</a></li>
+                            <li><a
+                                    href="${pageContext.request.contextPath}/login"
+                                    style="color: #ffc107;">Login</a></li>
+                            <li><a
+                                    href="${pageContext.request.contextPath}/auctions"
+                                    style="color: #ffc107;">Auctions</a></li>
+                            <li><a
+                                    href="${pageContext.request.contextPath}/selling"
+                                    style="color: #ffc107;">Selling</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Contact Us</h5>
+                        <p><i class="fas fa-phone-alt"></i> +849872539999</p>
+                        <p><i class="fas fa-envelope"></i>
+                            support@jewelryauction.com</p>
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Jewelry
+                            Street, New York, NY</p>
+                        <div class="social-icons mt-3">
+                            <a href="#" class="mx-2"
+                               style="color: #ffc107; transition: transform 0.3s;"><i
+                                    class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="mx-2"
+                               style="color: #ffc107; transition: transform 0.3s;"><i
+                                    class="fab fa-twitter"></i></a>
+                            <a href="#" class="mx-2"
+                               style="color: #ffc107; transition: transform 0.3s;"><i
+                                    class="fab fa-instagram"></i></a>
+                            <a href="#" class="mx-2"
+                               style="color: #ffc107; transition: transform 0.3s;"><i
+                                    class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <p>&copy; 2024 Jewelry Auction. All rights reserved.</p>
+                </div>
+            </div>
+            <!-- Decorative Elements -->
+            <div class="footer-decoration">
+                <div class="footer-diamond"
+                     style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%);">
+                    <i class="fas fa-gem"
+                       style="color: #ffc107; font-size: 50px; animation: pulse 2s infinite;"></i>
+                </div>
+                <div class="footer-lines"
+                     style="position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, #ffc107, transparent); animation: slide 10s infinite;"></div>
+            </div>
         </footer>
     </body>
 </html>
