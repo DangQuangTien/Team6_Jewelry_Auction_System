@@ -30,8 +30,6 @@
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="asset/finalValuation.css">
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
         <style>
             /* Sidebar */
             /* Google Font Link */
@@ -532,17 +530,17 @@
                         </li>
                         <li>
                             <a class="link_names" href="${pageContext.request.contextPath}/transaction">
-                                <i class='bx bx-credit-card'></i> 
-                                <span class="links_name">Transaction List</span>
+                                <i class='bx bx-history'></i> 
+                                <span class="links_name">Transaction History</span>
                             </a>
-                            <span class="tooltip">Transaction List</span>
+                            <span class="tooltip">Transaction History</span>
                         </li>
                         <li>
                         <a class="link_names" href="${pageContext.request.contextPath}/all-done-transaction">
-                            <i class='bx bx-history'></i> 
+                            <i class='bx bxs-analyse'></i> 
                             <span class="links_name">Transaction History</span>
                         </a>
-                        <span class="tooltip">Transaction History</span>
+                        <span class="tooltip">All Transaction</span>
                     </li>
                         <li class="profile">
                             <div class="profile-details">
@@ -559,6 +557,7 @@
                         </li>
                     </ul>
                 </div>
+                
                 <!-- Main content area -->
                 <section class="home-section">
                     <main role="main" class="col-span-9 ml-auto col-span-10 px-4">
@@ -588,7 +587,7 @@
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${val.name}</td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <button class="btn bg-indigo-400 hover:bg-indigo-700 text-white px-4 py-2 rounded-md" data-toggle="modal" data-target="#infoModal${loop.index}">
+                                                <button class="bg-indigo-400 hover:bg-indigo-700 text-white px-4 py-2 rounded-md" data-toggle="modal" data-target="#infoModal${loop.index}">
                                                     View
                                                 </button>
                                                 <!-- Modal -->
@@ -673,6 +672,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
                                             </td>
                                         </tr>
                                     </c:forEach>

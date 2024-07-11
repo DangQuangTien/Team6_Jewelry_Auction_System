@@ -24,13 +24,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Transaction List</title>
+        <title>Transaction History</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="asset/finalValuation.css">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <style>
             /* Sidebar */
             /* Google Font Link */
@@ -282,94 +283,65 @@
                     display: none;
                 }
             }
-                        /* Search Filter */
-                        .dataTables_filter {
-                float: right;
-                margin-bottom: 10px;
-                margin-right: 8px;
+            .home-section {
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             }
-
-            .dataTables_filter label {
-                font-weight: bold;
+            .table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
             }
-
-            .dataTables_filter input {
-                margin-left: 10px;
-                padding: 5px 10px;
-                border-radius: 5px;
-                border: 1px solid #ddd;
-                outline: none;
-            }
-
-            /* Pagination */
-            .dataTables_paginate {
-                margin-top: 20px;
+            .table th, .table td {
+                padding: 12px;
                 text-align: center;
-                margin-bottom: 30px;
+                border-bottom: 1px solid #ddd;
+                font-family: Helvetica;
             }
-
-            .dataTables_paginate a {
-                display: inline-block;
-                padding: 8px 16px;
-                margin: 0 4px;
+            .table thead {
+                background-color: #007BFF;
+                color: white;
+            }
+            .table-striped tbody tr:nth-child(odd) {
+                background-color: #f9f9f9;
+            }
+            .table tbody tr:hover {
+                background-color: #f1f1f1;
+            }
+            .table img {
                 border-radius: 5px;
-                background-color: #007bff;
+            }
+            .btn {
+                width: 100px;
+                background-color: #c82333;
                 color: white;
-                text-decoration: none;
-                border: 1px solid #007bff;
-                transition: all 0.3s ease;
+                border: none;
+                border-radius: 5px;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: background-color 0.3s, transform 0.3s;
+                font-family: Helvetica;
+                display: inline-block;
             }
-
-            .dataTables_paginate a:hover {
-                background-color: #0056b3;
-                border-color: #0056b3;
-                transform: scale(1.1);
+            .btn:hover {
+                background-color: #a71d2a;
+                color: #e9ecef;
+                transform: scale(1.05);
             }
-
-            .dataTables_paginate .paginate_button.current {
-                background-color: #0056b3;
-                border-color: #0056b3;
-                color: white;
-                font-weight: bold;
+            .btn-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
-
-            .dataTables_paginate .paginate_button.disabled {
-                background-color: #e9ecef;
-                color: #6c757d;
-                border-color: #e9ecef;
-                pointer-events: none;
+            .container {
+                max-width: 90%;
+                padding: 20px;
             }
-
-            .dataTables_info {
-                float: left;
-                margin-top: 20px;
-            }
-
-            .dataTables_length {
-                float: left;
-                margin-right: 20px;
-            }
-            /* custom.css */
-            .heading-main {
-                color: #2563eb; /* Tailwind's blue-600 */
-                margin-top: 1rem;
-                margin-bottom: 1rem;
-                font-size: 1.875rem; /* 3xl */
-                font-weight: bold;
-            }
-
-            .heading-greeting {
-                color: #4b5563; /* Tailwind's gray-700 */
-                margin-top: 0.5rem;
-                margin-bottom: 0.5rem;
-                font-size: 1.5rem; /* 2xl */
-                font-style: italic;
-            }
-            .gradient-line {
-                height: 2px; /* Adjust the height as needed */
-                width: 100%; /* Adjust the width as needed */
-                background: linear-gradient(to right, #a8c0ff, #325fcf,#a8c0ff, #325fcf); /* Adjust the colors as needed */
-                margin: 20px 0; /* Adjust the margin as needed */
+            .table {
+                margin-bottom: 20px;
             }
         </style>
     </head>
@@ -419,17 +391,17 @@
                         </li>
                         <li>
                             <a class="link_names" href="${pageContext.request.contextPath}/transaction">
-                                <i class='bx bx-credit-card'></i> 
-                                <span class="links_name">Transaction List</span>
+                                <i class='bx bx-history'></i> 
+                                <span class="links_name">Transaction History</span>
                             </a>
-                            <span class="tooltip">Transaction List</span>
+                            <span class="tooltip">Transaction History</span>
                         </li>
                         <li>
                         <a class="link_names" href="${pageContext.request.contextPath}/all-done-transaction">
-                            <i class='bx bx-history'></i> 
+                            <i class='bx bxs-analyse'></i> 
                             <span class="links_name">Transaction History</span>
                         </a>
-                        <span class="tooltip">Transaction History</span>
+                        <span class="tooltip">All Transaction</span>
                     </li>
                         <li class="profile">
                             <div class="profile-details">
@@ -448,54 +420,44 @@
                 </div>
 
                 <!-- Main content area -->
-                <section class="home-section">
-                    <main role="main" class="col-span-9 ml-auto col-span-10 px-4">
-                        <div class="container mt-4">
-                            <br>
-                            <h1 class="heading-main">Transaction List</h1>
-                            <h1 class="heading-greeting">Good <%= greeting%>!</h1>
-                            <div class="gradient-line"></div>
-                
-                            <form id="paymentForm" action="${pageContext.request.contextPath}/confirmPayment" method="post" enctype="multipart/form-data">
-                                <table id="transactionTable" class="min-w-full divide-y divide-gray-200">
-                                    <thead>
-                                        <tr style="background-color:#a8a1f7">
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Image</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Invoice ID</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Product ID</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Product Name</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Customer Name</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Total</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Date</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="bg-white divide-y divide-gray-200">
-                                        <c:forEach items="${INVOICES}" var="invoice">
-                                            <tr>
-                                                <c:set var="photoArray" value="${fn:split(invoice.photos, ';')}" />
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <img class="h-20 w-20 object-cover" src="${pageContext.request.contextPath}/${photoArray[0]}" alt="Jewelry Photo">
-                                                </td>
-                                                <td class="text-sm text-gray-900">${invoice.invoiceID}</td>
-                                                <td class="text-sm text-gray-900">${invoice.jewelryID}</td>
-                                                <td class="text-sm text-gray-900">${invoice.jewelryName}</td>
-                                                <td class="text-sm text-gray-900">${invoice.firstName} ${invoice.lastName}</td>
-                                                <td class="text-sm text-gray-900">${invoice.totalAmount}</td>
-                                                <td class="text-sm text-gray-900">${invoice.invoiceDate}</td>
-                                                <td class="text-sm text-gray-900">
-                                                    <button type="button" class="btn text-white bg-green-500 hover:bg-green-600 px-4 py-2 rounded-md" data-invoice-id="${invoice.invoiceID}" data-jewelry-id="${invoice.jewelryID}">Confirm</button>
-                                                    <input type="hidden" name="jewelryID" value="${invoice.jewelryID}">
-                                                </td>
-                                            </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
-                            </form>
-                        </div>
-                    </main>
-                </section>
+                <div class="container">
+                    <h2 class="mb-4">Invoice Payment Confirmation</h2>
+                    <form id="paymentForm" action="${pageContext.request.contextPath}/confirmPayment" method="post" enctype="multipart/form-data">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Invoice ID</th>
+                                    <th>Product ID</th>
+                                    <th>Product Name</th>
+                                    <th>Customer Name</th>
+                                    <th>Total</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${INVOICES}" var="invoice">
+                                    <tr>
+                                        <c:set var="photoArray" value="${fn:split(invoice.photos, ';')}" />
+                                        <td><img style="height: 100px; width: 100px" src="${pageContext.request.contextPath}/${photoArray[0]}" alt="Jewelry Photo"></td>
+                                        <td>${invoice.invoiceID}</td>
+                                        <td>${invoice.jewelryID}</td>
+                                        <td>${invoice.jewelryName}</td>
+                                        <td>${invoice.firstName} ${invoice.lastName}</td>
+                                        <td>${invoice.totalAmount}</td>
+                                        <td>${invoice.invoiceDate}</td>
+                                        <td>
+                                            <button type="button" class="btn confirm-btn" data-invoice-id="${invoice.invoiceID}" data-jewelry-id="${invoice.jewelryID}">Confirm</button>
+                                            <input type="hidden" name="jewelryID" value="${invoice.jewelryID}">
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </form>
                 </div>
+
             </div>
             <!-- JavaScript libraries -->
             <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -580,20 +542,6 @@
                         });
                     }
                 });
-
-               
-$(document).ready(function () {
-        // Initialize DataTable with search and pagination
-        $('#transactionTable').DataTable({
-            "paging": true,
-                                                                                        "lengthChange": false,
-                                                                                        "searching": true,
-                                                                                        "ordering": true,
-                                                                                        "info": true,
-                                                                                        "autoWidth": false,
-                                                                                        "pageLength": 10
-        });
-    });
             </script>
     </body>
 </html>
