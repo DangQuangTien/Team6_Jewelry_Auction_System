@@ -452,7 +452,7 @@
                     <main role="main" class="col-span-9 ml-auto col-span-10 px-4">
                         <div class="container mt-4">
                             <br>
-                            <h1 class="heading-main">Transaction List</h1>
+                            <h1 class="heading-main">Invoice Payment Confirmation</h1>
                             <h1 class="heading-greeting">Good <%= greeting%>!</h1>
                             <div class="gradient-line"></div>
                 
@@ -484,7 +484,7 @@
                                                 <td class="text-sm text-gray-900">${invoice.totalAmount}</td>
                                                 <td class="text-sm text-gray-900">${invoice.invoiceDate}</td>
                                                 <td class="text-sm text-gray-900">
-                                                    <button type="button" class="btn text-white bg-green-500 hover:bg-green-600 px-4 py-2 rounded-md" data-invoice-id="${invoice.invoiceID}" data-jewelry-id="${invoice.jewelryID}">Confirm</button>
+                                                    <button type="button" class="btn confirm-btn text-white bg-green-500 hover:bg-green-600 px-4 py-2 rounded-md" data-invoice-id="${invoice.invoiceID}" data-jewelry-id="${invoice.jewelryID}">Confirm</button>
                                                     <input type="hidden" name="jewelryID" value="${invoice.jewelryID}">
                                                 </td>
                                             </tr>
