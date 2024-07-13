@@ -521,7 +521,7 @@
             var currentIndex = 0;
             var items = document.querySelectorAll('.horizontal-scroll-item');
 
-            var websocketURL = "ws://localhost:8081/Jewelry_Auction_Platform/BiddingRoomServer/" + auctionID;
+            var websocketURL = "ws://localhost:8080/Jewelry_Auction_Platform/BiddingRoomServer/" + auctionID;
             var websocket = new WebSocket(websocketURL);
 
             websocket.onopen = function (event) {

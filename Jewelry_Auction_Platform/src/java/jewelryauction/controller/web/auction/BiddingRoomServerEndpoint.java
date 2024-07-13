@@ -75,6 +75,7 @@ public class BiddingRoomServerEndpoint {
     }
 
     private void handleValidSession(Session session, String jewelryID, String bid, String memberID, String auctionID) throws SQLException {
+        if(!dao.checkBidderMatchSeller(jewelryID, memberID)){
         Double theHighestBid = dao.getTheHighestBid(jewelryID);
         Double bidCurrent = Double.parseDouble(bid);
         if (bidCurrent > theHighestBid) {
@@ -88,6 +89,9 @@ public class BiddingRoomServerEndpoint {
             broadcastBid(auctionID, bidMessage);
         } else {
             sendMessageToClient(session, "Your bid must be higher than the current highest bid: $" + theHighestBid);
+        }
+        }else{
+            sendMessageToClient(session, "You are not allowed to participate in bidding the items you put on auction.");
         }
     }
 

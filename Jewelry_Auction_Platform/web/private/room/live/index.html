@@ -123,7 +123,7 @@
 </div>
 
 <script>
-    var websocket = new WebSocket("ws://localhost:8081/Jewelry_Auction_Platform/chatRoomServer");
+    var websocket = new WebSocket("ws://localhost:8080/Jewelry_Auction_Platform/chatRoomServer");
     websocket.onopen = function(message) { processOpen(message); };
     websocket.onmessage = function(message) { processMessage(message); };
     websocket.onclose = function(message) { processClose(message); };

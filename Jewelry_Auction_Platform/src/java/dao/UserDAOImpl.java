@@ -7,11 +7,13 @@ package dao;
 import dto.UserDTO;
 import entity.Auction.Auction;
 import entity.Invoice.Invoice;
+import entity.creditCard.CreditCard;
 import entity.member.Member;
 import entity.product.Category;
 import entity.product.Jewelry;
 import entity.product.RandomJewelry;
 import entity.request_shipment.RequestShipment;
+import entity.user.User;
 import entity.valuation.Valuation;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -46,9 +48,10 @@ public class UserDAOImpl implements UserDao {
                 + "LEFT JOIN Member M ON M.userID = TK.userID "
                 + "WHERE (TK.USERNAME = ? AND TK.PASSWORD = ? "
                 + "       OR TK.EMAIL = ? AND TK.PASSWORD = ? "
-                + "       OR M.phoneNumber = ? AND TK.PASSWORD = ?)";
+                + "       OR M.phoneNumber = ? AND TK.PASSWORD = ?)"
+                + "       AND (TK.active_status = 1)";
 
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setString(1, usernameOrEmailOrPhone);
             ps.setString(2, password);
@@ -57,7 +60,7 @@ public class UserDAOImpl implements UserDao {
             ps.setString(5, usernameOrEmailOrPhone);
             ps.setString(6, password);
 
-            try ( ResultSet rs = ps.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return new UserDTO(rs.getString("USERID"), rs.getString("USERNAME"), rs.getString("ROLE_NAME"));
                 }
@@ -169,7 +172,7 @@ public class UserDAOImpl implements UserDao {
     public boolean insertJewelry(String category, String jewelryName, String artist, String circa, String material, String dial, String braceletMaterial, String caseDimensions, String braceletSize, String serialNumber, String referenceNumber, String caliber, String movement, String condition, String metal, String gemstones, String measurements, String weight, String stamped, String ringSize, String minPrice, String maxPrice, String tempPrice, String valuationID, String photos) {
         String query = "INSERT INTO Jewelry (categoryID, jewelryName, artist, circa, material, dial, braceletMaterial, caseDimensions, braceletSize, serialNumber, referenceNumber, caliber, movement, [condition], metal, gemstones, measurements, [weight], stamped, ringSize, minPrice, maxPrice, temp_Price, valuationId, photos) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, category);
             ps.setString(2, jewelryName);
             ps.setString(3, artist);
@@ -210,9 +213,9 @@ public class UserDAOImpl implements UserDao {
                 + "JOIN RequestValuation v ON j.valuationID = v.valuationID "
                 + "JOIN [Member] m ON v.memberID = m.memberID "
                 + "WHERE m.userID = ?";
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, userID);
-            try ( ResultSet rs = ps.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Jewelry jewelry = new Jewelry();
                     jewelry.setJewelryID(rs.getString("jewelryID"));
@@ -363,8 +366,8 @@ public class UserDAOImpl implements UserDao {
     public List<Jewelry> displayAllJewelryForManager() {
         List<Jewelry> listJewelry = new ArrayList<>();
         String query = "SELECT * FROM JEWELRY WHERE STATUS = 'Final-Evaluated'";
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
-            try ( ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Jewelry jewelry = new Jewelry();
                     jewelry.setJewelryID(rs.getString("jewelryID"));
@@ -406,9 +409,10 @@ public class UserDAOImpl implements UserDao {
     @Override
     public List<Jewelry> displayAllJewelryForStaff() {
         List<Jewelry> listJewelry = new ArrayList<>();
-        String query = "SELECT j.*, c.categoryName FROM JEWELRY j, Category c WHERE STATUS = 'Received' and j.categoryID = c.categoryID";
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
-            try ( ResultSet rs = ps.executeQuery()) {
+//        String query = "SELECT j.*, c.categoryName FROM JEWELRY j, Category c WHERE STATUS = 'Received' and j.categoryID = c.categoryID";
+        String query = "SELECT j.*, c.categoryName FROM JEWELRY j, Category c WHERE (STATUS = 'Received' and j.categoryID = c.categoryID) OR (STATUS = 'Re-Evaluated' and j.categoryID = c.categoryID)";
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Jewelry jewelry = new Jewelry();
                     jewelry.setJewelryID(rs.getString("jewelryID"));
@@ -482,8 +486,8 @@ public class UserDAOImpl implements UserDao {
     public List<Jewelry> displayApprovedJewelry() {
         List<Jewelry> listJewelry = new ArrayList<>();
         String query = "SELECT * FROM JEWELRY WHERE STATUS = 'Approved'";
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
-            try ( ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Jewelry jewelry = new Jewelry();
                     jewelry.setJewelryID(rs.getString("jewelryID"));
@@ -577,11 +581,11 @@ public class UserDAOImpl implements UserDao {
                 + "WHERE s.jewelryID IS NULL and j.status = 'Confirmed'\n"
                 + "ORDER BY j.jewelryID\n"
                 + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, (currentPage - 1) * pageSize); // Calculate the offset
             ps.setInt(2, pageSize); // Set the number of rows to fetch
 
-            try ( ResultSet rs = ps.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Jewelry jewelry = new Jewelry();
                     jewelry.setJewelryID(rs.getString("jewelryID"));
@@ -624,7 +628,7 @@ public class UserDAOImpl implements UserDao {
         String query = "SELECT COUNT(*) AS total FROM Jewelry j\n"
                 + "LEFT JOIN Session s ON j.jewelryID = s.jewelryID\n"
                 + "WHERE s.jewelryID IS NULL and j.status = 'Confirmed'";
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query);  ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 count = rs.getInt("total");
             }
@@ -641,7 +645,7 @@ public class UserDAOImpl implements UserDao {
         String insertSessionQuery = "INSERT INTO [Session] (auctionID, jewelryID) VALUES (?, ?)";
         String updateAuctionStatusQuery = "UPDATE Auction SET status = 1 WHERE auctionID = ?";
 
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement psInsertAuction = conn.prepareStatement(insertAuctionQuery);  PreparedStatement psSelectAuction = conn.prepareStatement(selectAuctionQuery);  PreparedStatement psInsertSession = conn.prepareStatement(insertSessionQuery);  PreparedStatement psUpdateAuctionStatus = conn.prepareStatement(updateAuctionStatusQuery)) {
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement psInsertAuction = conn.prepareStatement(insertAuctionQuery); PreparedStatement psSelectAuction = conn.prepareStatement(selectAuctionQuery); PreparedStatement psInsertSession = conn.prepareStatement(insertSessionQuery); PreparedStatement psUpdateAuctionStatus = conn.prepareStatement(updateAuctionStatusQuery)) {
 
             // Insert auction
             psInsertAuction.setString(1, auctionStartDate);
@@ -652,7 +656,7 @@ public class UserDAOImpl implements UserDao {
 
             if (result > 0) {
                 // Get the latest auction ID
-                try ( ResultSet rs = psSelectAuction.executeQuery()) {
+                try (ResultSet rs = psSelectAuction.executeQuery()) {
                     if (rs.next()) {
                         String auctionID = rs.getString("auctionID");
                         // Insert selected jewelry into session
@@ -822,20 +826,29 @@ public class UserDAOImpl implements UserDao {
     }
 
     @Override
-    public boolean insertAddress(String country, String state, String city, String address1, String address2, String zipCode, String memberID) {
-        String query = "INSERT INTO [Address] (country, state, city, address1, address2, zipcode, memberID) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
-
-            ps.setString(1, country);
+    public boolean insertAddress(String country, String state, String city, String address1, String address2, String zipCode, String memberID,
+            String holderName, String cardNumber, String cvvCode, Date expiryDate) {
+        String query = "INSERT INTO [Address] (city, state, zipcode, country, memberID, Address1, Address2) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query1 = "INSERT INTO [Credit_Card] (memberID, holderName, cardNumber, cvvCode, expiryDate) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(query); PreparedStatement ps1 = conn.prepareStatement(query1)) {
+            ps.setString(1, city);
             ps.setString(2, state);
-            ps.setString(3, city);
-            ps.setString(4, address1);
-            ps.setString(5, address2);
-            ps.setString(6, zipCode);
-            ps.setString(7, memberID);
+            ps.setString(3, zipCode);
+            ps.setString(4, country);
+            ps.setString(5, memberID);
+            ps.setString(6, address1);
+            ps.setString(7, address2);
+
+            ps1.setString(1, memberID);
+            ps1.setString(2, holderName);
+            ps1.setString(3, cardNumber);
+            ps1.setString(4, cvvCode);
+            ps1.setDate(5, expiryDate);
 
             int rowsAffected = ps.executeUpdate();
-            return rowsAffected > 0;
+            int rowsAffected1 = ps1.executeUpdate();
+            return (rowsAffected > 0 && rowsAffected1 > 0);
+
         } catch (ClassNotFoundException | SQLException ex) {
             // Log the exception
             ex.printStackTrace();
@@ -843,10 +856,142 @@ public class UserDAOImpl implements UserDao {
         return false;
     }
 
+    //--------------------------------
+    @Override
+    public List<CreditCard> displayAllRegisteringCard() {
+        List<CreditCard> listCreditCard = new ArrayList<>();
+        String query = "SELECT cc.* FROM Credit_Card cc JOIN Member m ON cc.memberID = m.memberID WHERE m.status_register_to_bid = 0";
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    CreditCard cc = new CreditCard();
+                    cc.setMemberID(rs.getString("memberID"));
+                    cc.setHolderName(rs.getString("holderName"));
+                    cc.setCardNumber(rs.getString("cardNumber"));
+                    cc.setCvvCode(rs.getString("cvvCode"));
+                    cc.setExpiryDate(rs.getDate("expiryDate"));
+                    listCreditCard.add(cc);
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+        }
+        return listCreditCard;
+    }
+
+    @Override
+    public List<User> displayAllActiveUserForManager() {
+        List<User> listUser = new ArrayList<>();
+        String query = "SELECT * FROM Users WHERE active_status = 1";
+        try (Connection conn = DBUtils.getConnection();
+                PreparedStatement ps = conn.prepareStatement(query)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    User u = new User();
+                    u.setUserID(rs.getString("userID"));
+                    u.setUsername(rs.getString("username"));
+                    u.setEmail(rs.getString("email"));
+                    u.setPassword(rs.getString("password"));
+                    u.setRoleID(rs.getString("roleID"));
+                    u.setJoined_at(rs.getDate("joined_at"));
+                    listUser.add(u);
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+        }
+        return listUser;
+    }
+
+    @Override
+    public boolean addUserForManager(String username, String email, String password, String roleID) {
+        String insertUserQuery = "INSERT INTO Users (username, email, password, roleID, joined_at) VALUES (?, ?, ?, ?, GETDATE())";
+        String checkUser = "SELECT userID FROM Users WHERE username = ? AND roleID = 'Role01'";
+        String insertMemberQuery = "INSERT INTO Member (userID) VALUES (?)";
+        try (Connection conn = DBUtils.getConnection();
+                PreparedStatement ps1 = conn.prepareStatement(insertUserQuery);
+                PreparedStatement ps2 = conn.prepareStatement(checkUser);
+                PreparedStatement ps3 = conn.prepareStatement(insertMemberQuery)) {
+            ps1.setString(1, username);
+            ps1.setString(2, email);
+            ps1.setString(3, password);
+            ps1.setString(4, roleID);
+            int rowsAffected1 = ps1.executeUpdate();
+            if (rowsAffected1 > 0) {
+                ps2.setString(1, username);
+                try (ResultSet rs = ps2.executeQuery()) {
+                    if (rs.next()) {
+                        String userID = rs.getString("userID");
+                        ps3.setString(1, userID);
+                        int rowsAffected2 = ps3.executeUpdate();
+                        if (rowsAffected2 > 0) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateUserForManager(String userID, String username, String email, String password, String roleID) {
+        String updateUserQuery = "UPDATE Users SET username = ?, email = ?, password = ?, roleID = ? WHERE userID = ?";
+        try (Connection conn = DBUtils.getConnection();
+                PreparedStatement ps = conn.prepareStatement(updateUserQuery)) {
+            ps.setString(1, username);
+            ps.setString(2, email);
+            ps.setString(3, password);
+            ps.setString(4, roleID);
+            ps.setString(5, userID);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteUserForManager(String userID) {
+        String deleteUser = "UPDATE Users SET active_status = 0 WHERE userID = ?";
+        try (Connection conn = DBUtils.getConnection();
+                PreparedStatement ps = conn.prepareStatement(deleteUser)) {
+            ps.setString(1, userID);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkBidderMatchSeller(String jewelryID, String memberID) {
+        String query = "SELECT j.jewelryID FROM Jewelry j JOIN RequestValuation rv ON j.valuationId = rv.valuationId WHERE rv.memberId = ?";
+        try (Connection conn = DBUtils.getConnection();
+                PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, memberID);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    if (jewelryID == rs.getString("jewelryID")) {
+                        return true;
+                    }
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    //-------------------------------------
     @Override
     public boolean registerToBid(String memberID) {
         String query = "UPDATE Member SET status_register_to_bid = 1 WHERE memberID = ?";
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, memberID);
             int result = ps.executeUpdate();
             return result > 0;
@@ -884,14 +1029,14 @@ public class UserDAOImpl implements UserDao {
         String mainQuery = "INSERT INTO Register_Bid(sessionID, memberID, preBid_Amount, bidAmount_Current) VALUES(?, ?, ?, ?)";
         String getSessionID = "SELECT s.sessionID FROM Session s JOIN Jewelry j ON s.jewelryID = j.jewelryID WHERE j.jewelryID = ?";
 
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement psGetSessionID = conn.prepareStatement(getSessionID)) {
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement psGetSessionID = conn.prepareStatement(getSessionID)) {
 
             psGetSessionID.setString(1, jewelryID);
-            try ( ResultSet rs = psGetSessionID.executeQuery()) {
+            try (ResultSet rs = psGetSessionID.executeQuery()) {
                 if (rs.next()) {
                     String sessionID = rs.getString(1);
 
-                    try ( PreparedStatement psMainQuery = conn.prepareStatement(mainQuery)) {
+                    try (PreparedStatement psMainQuery = conn.prepareStatement(mainQuery)) {
                         psMainQuery.setString(1, sessionID);
                         psMainQuery.setString(2, memberID);
                         psMainQuery.setString(3, preBid_Amount);
@@ -912,12 +1057,12 @@ public class UserDAOImpl implements UserDao {
         String mainQuery = "UPDATE REGISTER_BID SET PREBID_AMOUNT = ?, PREBID_TIME = ? WHERE MEMBERID = ? AND SESSIONID = ?";
         String getSessionID = "SELECT s.sessionID FROM Session s JOIN Jewelry j ON s.jewelryID = j.jewelryID WHERE j.jewelryID = ?";
 
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement psGetSessionID = conn.prepareStatement(getSessionID)) {
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement psGetSessionID = conn.prepareStatement(getSessionID)) {
             psGetSessionID.setString(1, jewelryID);
-            try ( ResultSet rs = psGetSessionID.executeQuery()) {
+            try (ResultSet rs = psGetSessionID.executeQuery()) {
                 if (rs.next()) {
                     String sessionID = rs.getString(1);
-                    try ( PreparedStatement psMainQuery = conn.prepareStatement(mainQuery)) {
+                    try (PreparedStatement psMainQuery = conn.prepareStatement(mainQuery)) {
                         psMainQuery.setString(1, preBid_Amount);
                         psMainQuery.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
                         psMainQuery.setString(3, memberID);
@@ -939,16 +1084,16 @@ public class UserDAOImpl implements UserDao {
         String getSessionID = "SELECT s.sessionID FROM Session s JOIN Jewelry j ON s.jewelryID = j.jewelryID WHERE j.jewelryID = ?";
         String trackBid = "INSERT INTO Bid_Track(bidAmount, bidTime, sessionID, memberID) VALUES (?, ?, ?, ?)";
 
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement psGetSessionID = conn.prepareStatement(getSessionID);  PreparedStatement psTrackBid = conn.prepareStatement(trackBid)) {
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement psGetSessionID = conn.prepareStatement(getSessionID); PreparedStatement psTrackBid = conn.prepareStatement(trackBid)) {
 
             psGetSessionID.setString(1, jewelryID);
 
-            try ( ResultSet rs = psGetSessionID.executeQuery()) {
+            try (ResultSet rs = psGetSessionID.executeQuery()) {
                 if (rs.next()) {
                     String sessionID = rs.getString(1);
 
                     // Execute the main update query
-                    try ( PreparedStatement psMainQuery = conn.prepareStatement(mainQuery)) {
+                    try (PreparedStatement psMainQuery = conn.prepareStatement(mainQuery)) {
                         psMainQuery.setString(1, bid_Amount);
                         psMainQuery.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
                         psMainQuery.setString(3, memberID);
@@ -1035,7 +1180,7 @@ public class UserDAOImpl implements UserDao {
                 + "serialNumber=?, referenceNumber=?, caliber=?, movement=?, [condition]=?, metal=?, gemstones=?, measurements=?, "
                 + "weight=?, stamped=?, ringSize=?, jewelryName = ? WHERE jewelryID=?";
 
-        try ( Connection con = DBUtils.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = DBUtils.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, jewelry.getArtist());
             ps.setString(2, jewelry.getCirca());
@@ -1075,14 +1220,14 @@ public class UserDAOImpl implements UserDao {
         //String getLastInsertIdSql = "SELECT CAST(SCOPE_IDENTITY() AS VARCHAR(50)) AS lastUserId";
         String selectUserId = "SELECT userID FROM Users WHERE username = ?";
         String insertMemberSql = "INSERT INTO Member (userID, firstName, lastName, phoneNumber, gender, dob) VALUES (?, ?, ?, ?, ?, ?)";
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps1 = conn.prepareStatement(insertUserSql);  PreparedStatement ps2 = conn.prepareStatement(selectUserId);  PreparedStatement ps3 = conn.prepareStatement(insertMemberSql)) {
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps1 = conn.prepareStatement(insertUserSql); PreparedStatement ps2 = conn.prepareStatement(selectUserId); PreparedStatement ps3 = conn.prepareStatement(insertMemberSql)) {
             ps1.setString(1, username);
             ps1.setString(2, email);
             ps1.setString(3, password);
             int rowsAffected1 = ps1.executeUpdate();
             if (rowsAffected1 > 0) {
                 ps2.setString(1, username);
-                try ( ResultSet rs = ps2.executeQuery()) {
+                try (ResultSet rs = ps2.executeQuery()) {
                     if (rs.next()) {
                         String userID = rs.getString("userID");
                         ps3.setString(1, userID);
@@ -1108,9 +1253,9 @@ public class UserDAOImpl implements UserDao {
     @Override
     public boolean checkDuplicateUsername(String username) {
         String checkQuery = "SELECT * FROM Users WHERE username = ?";
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(checkQuery)) {
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(checkQuery)) {
             ps.setString(1, username);
-            try ( ResultSet rs = ps.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return true;
                 }
@@ -1189,10 +1334,10 @@ public class UserDAOImpl implements UserDao {
     @Override
     public boolean checkAvailableSession(String jewelryID) {
         String query = "SELECT status FROM Session WHERE jewelryID = ?";
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setString(1, jewelryID);
-            try ( ResultSet rs = ps.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return rs.getInt("status") == 1;
                 }
@@ -1248,13 +1393,13 @@ public class UserDAOImpl implements UserDao {
                 + "WHERE memberID = ? AND sessionID IN "
                 + "    (SELECT sessionID FROM [Session] WHERE jewelryID = ?)";
 
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement psSelect = conn.prepareStatement(selectQuery);  PreparedStatement psUpdate = conn.prepareStatement(updateQuery)) {
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement psSelect = conn.prepareStatement(selectQuery); PreparedStatement psUpdate = conn.prepareStatement(updateQuery)) {
 
             // Set jewelryID parameter for select query
             psSelect.setString(1, jewelryID);
 
             // Execute select query to find memberID with max bid for given jewelryID
-            try ( ResultSet rs = psSelect.executeQuery()) {
+            try (ResultSet rs = psSelect.executeQuery()) {
                 if (rs.next()) {
                     String memberID = rs.getString("memberID");
 
@@ -1289,7 +1434,7 @@ public class UserDAOImpl implements UserDao {
                 + "WHERE sessionID IN (SELECT sessionID FROM [Session] WHERE jewelryID = ?) "
                 + "AND status = 'Placed'";
 
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(updateQuery)) {
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(updateQuery)) {
 
             ps.setString(1, jewelryID);
 
@@ -1318,7 +1463,7 @@ public class UserDAOImpl implements UserDao {
                 + "    WHERE s.jewelryID = ?\n"
                 + "  );";
 
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(updateQuery)) {
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(updateQuery)) {
 
             ps.setString(1, memberID);
             ps.setString(2, jewelryID);
@@ -1335,7 +1480,7 @@ public class UserDAOImpl implements UserDao {
     @Override
     public void insertInvoice(Invoice invoice) {
         String INSERT_INVOICE_SQL = "INSERT INTO Invoice (invoiceID, memberID, jewelryID, invoiceDate, totalAmount) VALUES (?, ?, ?, ?, ?)";
-        try ( Connection connection = DBUtils.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(INSERT_INVOICE_SQL)) {
+        try (Connection connection = DBUtils.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_INVOICE_SQL)) {
             preparedStatement.setString(1, invoice.getInvoiceID());
             preparedStatement.setString(2, invoice.getMemberID());
             preparedStatement.setString(3, invoice.getJewelryID());
@@ -1358,7 +1503,7 @@ public class UserDAOImpl implements UserDao {
                 + "JOIN Member m ON inv.memberID = m.memberID\n"
                 + "WHERE j.status = 'Confirmed';";
         List<Invoice> invoices = new ArrayList<>();
-        try ( Connection connection = DBUtils.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_INVOICES_SQL);  ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (Connection connection = DBUtils.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_INVOICES_SQL); ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
                 String invoiceID = resultSet.getString("invoiceID");
@@ -1401,7 +1546,7 @@ public class UserDAOImpl implements UserDao {
 
         String updateJewelryStatus = "UPDATE Jewelry SET status = 'SOLD' WHERE jewelryID = ?";
 
-        try ( Connection connection = DBUtils.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql);  PreparedStatement ps = connection.prepareStatement(updateJewelryStatus)) {
+        try (Connection connection = DBUtils.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql); PreparedStatement ps = connection.prepareStatement(updateJewelryStatus)) {
 
             // Set parameter for jewelryID in the first query
             preparedStatement.setString(1, jewelryID);
@@ -1431,7 +1576,7 @@ public class UserDAOImpl implements UserDao {
                 + "JOIN Jewelry j ON inv.jewelryID = j.jewelryID\n"
                 + "JOIN Member m ON inv.memberID = m.memberID\n";
         List<Invoice> invoices = new ArrayList<>();
-        try ( Connection connection = DBUtils.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_INVOICES_SQL);  ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (Connection connection = DBUtils.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_INVOICES_SQL); ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 String invoiceID = resultSet.getString("invoiceID");
                 String invoiceDate = resultSet.getString("invoiceDate");
@@ -1470,7 +1615,7 @@ public class UserDAOImpl implements UserDao {
                 + "FROM Jewelry j\n"
                 + "JOIN Invoice i ON j.jewelryID = i.jewelryID\n"
                 + "WHERE j.jewelryID = ?";
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, jewelryID);
             ps.executeUpdate();
 

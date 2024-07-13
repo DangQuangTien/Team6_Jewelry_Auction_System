@@ -29,7 +29,7 @@ public class EditBidController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
             UserDAOImpl dao = new UserDAOImpl();
             String url = ERROR_PAGE;
@@ -39,20 +39,24 @@ public class EditBidController extends HttpServlet {
                     String preBidAmount = request.getParameter("preBid_Amount");
                     String auctionID = request.getParameter("auctionID");
                     String jewelryID = request.getParameter("jewelryID");
-
                     if (preBidAmount != null && auctionID != null && jewelryID != null) {
-                        try {
-                            boolean check = dao.editBid(preBidAmount, jewelryID, member.getMemberID());
-                            if (!check) {
-                                String message = "PLEASE PLACE BID FIRST!";
-                                request.setAttribute("PLACEDBIDSTATUS", message);
-                            } else {
-                                String message = "UPDATE BID SUCCESSFULLY!";
-                                request.setAttribute("PLACEDBIDSTATUS", message);
+                        if (dao.checkBidderMatchSeller(jewelryID, member.getMemberID())) {
+                            String message = "User cannot participate bidding for items they put on auction.";
+                            request.setAttribute("PLACEDBIDSTATUS", message);
+                        } else {
+                            try {
+                                boolean check = dao.editBid(preBidAmount, jewelryID, member.getMemberID());
+                                if (!check) {
+                                    String message = "PLEASE PLACE BID FIRST!";
+                                    request.setAttribute("PLACEDBIDSTATUS", message);
+                                } else {
+                                    String message = "UPDATE BID SUCCESSFULLY!";
+                                    request.setAttribute("PLACEDBIDSTATUS", message);
+                                }
+                                url = AUCTION_PAGE + auctionID;
+                            } catch (Exception ex) {
+                                ex.printStackTrace(); // Proper logging should be implemented
                             }
-                            url = AUCTION_PAGE + auctionID;
-                        } catch (Exception ex) {
-                            ex.printStackTrace(); // Proper logging should be implemented
                         }
                     } else {
                         System.err.println("Invalid parameters received in request.");

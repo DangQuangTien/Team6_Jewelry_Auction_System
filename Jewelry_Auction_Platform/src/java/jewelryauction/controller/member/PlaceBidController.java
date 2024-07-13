@@ -26,28 +26,35 @@ public class PlaceBidController extends HttpServlet {
         String url = ERROR_PAGE;
 
         try {
-            Member member = (Member)session.getAttribute("MEMBER");
+            Member member = (Member) session.getAttribute("MEMBER");
             if (member != null) {
                 String preBidAmount = request.getParameter("preBid_Amount");
                 String auctionID = request.getParameter("auctionID");
                 String jewelryID = request.getParameter("jewelryID");
+
                 if (preBidAmount != null && auctionID != null && jewelryID != null) {
-                    try {
-                        boolean check = dao.placeBid(preBidAmount, jewelryID, member.getMemberID());
-                        if (!check) {
-                            String message = "You have placed this jewelry";
-                            request.setAttribute("PLACEDBIDSTATUS", message);
-                        } else {
-                            String message = "PLACED BID SUCCESSFULLY!";
-                            request.setAttribute("PLACEDBIDSTATUS", message);
+                    if (dao.checkBidderMatchSeller(jewelryID, member.getMemberID())) {
+                        String message = "User cannot participate bidding for items they put on auction.";
+                        request.setAttribute("PLACEDBIDSTATUS", message);
+                    } else {
+                        try {
+                            boolean check = dao.placeBid(preBidAmount, jewelryID, member.getMemberID());
+                            if (!check) {
+                                String message = "You have placed this jewelry";
+                                request.setAttribute("PLACEDBIDSTATUS", message);
+                            } else {
+                                String message = "PLACED BID SUCCESSFULLY!";
+                                request.setAttribute("PLACEDBIDSTATUS", message);
+                            }
+                            url = AUCTION_PAGE + auctionID;
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
                         }
-                        url = AUCTION_PAGE + auctionID;
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
                     }
                 } else {
                     System.err.println("Invalid parameters received in request.");
                 }
+
             } else {
                 System.err.println("Member information not found");
             }

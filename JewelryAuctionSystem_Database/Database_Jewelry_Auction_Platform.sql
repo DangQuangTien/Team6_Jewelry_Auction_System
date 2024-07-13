@@ -62,9 +62,18 @@ CREATE TABLE Users (
     [password] NVARCHAR(255) NOT NULL,
     roleID VARCHAR(50) NOT NULL DEFAULT 'Role01',
     joined_at DATE,
+	active_status bit default 1,
     CONSTRAINT fk_roleID FOREIGN KEY (roleID) REFERENCES [Role](roleID)
 );
 GO
+
+ALTER TABLE Users 
+	ADD active_status bit NOT NULL 
+	CONSTRAINT set_active_status DEFAULT 1
+
+
+SELECT j.*, c.categoryName FROM JEWELRY j, Category c WHERE (STATUS = 'Received' and j.categoryID = c.categoryID) OR (STATUS = 'Re-Evaluated' and j.categoryID = c.categoryID)
+
 
 CREATE TABLE [Member] (
     memberID VARCHAR(50) NOT NULL PRIMARY KEY,
@@ -175,7 +184,43 @@ CREATE TABLE [Session](
     CONSTRAINT fk_jewelryID FOREIGN KEY (jewelryID) REFERENCES Jewelry(jewelryID),
     CONSTRAINT uc_auction_jewelry UNIQUE (auctionID, jewelryID)
 );
+
+
+
+
+CREATE TABLE [Credit_Card](
+	cardID varchar(50) NOT NULL PRIMARY KEY,
+	memberID varchar(50) NOT NULL,
+	holderName varchar(50),
+	cardNumber varchar(255),
+	cvvCode varchar(50),
+	expiryDate Date,
+	CONSTRAINT fk_memberID_member FOREIGN KEY (memberID) REFERENCES Member(memberID),
+)
+
+SELECT userID FROM Users WHERE username = 'hieu' AND roleID = 'Role01'
+
+CREATE SEQUENCE cardID_sequence
+    AS BIGINT
+    START WITH 1
+    INCREMENT BY 1;
 GO
+
+SELECT cc.* FROM Credit_Card cc JOIN Member m ON cc.memberID = m.memberID WHERE m.status_register_to_bid = 0
+
+CREATE TRIGGER autogenerate_cardID
+ON [Credit_Card]
+INSTEAD OF INSERT
+AS 
+BEGIN
+    DECLARE @newcardID NVARCHAR(50);
+	SET @newcardID = 'CRE' + CAST(NEXT VALUE FOR cardID_sequence AS VARCHAR(50));
+	INSERT INTO [Credit_Card] (cardID, memberID, holderName, cardNumber, cvvCode, expiryDate)
+    SELECT @newcardID, memberID, holderName, cardNumber, cvvCode, expiryDate
+    FROM inserted;
+END;
+GO
+
 CREATE TABLE Register_Bid(
     registerBidID VARCHAR(50) NOT NULL PRIMARY KEY,
     sessionID VARCHAR(50) NOT NULL,
@@ -268,7 +313,6 @@ BEGIN
     END
 END;
 GO
-
 CREATE TRIGGER autogenerate_addressID 
 ON [Address] 
 INSTEAD OF INSERT
@@ -276,8 +320,8 @@ AS
 BEGIN
     DECLARE @newaddressID VARCHAR(50);
     SET @newaddressID = 'Address' + CAST(NEXT VALUE FOR addressID_sequence AS VARCHAR(50));
-    INSERT INTO [Address] (addressID, street, city, [state], zipcode, country, memberID)
-    SELECT @newaddressID, street, city, [state], zipcode, country, memberID
+    INSERT INTO [Address] (addressID, city, [state], zipcode, country, memberID, Address1, Address2)
+    SELECT @newaddressID, city, [state], zipcode, country, memberID, Address1, Address2
     FROM inserted;
 END;
 GO

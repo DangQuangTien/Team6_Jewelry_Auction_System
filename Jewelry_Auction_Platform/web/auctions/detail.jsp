@@ -718,7 +718,7 @@
                             <input type="number" class="form-control" id="bidAmount" name="preBid_Amount" value="<%= (preBid_Amount != null) ? preBid_Amount : ""%>" required>
                         </div>
                         <input type="hidden" id="auctionID" name="auctionID" value="${param.auctionID}">
-                        <input type="hidden" id="jewelryID" name="jewelryID">
+                        <input type="hidden" id="jewelryID" name="jewelryID" value="${j.jewelryID}">
                         <input type="hidden" name="action" value="Place Bid">
                     </div>
                     <div class="modal-footer">
@@ -746,7 +746,7 @@
                             <input type="number" class="form-control" id="editBidAmount" name="preBid_Amount" value="<%= (preBid_Amount != null) ? preBid_Amount : ""%>" required>
                         </div>
                         <input type="hidden" id="auctionID" name="auctionID" value="${param.auctionID}">
-                        <input type="hidden" id="jewelryID" name="jewelryID">
+                        <input type="hidden" id="jewelryID" name="jewelryID" value="${j.jewelryID}">
                         <input type="hidden" name="action" value="Edit Bid">
                     </div>
                     <div class="modal-footer">
