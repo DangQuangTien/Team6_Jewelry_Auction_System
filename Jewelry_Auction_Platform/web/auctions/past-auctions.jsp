@@ -246,7 +246,7 @@
                                 <a style="font-family:Andale Mono" class="dropdown-item"
                                    href="auctions">UPCOMING
                                     AUCTIONS</a>
-                                <a style="font-family:Andale Mono" class="dropdown-item" href="pastauction">PAST
+                                <a style="font-family:Andale Mono" class="dropdown-item" href="#">PAST
                                     AUCTION</a>
                             </div>
                         </li>
@@ -288,11 +288,11 @@
                 <c:when test="${not empty AUCTIONS}">
                     <c:forEach var="auction" items="${AUCTIONS}">
                         <c:set var="currentDate" value="<%= new java.util.Date()%>" />
-                        <c:if test="${auction.endDate.time >= currentDate.time}">  
+                        <c:if test="${auction.endDate.time < currentDate.time}">  
                             <div class="auction"> 
                                 <div class="image-container">
                                     <img src="https://www.fortunaauction.com/wp-content/uploads/2024/06/1122-collection-image-1500.jpg" alt="Auction Image" loading="lazy"><br>
-                                    <div style="  font-family: Sans serif; font-size: 50px; margin-left: 30px; color: #c0392b" class="countdown" id="countdown_${auction.auctionID}"></div>
+                                    <div style="font-family: Sans serif; color: #666" class="countdown" id="countdown_${auction.auctionID}"></div>
                                 </div>
                                 <div class="auction-details">
                                     <p>Bidding Open from 
