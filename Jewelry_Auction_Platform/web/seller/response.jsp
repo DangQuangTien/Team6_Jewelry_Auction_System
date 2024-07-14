@@ -78,10 +78,9 @@
 
 
             .dropdown-menu {
-                background-color: rgba(27, 27, 27, 0.75);
+                background-color: #000;
                 border: 1px solid rgba(255, 255, 255, 0.1);
                 animation: fadeIn 0.5s;
-                margin-top: -10px
             }
 
             .dropdown-item {
@@ -268,7 +267,6 @@
     <body>
         <c:set var="username" value="${sessionScope.USERNAME}" />
         <c:set var="member" value="${sessionScope.MEMBER}" />
-        <c:if test="${empty member}"><% response.sendRedirect(request.getContextPath() + "/login"); %></c:if>
         <c:set var="role" value="${sessionScope.ROLE}" />
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
             <div class="container">
@@ -299,7 +297,7 @@
                                 <a style="font-family:Andale Mono" class="dropdown-item"
                                    href="${pageContext.request.contextPath}/auctions">UPCOMING
                                     AUCTIONS</a>
-                                <a style="font-family:Andale Mono" class="dropdown-item" href="pastauction">PAST
+                                <a style="font-family:Andale Mono" class="dropdown-item" href="#">PAST
                                     AUCTIONS</a>
                             </div>
                         </li>
@@ -542,7 +540,7 @@
                                                 '</td><td style="color: rgb(11, 224, 71); font-weight: bold; font-size: 20px; text-align: center; font-family: Helvetica">Ready To Auction</td>';
                                     } else if (status === 'SOLD') {
                                         statusText = '<td style="color: red; font-size: 24px; text-align: center; font-family: Helvetica">'  + "$" + finalPrice + '</td>' +
-                                                '<td style="color: blue; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">' + 'SOLD ' + sold + "(VND)" + '</td>';
+                                                '<td style="color: blue; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">' + 'SOLD ' + sold + " VND" + '</td>';
                                     } else {
                                         statusText = '<td style="color: orangered; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">Updating</td>\n\
                                                          <td style="color: blue; font-family: Helvetica; text-align: center; font-size: 20px; font-weight: bold">In Progress</td>';
@@ -601,7 +599,7 @@
                                 '<p><strong>Min Price:</strong> ' + jewelry.minPrice + '</p>' +
                                 '<p><strong>Max Price:</strong> ' + jewelry.maxPrice + '</p>' +
                                 '<p><strong>Temporary Price:</strong> ' + jewelry.temp_Price + '</p>' + 
-                                 '<p><strong>Sold:</strong> ' + jewelry.totalAmount + '(VND)'  + '</p>' +
+                                 '<p><strong>Sold:</strong> ' + jewelry.totalAmount  + '</p>' +
                                 ' </div>' + '</div>'
                                 );
                     });

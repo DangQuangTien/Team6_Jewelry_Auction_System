@@ -80,10 +80,9 @@
 
 
         .dropdown-menu {
-            background-color: rgba(27, 27, 27, 0.75);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                animation: fadeIn 0.5s;
-                margin-top: -10px
+            background-color: #000;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 0.5s;
         }
 
         .dropdown-item {
@@ -465,7 +464,6 @@
                 var countdownInterval = setInterval(function () {
                     getTimeDifference('${auction.endDate}T${auction.startTime}');
                         }, 1000);
-                       
     </script>
     <body>
         <!-- Navigator -->
@@ -536,7 +534,7 @@
                                    data-toggle="dropdown"
                                    aria-haspopup="true"
                                    aria-expanded="false">
-                                    <i class="fas fa-user"></i> User <i class="fas fa-caret-down"></i>
+                                    <i class="fas fa-user"></i> User<i class="fas fa-caret-down"></i>
                                 </a>
                                 <div class="dropdown-menu"
                                      aria-labelledby="userDropdown">
@@ -600,13 +598,10 @@
         <font style="font-size: 20px; font-family:  Helvetica; font-weight: bold">Live Auction</font>
         <h3 style="font-size: 20px; font-family:  Helvetica;">Live bidding begins: <fmt:formatDate value="${auction.endDate}" pattern="dd MMM YYYY"/> at <c:out value="${auction.startTime}"/></h3>
         <br>
-          <c:set var="currentDate" value="<%= new java.util.Date() %>" />
-          <c:if test="${auction.endDate.time >= currentDate.time}">
-               <div class="countdown-container">
+        <div class="countdown-container">
             <h3 style="color: crimson; font-family:Verdana"><div id="countdown"></div></h3>
             <div id="auctionLink"></div>
         </div>
-          </c:if>
         <!-- Notification -->
         <br>
         <c:choose>
@@ -684,13 +679,10 @@
                                         <a href="${pageContext.request.contextPath}/registerbid?auctionID=${param.auctionID}"><button class="btn btn-primary">PLACE BID</button</a>
                                     </c:when>
                                     <c:when test="${status == 1 && member != null}">
-                                           <c:set var="currentDate" value="<%= new java.util.Date() %>" />
-                                           <c:if test="${auction.endDate.time > currentDate.time}">
-                                                <div class="btn-group">
+                                        <div class="btn-group">
                                             <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal">PLACE BID</button>
                                             <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal_">EDIT BID</button>
                                         </div>
-                                           </c:if>
                                     </c:when>
                                     <c:otherwise>
                                         <form action="${pageContext.request.contextPath}/login">
@@ -707,6 +699,7 @@
         <c:if test="${listJewelry == null || listJewelry.isEmpty()}">
             <p>No items available in the catalog.</p>
         </c:if>
+    </div>
     <% String preBid_Amount = (String) request.getParameter("preBid_Amount");%>
     <!-- Modal for bidding -->
     <div class="modal fade" id="bidModal" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">

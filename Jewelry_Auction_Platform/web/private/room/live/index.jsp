@@ -65,14 +65,13 @@
             /* Horizontal Scroll Items */
             .horizontal-scroll-item {
                 flex: 0 0 auto;
+                width: 150px;
                 scroll-snap-align: center;
                 transition: transform 0.3s, width 0.3s, filter 0.3s, box-shadow 0.3s;
                 filter: blur(2px);
                 cursor: pointer;
                 position: relative;
                 overflow: hidden;
-                width: 200px;
-
             }
 
             .horizontal-scroll-item::before {
@@ -86,7 +85,6 @@
                 z-index: 2;
                 opacity: 0;
                 transition: opacity 0.3s;
-
             }
 
             .horizontal-scroll-item:hover::before {
@@ -95,7 +93,7 @@
 
             .horizontal-scroll-item.selected {
                 transform: scale(1.1);
-                width: 200px;
+                width: 180px;
                 filter: blur(0);
                 box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Light shadow */
             }
@@ -273,12 +271,10 @@
             .chat-container {
                 display: flex;
                 flex-direction: column;
-                height: 560px; /* Adjust height as needed */
-                width: 62%;
+                height: 600px; /* Adjust height as needed */
                 overflow: hidden; /* Ensure overflow is set to handle scrolling */
                 background-color: lightgray;
-                margin-left: 280px;
-                box-sizing: border-box;
+                margin-left: 300px
             }
 
             .chat-messages {
@@ -303,7 +299,7 @@
                 animation: fadeIn 0.5s ease;
                 margin-bottom: 10px;
                 margin-left: auto;
-                border-top-right-radius: 0;
+
             }
             .message p {
                 margin: 0;
@@ -315,7 +311,7 @@
                 background-color: gray;
                 color: #fff;
                 align-self: flex-end;
-                border-top-left-radius: 0;
+                border-top-right-radius: 0;
                 margin-left: 20px;
             }
             .message.from-me p {
@@ -454,31 +450,8 @@
                             <% String[] photoArray = photo.split(";");%>
                             <img src="${pageContext.request.contextPath}/<%= photoArray[0]%>" class="card-img-top" alt="<%= jewelry.getJewelryName()%>">
                             <div class="card-body">
-                                <h5 class="card-title" style="text-align: left; margin-top: -10px; font-size: 12px"><%= jewelry.getJewelryID()%></h5>
-                                <p class="card-text" style="font-size: 10px; text-align: left">
-                                    <%= jewelry.getJewelryName()%> <br>
-                                    Estimate: $<%= jewelry.getMinPrice()%> - $<%= jewelry.getMaxPrice()%><br>
-                                    Artist: <%= jewelry.getArtist()%><br>
-                                    <% if (jewelry.getCategoryName().equals("Watch")) {%>
-                                    CIRCA: <%= jewelry.getCirca()%><br>
-                                    SERIAL NUMBER: <%= jewelry.getSerialNumber()%><br>
-                                    REF: <%= jewelry.getReferenceNumber()%><br>
-                                    CASE MATERIAL: <%= jewelry.getMaterial()%><br>
-                                    CASE DIMENSIONS: <%= jewelry.getCaseDimensions()%><br>
-                                    DIAL: <%= jewelry.getDial()%><br>
-                                    BRACELET MATERIAL: <%= jewelry.getBraceletMaterial()%><br>
-                                    BRACELET SIZE: <%= jewelry.getBraceletSize()%><br>
-                                    MOVEMENT: <%= jewelry.getMovement()%><br>
-                                    CALIBER: <%= jewelry.getCaliber()%><br>
-                                    Condition: <%= jewelry.getCondition()%>
-                                    <% } else {%>
-                                    Metal: <%= jewelry.getMetal()%><br>
-                                    Gemstone(s): <%= jewelry.getGemstones()%><br>
-                                    Measurements: <%= jewelry.getMeasurements()%><br>
-                                    Weight: <%= jewelry.getWeight()%><br>
-                                    Condition: <%= jewelry.getCondition()%>
-                                    <% }%>
-                                </p>
+                                <h5 class="card-title"><%= jewelry.getJewelryID()%></h5>
+                                <p class="card-text"><%= jewelry.getJewelryName()%></p>
                                 <p class="card-text" style="display: none;">Current Bid: <%= jewelry.getCurrentBid()%></p> <!-- Hidden current bid -->
                                 <input type="hidden" class="current-bid-value" value="<%= jewelry.getCurrentBid()%>"> <!-- Hidden input with current bid value -->
                             </div>
@@ -536,7 +509,6 @@
                         selectItem(item);
                     });
                 }
-                
             });
 
             function setCurrentBid(element) {

@@ -79,10 +79,9 @@
 
 
             .dropdown-menu {
-                background-color: rgba(27, 27, 27, 0.75);
+                background-color: #000;
                 border: 1px solid rgba(255, 255, 255, 0.1);
                 animation: fadeIn 0.5s;
-                margin-top: -10px
             }
 
             .dropdown-item {
@@ -246,7 +245,7 @@
                                 <a style="font-family:Andale Mono" class="dropdown-item"
                                    href="auctions">UPCOMING
                                     AUCTIONS</a>
-                                <a style="font-family:Andale Mono" class="dropdown-item" href="pastauction">PAST
+                                <a style="font-family:Andale Mono" class="dropdown-item" href="#">PAST
                                     AUCTION</a>
                             </div>
                         </li>
@@ -287,67 +286,64 @@
             <c:choose>
                 <c:when test="${not empty AUCTIONS}">
                     <c:forEach var="auction" items="${AUCTIONS}">
-                        <c:set var="currentDate" value="<%= new java.util.Date()%>" />
-                        <c:if test="${auction.endDate.time >= currentDate.time}">  
-                            <div class="auction"> 
-                                <div class="image-container">
-                                    <img src="https://www.fortunaauction.com/wp-content/uploads/2024/06/1122-collection-image-1500.jpg" alt="Auction Image" loading="lazy"><br>
-                                    <div style="  font-family: Sans serif; font-size: 50px; margin-left: 30px; color: #c0392b" class="countdown" id="countdown_${auction.auctionID}"></div>
-                                </div>
-                                <div class="auction-details">
-                                    <p>Bidding Open from 
-                                        <fmt:formatDate value="${auction.startDate}" pattern="dd MMM"/> 
-                                        to 
-                                        <fmt:formatDate value="${auction.endDate}" pattern="dd MMM"/>
-                                    </p>
+                        <div class="auction">
+                            <div class="image-container">
+                                <img src="https://www.fortunaauction.com/wp-content/uploads/2024/06/1122-collection-image-1500.jpg" alt="Auction Image" loading="lazy"><br>
+                                <div style="font-family: Helvetica" class="countdown" id="countdown_${auction.auctionID}"></div>
+                            </div>
+                            <div class="auction-details">
+                                <p>COMING SOON &#x2022; Bidding Open from 
+                                    <fmt:formatDate value="${auction.startDate}" pattern="dd MMM"/> 
+                                    to 
+                                    <fmt:formatDate value="${auction.endDate}" pattern="dd MMM"/>
+                                </p>
 
-                                    <p>(Live Sale Conclusion on 
-                                        <fmt:formatDate value="${auction.endDate}" pattern="dd MMM"/> 
-                                        Starting at ${auction.startTime} ET)
-                                    </p>
-                                    <div class="button-container">
-                                        <form action="auction" method="POST">
-                                            <input type="hidden" name="auctionID" value="${auction.auctionID}">
-                                            <button  type="submit">View Lots</button>
-                                        </form>
-                                    </div>
+                                <p>(Live Sale Conclusion on 
+                                    <fmt:formatDate value="${auction.endDate}" pattern="dd MMM"/> 
+                                    Starting at ${auction.startTime} ET)
+                                </p>
+                                <div class="button-container">
+                                    <form action="auction" method="POST">
+                                        <input type="hidden" name="auctionID" value="${auction.auctionID}">
+                                        <button  type="submit">View Lots</button>
+                                    </form>
                                 </div>
                             </div>
-                            <script>
-                                (function (auctionID, endDate, startTime) {
-                                    function getTimeDifference(endDateTime, startTime, elementID) {
-                                        var now = new Date().getTime();
-                                        var endTime = new Date(endDateTime + ' ' + startTime).getTime();
-                                        var difference = endTime - now;
+                        </div>
+                        <script>
+                            (function (auctionID, endDate, startTime) {
+                                function getTimeDifference(endDateTime, startTime, elementID) {
+                                    var now = new Date().getTime();
+                                    var endTime = new Date(endDateTime + ' ' + startTime).getTime();
+                                    var difference = endTime - now;
 
-                                        if (difference <= 0) {
-                                            document.getElementById(elementID).innerHTML = "ALREADY STARTED";
-                                            clearInterval(window[elementID]);
-                                            return;
-                                        }
-
-                                        var days = Math.floor(difference / (1000 * 60 * 60 * 24));
-                                        var hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                        var minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-                                        var seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-                                        document.getElementById(elementID).innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+                                    if (difference <= 0) {
+                                        document.getElementById(elementID).innerHTML = "ALREADY STARTED";
+                                        clearInterval(window[elementID]);
+                                        return;
                                     }
 
-                                    var elementID = "countdown_" + auctionID;
-                                    var endDateTime = "${auction.endDate}";
+                                    var days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                                    var hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                    var minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                                    var seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-                                    document.addEventListener('DOMContentLoaded', function () {
-                                        getTimeDifference(endDateTime, "${auction.startTime}", elementID);
-                                    });
+                                    document.getElementById(elementID).innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+                                }
 
-                                    window[elementID] = setInterval(function () {
-                                        getTimeDifference(endDateTime, "${auction.startTime}", elementID);
-                                    }, 1000);
-                                })('${auction.auctionID}', '${auction.endDate}', '${auction.startTime}');
-                            </script>
-                            <hr>
-                        </c:if>
+                                var elementID = "countdown_" + auctionID;
+                                var endDateTime = "${auction.endDate}";
+
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    getTimeDifference(endDateTime, "${auction.startTime}", elementID);
+                                });
+
+                                window[elementID] = setInterval(function () {
+                                    getTimeDifference(endDateTime, "${auction.startTime}", elementID);
+                                }, 1000);
+                            })('${auction.auctionID}', '${auction.endDate}', '${auction.startTime}');
+                        </script>
+                        <hr>
                     </c:forEach>
                 </c:when>
                 <c:otherwise>
@@ -360,46 +356,46 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-                                document.addEventListener("DOMContentLoaded", function () {
-                                    var dropdowns = document.querySelectorAll('.nav-item.dropdown');
+                            document.addEventListener("DOMContentLoaded", function () {
+                                var dropdowns = document.querySelectorAll('.nav-item.dropdown');
 
-                                    dropdowns.forEach(function (dropdown) {
-                                        dropdown.addEventListener('mouseenter', function () {
-                                            var dropdownMenu = dropdown.querySelector('.dropdown-menu');
-                                            if (dropdownMenu) {
-                                                dropdownMenu.classList.add('show');
-                                            }
-                                        });
-                                        dropdown.addEventListener('mouseleave', function () {
-                                            var dropdownMenu = dropdown.querySelector('.dropdown-menu');
-                                            if (dropdownMenu) {
-                                                dropdownMenu.classList.remove('show');
-                                            }
-                                        });
+                                dropdowns.forEach(function (dropdown) {
+                                    dropdown.addEventListener('mouseenter', function () {
+                                        var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                                        if (dropdownMenu) {
+                                            dropdownMenu.classList.add('show');
+                                        }
                                     });
-                                });
-
-                                $(document).ready(function () {
-                                    $("a.nav-link").on('click', function (event) {
-                                        if (this.hash !== "") {
-                                            event.preventDefault();
-                                            var hash = this.hash;
-                                            $('html, body').animate({
-                                                scrollTop: $(hash).offset().top
-                                            }, 800, function () {
-                                                window.location.hash = hash;
-                                            });
+                                    dropdown.addEventListener('mouseleave', function () {
+                                        var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                                        if (dropdownMenu) {
+                                            dropdownMenu.classList.remove('show');
                                         }
                                     });
                                 });
-                                document.addEventListener("DOMContentLoaded", function () {
-                                    window.addEventListener("scroll", function () {
-                                        if (window.scrollY > 50) {
-                                            document.querySelector(".navbar").classList.add("navbar-scrolled");
-                                        } else {
-                                            document.querySelector(".navbar").classList.remove("navbar-scrolled");
-                                        }
-                                    });
+                            });
+
+                            $(document).ready(function () {
+                                $("a.nav-link").on('click', function (event) {
+                                    if (this.hash !== "") {
+                                        event.preventDefault();
+                                        var hash = this.hash;
+                                        $('html, body').animate({
+                                            scrollTop: $(hash).offset().top
+                                        }, 800, function () {
+                                            window.location.hash = hash;
+                                        });
+                                    }
                                 });
+                            });
+                            document.addEventListener("DOMContentLoaded", function () {
+                                window.addEventListener("scroll", function () {
+                                    if (window.scrollY > 50) {
+                                        document.querySelector(".navbar").classList.add("navbar-scrolled");
+                                    } else {
+                                        document.querySelector(".navbar").classList.remove("navbar-scrolled");
+                                    }
+                                });
+                            });
     </script>
 </html>
