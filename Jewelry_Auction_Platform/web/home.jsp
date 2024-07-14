@@ -81,9 +81,10 @@
 
 
             .dropdown-menu {
-                background-color: #000;
+                background-color: rgba(27, 27, 27, 0.75);
                 border: 1px solid rgba(255, 255, 255, 0.1);
                 animation: fadeIn 0.5s;
+                margin-top: -10px
             }
 
             .dropdown-item {
@@ -155,7 +156,7 @@
             }
 
             .card {
-                height: 500px;
+                height: 450px;
                 margin: 15px 0;
                 border: none;
                 border-radius: 0;
@@ -557,7 +558,7 @@
                                 <a style="font-family:Andale Mono" class="dropdown-item"
                                    href="${pageContext.request.contextPath}/auctions">UPCOMING
                                     AUCTIONS</a>
-                                <a style="font-family:Andale Mono" class="dropdown-item" href="#">PAST
+                                <a style="font-family:Andale Mono" class="dropdown-item" href="pastauction">PAST
                                     AUCTIONS</a>
                             </div>
                         </li>
@@ -685,8 +686,6 @@
                                                             <img src="${pageContext.request.contextPath}/${fn:split(jewelry.photo, ';')[0]}" class="card-img-top" alt="${jewelry.jewelryName}">
                                                             <div style="background-color: #f5f5f5" class="card-body">
                                                                 <div class="card-title">${jewelry.jewelryName}</div>
-                                                                <hr>
-                                                                <div style="font-style: italic" class="card-title">SOLD for $1500</div>
                                                             </div>
                                                         </div>
                                                     </a>

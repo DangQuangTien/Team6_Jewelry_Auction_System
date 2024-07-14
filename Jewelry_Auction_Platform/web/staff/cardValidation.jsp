@@ -1,22 +1,25 @@
 <%-- 
-    Document   : approvalRequest
-    Created on : Jun 4, 2024, 8:41:54 AM
+    Document   : manager
+    Created on : May 23, 2024, 1:23:38 AM
     Author     : User
 --%>
-
-<%@page import="java.time.LocalTime"%>
-<%@page import="entity.product.Jewelry"%>
+<%@page import="entity.creditCard.CreditCard"%>
 <%@page import="java.util.List"%>
+<%@page import="dao.UserDAOImpl"%>
+<%@page import="java.time.LocalTime"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Pending Review Page</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <title>Credit Card Validation</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-        <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+        <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" type="text/css" href="asset/finalValuation.css">
         <%
             String greeting = "day!";
@@ -286,9 +289,8 @@
                 }
             }
 
-
             /* Modal Styles */
-            .modal.fade {
+            .modal {
                 display: none;
                 position: fixed;
                 z-index: 1050;
@@ -389,6 +391,38 @@
                     transform: translateY(0);
                 }
             }
+            /* custom.css */
+            .heading-main {
+                color: #2563eb; /* Tailwind's blue-600 */
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+                font-size: 1.875rem; /* 3xl */
+                font-weight: bold;
+            }
+
+            .heading-greeting {
+                color: #4b5563; /* Tailwind's gray-700 */
+                margin-top: 0.5rem;
+                margin-bottom: 0.5rem;
+                font-size: 1.5rem; /* 2xl */
+                font-style: italic;
+            }
+            .gradient-line {
+                height: 2px; /* Adjust the height as needed */
+                width: 100%; /* Adjust the width as needed */
+                background: linear-gradient(to right, #a8c0ff, #325fcf,#a8c0ff, #325fcf); /* Adjust the colors as needed */
+                margin: 20px 0; /* Adjust the margin as needed */
+            }
+            .modal-backdrop {
+                display: none;
+                z-index: 1040 !important;
+            }
+
+            .modal-content {
+                margin: 2px auto;
+                z-index: 1100 !important;
+            }
+
             /* Search Filter */
             .dataTables_filter {
                 float: right;
@@ -455,37 +489,6 @@
             .dataTables_length {
                 float: left;
                 margin-right: 20px;
-            }
-            /* custom.css */
-            .heading-main {
-                color: #2563eb; /* Tailwind's blue-600 */
-                margin-top: 1rem;
-                margin-bottom: 1rem;
-                font-size: 1.875rem; /* 3xl */
-                font-weight: bold;
-            }
-
-            .heading-greeting {
-                color: #4b5563; /* Tailwind's gray-700 */
-                margin-top: 0.5rem;
-                margin-bottom: 0.5rem;
-                font-size: 1.5rem; /* 2xl */
-                font-style: italic;
-            }
-            .gradient-line {
-                height: 2px; /* Adjust the height as needed */
-                width: 100%; /* Adjust the width as needed */
-                background: linear-gradient(to right, #a8c0ff, #325fcf,#a8c0ff, #325fcf); /* Adjust the colors as needed */
-                margin: 20px 0; /* Adjust the margin as needed */
-            }
-            .modal-backdrop {
-                display: none;
-                z-index: 1040 !important;
-            }
-
-            .modal-content {
-                margin: 2px auto;
-                z-index: 1100 !important;
             }
         </style>
     </head>
@@ -568,199 +571,67 @@
                             </a>
                         </li>
                     </ul>
-                </div>            
-                <!-- Main Content -->
+                </div>
+                <!-- Main content area -->
                 <section class="home-section">
                     <main role="main" class="col-span-9 ml-auto col-span-10 px-4">
                         <div class="container mt-4">
                             <br>
-                            <h1 class="heading-main">Approval Request</h1>
+                            <h1 class="heading-main">Credit Card Validation</h1>
                             <h1 class="heading-greeting">Good <%= greeting%>!</h1>
                             <div class="gradient-line"></div>
+
                             <%
-                                List<Jewelry> listJewelry = (List<Jewelry>) request.getAttribute("JEWELRYLIST");
-                                if (listJewelry != null && !listJewelry.isEmpty()) {
+                                List<CreditCard> listCreditCard = (List<CreditCard>) request.getAttribute("CREDITCARD");
+                                if (listCreditCard != null && !listCreditCard.isEmpty()) {
                             %>
                             <div class="table-responsive" style="overflow: hidden">
                                 <table id="approvalTable" class="w-full divide-y divide-gray-200">
                                     <thead>
                                         <tr style="background-color:#a8a1f7">
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Photo</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Jewelry Name</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Artist</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Member ID</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Holder Name</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Card Number</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">CVV Code</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Expiry Date</th>
                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200">
-                                        <% for (Jewelry jewelry : listJewelry) { %>
+                                        <% for (CreditCard cc : listCreditCard) {%>
                                         <tr>
-                                            <% String[] photoArray = jewelry.getPhotos().split(";");%>
+                                            <td class="px-6 py-4 text-sm text-gray-900"><%= cc.getMemberID()%></td>
+                                            <td class="px-6 py-4 text-sm text-gray-900"><%= cc.getHolderName()%></td>
+                                            <td class="px-6 py-4 text-sm text-gray-900"><%= cc.getCardNumber()%></td>
+                                            <td class="px-6 py-4 text-sm text-gray-900"><%= cc.getCvvCode()%></td>
+                                            <td class="px-6 py-4 text-sm text-gray-900"><%= cc.getExpiryDate()%></td>
                                             <td class="px-6 py-4">
-                                                <img class="w-20 h-20 object-contain" src="${pageContext.request.contextPath}/<%= photoArray[0]%>" alt="Jewelry Image">
-                                            </td>
-                                            <td class="px-6 py-4 text-sm text-gray-900"><%= jewelry.getJewelryName()%></td>
-                                            <td class="px-6 py-4 text-sm text-gray-900"><%= jewelry.getArtist()%></td>
-                                            <td class="px-6 py-4 flex items-center space-x-2">
-                                                <button type="button" class="bg-indigo-400 hover:bg-indigo-700 text-white px-4 py-2 rounded-md" data-toggle="modal" data-target="#detailModal" 
-                                                        data-photo="<%= photoArray[0]%>" 
-                                                        data-name="<%= jewelry.getJewelryName()%>" 
-                                                        data-artist="<%= jewelry.getArtist()%>" 
-                                                        data-circa="<%= jewelry.getCirca()%>" 
-                                                        data-material="<%= jewelry.getMaterial()%>" 
-                                                        data-dial="<%= jewelry.getDial()%>" 
-                                                        data-braceletmaterial="<%= jewelry.getBraceletMaterial()%>" 
-                                                        data-casedimensions="<%= jewelry.getCaseDimensions()%>" 
-                                                        data-braceletsize="<%= jewelry.getBraceletSize()%>" 
-                                                        data-serialnumber="<%= jewelry.getSerialNumber()%>" 
-                                                        data-referencenumber="<%= jewelry.getReferenceNumber()%>" 
-                                                        data-caliber="<%= jewelry.getCaliber()%>" 
-                                                        data-movement="<%= jewelry.getMovement()%>" 
-                                                        data-condition="<%= jewelry.getCondition()%>" 
-                                                        data-metal="<%= jewelry.getMetal()%>" 
-                                                        data-gemstones="<%= jewelry.getGemstones()%>" 
-                                                        data-measurements="<%= jewelry.getMeasurements()%>" 
-                                                        data-weight="<%= jewelry.getWeight()%>" 
-                                                        data-stamped="<%= jewelry.getStamped()%>" 
-                                                        data-ringsize="<%= jewelry.getRingSize()%>"
-                                                        data-finalprice="<%= jewelry.getFinal_Price()%>">
-                                                    View
-                                                </button>
-                                                <form action="${pageContext.request.contextPath}/sendToSeller" method="GET" onsubmit="confirmSend(event)" class="w-full">
-                                                    <input type="hidden" name="jewelryID" value="<%= jewelry.getJewelryID()%>">
-                                                    <button type="submit" class="btn-info text-white px-4 py-2 rounded-md"> Send to Seller</button>
+                                                <form action="${pageContext.request.contextPath}/confirmCard" method="POST" onsubmit="confirmAuction(event)">
+                                                    <input type="hidden" name="memberID" value="<%= cc.getMemberID()%>">
+                                                    <input type="submit" class="btn btn-primary text-white px-4 py-2 rounded-md" name="action" value="Confirm">
                                                 </form>
                                             </td>
-
                                         </tr>
                                         <% } %>
                                     </tbody>
                                 </table>
+
                             </div>
                             <% } else { %>
-                            <p class="text-center text-gray-600 mt-8 py-4 bg-gray-100 border border-gray-200 rounded-md shadow-md">No valuation requests available.</p>
+                            <p class="text-center text-gray-600 mt-8 py-4 bg-gray-100 border border-gray-200 rounded-md shadow-md">No card registering requests available.</p>
                             <% }%>
                         </div>
                     </main>
                 </section>
             </div>
         </div>
-
-        <!-- Modal -->
-        <div class="modal fade fixed inset-0 z-50 overflow-auto" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-            <div class="modal-dialog mx-auto mt-24">
-                <div class="modal-content bg-white shadow-lg rounded-lg" >
-                    <div class="modal-header p-4 rounded-t" style="background-color:#a8a1f7">
-                        <h5 class="modal-title text-lg text-gray-900" id="detailModalLabel">Jewelry Details</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body px-4 py-2" >
-                        <div class="text-center">
-                            <img id="modal-photo" src="" class="img-thumbnail mx-auto my-4 w-32 h-32 object-contain" alt="Jewelry Image">
-                        </div>
-                        <div class="overflow-y-auto" style="max-height: 400px;">
-                            <table class="table-auto w-full mt-3">
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Jewelry Name</th>
-                                        <td class="px-4 py-2 text-sm text-gray-900" id="modal-name"></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Artist</th>
-                                        <td class="px-4 py-2 text-sm text-gray-900" id="modal-artist"></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Circa</th>
-                                        <td class="px-4 py-2 text-sm text-gray-900" id="modal-circa"></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Material</th>
-                                        <td class="px-4 py-2 text-sm text-gray-900" id="modal-material"></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Dial</th>
-                                        <td class="px-4 py-2 text-sm text-gray-900" id="modal-dial"></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Bracelet Material</th>
-                                        <td class="px-4 py-2 text-sm text-gray-900" id="modal-braceletmaterial"></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Case Dimensions</th>
-                                        <td class="px-4 py-2 text-sm text-gray-900" id="modal-casedimensions"></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Bracelet Size</th>
-                                        <td class="px-4 py-2 text-sm text-gray-900" id="modal-braceletsize"></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Serial Number</th>
-                                        <td class="px-4 py-2 text-sm text-gray-900" id="modal-serialnumber"></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Reference Number</th>
-                                        <td class="px-4 py-2 text-sm text-gray-900" id="modal-referencenumber"></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Caliber</th>
-                                        <td class="px-4 py-2 text-sm text-gray-900" id="modal-caliber"></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Movement</th>
-                                        <td class="px-4 py-2 text-sm text-gray-900" id="modal-movement"></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Condition</th>
-                                        <td class="px-4 py-2 text-sm text-gray-900" id="modal-condition"></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Metal</th>
-                                        <td class="px-4 py-2 text-sm text-gray-900" id="modal-metal"></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Gemstones</th>
-                                        <td class="px-4 py-2 text-sm text-gray-900" id="modal-gemstones"></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Measurements</th>
-                                        <td class="px-4 py-2 text-sm text-gray-900" id="modal-measurements"></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Weight</th>
-                                        <td class="px-4 py-2 text-sm text-gray-900" id="modal-weight"></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Stamped</th>
-                                        <td class="px-4 py-2 text-sm text-gray-900" id="modal-stamped"></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Ring Size</th>
-                                        <td class="px-4 py-2 text-sm text-gray-900" id="modal-ringsize"></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Final Price</th>
-                                        <td class="px-4 py-2 text-sm text-gray-900" id="modal-finalprice"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-        <script src="asset/approvalRequest.js"></script>
+        <script src="asset/finalValuation.js"></script>
         <script>
                                                     $(document).ready(function () {
                                                         // Initialize DataTable with search and pagination
@@ -773,31 +644,6 @@
                                                             "autoWidth": false,
                                                             "pageLength": 10
                                                         });
-                                                    });
-                                                    $('#detailModal').on('show.bs.modal', function (event) {
-                                                        var button = $(event.relatedTarget);
-                                                        var modal = $(this);
-                                                        modal.find('#modal-photo').attr('src', button.data('photo'));
-                                                        modal.find('#modal-name').text(button.data('name'));
-                                                        modal.find('#modal-artist').text(button.data('artist'));
-                                                        modal.find('#modal-circa').text(button.data('circa'));
-                                                        modal.find('#modal-material').text(button.data('material'));
-                                                        modal.find('#modal-dial').text(button.data('dial'));
-                                                        modal.find('#modal-braceletmaterial').text(button.data('braceletmaterial'));
-                                                        modal.find('#modal-casedimensions').text(button.data('casedimensions'));
-                                                        modal.find('#modal-braceletsize').text(button.data('braceletsize'));
-                                                        modal.find('#modal-serialnumber').text(button.data('serialnumber'));
-                                                        modal.find('#modal-referencenumber').text(button.data('referencenumber'));
-                                                        modal.find('#modal-caliber').text(button.data('caliber'));
-                                                        modal.find('#modal-movement').text(button.data('movement'));
-                                                        modal.find('#modal-condition').text(button.data('condition'));
-                                                        modal.find('#modal-metal').text(button.data('metal'));
-                                                        modal.find('#modal-gemstones').text(button.data('gemstones'));
-                                                        modal.find('#modal-measurements').text(button.data('measurements'));
-                                                        modal.find('#modal-weight').text(button.data('weight'));
-                                                        modal.find('#modal-stamped').text(button.data('stamped'));
-                                                        modal.find('#modal-ringsize').text(button.data('ringsize'));
-                                                        modal.find('#modal-finalprice').text(button.data('finalprice'));
                                                     });
                                                     let sidebar = document.querySelector(".sidebar");
                                                     let closeBtn = document.querySelector("#btn");

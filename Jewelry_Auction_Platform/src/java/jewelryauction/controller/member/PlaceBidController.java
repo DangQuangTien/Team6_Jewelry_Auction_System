@@ -26,20 +26,26 @@ public class PlaceBidController extends HttpServlet {
         String url = ERROR_PAGE;
 
         try {
-            Member member = (Member)session.getAttribute("MEMBER");
+            Member member = (Member) session.getAttribute("MEMBER");
             if (member != null) {
                 String preBidAmount = request.getParameter("preBid_Amount");
                 String auctionID = request.getParameter("auctionID");
                 String jewelryID = request.getParameter("jewelryID");
                 if (preBidAmount != null && auctionID != null && jewelryID != null) {
                     try {
-                        boolean check = dao.placeBid(preBidAmount, jewelryID, member.getMemberID());
-                        if (!check) {
-                            String message = "You have placed this jewelry";
+                        boolean isJewelryOwnedByMember = dao.isJewelryOwnedByMember(jewelryID, member.getMemberID());
+                        if (isJewelryOwnedByMember) {
+                            String message = "You cannot place a bid on your own jewelry!";
                             request.setAttribute("PLACEDBIDSTATUS", message);
                         } else {
-                            String message = "PLACED BID SUCCESSFULLY!";
-                            request.setAttribute("PLACEDBIDSTATUS", message);
+                            boolean check = dao.placeBid(preBidAmount, jewelryID, member.getMemberID());
+                            if (!check) {
+                                String message = "Failed to place a bid. Please try again.";
+                                request.setAttribute("PLACEDBIDSTATUS", message);
+                            } else {
+                                String message = "Placed bid successfully!";
+                                request.setAttribute("PLACEDBIDSTATUS", message);
+                            }
                         }
                         url = AUCTION_PAGE + auctionID;
                     } catch (Exception ex) {
