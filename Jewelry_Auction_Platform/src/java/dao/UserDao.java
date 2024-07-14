@@ -3,12 +3,15 @@ package dao;
 import dto.UserDTO;
 import entity.Auction.Auction;
 import entity.Invoice.Invoice;
+import entity.creditCard.CreditCard;
 import entity.member.Member;
 import entity.product.Category;
 import entity.product.Jewelry;
 import entity.product.RandomJewelry;
 import entity.request_shipment.RequestShipment;
+import entity.user.User;
 import entity.valuation.Valuation;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +23,7 @@ public interface UserDao {
     // Authentication
     UserDTO checkLogin(String username, String password);
 
-    boolean registerUser(String firstName, String lastName, String email, String username, String password);
+    boolean registerUser(String firstName, String lastName, String email, String username, String password, String phoneNumber, String gender, Date dob);
 
     boolean checkDuplicateUsername(String username);
 
@@ -97,6 +100,8 @@ public interface UserDao {
 
     boolean checkAvailableSession(String jewelryID);
 
+    boolean isJewelryOwnedByMember(String jewelryID, String memberID);
+            
     boolean placeBid(String preBid_Amount, String jewelryID, String memberID);
 
     boolean editBid(String preBid_Amount, String jewelryID, String memberID);
@@ -106,7 +111,8 @@ public interface UserDao {
     Double getTheHighestBid(String jewelryID);
 
     // Address Operations
-    boolean insertAddress(String country, String state, String city, String address1, String address2, String zipCode, String memberID);
+    boolean insertAddress(String country, String state, String city, String address1, String address2, String zipCode, String memberID,
+            String holderName, String cardNumber, String cvvCode, Date expiryDate);
 
     // Additional Operations
     boolean findAndSetWinner(String jewelryID);
@@ -127,4 +133,17 @@ public interface UserDao {
     boolean confirmPayment(String jewelryID);
 
     void updateSoldAmount(String jewelryID);
+    
+     //----------------------------
+    List<CreditCard> displayAllRegisteringCard();
+    
+    List<User> displayAllActiveUserForManager();
+    
+    boolean addUserForManager(String username, String email, String password, String roleID);
+    
+    boolean updateUserForManager(String userID, String username, String email, String password, String roleID);
+    
+    boolean deleteUserForManager(String userID);
+    
+    boolean checkBidderMatchSeller(String jewelryID, String memberID);
 }

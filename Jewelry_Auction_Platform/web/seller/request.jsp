@@ -79,9 +79,10 @@
 
 
             .dropdown-menu {
-                background-color: #000;
+                background-color: rgba(27, 27, 27, 0.75);
                 border: 1px solid rgba(255, 255, 255, 0.1);
                 animation: fadeIn 0.5s;
+                margin-top: -10px
             }
 
             .dropdown-item {
@@ -219,7 +220,7 @@
                                 <a style="font-family:Andale Mono" class="dropdown-item"
                                    href="auctions">UPCOMING
                                     AUCTIONS</a>
-                                <a style="font-family:Andale Mono" class="dropdown-item" href="#">PAST
+                                <a style="font-family:Andale Mono" class="dropdown-item" href="pastauction">PAST
                                     AUCTION</a>
                             </div>
                         </li>

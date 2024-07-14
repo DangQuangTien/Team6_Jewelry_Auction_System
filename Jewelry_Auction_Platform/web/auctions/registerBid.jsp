@@ -69,74 +69,74 @@
             color: white;
         }
         .button {
-  position: relative;
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
-  padding-block: 0.5rem;
-  padding-inline: 1.25rem;
-  background-color: rgb(0 107 179);
-  border-radius: 9999px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: #ffff;
-  gap: 10px;
-  font-weight: bold;
-  border: 3px solid #ffffff4d;
-  outline: none;
-  overflow: hidden;
-  font-size: 15px;
-}
+            position: relative;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+            padding-block: 0.5rem;
+            padding-inline: 1.25rem;
+            background-color: rgb(0 107 179);
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #ffff;
+            gap: 10px;
+            font-weight: bold;
+            border: 3px solid #ffffff4d;
+            outline: none;
+            overflow: hidden;
+            font-size: 15px;
+        }
 
-.icon {
-  width: 24px;
-  height: 24px;
-  transition: all 0.3s ease-in-out;
-}
+        .icon {
+            width: 24px;
+            height: 24px;
+            transition: all 0.3s ease-in-out;
+        }
 
-.button:hover {
-  transform: scale(1.05);
-  border-color: #fff9;
-}
+        .button:hover {
+            transform: scale(1.05);
+            border-color: #fff9;
+        }
 
-.button:hover .icon {
-  transform: translate(4px);
-}
+        .button:hover .icon {
+            transform: translate(4px);
+        }
 
-.button:hover::before {
-  animation: shine 1.5s ease-out infinite;
-}
+        .button:hover::before {
+            animation: shine 1.5s ease-out infinite;
+        }
 
-.button::before {
-  content: "";
-  position: absolute;
-  width: 100px;
-  height: 100%;
-  background-image: linear-gradient(
-    120deg,
-    rgba(255, 255, 255, 0) 30%,
-    rgba(255, 255, 255, 0.8),
-    rgba(255, 255, 255, 0) 70%
-  );
-  top: 0;
-  left: -100px;
-  opacity: 0.6;
-}
+        .button::before {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100%;
+            background-image: linear-gradient(
+                120deg,
+                rgba(255, 255, 255, 0) 30%,
+                rgba(255, 255, 255, 0.8),
+                rgba(255, 255, 255, 0) 70%
+                );
+            top: 0;
+            left: -100px;
+            opacity: 0.6;
+        }
 
-@keyframes shine {
-  0% {
-    left: -100px;
-  }
+        @keyframes shine {
+            0% {
+                left: -100px;
+            }
 
-  60% {
-    left: 100%;
-  }
+            60% {
+                left: 100%;
+            }
 
-  to {
-    left: 100%;
-  }
-}
+            to {
+                left: 100%;
+            }
+        }
 
     </style>
 
@@ -189,7 +189,7 @@
                         </div>
                         <div class="form-group">
                             <label for="address">Address *</label>
-                            <input type="text" class="form-control" id="address" name="address" required>
+                            <input type="text" class="form-control" id="address1" name="address1" required>
                             <div class="invalid-feedback">Address is required.</div>
                         </div>
                         <div class="form-group">
@@ -242,11 +242,41 @@
                             <input type="text" class="form-control" id="cvv" name="cvv" maxlength="3" required>
                             <div class="invalid-feedback">CVV code is required.</div>
                         </div>
+
                         <div class="form-group">
                             <label for="expiryDate">Expiry Date *</label>
-                            <input type="text" class="form-control" id="expiryDate" name="expiryDate" maxlength="5" placeholder="MM / YY" required>
-                            <div class="invalid-feedback">Expiry date is required.</div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <select class="form-control" id="expiryDay" name="expiryDay" required>
+                                        <option value="">Day</option>
+                                        <% for (int i = 1; i <= 31; i++) {%>
+                                        <option value="<%= i%>"><%= i%></option>
+                                        <% }%>
+                                    </select>
+                                    <div class="invalid-feedback">Expiry day is required.</div>
+                                </div>
+                                <div class="col">
+                                    <select class="form-control" id="expiryMonth" name="expiryMonth" required>
+                                        <option value="">Month</option>
+                                        <% String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}; %>
+                                        <% for (int i = 0; i < months.length; i++) {%>
+                                        <option value="<%= i + 1%>"><%= months[i]%></option>
+                                        <% }%>
+                                    </select>
+                                    <div class="invalid-feedback">Expiry month is required.</div>
+                                </div>
+                                <div class="col">
+                                    <select class="form-control" id="expiryYear" name="expiryYear" required>
+                                        <option value="">Year</option>
+                                        <% for (int i = 2024; i <= 2100; i++) {%>
+                                        <option value="<%= i%>"><%= i%></option>
+                                        <% }%>
+                                    </select>
+                                    <div class="invalid-feedback">Expiry year is required.</div>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                     <div class="form-section mb-4">
                         <h4>BILLING ADDRESS</h4>
@@ -303,15 +333,15 @@
                     </div>
                     <input type="hidden" name="auctionID" value="<%= request.getParameter("auctionID")%>">
                     <button type="submit" class="button">
-  Apply Now
-  <svg fill="currentColor" viewBox="0 0 24 24" class="icon">
-    <path
-      clip-rule="evenodd"
-      d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z"
-      fill-rule="evenodd"
-    ></path>
-  </svg>
-</button>
+                        Apply Now
+                        <svg fill="currentColor" viewBox="0 0 24 24" class="icon">
+                        <path
+                            clip-rule="evenodd"
+                            d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z"
+                            fill-rule="evenodd"
+                            ></path>
+                        </svg>
+                    </button>
                 </div>
             </form>
         </div>
@@ -352,75 +382,5 @@
                 }
             });
         </script>
-        <%--  
-                document.getElementById('registrationForm').addEventListener('submit', function(event) {
-                    event.preventDefault();
-                    event.stopPropagation();
-
-            const form = this;
-            if (form.checkValidity() === false) {
-                form.classList.add('was-validated');
-            } else {
-
-                const cardNumber = document.getElementById('cardNumber').value;
-                const cvv = document.getElementById('cvv').value;
-                const expiryDate = document.getElementById('expiryDate').value;
-
-                let cardValid = validateCreditCard(cardNumber);
-                let cvvValid = validateCVV(cvv);
-                let expiryValid = validateExpiryDate(expiryDate);
-
-                if (cardValid && cvvValid && expiryValid) {
-                    alert('Form submitted!');
-                } else {
-                    if (!cardValid) {
-                        document.getElementById('cardNumber').classList.add('is-invalid');
-                        document.getElementById('cardNumberFeedback').innerText = 'Invalid credit card number.';
-                    }
-                    if (!cvvValid) {
-                        document.getElementById('cvv').classList.add('is-invalid');
-                    }
-                    if (!expiryValid) {
-                        document.getElementById('expiryDate').classList.add('is-invalid');
-                    }
-                }
-            }
-        });
-
-        function validateCreditCard(cardNumber) {
-            const regex = /^[0-9]{13,19}$/;
-            return regex.test(cardNumber);
-        }
-
-        function validateCVV(cvv) {
-            const regex = /^[0-9]{3}$/;
-            return regex.test(cvv);
-        }
-
-
-        function validateExpiryDate(expiryDate) {
-            const regex = /^(0[1-9]|1[0-2])\/([2-9][0-9])$/;
-            if (!regex.test(expiryDate)) return false;
-
-            const [month, year] = expiryDate.split('/');
-            const currentYear = new Date().getFullYear() % 100;
-            const enteredYear = parseInt(year, 10);
-            const enteredMonth = parseInt(month, 10);
-
-            if (enteredYear < currentYear) return false;
-
-            if (enteredYear === currentYear && enteredMonth <= new Date().getMonth() + 1) return false;
-
-            return true;
-}
-
-        document.getElementById('expiryDate').addEventListener('input', function() {
-            const input = this.value;
-            if (input.length === 2 && !input.includes('/')) {
-                this.value = input + '/';
-            }
-        });
-
-    </script> --%>
     </body>
 </html>

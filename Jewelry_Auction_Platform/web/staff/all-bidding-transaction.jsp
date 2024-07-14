@@ -390,6 +390,13 @@
                             <span class="tooltip">Approval Request</span>
                         </li>
                         <li>
+                            <a class="link_names" href="${pageContext.request.contextPath}/cardValidation">
+                                <i class='bx bx-cog'></i> 
+                                <span class="links_name">Card Confirmation</span>
+                            </a>
+                            <span class="tooltip">Card Confirmation</span>
+                        </li>
+                        <li>
                             <a class="link_names" href="${pageContext.request.contextPath}/transaction">
                                 <i class='bx bx-history'></i> 
                                 <span class="links_name">Transaction History</span>

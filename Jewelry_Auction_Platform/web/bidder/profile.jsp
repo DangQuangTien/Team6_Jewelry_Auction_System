@@ -127,7 +127,7 @@
 
             .btn-update {
                 width: fit-content;
-                height: 45px;
+                height: 40px;
                 background: #ffffff0d;
                 border-radius: 8px;
                 border: 2px solid #334b79;
@@ -138,9 +138,8 @@
                 transition: 0.5s all ease;
                 position: relative;
                 overflow: hidden;
-                padding: 10px 25px;
+                padding: 5px 25px;
                 z-index: 1;
-                margin-left: 390px;
             }
 
             .btn-update:before {
