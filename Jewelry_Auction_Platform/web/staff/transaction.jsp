@@ -419,7 +419,7 @@
                         </li>
                         <li>
                             <a class="link_names" href="${pageContext.request.contextPath}/cardValidation">
-                                <i class='bx bx-cog'></i> 
+                                <i class='bx bx-credit-card-front'></i> 
                                 <span class="links_name">Card Confirmation</span>
                             </a>
                             <span class="tooltip">Card Confirmation</span>
