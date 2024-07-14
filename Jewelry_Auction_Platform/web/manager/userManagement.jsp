@@ -1,37 +1,35 @@
-<%@page import="entity.product.Jewelry"%>
+<%@page import="entity.user.User"%>
 <%@page import="java.util.List"%>
 <%@page import="dao.UserDAOImpl"%>
 <%@page import="java.time.LocalTime"%>
-<%@page import="com.google.gson.Gson"%> 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<%
-    String greeting = "day!";
-    try {
-        LocalTime now = LocalTime.now();
-        int hour = now.getHour();
-        if (hour < 12) {
-            greeting = "Morning!";
-        } else if (hour < 17) {
-            greeting = "Afternoon!";
-        } else {
-            greeting = "Evening!";
-        }
-    } catch (Exception ex) {
-        ex.printStackTrace(); // Or use a logger to log the exception
-    }
-%>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Manager</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="../staff/asset/finalValuation.css">
-        <title>Create Auction</title>
     </head>
+    <%
+        String greeting = "day!";
+        try {
+            LocalTime now = LocalTime.now();
+            int hour = now.getHour();
+            if (hour < 12) {
+                greeting = "Morning!";
+            } else if (hour < 17) {
+                greeting = "Afternoon!";
+            } else {
+                greeting = "Evening!";
+            }
+        } catch (Exception ex) {
+            ex.getMessage();
+        }
+    %>
     <style>
         /* Sidebar */
         /* Google Font Link */
@@ -484,86 +482,9 @@
             float: left;
             margin-right: 20px;
         }
-        .custom-checkbox {
-            position: absolute;
-            opacity: 0;
-        }
-
-        .checkbox-custom {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #bfbfc0;
-            border-radius: 4px;
-            position: relative;
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-
-        .custom-checkbox:checked + .checkbox-custom::before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(45deg);
-            width: 5px;
-            height: 10px;
-            border: solid #fff;
-            border-width: 0 2px 2px 0;
-            transform-origin: center;
-            animation: checkmark 0.3s ease forwards;
-        }
-
-        @keyframes checkmark {
-            0% {
-                width: 0;
-                height: 0;
-                opacity: 1;
-                transform: translate(-50%, -50%) rotate(45deg);
-            }
-            100% {
-                width: 6px;
-                height: 12px;
-                opacity: 1;
-                transform: translate(-50%, -50%) rotate(45deg);
-            }
-        }
-
-        .custom-checkbox:checked + .checkbox-custom {
-            background-color: #866efb;
-            border-color: #866efb;
-        }
-
-        .custom-checkbox:checked + .checkbox-custom::after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: #fff;
-            animation: ripple 0.4s ease-out forwards;
-        }
-
-        @keyframes ripple {
-            0% {
-                width: 0;
-                height: 0;
-                opacity: 1;
-            }
-            100% {
-                width: 40px;
-                height: 40px;
-                opacity: 0;
-            }
-        }
-
-
-
     </style>
     <body>
-        <div class="container-fluid">     
+        <div class="container-fluid">
             <div class="row">
                 <!-- Sidebar -->
                 <div class="sidebar">
@@ -628,290 +549,243 @@
                         </li>
                     </ul>
                 </div>
-                <!-- Main Content -->
+                <!-- Main content -->
                 <section class="home-section">
                     <main role="main" class="col-span-9 ml-auto col-span-10 px-4">
                         <div class="container mt-4">
                             <br>
-                            <h1 class="heading-main">Create Auction</h1>
+                            <h1 class="heading-main">Manager Control Panel</h1>
                             <h1 class="heading-greeting">Good <%= greeting%>!</h1>
                             <div class="gradient-line"></div>
-                            <%
-                                int currentPage = 1;
-                                int pageSize = 3;
-                                if (request.getParameter("page") != null) {
-                                    currentPage = Integer.parseInt(request.getParameter("page"));
-                                }
+                            <!-- Add User Button -->
+                            <button type="button" class="bg-indigo-400 hover:bg-indigo-700 text-white px-4 py-2 rounded-md mb-4" data-toggle="modal" data-target="#addUserModal">Add User</button>
 
-                                UserDAOImpl dao = new UserDAOImpl();
-                                List<Jewelry> listJewelry = dao.displayConfirmedJewelry(currentPage, pageSize);
-                                int totalItems = dao.getTotalConfirmedJewelryCount();
-                                int totalPages = (int) Math.ceil((double) totalItems / pageSize);
-
-                                if (listJewelry != null && !listJewelry.isEmpty()) {
-                            %>
-                            <form method="POST" action="${pageContext.request.contextPath}/createAuction" onsubmit="updateSelectedJewelryIDs()">
-                                <div class="form-group">
-                                    <label for="auctionDate" class="block text-sm font-medium text-gray-700">Bidding Open </label><br>
-                                    <span class="block text-sm font-medium text-gray-700">from</span>
-                                    <input type="date" id="auctionDate" name="auctionStartDate" class="bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-300 rounded-md py-2 px-3 text-sm mt-1 mb-2 w-full" required>
-                                    <span class="block text-sm font-medium text-gray-700">to</span>
-                                    <input type="date" id="auctionDate" name="auctionEndDate" class="bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-300 rounded-md py-2 px-3 text-sm mt-1 mb-2 w-full" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="timeRange" class="block text-sm font-medium text-gray-700">Live Sale Conclusion on </label>
-                                    <div class="flex">
-                                        <input type="time" id="startTime" name="startTime" class="bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-300 rounded-md py-2 px-3 text-sm mt-1 mb-2 mr-2 w-1/2" required>
-                                        <input type="time" id="endTime" name="endTime" class="bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-300 rounded-md py-2 px-3 text-sm mt-1 mb-2 w-1/2" required>
+                            <!-- Add User Modal -->
+                            <div class="modal fade fixed inset-0 z-50 overflow-auto" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg mx-auto mt-24" role="document">
+                                    <div class="modal-content bg-white shadow-lg rounded-lg">
+                                        <div class="modal-header p-4 rounded-t" style="background-color: #a8a1f7">
+                                            <h5 class="modal-title text-lg text-gray-900" id="addUserModalLabel">Add New User</h5>
+                                            <button type="button" class="close text-gray-700 hover:text-gray-900" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body px-4 py-2">
+                                            <form action="${pageContext.request.contextPath}/addUser" method="POST">
+                                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                                                    <div class="block text-sm font-medium text-gray-700">
+                                                        <label for="username">Username:</label>
+                                                        <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="newUsername" name="newUsername" required>
+                                                    </div>
+                                                    <div>
+                                                        <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
+                                                        <input type="email" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="newEmail" name="newEmail" required>
+                                                    </div>
+                                                    <div>
+                                                        <label for="password" class="block text-sm font-medium text-gray-700">Password:</label>
+                                                        <input type="password" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="newPassword" name="newPassword" required>
+                                                    </div>
+                                                    <div>
+                                                        <label for="role" class="block text-sm font-medium text-gray-700">Role:</label>
+                                                        <select class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="newRoleID" name="newRoleID" required>
+                                                            <option value="Role01">Member</option>
+                                                            <option value="Role02">Staff</option>
+                                                            <option value="Role03">Manager</option>
+                                                            <option value="Role04">Admin</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer px-4 py-3 bg-gray-50 text-right rounded-b">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-success">Add User</button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                                <input type="hidden" id="selectedJewelryIDsInput" name="selectedJewelryIDs">
-                                <div class="form-group">
-                                    <button type="submit" name="action" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Auction</button>
-                                </div>
+                            </div>
 
-                                <div class="table-responsive" style="overflow: hidden">
-                                    <table id="jewelryTable" class="w-full divide-y divide-gray-200 table-auto">
-                                        <thead>
-                                            <tr style="background-color: #a8a1f7">
-                                                <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Select</th>
-                                                <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Photo</th>
-                                                <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Jewelry Name</th>
-                                                <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="bg-white divide-y divide-gray-200">
-                                            <%
-                                                for (Jewelry jewelry : listJewelry) {
-                                            %>
-                                            <tr>
-                                                <td class="py-4 text-center">
-                                                    <label class="inline-flex items-center">
-                                                        <input type="checkbox" name="jewelryID" value="<%= jewelry.getJewelryID()%>" onchange="handleCheckboxChange(this)" class="custom-checkbox">
-                                                        <span class="checkbox-custom"></span>
-                                                    </label>
-                                                </td>
-                                                <td class="py-4">
-                                                    <% String[] photoArray = jewelry.getPhotos().split(";"); %>
-                                                    <img class="img-thumbnail" style="width: 100px; height: 100px" src="${pageContext.request.contextPath}/<%= photoArray[0]%>">
-                                                </td>
-                                                <td class="py-4">
-                                                    <%= jewelry.getJewelryName()%>
-                                                </td>
-                                                <td class="py-4">
-                                                    <button type="button" class="bg-indigo-400 hover:bg-indigo-700 text-white px-4 py-2 rounded-md" onclick='showJewelryDetails(<%= new Gson().toJson(jewelry)%>)'>View Details</button>
-                                                </td>
-                                            </tr>
-                                            <%
-                                                }
-                                            %>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="pagination" style="display: none">
-                                    <% if (currentPage > 1) {%>
-                                    <a href="javascript:goToPage(<%= currentPage - 1%>)">Previous</a>
+                            <%
+                                List<User> listUser = (List<User>) request.getAttribute("USERLIST");
+                                if (listUser != null && !listUser.isEmpty()) {
+                            %>
+                            <div class="table-responsive" style="overflow: hidden">
+                                <table id="approvalTable" class="w-full divide-y divide-gray-200 table-auto">
+                                    <thead>
+                                        <tr style="background-color: #a8a1f7">
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Username</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Email</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Password</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Role</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Joined Date</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        <% for (User user : listUser) {%>
+                                        <tr>
+                                            <td class="px-6 py-4 text-sm text-gray-900"><%= user.getUsername()%></td>
+                                            <td class="px-6 py-4 text-sm text-gray-900"><%= user.getEmail()%></td>
+                                            <td class="px-6 py-4 text-sm text-gray-900"><%= user.getPassword()%></td>
+<!--                                            <td class="px-6 py-4 text-sm text-gray-900"><%= user.getRoleID()%></td>-->
+                                            <td class="px-6 py-4 text-sm text-gray-900">
+                                                <%
+                                                    String role;
+                                                    switch (user.getRoleID()) {
+                                                        case "Role01":
+                                                            role = "Member";
+                                                            break;
+                                                        case "Role02":
+                                                            role = "Staff";
+                                                            break;
+                                                        case "Role03":
+                                                            role = "Manager";
+                                                            break;
+                                                        case "Role04":
+                                                            role = "Admin";
+                                                            break;
+                                                        default:
+                                                            role = "Unknown";
+                                                    }
+                                                %>
+                                                <%= role%>
+                                            </td>
+                                            <td class="px-6 py-4 text-sm text-gray-900"><%= user.getJoined_at()%></td>
+                                            <td class="px-6 py-4 flex items-center space-x-2">
+                                                <input type="hidden" name="jewelryID" value="<%= user.getUserID()%>">
+                                                <button type="button" class="bg-indigo-400 hover:bg-indigo-700 text-white px-4 py-2 rounded-md" data-toggle="modal" data-target="#userModal<%= user.getUserID()%>">Update</button>
+                                                <form action="${pageContext.request.contextPath}/deleteUser" method="POST" onsubmit="confirmDelete(event)">
+                                                    <input type="hidden" name="userID" value="<%= user.getUserID()%>">
+                                                    <button type="submit" name="action" value="Delete" class="text-white bg-green-500 hover:bg-green-600 px-4 py-2 rounded-md">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        <!-- Update Modal -->
+                                    <div class="modal fade fixed inset-0 z-50 overflow-auto" id="userModal<%= user.getUserID()%>" tabindex="-1" aria-labelledby="exampleModalLabel<%= user.getUserID()%>" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg mx-auto mt-24" role="document">
+                                            <div class="modal-content bg-white shadow-lg rounded-lg">
+                                                <form action="${pageContext.request.contextPath}/updateUser" method="POST" onsubmit="confirmUpdate(event)">
+                                                    <div class="modal-header p-4 rounded-t" style="background-color: #a8a1f7">
+                                                        <h5 class="modal-title text-lg text-gray-900" id="exampleModalLabel<%= user.getUserID()%>"><%= user.getUsername()%></h5>
+                                                        <button type="button" class="close text-gray-700 hover:text-gray-900" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body px-4 py-2">
+                                                        <div class="row">
+                                                            <!-- Include hidden field for User ID -->
+                                                            <input type="hidden" name="userID" value="<%= user.getUserID()%>">
+                                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                                                                <div class="block text-sm font-medium text-gray-700">
+                                                                    <label for="username<%= user.getUserID()%>">Username:</label>
+                                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="username<%= user.getUserID()%>" name="username" value="<%= user.getUsername()%>">
+                                                                </div>
+                                                                <div>
+                                                                    <label for="email<%= user.getUserID()%>" class="block text-sm font-medium text-gray-700">Email:</label>
+                                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="email<%= user.getUserID()%>" name="email" value="<%= user.getEmail()%>">
+                                                                </div>
+                                                                <div>
+                                                                    <label for="password<%= user.getUserID()%>" class="block text-sm font-medium text-gray-700">Password:</label>
+                                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="password<%= user.getUserID()%>" name="password" value="<%= user.getPassword()%>">
+                                                                </div>
+                                                                <div>
+                                                                    <label for="role<%= user.getUserID()%>" class="block text-sm font-medium text-gray-700">Role:</label>
+<!--                                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="roleID<%= user.getUserID()%>" name="roleID" value="<%= user.getRoleID()%>">-->
+                                                                    <select class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="roleID<%= user.getUserID()%>" name="roleID" value="<%= user.getRoleID()%>">
+                                                                        <option value="Role01">Member</option>
+                                                                        <option value="Role02">Staff</option>
+                                                                        <option value="Role03">Manager</option>
+                                                                        <option value="Role04">Admin</option>
+                                                                    </select>
+                                                                </div>
+
+                                                                <div>
+                                                                    <label for="joined_at<%= user.getUserID()%>" class="block text-sm font-medium text-gray-700">Joined Date:</label>
+<!--                                                                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm text-gray-900" id="joined_at<%= user.getUserID()%>" name="joined_at" value="<%= user.getJoined_at()%>" readonly>-->
+                                                                    <div class="mt-1 block w-full text-black">
+                                                                        <%= user.getJoined_at()%>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer px-4 py-3 bg-gray-50 text-right rounded-b">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" name="action" value="Update" class="btn btn-success">Update</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <% } %>
-                                    <% for (int i = 1; i <= totalPages; i++) { %>
-                                    <% if (i == currentPage) {%>
-                                    <a href="javascript:void(0)" class="active"><%= i%></a>
-                                    <% } else {%>
-                                    <a href="javascript:goToPage(<%= i%>)"><%= i%></a>
-                                    <% } %>
-                                    <% } %>
-                                    <% if (currentPage < totalPages) {%>
-                                    <a href="javascript:goToPage(<%= currentPage + 1%>)">Next</a>
-                                    <% } %>
-                                </div>
-                            </form>
-                        </div>
-                        <% } else { %>
-                        <p class="text-center text-gray-600 mt-8 py-4 bg-gray-100 border border-gray-200 rounded-md shadow-md">No jewelry found.</p>
-                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <% } else { %>
+                            <p class="text-center text-gray-600 mt-8 py-4 bg-gray-100 border border-gray-200 rounded-md shadow-md">No users found.</p>
+                            <% }%>
                         </div>
                     </main>
                 </section>
+
             </div>
         </div>
-        <!-- Modal -->
-        <div class="modal fade fixed inset-0 z-50 overflow-auto" id="jewelryModal" tabindex="-1" aria-labelledby="jewelryModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg mx-auto mt-24">
-                <div class="modal-content bg-white shadow-lg rounded-lg">
-                    <div class="modal-header p-4 rounded-t" style="background-color: #a8a1f7">
-                        <h5 class="modal-title text-lg text-gray-900" id="jewelryModalLabel">Jewelry Details</h5>
-                    </div>
-                    <div class="modal-body px-4 py-2">
-                        <div class="grid grid-cols-2 gap-x-4 gap-y-2">
-                            <div class="mb-2">
-                                <p class="font-bold">Name:</p>
-                                <p id="modalJewelryName"></p>
-                            </div>
-                            <div class="mb-2">
-                                <p class="font-bold">Artist:</p>
-                                <p id="modalArtist"></p>
-                            </div>
-                            <div class="mb-2">
-                                <p class="font-bold">Circa:</p>
-                                <p id="modalCirca"></p>
-                            </div>
-                            <div class="mb-2">
-                                <p class="font-bold">Material:</p>
-                                <p id="modalMaterial"></p>
-                            </div>
-                            <div class="mb-2">
-                                <p class="font-bold">Dial:</p>
-                                <p id="modalDial"></p>
-                            </div>
-                            <div class="mb-2">
-                                <p class="font-bold">Bracelet Material:</p>
-                                <p id="modalBraceletMaterial"></p>
-                            </div>
-                            <div class="mb-2">
-                                <p class="font-bold">Case Dimensions:</p>
-                                <p id="modalCaseDimensions"></p>
-                            </div>
-                            <div class="mb-2">
-                                <p class="font-bold">Bracelet Size:</p>
-                                <p id="modalBraceletSize"></p>
-                            </div>
-                            <div class="mb-2">
-                                <p class="font-bold">Serial Number:</p>
-                                <p id="modalSerialNumber"></p>
-                            </div>
-                            <div class="mb-2">
-                                <p class="font-bold">Reference Number:</p>
-                                <p id="modalReferenceNumber"></p>
-                            </div>
-                            <div class="mb-2">
-                                <p class="font-bold">Caliber:</p>
-                                <p id="modalCaliber"></p>
-                            </div>
-                            <div class="mb-2">
-                                <p class="font-bold">Movement:</p>
-                                <p id="modalMovement"></p>
-                            </div>
-                            <div class="mb-2">
-                                <p class="font-bold">Condition:</p>
-                                <p id="modalCondition"></p>
-                            </div>
-                            <div class="mb-2">
-                                <p class="font-bold">Metal:</p>
-                                <p id="modalMetal"></p>
-                            </div>
-                            <div class="mb-2">
-                                <p class="font-bold">Gemstones:</p>
-                                <p id="modalGemstones"></p>
-                            </div>
-                            <div class="mb-2">
-                                <p class="font-bold">Measurements:</p>
-                                <p id="modalMeasurements"></p>
-                            </div>
-                            <div class="mb-2">
-                                <p class="font-bold">Weight:</p>
-                                <p id="modalWeight"></p>
-                            </div>
-                            <div class="mb-2">
-                                <p class="font-bold">Stamped:</p>
-                                <p id="modalStamped"></p>
-                            </div>
-                            <div class="mb-2">
-                                <p class="font-bold">Ring Size:</p>
-                                <p id="modalRingSize"></p>
-                            </div>
-                            <div class="mb-2">
-                                <p class="font-bold">Min Price:</p>
-                                <p id="modalMinPrice"></p>
-                            </div>
-                            <div class="mb-2">
-                                <p class="font-bold">Max Price:</p>
-                                <p id="modalMaxPrice"></p>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="modal-footer px-4 py-3 bg-gray-50 text-right rounded-b">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<script src="asset/createAuction.js"></script>
-<script>
-                                            function showJewelryDetails(jewelry) {
-                                                $('#modalJewelryName').text(jewelry.jewelryName);
-                                                $('#modalArtist').text(jewelry.artist);
-                                                $('#modalCirca').text(jewelry.circa);
-                                                $('#modalMaterial').text(jewelry.material);
-                                                $('#modalDial').text(jewelry.dial);
-                                                $('#modalBraceletMaterial').text(jewelry.braceletMaterial);
-                                                $('#modalCaseDimensions').text(jewelry.caseDimensions);
-                                                $('#modalBraceletSize').text(jewelry.braceletSize);
-                                                $('#modalSerialNumber').text(jewelry.serialNumber);
-                                                $('#modalReferenceNumber').text(jewelry.referenceNumber);
-                                                $('#modalCaliber').text(jewelry.caliber);
-                                                $('#modalMovement').text(jewelry.movement);
-                                                $('#modalCondition').text(jewelry.condition);
-                                                $('#modalMetal').text(jewelry.metal);
-                                                $('#modalGemstones').text(jewelry.gemstones);
-                                                $('#modalMeasurements').text(jewelry.measurements);
-                                                $('#modalWeight').text(jewelry.weight);
-                                                $('#modalStamped').text(jewelry.stamped);
-                                                $('#modalRingSize').text(jewelry.ringSize);
-                                                $('#modalMinPrice').text(jewelry.minPrice);
-                                                $('#modalMaxPrice').text(jewelry.maxPrice);
-                                                $('#jewelryModal').modal('show');
-                                            }
-</script>
-<script>
-    $(document).ready(function () {
-        $('#jewelryTable').DataTable({
-            "lengthChange": false,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "pageLength": 10
-        });
-    });
-
-    function goToPage(pageNumber) {
-        const urlParams = new URLSearchParams(window.location.search);
-        urlParams.set('page', pageNumber);
-        window.location.search = urlParams.toString();
-    }
-
-    function updateSelectedJewelryIDs() {
-        const checkboxes = document.querySelectorAll('input[name="jewelryID"]:checked');
-        const selectedIDs = Array.from(checkboxes).map(cb => cb.value);
-        document.getElementById('selectedJewelryIDsInput').value = selectedIDs.join(',');
-    }
-    let sidebar = document.querySelector(".sidebar");
-    let closeBtn = document.querySelector("#btn");
-    let searchBtn = document.querySelector(".bx-search");
-    closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();//calling the function(optional)
-    });
-    searchBtn.addEventListener("click", () => { // Sidebar open when you click on the search iocn
-        sidebar.classList.toggle("open");
-        menuBtnChange(); //calling the function(optional)
-    });
-    // following are the code to change sidebar button(optional)
-    function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-            closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the iocns class
-        } else {
-            closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");//replacing the iocns class
-        }
-    }
-</script>
-</body>
+        <!-- Scripts -->
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script>
+                                                    function confirmLogout(event) {
+                                                        if (!confirm("Are you sure you want to log out?")) {
+                                                            event.preventDefault();
+                                                        }
+                                                    }
+                                                    function confirmAuction(event) {
+                                                        if (!confirm("Do you confirm approving this bid?")) {
+                                                            event.preventDefault();
+                                                        }
+                                                    }
+                                                    $(document).ready(function () {
+                                                        $('[data-toggle="modal"]').on('click', function () {
+                                                            var targetModal = $(this).data('target');
+                                                            $(targetModal).modal('show');
+                                                        });
+                                                    });
+                                                    let sidebar = document.querySelector(".sidebar");
+                                                    let closeBtn = document.querySelector("#btn");
+                                                    let searchBtn = document.querySelector(".bx-search");
+                                                    closeBtn.addEventListener("click", () => {
+                                                        sidebar.classList.toggle("open");
+                                                        menuBtnChange();//calling the function(optional)
+                                                    });
+                                                    searchBtn.addEventListener("click", () => { // Sidebar open when you click on the search iocn
+                                                        sidebar.classList.toggle("open");
+                                                        menuBtnChange(); //calling the function(optional)
+                                                    });
+                                                    // following are the code to change sidebar button(optional)
+                                                    function menuBtnChange() {
+                                                        if (sidebar.classList.contains("open")) {
+                                                            closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the iocns class
+                                                        } else {
+                                                            closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");//replacing the iocns class
+                                                        }
+                                                    }
+                                                    $(document).ready(function () {
+                                                        // Initialize DataTable with search and pagination
+                                                        $('#approvalTable').DataTable({
+                                                            "paging": true,
+                                                            "lengthChange": false,
+                                                            "searching": true,
+                                                            "ordering": true,
+                                                            "info": true,
+                                                            "autoWidth": false,
+                                                            "pageLength": 10
+                                                        });
+                                                    });
+        </script>
+    </body>
 </html>

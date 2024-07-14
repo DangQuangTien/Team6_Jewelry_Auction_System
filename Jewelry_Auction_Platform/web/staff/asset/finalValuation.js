@@ -1,4 +1,16 @@
 
+function confirmUpdate(event) {
+    if (!confirm("Are you sure you want to update user information?")) {
+        event.preventDefault();
+    }
+}
+
+
+function confirmDelete(event) {
+    if (!confirm("Are you sure you want to delete this user?")) {
+        event.preventDefault();
+    }
+}
 function toggleApprovalTable() {
     var table = document.getElementById("approvalTable");
     if (table.style.display === "none" || table.style.display === "") {
