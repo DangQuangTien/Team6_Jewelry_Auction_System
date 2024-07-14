@@ -19,10 +19,16 @@
             font-family: Arial, sans-serif;
         }
 
-        .container {
+        #cardImage {
+        display: none; /* Hide initially */
+    }
+
+        .container-fluid {
             background-color: white;
             padding: 30px;
+            max-width: 1500px;
             border-radius: 8px;
+            margin-bottom: 50px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
@@ -152,14 +158,14 @@
             <a style="text-decoration: none;"href="#">CONTACT</a>
         </nav>       
         <!-- END OF HEADER -->
-        <div class="container mt-5">
-            <h2 class="text-center">Bidder Registration</h2>
-            <h3 class="text-center">FINE JEWELS & WATCHES</h3>
-            <p class="text-center">JUN 3, 2024 AT 12 PM EDT - HO CHI MINH, HCM</p>
+        <div class="container-fluid mt-5">
+            <h1 class="text-center" style="font-weight: 600;">Bidder Registration</h1>
+            <h3 class="text-center">F'RANKELLY - FINE JEWELS & WATCHES</h3>
+            <p id="datetime" class="text-center"> - HO CHI MINH, HCM</p>
             <form action="${pageContext.request.contextPath}/registerbid" id="registrationForm" method="POST" class="row needs-validation" novalidate>
                 <div class="col-md-6">
                     <div class="form-section mb-4">
-                        <h4>USER INFORMATION</h4>
+                        <h4 style="font-weight: bold;">USER INFORMATION</h4>
                         <div class="form-group">
                             <label for="firstName">First Name *</label>
                             <input type="text" class="form-control" id="firstName" name="firstName" value="${member.firstName}" required>
@@ -182,7 +188,7 @@
                         </div>
                     </div>
                     <div class="form-section mb-4">
-                        <h4>SHIPPING ADDRESS</h4>
+                        <h4 style="font-weight: bold;">SHIPPING ADDRESS</h4>
                         <div class="form-group">
                             <label for="country">Country *</label>
                             <input type="text" class="form-control" id="country" name="country" required>
@@ -217,7 +223,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-section mb-4">
-                        <h4>CREDIT CARD</h4>
+                        <h4 style="font-weight: bold;">CREDIT CARD</h4>
                         <p>Note: Your credit card will be authorized for $1 for verification purposes. This authorization may appear as a charge and immediate refund in your account by your bank.</p>
                         <font color=#000000>IMPORTANT: Winning bidders will be charged a Buyer's Premium IN ADDITION to their winning bid (the Buyer's Premium is not included in the online bid value).</font>
                         <p>Buyer's Premiums are as follows:</p>
@@ -230,32 +236,24 @@
                         <p>IMPORTANT: Please note that bids, once placed, cannot be retracted or reduced. Kindly refer to our Terms and Conditions for full details.</p>
                         <div class="form-group">
                             <label for="cardHolderName">Card Holder Name *</label>
-                            <input type="text" class="form-control" id="cardHolderName" name="cardHolderName"  value="${member.firstName} ${member.lastName}" required/>
+                            <input type="text" class="form-control" id="cardHolderName" name="cardHolderName" value="${member.firstName} ${member.lastName}" required/>
                             <div class="invalid-feedback">Card holder name is required.</div>
                         </div>
                         <div class="form-group">
                             <label for="cardNumber">Credit Card Number *</label>
-                            <input type="text" class="form-control" id="cardNumber" name="cardNumber" required>
+                            <input type="text" style="margin-bottom: 5px;" class="form-control" id="cardNumber" name="cardNumber" maxlength="19" required>
                             <div class="invalid-feedback" id="cardNumberFeedback">Credit card number is required.</div>
+                            <small id="cardType" style="margin-top: 5px;"></small> <!-- Display card type -->
+                            <img id="cardImage" src="" alt="Card Image" width="93" height="68" style="margin-top: 5px;"> <!-- Placeholder for card type image -->
                         </div>
                         <div class="form-group">
                             <label for="cvv">CVV Code *</label>
                             <input type="text" class="form-control" id="cvv" name="cvv" maxlength="3" required>
                             <div class="invalid-feedback">CVV code is required.</div>
                         </div>
-
                         <div class="form-group">
                             <label for="expiryDate">Expiry Date *</label>
                             <div class="form-row">
-                                <div class="col">
-                                    <select class="form-control" id="expiryDay" name="expiryDay" required>
-                                        <option value="">Day</option>
-                                        <% for (int i = 1; i <= 31; i++) {%>
-                                        <option value="<%= i%>"><%= i%></option>
-                                        <% }%>
-                                    </select>
-                                    <div class="invalid-feedback">Expiry day is required.</div>
-                                </div>
                                 <div class="col">
                                     <select class="form-control" id="expiryMonth" name="expiryMonth" required>
                                         <option value="">Month</option>
@@ -280,7 +278,7 @@
 
                     </div>
                     <div class="form-section mb-4">
-                        <h4>BILLING ADDRESS</h4>
+                        <h4 style="font-weight: bold;">BILLING ADDRESS</h4>
                         <div class="form-check mb-2">
                             <input type="checkbox" class="form-check-input" id="sameAsShipping" name="sameAsShipping" checked>
                             <label class="form-check-label" for="sameAsShipping">Same as Shipping Address</label>
@@ -382,6 +380,118 @@
                     document.getElementById('billingZip').required = true;
                 }
             });
+             // Function to update date and time dynamically
+  function updateDateTime() {
+    // Get current date and time
+    let now = new Date();
+    let dateOptions = { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
+    let formattedDate = now.toLocaleDateString('en-US', dateOptions);
+    
+    // Update the HTML element with id="datetime"
+    document.getElementById('datetime').textContent = formattedDate + ' - HO CHI MINH, HCM';
+  }
+
+  // Call the function initially to set the initial date and time
+  updateDateTime();
+
+  // Update every minute (60000 milliseconds)
+  setInterval(updateDateTime, 60000);
+
+  // Function to format credit card number with spaces
+  function formatCreditCardNumber(value) {
+        // Remove non-numeric characters
+        let formattedValue = value.replace(/\D/g, '');
+        
+        // Apply formatting (add spaces every 4 digits)
+        formattedValue = formattedValue.replace(/(\d{4})(?=\d)/g, '$1 ');
+        
+        return formattedValue;
+    }
+
+    // Function to validate credit card number
+    function validateCreditCardNumber(value) {
+        // Remove spaces and non-numeric characters
+        let cardNumber = value.replace(/\s+/g, '');
+        
+        // Validate length and format
+        if (cardNumber.length !== 16 || !/^\d+$/.test(cardNumber)) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    
+
+    function getCardType(cardNumber) {
+    // Define card types and their patterns
+    const cardTypes = {
+        'Visa': { pattern: /^4/, image: 'visa.png' },
+        'MasterCard': { pattern: /^5[1-5]/, image: 'mastercard.png' },
+        'American Express': { pattern: /^3[47]/, image: 'amex.png' }
+    };
+
+    // Check each card type pattern
+    for (const [cardName, { pattern, image }] of Object.entries(cardTypes)) {
+        if (pattern.test(cardNumber)) {
+            return { type: cardName, image: `images/${image}` }; // Adjust image path here
+        }
+    }
+
+    // If no match found, return card type not supported
+    return { 
+        type: 'Not supported. Supported types are: Visa, MasterCard, and American Express',
+        image: 'https://i.pinimg.com/736x/7c/cb/01/7ccb010d8fddc4bcd84587ef3c34d100.jpg' 
+    };
+}
+
+function updateCardImage(cardType) {
+    let cardImage = document.getElementById('cardImage');
+    let imageSrc = '';
+
+    if (cardType.image) {
+        imageSrc = cardType.image;
+        cardImage.innerHTML = `<img src="${imageSrc}" alt="${cardType.type.toUpperCase()} Card" class="card-type-image">`;
+        cardImage.style.display = 'block'; // Display the image container
+    } else {
+        cardImage.innerHTML = ''; // Clear any existing image HTML
+        cardImage.style.display = 'none'; // Hide the image container
+    }
+
+    cardImage.alt = `${cardType.type.toUpperCase()} Card`;
+}
+
+
+    // Event listener for input change on credit card number field
+document.getElementById('cardNumber').addEventListener('input', function() {
+    let input = this.value;
+    let formattedInput = formatCreditCardNumber(input);
+    this.value = formattedInput;
+
+    // Determine card type
+    let cardType = getCardType(input.replace(/\s/g, '').substring(0, 2)); // Check first two digits for card type
+
+    if (cardType) {
+        document.getElementById('cardType').textContent = `CARD TYPE: ${cardType.type.toUpperCase()}`;
+        document.getElementById('cardImage').src = cardType.image;
+        document.getElementById('cardImage').alt = `${cardType.type} Image`;
+        document.getElementById('cardImage').style.display = 'block'; // Display the image
+    } else {
+        document.getElementById('cardType').textContent = ''; // Clear card type text if not supported
+        document.getElementById('cardImage').src = ''; // Clear image src
+        document.getElementById('cardImage').style.display = 'none'; // Hide the image
+    }
+
+    // Validate credit card number
+    let isValid = validateCreditCardNumber(input.replace(/\s/g, ''));
+    if (!isValid) {
+        document.getElementById('cardNumber').classList.add('is-invalid');
+        document.getElementById('cardNumberFeedback').style.display = 'block';
+    } else {
+        document.getElementById('cardNumber').classList.remove('is-invalid');
+        document.getElementById('cardNumberFeedback').style.display = 'none';
+    }
+});
         </script>
     </body>
 </html>
