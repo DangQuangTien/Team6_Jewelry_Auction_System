@@ -520,7 +520,7 @@
                 }, 1000); // Update every second
             }
 
-            const duration = 90000 / 1000;
+            const duration = 900000 / 1000;
             startCountdown(duration);
         </script>
         <script>
@@ -703,7 +703,7 @@
                                     // After all items are sent, redirect to another page after 30000 milliseconds
                                     window.location.href = `${pageContext.request.contextPath}/auction?auctionID=<%= request.getParameter("auctionID")%>`;
                                                             }
-                                                        }, 90000);
+                                                        }, 6000);
                                                     }
                                                 }
 

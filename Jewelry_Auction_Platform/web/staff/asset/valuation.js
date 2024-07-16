@@ -39,44 +39,26 @@ function showFormFields() {
     }
 }
 
-function confirmValuation(event) {
-    event.preventDefault(); // Prevent default form submission initially
-
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "Are you certain you want to send this appraisal?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, send it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Proceed with form submission
-            document.getElementById('valuationForm').submit(); // Submit the form
-        } else {
-            // If not confirmed, you may choose to do something here, like show another message or just return
-        }
-    });
+function confirmLogout(event) {
+    if (!confirm('Are you sure you want to log out?')) {
+        event.preventDefault();
+    }
 }
+
+function confirmValuation(event) {
+    if (!confirm('Are you sure you want to submit this valuation?')) {
+        event.preventDefault();
+    }
+}
+
 function cancelValuation() {
     window.history.back();
 }
 
 function confirmValuation(event) {
-    event.preventDefault(); // Prevent default form submission initially
-
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "Are you certain you want to send this appraisal?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, send it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Proceed with form submission
-            document.getElementById('valuationForm').submit(); // Submit the form
-        } else {
-            // If not confirmed, you may choose to do something here, like show another message or just return
-        }
-    });
+    if (!confirm("Are you certain you want to send this appraisal?")) {
+        event.preventDefault();
+    }
 }
+
 

@@ -1,3 +1,14 @@
+function confirmLogout(event) {
+    if (!confirm("Are you sure you want to log out?")) {
+        event.preventDefault();
+    }
+}
+
+function confirmAuction(event) {
+    if (!confirm("Are you sure you want to send the final valuation?")) {
+        event.preventDefault();
+    }
+}
 
 function confirmUpdate(event) {
     if (!confirm("Are you sure you want to update user information?")) {
@@ -20,21 +31,14 @@ function toggleApprovalTable() {
     }
 }
 
-
 function confirmAuction(event) {
-    event.preventDefault(); // Prevent form submission initially
+    if (!confirm('Are you sure you want to send this final price?')) {
+        event.preventDefault();
+    }
+}
 
-    Swal.fire({
-        title: 'Confirmation',
-        html: 'Are you sure you want to send the final price?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, send it!',
-        cancelButtonText: 'No'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Manually submit the form if confirmed
-            event.target.submit();
-        }
-    });
+function confirmLogout(event) {
+    if (!confirm('Are you sure you want to log out?')) {
+        event.preventDefault();
+    }
 }

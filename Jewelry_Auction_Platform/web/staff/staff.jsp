@@ -501,7 +501,7 @@
                             <span class="tooltip" style=>Search</span>
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/staff">
+                            <a href="${pageContext.request.contextPath}/statistic">
                                 <i class='bx bx-grid-alt'></i> 
                                 <span class="links_name">Dashboard</span>
                             </a>
@@ -529,25 +529,18 @@
                             <span class="tooltip">Approval Request</span>
                         </li>
                         <li>
-                            <a class="link_names" href="${pageContext.request.contextPath}/cardValidation">
-                                <i class='bx bx-credit-card-front'></i> 
-                                <span class="links_name">Card Confirmation</span>
-                            </a>
-                            <span class="tooltip">Card Confirmation</span>
-                        </li>
-                        <li>
                             <a class="link_names" href="${pageContext.request.contextPath}/transaction">
-                                <i class='bx bx-credit-card'></i> 
-                                <span class="links_name">Transaction List</span>
+                                <i class='bx bx-history'></i> 
+                                <span class="links_name">Transaction History</span>
                             </a>
-                            <span class="tooltip">Transaction List</span>
+                            <span class="tooltip">Transaction History</span>
                         </li>
                         <li>
                         <a class="link_names" href="${pageContext.request.contextPath}/all-done-transaction">
-                            <i class='bx bx-history'></i> 
+                            <i class='bx bxs-analyse'></i> 
                             <span class="links_name">Transaction History</span>
                         </a>
-                        <span class="tooltip">Transaction History</span>
+                        <span class="tooltip">All Transaction</span>
                     </li>
                         <li class="profile">
                             <div class="profile-details">
@@ -564,7 +557,7 @@
                         </li>
                     </ul>
                 </div>
-
+                
                 <!-- Main content area -->
                 <section class="home-section">
                     <main role="main" class="col-span-9 ml-auto col-span-10 px-4">
