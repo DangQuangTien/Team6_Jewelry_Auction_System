@@ -582,3 +582,10 @@ FROM Register_Bid r, Session s where r.sessionID = s.sessionID and s.jewelryID =
 
 
 select * from Users
+select * from Member
+select j.jewelryName, v.memberId from Jewelry j, RequestValuation v where j.valuationId = v.valuationId
+SELECT 1 FROM Jewelry j JOIN RequestValuation rv ON j.valuationId = rv.valuationId WHERE j.jewelryID = 'Lot58' AND rv.memberId = 'Member9'
+
+select * from Jewelry
+select r.memberId from RequestValuation r, Jewelry j where r.valuationId = j.valuationId
+select * 

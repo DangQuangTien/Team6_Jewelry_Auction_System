@@ -75,7 +75,11 @@ public class BiddingRoomServerEndpoint {
     }
 
     private void handleValidSession(Session session, String jewelryID, String bid, String memberID, String auctionID) throws SQLException {
-        if(!dao.checkBidderMatchSeller(jewelryID, memberID)){
+        boolean isOwnedByMember = dao.isJewelryOwnedByMember(jewelryID, memberID);
+        if (isOwnedByMember) {
+            sendMessageToClient(session, "You cannot place a bid on your own jewelry!");
+            return;
+        }
         Double theHighestBid = dao.getTheHighestBid(jewelryID);
         Double bidCurrent = Double.parseDouble(bid);
         if (bidCurrent > theHighestBid) {
@@ -85,7 +89,7 @@ public class BiddingRoomServerEndpoint {
                 dao.saveBid(bid, jewelryID, memberID);
             }
             sendMessageToClient(session, "You are winning with $" + bidCurrent);
-             String bidMessage = createBidMessage(bid); 
+            String bidMessage = createBidMessage(bid);
             broadcastBid(auctionID, bidMessage);
         } else {
             sendMessageToClient(session, "Your bid must be higher than the current highest bid: $" + theHighestBid);

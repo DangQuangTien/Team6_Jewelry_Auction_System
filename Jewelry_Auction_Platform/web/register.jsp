@@ -133,10 +133,10 @@
             margin-right: 10px;
         }
         .gender-container label:first-child {
-            margin-left: 10px; /* ?? t?o kho?ng c·ch t? ??u */
+            margin-left: 10px; /* ?? t?o kho?ng c√°ch t? ??u */
         }
         .gender-container label:last-child {
-            margin-right: 0; /* ?? lo?i b? kho?ng c·ch ? label cu?i c˘ng */
+            margin-right: 0; /* ?? lo?i b? kho?ng c√°ch ? label cu?i c√πng */
         }
     </style>
     <script>

@@ -15,7 +15,7 @@ import entity.valuation.Valuation;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.math.BigDecimal;
 /**
  * UserDao Interface
  */
@@ -101,6 +101,8 @@ public interface UserDao {
 
     boolean checkAvailableSession(String jewelryID);
 
+    boolean isJewelryOwnedByMember(String jewelryID, String memberID);
+            
     boolean placeBid(String preBid_Amount, String jewelryID, String memberID);
 
     boolean editBid(String preBid_Amount, String jewelryID, String memberID);
@@ -159,4 +161,17 @@ public interface UserDao {
     boolean confirmPayment(String jewelryID);
 
     void updateSoldAmount(String jewelryID);
+    
+     //----------------------------
+    List<CreditCard> displayAllRegisteringCard();
+    
+    List<User> displayAllActiveUserForManager();
+    
+    boolean addUserForManager(String username, String email, String password, String roleID);
+    
+    boolean updateUserForManager(String userID, String username, String email, String password, String roleID);
+    
+    boolean deleteUserForManager(String userID);
+    
+    boolean checkBidderMatchSeller(String jewelryID, String memberID);
 }

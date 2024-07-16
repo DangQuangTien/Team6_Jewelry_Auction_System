@@ -33,22 +33,20 @@ public class PlaceBidController extends HttpServlet {
                 String jewelryID = request.getParameter("jewelryID");
 
                 if (preBidAmount != null && auctionID != null && jewelryID != null) {
-                    if (dao.checkBidderMatchSeller(jewelryID, member.getMemberID())) {
-                        String message = "User cannot participate bidding for items they put on auction.";
-                        request.setAttribute("PLACEDBIDSTATUS", message);
-                    } else {
-                        try {
+                    try {
+                        boolean isJewelryOwnedByMember = dao.isJewelryOwnedByMember(jewelryID, member.getMemberID());
+                        if (isJewelryOwnedByMember) {
+                            String message = "You cannot place a bid on your own jewelry!";
+                            request.setAttribute("PLACEDBIDSTATUS", message);
+                        } else {
                             boolean check = dao.placeBid(preBidAmount, jewelryID, member.getMemberID());
                             if (!check) {
-                                String message = "You have placed this jewelry";
+                                String message = "Failed to place a bid. Please try again.";
                                 request.setAttribute("PLACEDBIDSTATUS", message);
                             } else {
-                                String message = "PLACED BID SUCCESSFULLY!";
+                                String message = "Placed bid successfully!";
                                 request.setAttribute("PLACEDBIDSTATUS", message);
                             }
-                            url = AUCTION_PAGE + auctionID;
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
                         }
                     }
                 } else {

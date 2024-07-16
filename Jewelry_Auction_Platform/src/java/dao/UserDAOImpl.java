@@ -559,7 +559,7 @@ public class UserDAOImpl implements UserDao {
 
     @Override
     public boolean rejectToAuction(String jewelryID) {
-        String query = "Update Jewelry Set [status] = 'Re-Evaluated' Where jewelryID = ?";
+        String query = "Update Jewelry Set [status] = 'Received' Where jewelryID = ?";
         try {
             conn = DBUtils.getConnection();
             ps = conn.prepareStatement(query);
@@ -1145,6 +1145,23 @@ public class UserDAOImpl implements UserDao {
         }
         return null;
     }
+  
+    @Override
+    public boolean isJewelryOwnedByMember(String jewelryID, String memberID) {
+        String checkJewelryOwnership = "SELECT 1 FROM Jewelry j JOIN RequestValuation rv ON j.valuationId = rv.valuationId WHERE j.jewelryID = ? AND rv.memberId = ?";
+
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement psCheckOwnership = conn.prepareStatement(checkJewelryOwnership)) {
+
+            psCheckOwnership.setString(1, jewelryID);
+            psCheckOwnership.setString(2, memberID);
+            try ( ResultSet rsCheckOwnership = psCheckOwnership.executeQuery()) {
+                return rsCheckOwnership.next();
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
 
     @Override
     public boolean placeBid(String preBid_Amount, String jewelryID, String memberID) {
@@ -1173,6 +1190,7 @@ public class UserDAOImpl implements UserDao {
         }
         return false;
     }
+
 
     @Override
     public boolean editBid(String preBid_Amount, String jewelryID, String memberID) {
@@ -1388,6 +1406,7 @@ public class UserDAOImpl implements UserDao {
         return false;
     }
 
+
     @Override
     public boolean closeSession(String jewelryID) {
         String query = "UPDATE  SESSION SET STATUS = 1 WHERE JEWELRYID = ?";
@@ -1431,7 +1450,8 @@ public class UserDAOImpl implements UserDao {
                 + "LEFT JOIN \n"
                 + "    MaxPreBid MP ON J.jewelryID = MP.jewelryID\n"
                 + "WHERE \n"
-                + "    AUC.AUCTIONID = ? and S.Status = 0";
+                + "    AUC.AUCTIONID = ? AND S.Status = 0";
+
         List<Jewelry> listJewelry = new ArrayList<>();
         try {
             conn = DBUtils.getConnection();
@@ -1444,6 +1464,30 @@ public class UserDAOImpl implements UserDao {
                 jewelry.setPhotos(rs.getString("photos"));
                 jewelry.setJewelryName(rs.getString("jewelryName"));
                 jewelry.setCurrentBid(rs.getDouble("max_preBid_Amount"));
+                jewelry.setCategoryName(rs.getString("CATEGORYNAME"));
+                jewelry.setArtist(rs.getString("artist"));
+                jewelry.setCirca(rs.getString("circa"));
+                jewelry.setMaterial(rs.getString("material"));
+                jewelry.setDial(rs.getString("dial"));
+                jewelry.setBraceletMaterial(rs.getString("braceletMaterial"));
+                jewelry.setCaseDimensions(rs.getString("caseDimensions"));
+                jewelry.setBraceletSize(rs.getString("braceletSize"));
+                jewelry.setSerialNumber(rs.getString("serialNumber"));
+                jewelry.setReferenceNumber(rs.getString("referenceNumber"));
+                jewelry.setCaliber(rs.getString("caliber"));
+                jewelry.setMovement(rs.getString("movement"));
+                jewelry.setCondition(rs.getString("condition"));
+                jewelry.setMetal(rs.getString("metal"));
+                jewelry.setGemstones(rs.getString("gemstones"));
+                jewelry.setMeasurements(rs.getString("measurements"));
+                jewelry.setWeight(rs.getString("weight"));
+                jewelry.setStamped(rs.getString("stamped"));
+                jewelry.setRingSize(rs.getString("ringSize"));
+                jewelry.setMinPrice(rs.getString("minPrice"));
+                jewelry.setMaxPrice(rs.getString("maxPrice"));
+                jewelry.setValuationId(rs.getString("valuationID"));
+                jewelry.setStatus(rs.getString("status"));
+                jewelry.setFinalPrice(rs.getDouble("final_Price"));
                 listJewelry.add(jewelry);
             }
             return listJewelry;
@@ -1745,4 +1789,137 @@ public class UserDAOImpl implements UserDao {
             ex.printStackTrace();
         }
     }
+    
+     //--------------------------------
+    @Override
+    public List<CreditCard> displayAllRegisteringCard() {
+        List<CreditCard> listCreditCard = new ArrayList<>();
+        String query = "SELECT cc.* FROM Credit_Card cc JOIN Member m ON cc.memberID = m.memberID WHERE m.status_register_to_bid = 0";
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    CreditCard cc = new CreditCard();
+                    cc.setMemberID(rs.getString("memberID"));
+                    cc.setHolderName(rs.getString("holderName"));
+                    cc.setCardNumber(rs.getString("cardNumber"));
+                    cc.setCvvCode(rs.getString("cvvCode"));
+                    cc.setExpiryDate(rs.getDate("expiryDate"));
+                    listCreditCard.add(cc);
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+        }
+        return listCreditCard;
+    }
+
+    @Override
+    public List<User> displayAllActiveUserForManager() {
+        List<User> listUser = new ArrayList<>();
+        String query = "SELECT * FROM Users WHERE active_status = 1";
+        try (Connection conn = DBUtils.getConnection();
+                PreparedStatement ps = conn.prepareStatement(query)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    User u = new User();
+                    u.setUserID(rs.getString("userID"));
+                    u.setUsername(rs.getString("username"));
+                    u.setEmail(rs.getString("email"));
+                    u.setPassword(rs.getString("password"));
+                    u.setRoleID(rs.getString("roleID"));
+                    u.setJoined_at(rs.getDate("joined_at"));
+                    listUser.add(u);
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+        }
+        return listUser;
+    }
+
+    @Override
+    public boolean addUserForManager(String username, String email, String password, String roleID) {
+        String insertUserQuery = "INSERT INTO Users (username, email, password, roleID, joined_at) VALUES (?, ?, ?, ?, GETDATE())";
+        String checkUser = "SELECT userID FROM Users WHERE username = ? AND roleID = 'Role01'";
+        String insertMemberQuery = "INSERT INTO Member (userID) VALUES (?)";
+        try (Connection conn = DBUtils.getConnection();
+                PreparedStatement ps1 = conn.prepareStatement(insertUserQuery);
+                PreparedStatement ps2 = conn.prepareStatement(checkUser);
+                PreparedStatement ps3 = conn.prepareStatement(insertMemberQuery)) {
+            ps1.setString(1, username);
+            ps1.setString(2, email);
+            ps1.setString(3, password);
+            ps1.setString(4, roleID);
+            int rowsAffected1 = ps1.executeUpdate();
+            if (rowsAffected1 > 0) {
+                ps2.setString(1, username);
+                try (ResultSet rs = ps2.executeQuery()) {
+                    if (rs.next()) {
+                        String userID = rs.getString("userID");
+                        ps3.setString(1, userID);
+                        int rowsAffected2 = ps3.executeUpdate();
+                        if (rowsAffected2 > 0) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateUserForManager(String userID, String username, String email, String password, String roleID) {
+        String updateUserQuery = "UPDATE Users SET username = ?, email = ?, password = ?, roleID = ? WHERE userID = ?";
+        try (Connection conn = DBUtils.getConnection();
+                PreparedStatement ps = conn.prepareStatement(updateUserQuery)) {
+            ps.setString(1, username);
+            ps.setString(2, email);
+            ps.setString(3, password);
+            ps.setString(4, roleID);
+            ps.setString(5, userID);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteUserForManager(String userID) {
+        String deleteUser = "UPDATE Users SET active_status = 0 WHERE userID = ?";
+        try (Connection conn = DBUtils.getConnection();
+                PreparedStatement ps = conn.prepareStatement(deleteUser)) {
+            ps.setString(1, userID);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkBidderMatchSeller(String jewelryID, String memberID) {
+        String query = "SELECT j.jewelryID FROM Jewelry j JOIN RequestValuation rv ON j.valuationId = rv.valuationId WHERE rv.memberId = ?";
+        try (Connection conn = DBUtils.getConnection();
+                PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, memberID);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    if (jewelryID == rs.getString("jewelryID")) {
+                        return true;
+                    }
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    //-------------------------------------
 }
