@@ -40,18 +40,31 @@
                 color: white;
             }
             .profile-container {
-                margin-top: 20px;
-            }
-            .profile-header {
-                background-color: #f8f9fa;
+                margin: 40px auto;
+                max-width: 900px;
+                background-color: #ffffff;
                 padding: 20px;
                 border-radius: 5px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             }
-            .profile-content {
-                margin-top: 20px;
+            .profile-header {
+                text-align: center;
+                margin-bottom: 20px;
             }
-
+            .profile-content .form-group {
+                margin-bottom: 15px;
+            }
+            .profile-content .form-group label {
+                margin-bottom: 5px;
+                display: block;
+            }
+            .dob-container {
+                display: flex;
+                gap: 10px;
+            }
+            .dob-container select {
+                flex: 1;
+            }
             .Btn {
                 --black: #000000;
                 --ch-black: #141414;
@@ -127,7 +140,7 @@
 
             .btn-update {
                 width: fit-content;
-                height: 40px;
+                height: 45px;
                 background: #ffffff0d;
                 border-radius: 8px;
                 border: 2px solid #334b79;
@@ -138,34 +151,28 @@
                 transition: 0.5s all ease;
                 position: relative;
                 overflow: hidden;
-                padding: 5px 25px;
+                padding: 10px 25px;
                 z-index: 1;
+                margin-top: 20px;
+            }
+
+            .btn-update:before, .btn-update:after {
+                width: 50%;
+                height: 100%;
+                content: "";
+                position: absolute;
+                top: 0;
+                background: #334b79;
+                transition: all 0.5s ease;
+                z-index: -1;
             }
 
             .btn-update:before {
-                width: 50%;
-                height: 100%;
-                content: "";
-                margin: auto;
-                position: absolute;
-                top: 0%;
                 left: -50%;
-                background: #334b79;
-                transition: all 0.5s ease;
-                z-index: -1;
             }
 
             .btn-update:after {
-                width: 50%;
-                height: 100%;
-                content: "";
-                margin: auto;
-                position: absolute;
-                top: 0%;
                 left: 100%;
-                background: #334b79;
-                transition: all 0.5s ease;
-                z-index: -1;
             }
 
             .btn-update:hover {
@@ -174,18 +181,53 @@
             }
 
             .btn-update:hover:before {
-                top: 0;
                 left: 0;
             }
 
             .btn-update:hover:after {
-                top: 0;
                 left: 50%;
             }
+
+            footer {
+                background-color: #000407;
+                color: lightgrey;
+                font-family: Helvetica;
+                height: 30px;
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                text-align: center;
+                line-height: 30px;
+            }
         </style>
+        <script>
+            function validateForm() {
+                var firstName = document.forms["profileForm"]["firstName"].value;
+                var lastName = document.forms["profileForm"]["lastName"].value;
+                var phoneNumber = document.forms["profileForm"]["phoneNumber"].value;
+                var nameRegex = /^[A-Za-z]{1,15}$/;
+                var phoneRegex = /^[0-9]{10,11}$/;
+
+                if (!nameRegex.test(firstName)) {
+                    alert("First name must be between 1 and 15 characters and contain no numbers.");
+                    return false;
+                }
+                if (!nameRegex.test(lastName)) {
+                    alert("Last name must be between 1 and 15 characters and contain no numbers.");
+                    return false;
+                }
+                if (!phoneRegex.test(phoneNumber)) {
+                    alert("Phone number must be 10 or 11 number characters.")
+                    return false;
+                }
+                return true;
+            }
+        </script>
     </head>
     <body>
-        <c:set var="member" value="${sessionScope.MEMBER}" />
+        <c:set var="member" value="${requestScope.MEMBER}" />
+        <c:set var="address" value="${requestScope.ADDRESS}" />
+        <c:set var="card" value="${requestScope.CREDITCARD}" />
         <nav>
             <div>
                 <a href="${pageContext.request.contextPath}/home">Home</a>
@@ -198,7 +240,7 @@
                 <button type="submit" class="Btn">
                     <div class="sign">
                         <svg viewBox="0 0 512 512">
-                        <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
+                            <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
                         </svg>
                     </div>
                     <div class="text">Logout</div>
@@ -206,57 +248,113 @@
             </form>
         </nav>
         <div class="container profile-container">
-            <div class="profile-header text-center">
+            <div class="profile-header">
                 <h2>My Profile</h2>
             </div>
             <div class="profile-content">
-                <c:set var="member" value="${sessionScope.MEMBER}" />
-                <form action="updateProfile" method="post">
+                <form name="profileForm" action="${pageContext.request.contextPath}/updateProfile" method="POST" onsubmit="return validateForm()">
                     <div class="row">
                         <div class="col-md-6">
                             <h4>User Information</h4>
-                            <div class="mb-3">
-                                <label for="fullName" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" id="fullName" name="fullName" value="${member.firstName} ${member.lastName}" required>
+                            <div class="form-group">
+                                <input type="hidden" id="memberID" name="memberID" value="${member.memberID}">
+                                <label for="firstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="firstName" name="firstName" value="${member.firstName}" required>
                             </div>
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">Phone</label>
-                                <input type="text" class="form-control" id="phone" name="phone" value="${member.phoneNumber}" required>
+                            <div class="form-group">
+                                <label for="lastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="lastName" name="lastName" value="${member.lastName}" required>
                             </div>
-                            <div class="mb-3">
+                            <div class="form-group">
+                                <label for="phoneNumber" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" value="${member.phoneNumber}" required>
+                            </div>
+                            <div class="form-group">
                                 <label for="gender" class="form-label">Gender</label>
-                                <input type="text" class="form-control" id="gender" name="gender" value="${member.gender}">
+                                <select class="form-control" id="gender" name="gender" required>
+                                    <option value="Female" ${member.gender == 'Female' ? 'selected' : ''}>Female</option>
+                                    <option value="Male" ${member.gender == 'Male' ? 'selected' : ''}>Male</option>
+                                    <option value="Gay" ${member.gender == 'Gay' ? 'selected' : ''}>Gay</option>
+                                </select>
                             </div>
-                            <div class="mb-3">
+                            <div class="form-group">
                                 <label for="DOB" class="form-label">Date of Birth</label>
-                                <input type="text" class="form-control" id="DOB" name="DOB" value="${member.DOB}">
+                                <div class="dob-container">
+                                    <select class="form-control" id="dobDay" name="dobDay" required>
+                                        <c:forEach var="day" begin="1" end="31">
+                                            <option value="${day}" ${member.DOBDay == day ? 'selected' : ''}>${day}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <select class="form-control" id="dobMonth" name="dobMonth" required>
+                                        <c:forEach var="month" begin="1" end="12">
+                                            <option value="${month}" ${member.DOBMonth == month ? 'selected' : ''}>${month}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <select class="form-control" id="dobYear" name="dobYear" required>
+                                        <c:forEach var="year" begin="1900" end="2024">
+                                            <option value="${year}" ${member.DOBYear == year ? 'selected' : ''}>${year}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <h4>Shipping Address</h4>
-                            <div class="mb-3">
-                                <label for="streetName" class="form-label">Street Name</label>
-                                <input type="text" class="form-control" id="streetName" name="streetName" value="" required>
-                            </div>
-                            <div class="mb-3">
+                            <div class="form-group">
                                 <label for="city" class="form-label">City</label>
-                                <input type="text" class="form-control" id="city" name="city" value="" required>
+                                <input type="text" class="form-control" id="city" name="city" value="${address.city}" required>
                             </div>
-                            <div class="mb-3">
+                            <div class="form-group">
+                                <label for="state" class="form-label">State</label>
+                                <input type="text" class="form-control" id="state" name="state" value="${address.state}" required>
+                            </div>
+                            <div class="form-group">
                                 <label for="zipCode" class="form-label">Zip Code</label>
-                                <input type="text" class="form-control" id="zipCode" name="zipCode" value="" required>
+                                <input type="text" class="form-control" id="zipCode" name="zipCode" value="${address.zipCode}" required>
                             </div>
-                            <div class="mb-3">
+                            <div class="form-group">
                                 <label for="country" class="form-label">Country</label>
-                                <input type="text" class="form-control" id="country" name="country" value="" required>
+                                <input type="text" class="form-control" id="country" name="country" value="${address.country}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="address1" class="form-label">Address 1</label>
+                                <input type="text" class="form-control" id="address1" name="address1" value="${address.address1}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="address2" class="form-label">Address 2</label>
+                                <input type="text" class="form-control" id="address2" name="address2" value="${address.address2}">
                             </div>
                             <button type="submit" class="btn-update">Update Profile</button>
-                        </div>  
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Card Information</h4>
+                            <div class="form-group">
+                                <label for="holderName" class="form-label">Holder Name</label>
+                                <input type="text" class="form-control" id="holderName" name="holderName" value="${card.holderName}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="cardNumber" class="form-label">Card Number</label>
+                                <input type="text" class="form-control" id="cardNumber" name="cardNumber" value="${card.cardNumber}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="cvvCode" class="form-label">CVV Code</label>
+                                <input type="text" class="form-control" id="cvvCode" name="cvvCode" value="${card.cvvCode}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="expiryDate" class="form-label">Expiry Date</label>
+                                <input type="text" class="form-control" id="expiryDate" name="expiryDate" value="${card.expiryDate}" readonly>
+                            </div>
+                        </div>
                     </div>
+                </form>
+                <form action="${pageContext.request.contextPath}/deleteProfile" method="POST">
+                    <input type="hidden" id="memberID" name="memberID" value="${member.memberID}">
+                    <button type="submit" class="btn-update">Delete Account</button>
+                </form>
             </div>
         </div>
-        <footer style="background-color: #000407; font-family: Helvetica; height: 30px; position: fixed; bottom: 0; width: 100%; text-align: center;">
-            <span style="color: lightgrey; font-size: 14px;">&#169; F'RANKELLY AUCTION <script>document.write(new Date().getFullYear())</script></span>
+        <footer>
+            <span>&#169; F'RANKELLY AUCTION <script>document.write(new Date().getFullYear())</script></span>
         </footer>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
