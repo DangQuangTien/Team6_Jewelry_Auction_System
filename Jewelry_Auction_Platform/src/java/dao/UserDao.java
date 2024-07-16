@@ -161,17 +161,5 @@ public interface UserDao {
     boolean confirmPayment(String jewelryID);
 
     void updateSoldAmount(String jewelryID);
-    
-     //----------------------------
-    List<CreditCard> displayAllRegisteringCard();
-    
-    List<User> displayAllActiveUserForManager();
-    
-    boolean addUserForManager(String username, String email, String password, String roleID);
-    
-    boolean updateUserForManager(String userID, String username, String email, String password, String roleID);
-    
-    boolean deleteUserForManager(String userID);
-    
-    boolean checkBidderMatchSeller(String jewelryID, String memberID);
+
 }

@@ -94,9 +94,6 @@ public class BiddingRoomServerEndpoint {
         } else {
             sendMessageToClient(session, "Your bid must be higher than the current highest bid: $" + theHighestBid);
         }
-        }else{
-            sendMessageToClient(session, "You are not allowed to participate in bidding the items you put on auction.");
-        }
     }
 
     private String createBidMessage(String bid) {
