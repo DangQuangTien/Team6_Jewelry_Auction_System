@@ -124,7 +124,7 @@
                 <a style="text-decoration: none" href="${pageContext.request.contextPath}/home">
                     <h1 style="font-family: 'Zapf-Chancery'; font-size: 3em; font-weight: bold">F'RANKELLY</h1>
                 </a>
-                <p>Explore the World of Auctions with Us</p>
+                <p>Explore the World of Auctions with Us</p>.
                 <c:set var="error" value="${requestScope.error}" />
                 <c:set var="username" value="${requestScope.username}" />
                 <c:set var="password" value="${requestScope.password}" />
