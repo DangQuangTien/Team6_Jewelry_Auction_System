@@ -3,6 +3,7 @@ package dao;
 import dto.UserDTO;
 import entity.Auction.Auction;
 import entity.Invoice.Invoice;
+import entity.address.Address;
 import entity.creditCard.CreditCard;
 import entity.member.Member;
 import entity.product.Category;
@@ -94,7 +95,7 @@ public interface UserDao {
     boolean confirmReceipt(String valuationID);
 
     // Bidding Operations
-    boolean registerToBid(String memberID);
+    boolean registerToBid(String memberID, String cardID);
 
     List<Jewelry> displayJewelryInRoom(String auctionID);
 
@@ -115,7 +116,7 @@ public interface UserDao {
     //----------------------------
     List<CreditCard> displayAllRegisteringCard();
     
-    List<User> displayAllActiveUserForManager();
+    List<User> displayAllUserForManager();
     
     boolean addUserForManager(String username, String email, String password, String roleID);
     
@@ -123,7 +124,19 @@ public interface UserDao {
     
     boolean deleteUserForManager(String userID);
     
+    boolean reactivateUserForManager(String userID);
+    
     boolean checkBidderMatchSeller(String jewelryID, String memberID);
+    
+    boolean rejectCard(String memberID);
+    
+    CreditCard getCardInformation(String userID);
+    
+    Address getAddressInformation(String userID);
+    
+    boolean updateProfile(String memberID, String firstName, String lastName, String phoneNumber, String gender, String dob, String city, String state, String zipCode, String country, String address1, String address2);
+    
+    boolean deleteProfile(String memberID);
     
     //----------------------------
     

@@ -123,39 +123,39 @@
         .countdown-container div {
             margin-right: 10px;
         }
- .alert {
-    display: none;
-    position: fixed;
-    top: 20px;
-    left: 40%;
-    transform: translateX(-50%);
-    background-color: #71a96d;
-    color: white;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    animation: alertBounce 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards,
-               fadeOut 0.5s ease-in-out 2.5s forwards;
-}
+        .alert {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 40%;
+            transform: translateX(-50%);
+            background-color: #71a96d;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            animation: alertBounce 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards,
+                fadeOut 0.5s ease-in-out 2.5s forwards;
+        }
 
-@keyframes alertBounce {
-    0% {
-        transform: scale(0.8);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
+        @keyframes alertBounce {
+            0% {
+                transform: scale(0.8);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
 
-@keyframes fadeOut {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
 
 
 
@@ -410,10 +410,13 @@
     <c:set var="listCategory" value="${requestScope.CATEGORIES}" /> 
     <c:if test="${listJewelry != null && !listJewelry.isEmpty()}"> 
         <c:set var="userID" value="${sessionScope.USERID}" />
+        <c:set var="creditCard" value="${requestScope.CREDITCARD}" />
         <c:set var="member" value="${requestScope.MEMBER}" />
-        <c:set var="status" value="1" />
+        <c:set var="cardStatus" value="1" />
+        <c:set var="status" value="0" />
         <c:if test="${member != null}">
             <c:set var="status" value="${member.status}" />
+            <c:set var="cardStatus" value="${creditCard.status}" />
         </c:if>
     </c:if>
     <script>
@@ -605,8 +608,11 @@
         <!-- Notification -->
         <br>
         <c:choose>
-            <c:when test="${status == 1 && member != null}">
+            <c:when test="${status == 1 && cardStatus == 1 && member != null}">
                 <div id="auctionLink1"><h3>COMING SOON</h3></div>
+            </c:when>
+            <c:when test="${status == 0 && cardStatus == 0 && member != null}">
+                <div id="auctionLink1"><h3>AWAITING CONFIRMATION</h3></div>
             </c:when>
             <c:when test="${status == 0 && member != null}">
                 <a style=" text-decoration: none;" href="registerbid?auctionID=${param.auctionID}" class="btn-custom">REGISTER TO BID</a>
@@ -762,114 +768,114 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-                        document.addEventListener('DOMContentLoaded', function () {
-                            function filterItems() {
-                                var selectedCategory = document.getElementById('categoryFilter').value;
-                                var searchQuery = document.getElementById('searchBar').value.trim().toLowerCase();
-                                var sortPrice = document.getElementById('sortPrice').value;
+                    document.addEventListener('DOMContentLoaded', function () {
+                        function filterItems() {
+                            var selectedCategory = document.getElementById('categoryFilter').value;
+                            var searchQuery = document.getElementById('searchBar').value.trim().toLowerCase();
+                            var sortPrice = document.getElementById('sortPrice').value;
 
-                                var catalogItems = Array.from(document.querySelectorAll('.catalog-item'));
+                            var catalogItems = Array.from(document.querySelectorAll('.catalog-item'));
 
-                                // Filter by category and search query
-                                catalogItems.forEach(function (item) {
-                                    var itemCategory = item.getAttribute('data-category');
-                                    var itemJewelryID = item.querySelector('.card-title').textContent.toLowerCase();
+                            // Filter by category and search query
+                            catalogItems.forEach(function (item) {
+                                var itemCategory = item.getAttribute('data-category');
+                                var itemJewelryID = item.querySelector('.card-title').textContent.toLowerCase();
 
-                                    var categoryMatch = (selectedCategory === '' || itemCategory === selectedCategory);
-                                    var searchMatch = (searchQuery === '' || itemJewelryID.includes(searchQuery));
+                                var categoryMatch = (selectedCategory === '' || itemCategory === selectedCategory);
+                                var searchMatch = (searchQuery === '' || itemJewelryID.includes(searchQuery));
 
-                                    if (categoryMatch && searchMatch) {
-                                        item.style.display = 'block';
-                                    } else {
-                                        item.style.display = 'none';
-                                    }
-                                });
-
-                                // Sort by price
-                                if (sortPrice !== '') {
-                                    catalogItems.sort(function (a, b) {
-                                        var aMinPrice = parseFloat(a.querySelector('.min-price').textContent);
-                                        var bMinPrice = parseFloat(b.querySelector('.min-price').textContent);
-
-                                        if (sortPrice === 'lowToHigh') {
-                                            return aMinPrice - bMinPrice;
-                                        } else if (sortPrice === 'highToLow') {
-                                            return bMinPrice - aMinPrice;
-                                        }
-                                    });
-
-                                    var catalogContainer = document.getElementById('catalogItems');
-                                    catalogItems.forEach(function (item) {
-                                        catalogContainer.appendChild(item);
-                                    });
-                                }
-                            }
-
-                            document.getElementById('categoryFilter').addEventListener('change', filterItems);
-                            document.getElementById('searchBar').addEventListener('input', filterItems);
-                            document.getElementById('sortPrice').addEventListener('change', filterItems);
-
-                            $('#bidModal').on('show.bs.modal', function (event) {
-                                var button = $(event.relatedTarget);
-                                var card = button.closest('.card');
-                                var jewelryID = card.find('.card-title').first().text();
-                                var modal = $(this);
-                                modal.find('#jewelryID').val(jewelryID);
-                            });
-
-                            $('#bidModal_').on('show.bs.modal', function (event) {
-                                var button = $(event.relatedTarget);
-                                var card = button.closest('.card');
-                                var jewelryID = card.find('.card-title').first().text();
-                                var modal = $(this);
-                                modal.find('#jewelryID').val(jewelryID);
-                            });
-
-                            function submitBid() {
-                                document.getElementById('bidForm').submit();
-                            }
-                        });
-
-                        document.addEventListener("DOMContentLoaded", function () {
-                            var dropdowns = document.querySelectorAll('.nav-item.dropdown');
-
-                            dropdowns.forEach(function (dropdown) {
-                                dropdown.addEventListener('mouseenter', function () {
-                                    var dropdownMenu = dropdown.querySelector('.dropdown-menu');
-                                    if (dropdownMenu) {
-                                        dropdownMenu.classList.add('show');
-                                    }
-                                });
-                                dropdown.addEventListener('mouseleave', function () {
-                                    var dropdownMenu = dropdown.querySelector('.dropdown-menu');
-                                    if (dropdownMenu) {
-                                        dropdownMenu.classList.remove('show');
-                                    }
-                                });
-                            });
-                        });
-
-                        $(document).ready(function () {
-                            $("a.nav-link").on('click', function (event) {
-                                if (this.hash !== "") {
-                                    event.preventDefault();
-                                    var hash = this.hash;
-                                    $('html, body').animate({
-                                        scrollTop: $(hash).offset().top
-                                    }, 800, function () {
-                                        window.location.hash = hash;
-                                    });
-                                }
-                            });
-                        });
-                        document.addEventListener("DOMContentLoaded", function () {
-                            window.addEventListener("scroll", function () {
-                                if (window.scrollY > 50) {
-                                    document.querySelector(".navbar").classList.add("navbar-scrolled");
+                                if (categoryMatch && searchMatch) {
+                                    item.style.display = 'block';
                                 } else {
-                                    document.querySelector(".navbar").classList.remove("navbar-scrolled");
+                                    item.style.display = 'none';
+                                }
+                            });
+
+                            // Sort by price
+                            if (sortPrice !== '') {
+                                catalogItems.sort(function (a, b) {
+                                    var aMinPrice = parseFloat(a.querySelector('.min-price').textContent);
+                                    var bMinPrice = parseFloat(b.querySelector('.min-price').textContent);
+
+                                    if (sortPrice === 'lowToHigh') {
+                                        return aMinPrice - bMinPrice;
+                                    } else if (sortPrice === 'highToLow') {
+                                        return bMinPrice - aMinPrice;
+                                    }
+                                });
+
+                                var catalogContainer = document.getElementById('catalogItems');
+                                catalogItems.forEach(function (item) {
+                                    catalogContainer.appendChild(item);
+                                });
+                            }
+                        }
+
+                        document.getElementById('categoryFilter').addEventListener('change', filterItems);
+                        document.getElementById('searchBar').addEventListener('input', filterItems);
+                        document.getElementById('sortPrice').addEventListener('change', filterItems);
+
+                        $('#bidModal').on('show.bs.modal', function (event) {
+                            var button = $(event.relatedTarget);
+                            var card = button.closest('.card');
+                            var jewelryID = card.find('.card-title').first().text();
+                            var modal = $(this);
+                            modal.find('#jewelryID').val(jewelryID);
+                        });
+
+                        $('#bidModal_').on('show.bs.modal', function (event) {
+                            var button = $(event.relatedTarget);
+                            var card = button.closest('.card');
+                            var jewelryID = card.find('.card-title').first().text();
+                            var modal = $(this);
+                            modal.find('#jewelryID').val(jewelryID);
+                        });
+
+                        function submitBid() {
+                            document.getElementById('bidForm').submit();
+                        }
+                    });
+
+                    document.addEventListener("DOMContentLoaded", function () {
+                        var dropdowns = document.querySelectorAll('.nav-item.dropdown');
+
+                        dropdowns.forEach(function (dropdown) {
+                            dropdown.addEventListener('mouseenter', function () {
+                                var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                                if (dropdownMenu) {
+                                    dropdownMenu.classList.add('show');
+                                }
+                            });
+                            dropdown.addEventListener('mouseleave', function () {
+                                var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                                if (dropdownMenu) {
+                                    dropdownMenu.classList.remove('show');
                                 }
                             });
                         });
+                    });
+
+                    $(document).ready(function () {
+                        $("a.nav-link").on('click', function (event) {
+                            if (this.hash !== "") {
+                                event.preventDefault();
+                                var hash = this.hash;
+                                $('html, body').animate({
+                                    scrollTop: $(hash).offset().top
+                                }, 800, function () {
+                                    window.location.hash = hash;
+                                });
+                            }
+                        });
+                    });
+                    document.addEventListener("DOMContentLoaded", function () {
+                        window.addEventListener("scroll", function () {
+                            if (window.scrollY > 50) {
+                                document.querySelector(".navbar").classList.add("navbar-scrolled");
+                            } else {
+                                document.querySelector(".navbar").classList.remove("navbar-scrolled");
+                            }
+                        });
+                    });
 </script>
 </html>

@@ -224,9 +224,9 @@
             </div>
             <div class="gender-container">
                 <span>Gender:</span>
-                <label><input type="radio" name="gender" value="male" required> Male</label>
-                <label><input type="radio" name="gender" value="female" required> Female</label>
-                <label><input type="radio" name="gender" value="other" required> Other</label>
+                <label><input type="radio" name="gender" value="Male" required> Male</label>
+                <label><input type="radio" name="gender" value="Female" required> Female</label>
+                <label><input type="radio" name="gender" value="Other" required> Other</label>
             </div>
                 <input type="password" name="password" placeholder="Password" autocomplete="" style="width: 100%;">
             <div class="checkbox-container">

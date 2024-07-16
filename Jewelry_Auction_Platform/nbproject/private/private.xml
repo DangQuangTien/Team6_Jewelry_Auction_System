@@ -3,54 +3,31 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/manager/AddUserForManagerController.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/private/room/live/index.jsp</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/auctions/detail.jsp</file>
             <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/member/UpdateJewelryServlet.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/web/auction/GateToBiddingRoomServlet.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/auctions/registerBid.jsp</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/member/RejectToAuctionController.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/staff/RequestShipmentController.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/staff/ConfirmPaymentServlet.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/manager/CreateAuctionServlet.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/manager/UpdateUserForManagerController.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/manager/ReactivateUserForManagerController.java</file>
             <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/manager/ManageUserServlet.java</file>
             <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/member/EditBidController.java</file>
             <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/member/ResponseServlet.java</file>
             <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/dao/UserDAOImpl.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/staff/cardValidation.jsp</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/staff/staff.jsp</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/staff/valuation.jsp</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/member/ConfirmToAuctionController.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/payment/Config.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/staff/CardConfirmationController.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/staff/asset/approvalRequest.css</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/manager/asset/createAuction.js</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/manager/asset/createAuction.css</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/member/DeleteAccountController.java</file>
             <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/register.jsp</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/member/RequestValuationServlet.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/seller/request.jsp</file>
             <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/member/ProfileServlet.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/entity/creditCard/CreditCard.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/web/auction/RegisterToBid.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/staff/InsertJewelryController.java</file>
             <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/member/PlaceBidController.java</file>
             <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/bidder/profile.jsp</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/manager/ApproveFinalPriceController.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/manager/auctionManagement.jsp</file>
             <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/manager/userManagement.jsp</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/manager/ManagerServlet.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/seller/response.jsp</file>
             <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/dao/UserDao.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/staff/approvalRequest.jsp</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/authentication/LogoutController.java</file>
             <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/manager/DeleteUserForManagerController.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/member/ValuationRequestServlet.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/member/UpdateProfileController.java</file>
             <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/authentication/RegisterServlet.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/manager/ManageAuctionServlet.java</file>
             <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/manager/createAuction.jsp</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/private/room/live/index.html</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/staff/RegisteringCardServlet.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/staff/asset/finalValuation.js</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/entity/member/Member.java</file>
+            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/bidder/mybids.jsp</file>
             <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/member/MyBidServlet.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/staff/UpdateFinalPriceController.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/src/java/jewelryauction/controller/web/auction/BiddingRoomServerEndpoint.java</file>
-            <file>file:/C:/Users/T14/OneDrive/Documents/GitHub/Team6_Jewelry_Auction_System/Jewelry_Auction_Platform/web/manager/manager.jsp</file>
         </group>
     </open-files>
 </project-private>

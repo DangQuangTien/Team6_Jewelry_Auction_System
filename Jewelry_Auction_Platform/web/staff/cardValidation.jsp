@@ -608,7 +608,13 @@
                                             <td class="px-6 py-4">
                                                 <form action="${pageContext.request.contextPath}/confirmCard" method="POST" onsubmit="confirmAuction(event)">
                                                     <input type="hidden" name="memberID" value="<%= cc.getMemberID()%>">
+                                                    <input type="hidden" name="cardID" value="<%= cc.getCardID()%>">
                                                     <input type="submit" class="btn btn-primary text-white px-4 py-2 rounded-md" name="action" value="Confirm">
+                                                </form>
+                                                <form action="${pageContext.request.contextPath}/rejectCard" method="POST" onsubmit="confirmAuction(event)">
+                                                    <input type="hidden" name="memberID" value="<%= cc.getMemberID()%>">
+                                                    <input type="hidden" name="cardID" value="<%= cc.getCardID()%>">
+                                                    <input type="submit" class="btn btn-primary text-white px-4 py-2 rounded-md" name="action" value="Reject">
                                                 </form>
                                             </td>
                                         </tr>

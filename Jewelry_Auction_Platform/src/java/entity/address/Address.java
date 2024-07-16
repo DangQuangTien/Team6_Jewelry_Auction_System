@@ -10,22 +10,26 @@ package entity.address;
  */
 public class Address {
     private String addressID;
-    private String street;
     private String city;
-    private String zipcode;
+    private String state;
+    private String zipCode;
     private String country;
     private String memberID;
+    private String address1;
+    private String address2;
 
     public Address() {
     }
 
-    public Address(String addressID, String street, String city, String zipcode, String country, String memberID) {
+    public Address(String addressID, String city, String state, String zipCode, String country, String memberID, String address1, String address2) {
         this.addressID = addressID;
-        this.street = street;
         this.city = city;
-        this.zipcode = zipcode;
+        this.state = state;
+        this.zipCode = zipCode;
         this.country = country;
         this.memberID = memberID;
+        this.address1 = address1;
+        this.address2 = address2;
     }
 
     public String getAddressID() {
@@ -36,14 +40,6 @@ public class Address {
         this.addressID = addressID;
     }
 
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
     public String getCity() {
         return city;
     }
@@ -52,12 +48,20 @@ public class Address {
         this.city = city;
     }
 
-    public String getZipcode() {
-        return zipcode;
+    public String getState() {
+        return state;
     }
 
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
     public String getCountry() {
@@ -74,5 +78,21 @@ public class Address {
 
     public void setMemberID(String memberID) {
         this.memberID = memberID;
+    }
+
+    public String getAddress1() {
+        return address1;
+    }
+
+    public void setAddress1(String address1) {
+        this.address1 = address1;
+    }
+
+    public String getAddress2() {
+        return address2;
+    }
+
+    public void setAddress2(String address2) {
+        this.address2 = address2;
     }
 }

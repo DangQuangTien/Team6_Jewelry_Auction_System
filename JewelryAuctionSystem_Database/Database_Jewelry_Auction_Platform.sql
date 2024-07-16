@@ -72,8 +72,6 @@ ALTER TABLE Users
 	CONSTRAINT set_active_status DEFAULT 1
 
 
-SELECT j.*, c.categoryName FROM JEWELRY j, Category c WHERE (STATUS = 'Received' and j.categoryID = c.categoryID) OR (STATUS = 'Re-Evaluated' and j.categoryID = c.categoryID)
-
 
 CREATE TABLE [Member] (
     memberID VARCHAR(50) NOT NULL PRIMARY KEY,
@@ -172,6 +170,7 @@ CREATE TABLE Auction (
 	endDate DATE,
     [status] BIT DEFAULT 0
 );
+
 GO
 CREATE TABLE [Session](
     sessionID VARCHAR(50) NOT NULL PRIMARY KEY,
@@ -195,10 +194,13 @@ CREATE TABLE [Credit_Card](
 	cardNumber varchar(255),
 	cvvCode varchar(50),
 	expiryDate Date,
+	[status] bit NOT NULL DEFAULT 0
 	CONSTRAINT fk_memberID_member FOREIGN KEY (memberID) REFERENCES Member(memberID),
 )
 
-SELECT userID FROM Users WHERE username = 'hieu' AND roleID = 'Role01'
+ALTER TABLE Credit_Card 
+	ADD active_status bit NOT NULL 
+	CONSTRAINT set_active_status DEFAULT 0
 
 CREATE SEQUENCE cardID_sequence
     AS BIGINT
@@ -206,7 +208,7 @@ CREATE SEQUENCE cardID_sequence
     INCREMENT BY 1;
 GO
 
-SELECT cc.* FROM Credit_Card cc JOIN Member m ON cc.memberID = m.memberID WHERE m.status_register_to_bid = 0
+
 
 CREATE TRIGGER autogenerate_cardID
 ON [Credit_Card]
