@@ -31,6 +31,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <style>
             /* Sidebar */
             /* Google Font Link */
@@ -411,7 +412,7 @@
                     </li>
                     <li>
                         <a class="link_names" href="${pageContext.request.contextPath}/manageUser">
-                            <i class='bx bx-cog'></i> 
+                            <i class='bx bx-book-content'></i> 
                             <span class="links_name">Manage User</span>
                         </a>
                         <span class="tooltip">Manage User</span>
@@ -518,12 +519,18 @@
             <p class="text-center text-gray-600 mt-8 py-4 bg-gray-100 border border-gray-200 rounded-md shadow-md">No upcoming auctions.</p>
             <% } %>
             <!-- Link to createAuction.jsp -->
-            <a href="${pageContext.request.contextPath}/manager/createAuction.jsp" class="create-button">Create New Auction</a>
+            <a href="${pageContext.request.contextPath}/manager/createAuction.jsp" class="btn btn-secondary create-button">Create New Auction</a>
         </div>
         </main>
         </section>
         </div>
         </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
         <script>
             let sidebar = document.querySelector(".sidebar");
                                                                                 let closeBtn = document.querySelector("#btn");
@@ -544,6 +551,8 @@
                                                                                         closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");//replacing the iocns class
                                                                                     }
                                                                                 }
+
+
         </script>
     </body>
 </html>

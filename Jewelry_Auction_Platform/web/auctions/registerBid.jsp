@@ -13,15 +13,101 @@
         <link rel="icon" type="image/png" sizes="64x64" href="../images/logo/Logo.png">
     </head>
     <style>
+        header {
+    background-color: #ffffff;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.navbar-nav .nav-item .nav-link {
+    font-size: 18px;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: #ff6f61;
+}
+
+.form-inline .form-control {
+    width: 300px;
+}
+
+#bell-icon {
+    font-size: 20px;
+    color: #333;
+}
+
+#bell-icon:hover {
+    color: #ff6f61;
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.navbar-toggler-icon {
+    color: #333;
+}
+
+        
+        html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.container-fluid {
+    flex: 1;
+}
+
+footer {
+    background-color: #302c2c;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 30px;
+    border-top: 1px solid #ddd;
+}
+
+footer a {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+footer a:hover {
+    color: #a98585;
+}
+
+        
+        
+        
+        
+        
         body {
             background-color: #f8f9fa;
             font-family: Arial, sans-serif;
         }
 
-        .container {
+        #cardImage {
+        display: none; /* Hide initially */
+    }
+
+        .container-fluid {
             background-color: white;
             padding: 30px;
+            max-width: 1300px;
             border-radius: 8px;
+            margin-bottom: 50px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
@@ -151,14 +237,14 @@
             <a style="text-decoration: none;"href="#">CONTACT</a>
         </nav>       
         <!-- END OF HEADER -->
-        <div class="container mt-5">
-            <h2 class="text-center">Bidder Registration</h2>
-            <h3 class="text-center">FINE JEWELS & WATCHES</h3>
-            <p class="text-center">JUN 3, 2024 AT 12 PM EDT - HO CHI MINH, HCM</p>
+        <div class="container-fluid mt-5">
+            <h1 class="text-center" style="font-weight: 600;">Bidder Registration</h1>
+            <h3 class="text-center">F'RANKELLY - FINE JEWELS & WATCHES</h3>
+            <p id="datetime" class="text-center"> - HO CHI MINH, HCM</p>
             <form action="${pageContext.request.contextPath}/registerbid" id="registrationForm" method="POST" class="row needs-validation" novalidate>
                 <div class="col-md-6">
                     <div class="form-section mb-4">
-                        <h4>USER INFORMATION</h4>
+                        <h4 style="font-weight: bold;">USER INFORMATION</h4>
                         <div class="form-group">
                             <label for="firstName">First Name *</label>
                             <input type="text" class="form-control" id="firstName" name="firstName" value="${member.firstName}" required>
@@ -181,7 +267,7 @@
                         </div>
                     </div>
                     <div class="form-section mb-4">
-                        <h4>SHIPPING ADDRESS</h4>
+                        <h4 style="font-weight: bold;">SHIPPING ADDRESS</h4>
                         <div class="form-group">
                             <label for="country">Country *</label>
                             <input type="text" class="form-control" id="country" name="country" required>
@@ -216,7 +302,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-section mb-4">
-                        <h4>CREDIT CARD</h4>
+                        <h4 style="font-weight: bold;">CREDIT CARD</h4>
                         <p>Note: Your credit card will be authorized for $1 for verification purposes. This authorization may appear as a charge and immediate refund in your account by your bank.</p>
                         <font color=#000000>IMPORTANT: Winning bidders will be charged a Buyer's Premium IN ADDITION to their winning bid (the Buyer's Premium is not included in the online bid value).</font>
                         <p>Buyer's Premiums are as follows:</p>
@@ -229,20 +315,21 @@
                         <p>IMPORTANT: Please note that bids, once placed, cannot be retracted or reduced. Kindly refer to our Terms and Conditions for full details.</p>
                         <div class="form-group">
                             <label for="cardHolderName">Card Holder Name *</label>
-                            <input type="text" class="form-control" id="cardHolderName" name="cardHolderName"  value="${member.firstName} ${member.lastName}" required/>
+                            <input type="text" class="form-control" id="cardHolderName" name="cardHolderName" value="${member.firstName} ${member.lastName}" required/>
                             <div class="invalid-feedback">Card holder name is required.</div>
                         </div>
                         <div class="form-group">
                             <label for="cardNumber">Credit Card Number *</label>
-                            <input type="text" class="form-control" id="cardNumber" name="cardNumber" required>
+                            <input type="text" style="margin-bottom: 5px;" class="form-control" id="cardNumber" name="cardNumber" maxlength="19" required>
                             <div class="invalid-feedback" id="cardNumberFeedback">Credit card number is required.</div>
+                            <small id="cardType" style="margin-top: 5px;"></small> <!-- Display card type -->
+                            <img id="cardImage" src="" alt="Card Image" width="88" height="58" style="margin-top: 5px;"> <!-- Placeholder for card type image -->
                         </div>
                         <div class="form-group">
                             <label for="cvv">CVV Code *</label>
                             <input type="text" class="form-control" id="cvv" name="cvv" maxlength="3" required>
                             <div class="invalid-feedback">CVV code is required.</div>
                         </div>
-
                         <div class="form-group">
                             <label for="expiryDate">Expiry Date *</label>
                             <div class="form-row">
@@ -278,45 +365,7 @@
                         </div>
 
                     </div>
-                    <div class="form-section mb-4">
-                        <h4>BILLING ADDRESS</h4>
-                        <div class="form-check mb-2">
-                            <input type="checkbox" class="form-check-input" id="sameAsShipping" name="sameAsShipping" checked>
-                            <label class="form-check-label" for="sameAsShipping">Same as Shipping Address</label>
-                        </div>
-                        <div id="billingAddress" class="hidden">
-                            <div class="form-group">
-                                <label for="billingCountry">Country *</label>
-                                <input type="text" class="form-control" id="billingCountry" name="billingCountry" required>
-                                <div class="invalid-feedback">Country is required.</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="billingAddressInput">Address *</label>
-                                <input type="text" class="form-control" id="billingAddressInput" name="billingAddressInput" required>
-                                <div class="invalid-feedback">Address is required.</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="billingAddress2">Address 2</label>
-                                <input type="text" class="form-control" id="billingAddress2" name="billingAddress2" required>
-                                <div class="invalid-feedback">Address is required.</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="billingCity">City *</label>
-                                <input type="text" class="form-control" id="billingCity" name="billingCity" required>
-                                <div class="invalid-feedback">City is required.</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="billingState">State/Province *</label>
-                                <input type="text" class="form-control" id="billingState" name="billingState" required>
-                                <div class="invalid-feedback">State/Province is required.</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="billingZip">Zip Code *</label>
-                                <input type="text" class="form-control" id="billingZip" name="billingZip" required>
-                                <div class="invalid-feedback">Zip Code is required.</div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="col-12">
                     <div class="form-group mt-3">
@@ -363,24 +412,180 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script>
-            document.getElementById('sameAsShipping').addEventListener('change', function () {
-                const billingAddress = document.getElementById('billingAddress');
-                if (this.checked) {
-                    billingAddress.classList.add('hidden');
-                    document.getElementById('billingAddressInput').required = false;
-                    document.getElementById('billingCountry').required = false;
-                    document.getElementById('billingCity').required = false;
-                    document.getElementById('billingState').required = false;
-                    document.getElementById('billingZip').required = false;
-                } else {
-                    billingAddress.classList.remove('hidden');
-                    document.getElementById('billingAddressInput').required = true;
-                    document.getElementById('billingCountry').required = true;
-                    document.getElementById('billingCity').required = true;
-                    document.getElementById('billingState').required = true;
-                    document.getElementById('billingZip').required = true;
-                }
-            });
+             // Function to update date and time dynamically
+  function updateDateTime() {
+    // Get current date and time
+    let now = new Date();
+    let dateOptions = { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
+    let formattedDate = now.toLocaleDateString('en-US', dateOptions);
+    
+    // Update the HTML element with id="datetime"
+    document.getElementById('datetime').textContent = formattedDate + ' - HO CHI MINH, HCM';
+  }
+
+  // Call the function initially to set the initial date and time
+  updateDateTime();
+
+  // Update every minute (60000 milliseconds)
+  setInterval(updateDateTime, 60000);
+
+  // Function to format credit card number with spaces
+  function formatCreditCardNumber(value) {
+    // Remove non-numeric characters
+    let formattedValue = value.replace(/\D/g, '');
+
+    // Apply formatting (add spaces every 4 digits)
+    formattedValue = formattedValue.replace(/(\d{4})(?=\d)/g, '$1 ');
+
+    return formattedValue.trim(); // Trim any leading/trailing spaces
+}
+
+
+    // Function to validate credit card number
+    function validateCreditCardNumber(value) {
+        // Remove spaces and non-numeric characters
+        let cardNumber = value.replace(/\s+/g, '');
+        
+        // Validate length and format
+        if (cardNumber.length !== 16 || !/^\d+$/.test(cardNumber)) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    
+
+   function getCardType(cardNumber) {
+    // Define card types and their patterns
+    const cardTypes = {
+        'Visa': { pattern: /^4/, image: `${pageContext.request.contextPath}/auctions/images/visa.png` },
+        'MasterCard': { pattern: /^5[1-5]/, image: `${pageContext.request.contextPath}/auctions/images/mastercard.png` },
+        'American Express': { pattern: /^3[47]/, image: `${pageContext.request.contextPath}/auctions/images/amex.png` }
+    };
+
+    // Check each card type pattern
+    for (const [cardName, { pattern, image }] of Object.entries(cardTypes)) {
+        if (pattern.test(cardNumber)) {
+            return { type: cardName, image: image };
+        }
+    }
+
+    // If no match found, return null (not supported)
+    return null;
+}
+
+
+function updateCardImage(cardType) {
+    let cardImageContainer = document.getElementById('cardImage');
+    let cardTypeText = document.getElementById('cardType');
+
+    if (cardType.type !== 'Not supported. Supported types are: Visa, MasterCard, and American Express') {
+        cardImageContainer.src = cardType.image; // Set image source directly
+        cardImageContainer.style.display = 'block'; // Display the image container
+        cardTypeText.textContent = `CARD TYPE: ${cardType.type.toUpperCase()}`;
+    } else {
+        cardImageContainer.src = cardType.image; // Set image source directly
+        cardImageContainer.style.display = 'block'; // Display the image container
+        cardTypeText.textContent = cardType.type; // Display not supported message
+    }
+}
+
+// Event listener for input change on credit card number field
+document.getElementById('cardNumber').addEventListener('input', function() {
+    let input = this.value;
+    let formattedInput = formatCreditCardNumber(input);
+    this.value = formattedInput;
+
+    // Remove spaces for database storage
+    let cardNumberWithoutSpaces = input.replace(/\s/g, '');
+
+    // Determine card type
+    let cardType = getCardType(cardNumberWithoutSpaces.substring(0, 6)); // Check first six digits for card type
+
+    if (cardType === null) {
+        // Display error for unsupported card type
+        document.getElementById('cardNumber').classList.add('is-invalid');
+        document.getElementById('cardNumberFeedback').textContent = 'Card type not supported. Supported types are: Visa, MasterCard, and American Express.';
+        document.getElementById('cardNumberFeedback').style.display = 'block';
+    } else {
+        // Update card image and type display
+        updateCardImage(cardType);
+
+        // Validate credit card number
+        let isValid = validateCreditCardNumber(cardNumberWithoutSpaces);
+        if (!isValid) {
+            document.getElementById('cardNumber').classList.add('is-invalid');
+            document.getElementById('cardNumberFeedback').style.display = 'block';
+        } else {
+            document.getElementById('cardNumber').classList.remove('is-invalid');
+            document.getElementById('cardNumberFeedback').style.display = 'none';
+        }
+    }
+});
+
+    // Function to check if all required fields are filled and checkboxes are checked
+    function validateForm() {
+    let isValid = true;
+
+    // Check if all required fields are filled
+    document.querySelectorAll('.needs-validation .form-control').forEach(function(input) {
+        if (!input.checkValidity()) {
+            isValid = false;
+            input.classList.add('is-invalid');
+            // Assuming error message is next sibling with class 'invalid-feedback'
+            if (input.nextElementSibling) {
+                input.nextElementSibling.classList.add('invalid-feedback');
+                input.nextElementSibling.style.display = 'block';
+            }
+        } else {
+            input.classList.remove('is-invalid');
+            if (input.nextElementSibling) {
+                input.nextElementSibling.style.display = 'none';
+            }
+        }
+    });
+    
+    // Check if checkboxes are checked
+    if (!document.getElementById('terms').checked) {
+        isValid = false;
+        document.getElementById('terms').classList.add('is-invalid');
+        // Assuming error message is next sibling with class 'invalid-feedback'
+        if (document.getElementById('terms').nextElementSibling) {
+            document.getElementById('terms').nextElementSibling.classList.add('invalid-feedback');
+            document.getElementById('terms').nextElementSibling.style.display = 'block';
+        }
+    } else {
+        document.getElementById('terms').classList.remove('is-invalid');
+        if (document.getElementById('terms').nextElementSibling) {
+            document.getElementById('terms').nextElementSibling.style.display = 'none';
+        }
+    }
+    if (!document.getElementById('age').checked) {
+        isValid = false;
+        document.getElementById('age').classList.add('is-invalid');
+        // Assuming error message is next sibling with class 'invalid-feedback'
+        if (document.getElementById('age').nextElementSibling) {
+            document.getElementById('age').nextElementSibling.classList.add('invalid-feedback');
+            document.getElementById('age').nextElementSibling.style.display = 'block';
+        }
+    } else {
+        document.getElementById('age').classList.remove('is-invalid');
+        if (document.getElementById('age').nextElementSibling) {
+            document.getElementById('age').nextElementSibling.style.display = 'none';
+        }
+    }
+
+    return isValid;
+}
+
+// Event listener for form submission
+document.getElementById('registrationForm').addEventListener('submit', function(event) {
+    if (!validateForm()) {
+        event.preventDefault();
+    }
+});
+
         </script>
     </body>
 </html>

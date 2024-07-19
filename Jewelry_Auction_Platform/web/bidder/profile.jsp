@@ -127,7 +127,7 @@
 
             .btn-update {
                 width: fit-content;
-                height: 40px;
+                height: 45px;
                 background: #ffffff0d;
                 border-radius: 8px;
                 border: 2px solid #334b79;
@@ -138,8 +138,9 @@
                 transition: 0.5s all ease;
                 position: relative;
                 overflow: hidden;
-                padding: 5px 25px;
+                padding: 10px 25px;
                 z-index: 1;
+                margin-left: 390px;
             }
 
             .btn-update:before {
@@ -183,9 +184,41 @@
                 left: 50%;
             }
         </style>
+        <script>
+            function validateForm() {
+                var firstName = document.forms["profileForm"]["firstName"].value;
+                var lastName = document.forms["profileForm"]["lastName"].value;
+                var phoneNumber = document.forms["profileForm"]["phoneNumber"].value;
+                var nameRegex = /^[A-Za-z]{1,15}$/;
+                var phoneRegex = /^[0-9]{10,11}$/;
+
+                if (!nameRegex.test(firstName)) {
+                    alert("First name must be between 1 and 15 characters and contain no numbers.");
+                    return false;
+                }
+                if (!nameRegex.test(lastName)) {
+                    alert("Last name must be between 1 and 15 characters and contain no numbers.");
+                    return false;
+                }
+                if (!phoneRegex.test(phoneNumber)) {
+                    alert("Phone number must be 10 or 11 number characters.")
+                    return false;
+                }
+                return true;
+            }
+
+            function submitForm(action) {
+                var form = document.getElementById('profileForm');
+                form.action = action;
+                form.submit();
+            }
+        </script>
     </head>
     <body>
-        <c:set var="member" value="${sessionScope.MEMBER}" />
+        <c:set var="userID" value="${sessionScope.USERID}" />
+        <c:set var="member" value="${requestScope.MEMBER}" />
+        <c:set var="address" value="${requestScope.ADDRESS}" />
+        <c:set var="card" value="${requestScope.CREDITCARD}" />
         <nav>
             <div>
                 <a href="${pageContext.request.contextPath}/home">Home</a>
@@ -210,49 +243,96 @@
                 <h2>My Profile</h2>
             </div>
             <div class="profile-content">
-                <c:set var="member" value="${sessionScope.MEMBER}" />
-                <form action="updateProfile" method="post">
+                <form id="profileForm" name="profileForm" style="margin-bottom: 50px;" action="${pageContext.request.contextPath}/updateProfile" method="POST" onsubmit="return validateForm();">
                     <div class="row">
                         <div class="col-md-6">
                             <h4>User Information</h4>
-                            <div class="mb-3">
-                                <label for="fullName" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" id="fullName" name="fullName" value="${member.firstName} ${member.lastName}" required>
+                            <div class="mb-6 row">
+                                <input type="hidden" id="memberID" name="memberID" value="${member.memberID}">
+                                <div class="mb-3 col">
+                                    <label for="firstName" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="firstName" name="firstName" value="${member.firstName}" required>
+                                </div>
+                                <div class="mb-3 col">
+                                    <label for="lastName" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="lastName" name="lastName" value="${member.lastName}" required>
+                                </div>
                             </div>
                             <div class="mb-3">
-                                <label for="phone" class="form-label">Phone</label>
-                                <input type="text" class="form-control" id="phone" name="phone" value="${member.phoneNumber}" required>
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" value="${member.phoneNumber}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="gender" class="form-label">Gender</label>
-                                <input type="text" class="form-control" id="gender" name="gender" value="${member.gender}">
+                                <select class="form-control" id="gender" name="gender" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="Male" ${member.gender == 'Male' ? 'selected' : ''}>Male</option>
+                                    <option value="Female" ${member.gender == 'Female' ? 'selected' : ''}>Female</option>
+                                    <option value="Others" ${member.gender == 'Others' ? 'selected' : ''}>Others</option>
+                                </select>
                             </div>
                             <div class="mb-3">
                                 <label for="DOB" class="form-label">Date of Birth</label>
-                                <input type="text" class="form-control" id="DOB" name="DOB" value="${member.DOB}">
+                                <input type="date" class="form-control" id="DOB" name="DOB" value="${member.DOB}" required>
                             </div>
+
                         </div>
                         <div class="col-md-6">
                             <h4>Shipping Address</h4>
                             <div class="mb-3">
-                                <label for="streetName" class="form-label">Street Name</label>
-                                <input type="text" class="form-control" id="streetName" name="streetName" value="" required>
+                                <label for="city" class="form-label">City</label>
+                                <input type="text" class="form-control" id="city" name="city" value="${address.city}" required>
                             </div>
                             <div class="mb-3">
-                                <label for="city" class="form-label">City</label>
-                                <input type="text" class="form-control" id="city" name="city" value="" required>
+                                <label for="state" class="form-label">State</label>
+                                <input type="text" class="form-control" id="state" name="state" value="${address.state}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="zipCode" class="form-label">Zip Code</label>
-                                <input type="text" class="form-control" id="zipCode" name="zipCode" value="" required>
+                                <input type="text" class="form-control" id="zipCode" name="zipCode" value="${address.zipCode}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="country" class="form-label">Country</label>
-                                <input type="text" class="form-control" id="country" name="country" value="" required>
+                                <input type="text" class="form-control" id="country" name="country" value="${address.country}" required>
                             </div>
-                            <button type="submit" class="btn-update">Update Profile</button>
-                        </div>  
+                            <div class="mb-3">
+                                <label for="country" class="form-label">Address 1</label>
+                                <input type="text" class="form-control" id="address1" name="address1" value="${address.address1}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="country" class="form-label">Address 2</label>
+                                <input type="text" class="form-control" id="address2" name="address2" value="${address.address2}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Card Information</h4>
+                            <div class="mb-3">
+                                <label for="holderName" class="form-label">Holder Name</label>
+                                <input type="text" class="form-control" id="holderName" name="holderName" value="${card.holderName}" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cardNumber" class="form-label">Card Number</label>
+                                <input type="text" class="form-control" id="cardNumber" name="cardNumber" value="${card.cardNumber}" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cvvCode" class="form-label">CVV Code</label>
+                                <input type="text" class="form-control" id="cvvCode" name="cvvCode" value="${card.cvvCode}" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="expiryDate" class="form-label">Expiry Date</label>
+                                <input type="text" class="form-control" id="expiryDate" name="expiryDate" value="${card.expiryDate}" readonly>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button type="button" class="btn-update mb-3 w-100" onclick="submitForm('${pageContext.request.contextPath}/deactivateProfile')">Deactivate Account</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn-update mb-3 w-100">Update Profile</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </form>
             </div>
         </div>
         <footer style="background-color: #000407; font-family: Helvetica; height: 30px; position: fixed; bottom: 0; width: 100%; text-align: center;">

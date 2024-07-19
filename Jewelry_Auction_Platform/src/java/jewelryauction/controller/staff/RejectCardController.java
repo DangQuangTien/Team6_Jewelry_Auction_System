@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jewelryauction.controller.manager;
+package jewelryauction.controller.staff;
 
 import dao.UserDAOImpl;
-import entity.user.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,8 +19,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author T14
  */
-@WebServlet(name = "ManageUserServlet", urlPatterns = {"/manageUser"})
-public class ManageUserServlet extends HttpServlet {
+@WebServlet(name = "RejectCardController", urlPatterns = {"/rejectCard"})
+public class RejectCardController extends HttpServlet {
+
+    private static final String ERROR_PAGE = "index.htm";
+    private static final String STAFF_PAGE = "cardValidation";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +39,20 @@ public class ManageUserServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            UserDAOImpl dao = new UserDAOImpl();
-            List<User> listUser = dao.displayAllUserForManager();
-            request.setAttribute("USERLIST", listUser);
-            request.getRequestDispatcher("/manager/userManagement.jsp").forward(request, response);
+            String url = ERROR_PAGE;
+            String memberID = request.getParameter("memberID");
+            try {
+                UserDAOImpl dao = new UserDAOImpl();
+                boolean result = dao.rejectCard(memberID);
+                if (result) {
+                    url = STAFF_PAGE;
+                }
+            } catch (Exception ex) {
+                ex.getMessage();
+            } finally {
+                RequestDispatcher dist = request.getRequestDispatcher(url);
+                dist.forward(request, response);
+            }
         }
     }
 

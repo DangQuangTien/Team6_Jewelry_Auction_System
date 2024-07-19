@@ -3,6 +3,7 @@ package dao;
 import dto.UserDTO;
 import entity.Auction.Auction;
 import entity.Invoice.Invoice;
+import entity.address.Address;
 import entity.creditCard.CreditCard;
 import entity.member.Member;
 import entity.product.Category;
@@ -94,14 +95,14 @@ public interface UserDao {
     boolean confirmReceipt(String valuationID);
 
     // Bidding Operations
-    boolean registerToBid(String memberID);
+    boolean registerToBid(String memberID, String cardID);
 
     List<Jewelry> displayJewelryInRoom(String auctionID);
 
     boolean checkAvailableSession(String jewelryID);
 
     boolean isJewelryOwnedByMember(String jewelryID, String memberID);
-            
+
     boolean placeBid(String preBid_Amount, String jewelryID, String memberID);
 
     boolean editBid(String preBid_Amount, String jewelryID, String memberID);
@@ -133,17 +134,31 @@ public interface UserDao {
     boolean confirmPayment(String jewelryID);
 
     void updateSoldAmount(String jewelryID);
-    
-     //----------------------------
+
+    //----------------------------
     List<CreditCard> displayAllRegisteringCard();
-    
-    List<User> displayAllActiveUserForManager();
-    
+
     boolean addUserForManager(String username, String email, String password, String roleID);
-    
+
     boolean updateUserForManager(String userID, String username, String email, String password, String roleID);
-    
+
     boolean deleteUserForManager(String userID);
-    
+
     boolean checkBidderMatchSeller(String jewelryID, String memberID);
+
+    boolean reactivateUserForManager(String userID);
+
+    boolean rejectCard(String memberID);
+
+    CreditCard getCardInformation(String userID);
+
+    Address getAddressInformation(String userID);
+    
+    boolean deleteProfile(String memberID);
+    
+    boolean updateProfile(String memberID, String firstName, String lastName, String phoneNumber, String gender, String dob, String city, String state, String zipCode, String country, String address1, String address2);
+
+    
+    List<User> displayAllUserForManager();
+    
 }

@@ -40,9 +40,11 @@ public class CardConfirmationController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             String url = ERROR_PAGE;
             String memberID = request.getParameter("memberID");
+            String cardID = request.getParameter("cardID");
+            
             try {
                 UserDAOImpl dao = new UserDAOImpl();
-                boolean result = dao.registerToBid(memberID);
+                boolean result = dao.registerToBid(memberID, cardID);
                 if (result) {
                     url = STAFF_PAGE;
                 }

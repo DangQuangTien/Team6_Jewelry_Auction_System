@@ -618,6 +618,7 @@
                                             <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Password</th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Role</th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Joined Date</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Status</th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Action</th>
                                         </tr>
                                     </thead>
@@ -651,14 +652,44 @@
                                                 <%= role%>
                                             </td>
                                             <td class="px-6 py-4 text-sm text-gray-900"><%= user.getJoined_at()%></td>
+                                            <td class="px-6 py-4 text-sm text-gray-900">
+                                                <%
+                                                    String status;
+                                                    switch (user.getActive_status()) {
+                                                        case 0:
+                                                            status = "Inactive";
+                                                            break;
+                                                        case 1:
+                                                            status = "Active";
+                                                            break;
+                                                        default:
+                                                            status = "Unknown";
+                                                    }
+                                                %>
+                                                <%= status%>
+                                            </td>
                                             <td class="px-6 py-4 flex items-center space-x-2">
-                                                <input type="hidden" name="jewelryID" value="<%= user.getUserID()%>">
+                                                <input type="hidden" name="userID" value="<%= user.getUserID()%>">
+                                                <%
+                                                    if (user.getActive_status() == 0) { // Inactive status
+                                                %>
+                                                <form action="${pageContext.request.contextPath}/reactivateUser" method="POST" onsubmit="confirmDelete(event)">
+                                                    <input type="hidden" name="userID" value="<%= user.getUserID()%>">
+                                                    <button type="submit" name="action" value="Reactivate" class="bg-indigo-400 hover:bg-indigo-700 text-white px-4 py-2 rounded-md">Reactivate</button>
+                                                </form>
+                                                <%
+                                                } else { // Active status
+                                                %>
                                                 <button type="button" class="bg-indigo-400 hover:bg-indigo-700 text-white px-4 py-2 rounded-md" data-toggle="modal" data-target="#userModal<%= user.getUserID()%>">Update</button>
                                                 <form action="${pageContext.request.contextPath}/deleteUser" method="POST" onsubmit="confirmDelete(event)">
                                                     <input type="hidden" name="userID" value="<%= user.getUserID()%>">
                                                     <button type="submit" name="action" value="Delete" class="text-white bg-green-500 hover:bg-green-600 px-4 py-2 rounded-md">Delete</button>
                                                 </form>
+                                                <%
+                                                    }
+                                                %>
                                             </td>
+
                                         </tr>
                                         <!-- Update Modal -->
                                     <div class="modal fade fixed inset-0 z-50 overflow-auto" id="userModal<%= user.getUserID()%>" tabindex="-1" aria-labelledby="exampleModalLabel<%= user.getUserID()%>" aria-hidden="true">
