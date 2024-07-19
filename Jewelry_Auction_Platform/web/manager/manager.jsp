@@ -530,7 +530,7 @@
                     </li>
                     <li>
                         <a class="link_names" href="${pageContext.request.contextPath}/manageUser">
-                            <i class='bx bx-cog'></i> 
+                            <i class='bx bx-book-content'></i> 
                             <span class="links_name">Manage User</span>
                         </a>
                         <span class="tooltip">Manage User</span>

@@ -3,25 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jewelryauction.controller.manager;
+package jewelryauction.controller.member;
 
 import dao.UserDAOImpl;
-import entity.user.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author T14
  */
-@WebServlet(name = "ManageUserServlet", urlPatterns = {"/manageUser"})
-public class ManageUserServlet extends HttpServlet {
+@WebServlet(name = "DeleteAccountController", urlPatterns = {"/deactivateProfile"})
+public class DeleteAccountController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,9 +37,15 @@ public class ManageUserServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             UserDAOImpl dao = new UserDAOImpl();
-            List<User> listUser = dao.displayAllUserForManager();
-            request.setAttribute("USERLIST", listUser);
-            request.getRequestDispatcher("/manager/userManagement.jsp").forward(request, response);
+            HttpSession session = request.getSession();
+            String memberID = request.getParameter("memberID");
+            boolean result = dao.deleteProfile(memberID);
+            if (result) {
+                response.sendRedirect("home");
+                session.invalidate();
+            }else{
+                response.sendRedirect("index.htm");
+            }
         }
     }
 

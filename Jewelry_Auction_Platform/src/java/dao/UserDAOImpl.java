@@ -7,6 +7,7 @@ package dao;
 import dto.UserDTO;
 import entity.Auction.Auction;
 import entity.Invoice.Invoice;
+import entity.address.Address;
 import entity.creditCard.CreditCard;
 import entity.member.Member;
 import entity.product.Category;
@@ -48,7 +49,8 @@ public class UserDAOImpl implements UserDao {
                 + "LEFT JOIN Member M ON M.userID = TK.userID "
                 + "WHERE (TK.USERNAME = ? AND TK.PASSWORD = ? "
                 + "       OR TK.EMAIL = ? AND TK.PASSWORD = ? "
-                + "       OR M.phoneNumber = ? AND TK.PASSWORD = ?)";
+                + "       OR M.phoneNumber = ? AND TK.PASSWORD = ?)"
+                + "       AND (TK.active_status = 1)";
 
         try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
 
@@ -855,12 +857,16 @@ public class UserDAOImpl implements UserDao {
     }
 
     @Override
-    public boolean registerToBid(String memberID) {
+    public boolean registerToBid(String memberID, String cardID) {
         String query = "UPDATE Member SET status_register_to_bid = 1 WHERE memberID = ?";
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        String query1 = "UPDATE Credit_Card SET status = 1 WHERE cardID = ?";
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(query); PreparedStatement ps1 = conn.prepareStatement(query1)) {
             ps.setString(1, memberID);
+
+            ps1.setString(1, cardID);
             int result = ps.executeUpdate();
-            return result > 0;
+            int result1 = ps1.executeUpdate();
+            return (result > 0 && result1 > 0);
         } catch (ClassNotFoundException | SQLException ex) {
             ex.printStackTrace();
         }
@@ -1538,16 +1544,18 @@ public class UserDAOImpl implements UserDao {
     @Override
     public List<CreditCard> displayAllRegisteringCard() {
         List<CreditCard> listCreditCard = new ArrayList<>();
-        String query = "SELECT cc.* FROM Credit_Card cc JOIN Member m ON cc.memberID = m.memberID WHERE m.status_register_to_bid = 0";
+        String query = "SELECT * FROM Credit_Card WHERE status = 0";
         try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     CreditCard cc = new CreditCard();
+                    cc.setCardID(rs.getString("cardID"));
                     cc.setMemberID(rs.getString("memberID"));
                     cc.setHolderName(rs.getString("holderName"));
                     cc.setCardNumber(rs.getString("cardNumber"));
                     cc.setCvvCode(rs.getString("cvvCode"));
                     cc.setExpiryDate(rs.getDate("expiryDate"));
+                    cc.setStatus(rs.getInt("status"));
                     listCreditCard.add(cc);
                 }
             }
@@ -1558,9 +1566,9 @@ public class UserDAOImpl implements UserDao {
     }
 
     @Override
-    public List<User> displayAllActiveUserForManager() {
+    public List<User> displayAllUserForManager() {
         List<User> listUser = new ArrayList<>();
-        String query = "SELECT * FROM Users WHERE active_status = 1";
+        String query = "SELECT * FROM Users";
         try (Connection conn = DBUtils.getConnection();
                 PreparedStatement ps = conn.prepareStatement(query)) {
             try (ResultSet rs = ps.executeQuery()) {
@@ -1572,6 +1580,7 @@ public class UserDAOImpl implements UserDao {
                     u.setPassword(rs.getString("password"));
                     u.setRoleID(rs.getString("roleID"));
                     u.setJoined_at(rs.getDate("joined_at"));
+                    u.setActive_status(rs.getInt("active_status"));
                     listUser.add(u);
                 }
             }
@@ -1645,6 +1654,20 @@ public class UserDAOImpl implements UserDao {
         }
         return false;
     }
+    
+    @Override
+    public boolean reactivateUserForManager(String userID) {
+        String deleteUser = "UPDATE Users SET active_status = 1 WHERE userID = ?";
+        try (Connection conn = DBUtils.getConnection();
+                PreparedStatement ps = conn.prepareStatement(deleteUser)) {
+            ps.setString(1, userID);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 
     @Override
     public boolean checkBidderMatchSeller(String jewelryID, String memberID) {
@@ -1665,5 +1688,104 @@ public class UserDAOImpl implements UserDao {
         return false;
     }
 
+    @Override
+    public boolean rejectCard(String memberID) {
+        String addressQuery = "DELETE FROM [Address] WHERE memberID = ?";
+        String cardQuery = "DELETE FROM [Credit_Card] WHERE memberID = ?";
+        try (Connection conn = DBUtils.getConnection();
+                PreparedStatement ps1 = conn.prepareStatement(addressQuery);
+                PreparedStatement ps2 = conn.prepareStatement(cardQuery)) {
+            ps1.setString(1, memberID);
+            ps2.setString(1, memberID);
+
+            int result1 = ps1.executeUpdate();
+            int result2 = ps2.executeUpdate();
+            return (result1 > 0 && result2 > 0);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    @Override
+    public CreditCard getCardInformation(String userID) {
+        String query = "SELECT cc.* FROM Credit_Card cc JOIN Member m ON cc.memberID = m.memberID JOIN Users u ON m.userID = u.userID WHERE u.userID = ?";
+        try (Connection conn = DBUtils.getConnection();
+                PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, userID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new CreditCard(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getDate(6), rs.getInt(7));
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
+    public Address getAddressInformation(String userID) {
+        String query = "SELECT a.* FROM Address a JOIN Member m ON a.memberID = m.memberID JOIN Users u ON m.userID = u.userID WHERE u.userID = ?";
+        try (Connection conn = DBUtils.getConnection();
+                PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, userID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Address(rs.getString("addressID"), rs.getString("country"), rs.getString("city"), rs.getString("state"), rs.getString("zipcode"), rs.getString("address1"), rs.getString(2), rs.getString("memberID"));
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean updateProfile(String memberID, String firstName, String lastName, String phoneNumber, String gender, String dob, String city, String state, String zipCode, String country, String address1, String address2) {
+        String memberQuery = "UPDATE Member SET firstName = ?, lastName = ?, phoneNumber = ?, gender = ?, dob = ? WHERE memberID = ?";
+        String addressQuery = "UPDATE Address SET city = ?, state = ?, zipcode = ?, country = ?, Address1 = ?, Address2 = ? WHERE memberID = ?";
+        try (Connection conn = DBUtils.getConnection();
+                PreparedStatement ps1 = conn.prepareStatement(memberQuery);
+                PreparedStatement ps2 = conn.prepareStatement(addressQuery)) {
+            ps1.setString(1, firstName);
+            ps1.setString(2, lastName);
+            ps1.setString(3, phoneNumber);
+            ps1.setString(4, gender);
+            ps1.setString(5, dob);
+            ps1.setString(6, memberID);
+
+            ps2.setString(1, city);
+            ps2.setString(2, state);
+            ps2.setString(3, zipCode);
+            ps2.setString(4, country);
+            ps2.setString(5, address1);
+            ps2.setString(6, address2);
+            ps2.setString(7, memberID);
+
+            int result1 = ps1.executeUpdate();
+            int result2 = ps2.executeUpdate();
+            return (result1 > 0 && result2 > 0);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteProfile(String memberID) {
+        String query = "UPDATE u SET u.active_status = 0 FROM Member m JOIN Users u ON m.userID = u.userID WHERE m.memberID = ?";
+        try (Connection conn = DBUtils.getConnection();
+                PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, memberID);
+            int result = ps.executeUpdate();
+            return result > 0;
+       
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
     //-------------------------------------
 }
