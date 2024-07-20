@@ -288,7 +288,7 @@
                 <c:when test="${not empty AUCTIONS}">
                     <c:forEach var="auction" items="${AUCTIONS}">
                         <c:set var="currentDate" value="<%= new java.util.Date()%>" />
-                        <c:if test="${auction.endDate.time < currentDate.time}">  
+                        <c:if test="${auction.endDate < currentDate}">  
                             <div class="auction"> 
                                 <div class="image-container">
                                     <img src="https://www.fortunaauction.com/wp-content/uploads/2024/06/1122-collection-image-1500.jpg" alt="Auction Image" loading="lazy"><br>

@@ -661,228 +661,242 @@
         </div>
         <hr>
         <div class="row" id="catalogItems">
-            <c:forEach var="j" items="${listJewelry}">
-                <c:set var="photos" value="${j.photos}" />
-                <c:set var="photoArray" value="${fn:split(photos, ';')}" />
-                <div class="col-md-4 mb-4 catalog-item" data-category="${j.categoryName}">
-                    <div  class="card-wrapper">
-                        <div  class="card">
-                            <a href="${pageContext.request.contextPath}/auctions/itemDetail.jsp?jewelryID=${j.jewelryID}&auctionID=${param.auctionID}">
-                                <img class="card-img-top" src="${pageContext.request.contextPath}/${photoArray[0]}" alt="${j.jewelryName}">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title">${j.jewelryID}</h5>
-                                <h5 class="card-title">${j.jewelryName}</h5>
-                                <font style="font-size: 16px; font-family: Calibri; color: lightslategrey">  Est. 
-                                    <span class="min-price">
-                                        <fmt:formatNumber value="${j.minPrice}" type="currency" minFractionDigits="0" maxFractionDigits="0"/>
-                                    </span> - 
-                                    <span class="max-price">
-                                        <fmt:formatNumber value="${j.maxPrice}" type="currency" minFractionDigits="0" maxFractionDigits="0"/>
-                                    </span>
-                                </font>
-                                <c:if test="${j.currentBid != 0.00}">
-                                    <div style="color: #d11e1e; font-size: 18px; font-family:  Helvetica; text-align: end">Current bid:  <fmt:formatNumber value="${j.currentBid}" type="currency" minFractionDigits="2" maxFractionDigits="2"/> </div>
+    <c:forEach var="j" items="${listJewelry}">
+        <c:set var="photos" value="${j.photos}" />
+        <c:set var="photoArray" value="${fn:split(photos, ';')}" />
+        <div class="col-md-4 mb-4 catalog-item" data-category="${j.categoryName}" data-min-price="${j.minPrice}">
+            <div class="card-wrapper">
+                <div class="card">
+                    <a href="${pageContext.request.contextPath}/auctions/itemDetail.jsp?jewelryID=${j.jewelryID}&auctionID=${param.auctionID}">
+                        <img class="card-img-top" src="${pageContext.request.contextPath}/${photoArray[0]}" alt="${j.jewelryName}">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">${j.jewelryID}</h5>
+                        <h5 class="card-title">${j.jewelryName}</h5>
+                        <font style="font-size: 16px; font-family: Calibri; color: lightslategrey">  Est. 
+                            <span class="min-price">
+                                <fmt:formatNumber value="${j.minPrice}" type="currency" minFractionDigits="0" maxFractionDigits="0"/>
+                            </span> - 
+                            <span class="max-price">
+                                <fmt:formatNumber value="${j.maxPrice}" type="currency" minFractionDigits="0" maxFractionDigits="0"/>
+                            </span>
+                        </font>
+                        <c:if test="${j.currentBid != 0.00}">
+                            <div style="color: #d11e1e; font-size: 18px; font-family:  Helvetica; text-align: end">Current bid:  <fmt:formatNumber value="${j.currentBid}" type="currency" minFractionDigits="2" maxFractionDigits="2"/> </div>
+                        </c:if>
+                        <br>
+                        <c:choose>
+                            <c:when test="${status == 0 && member != null}">
+                                <a href="${pageContext.request.contextPath}/registerbid?auctionID=${param.auctionID}"><button class="btn btn-primary">PLACE BID</button></a>
+                            </c:when>
+                            <c:when test="${status == 1 && member != null}">
+                                <c:set var="currentDate" value="<%= new java.util.Date() %>" />
+                                <c:if test="${auction.endDate.time > currentDate.time}">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal">PLACE BID</button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal_">EDIT BID</button>
+                                    </div>
                                 </c:if>
-                                <br>
-                                <c:choose>
-                                    <c:when test="${status == 0 && member != null}">
-                                        <a href="${pageContext.request.contextPath}/registerbid?auctionID=${param.auctionID}"><button class="btn btn-primary">PLACE BID</button</a>
-                                    </c:when>
-                                    <c:when test="${status == 1 && member != null}">
-                                           <c:set var="currentDate" value="<%= new java.util.Date() %>" />
-                                           <c:if test="${auction.endDate.time > currentDate.time}">
-                                                <div class="btn-group">
-                                            <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal">PLACE BID</button>
-                                            <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#bidModal_">EDIT BID</button>
-                                        </div>
-                                           </c:if>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <form action="${pageContext.request.contextPath}/login">
-                                            <input type="submit" class="btn btn-primary" value="PLACE BID">
-                                        </form>
-                                    </c:otherwise>
-                                </c:choose>
-                            </div>
-                        </div>
+                            </c:when>
+                            <c:otherwise>
+                                <form action="${pageContext.request.contextPath}/login">
+                                    <input type="submit" class="btn btn-primary" value="PLACE BID">
+                                </form>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
-            </c:forEach>
+            </div>
         </div>
-        <c:if test="${listJewelry == null || listJewelry.isEmpty()}">
-            <p>No items available in the catalog.</p>
-        </c:if>
-    <% String preBid_Amount = (String) request.getParameter("preBid_Amount");%>
-    <!-- Modal for bidding -->
-    <div class="modal fade" id="bidModal" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="bidModalLabel">Place Your Bid</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form id="bidForm" action="${pageContext.request.contextPath}/placebid"  onsubmit="handleBidSuccess();">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="bidAmount">Enter your bid amount:</label>
-                            <input type="number" class="form-control" id="bidAmount" name="preBid_Amount" value="<%= (preBid_Amount != null) ? preBid_Amount : ""%>" required>
-                        </div>
-                        <input type="hidden" id="auctionID" name="auctionID" value="${param.auctionID}">
-                        <input type="hidden" id="jewelryID" name="jewelryID" value="${j.jewelryID}">
-                        <input type="hidden" name="action" value="Place Bid">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Place Bid</button>
-                    </div>
-                </form>
+    </c:forEach>
+</div>
 
+<c:if test="${listJewelry == null || listJewelry.isEmpty()}">
+    <p>No items available in the catalog.</p>
+</c:if>
+
+<!-- Modal for bidding -->
+<div class="modal fade" id="bidModal" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bidModalLabel">Place Your Bid</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        </div>
-    </div>
-    <div class="modal fade" id="bidModal_" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="bidModalLabel">Edit Your Bid</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+            <form id="bidForm" action="${pageContext.request.contextPath}/placebid" method="POST" onsubmit="return validateBid('bidModal');">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="bidAmount">Enter your bid amount:</label>
+                        <input type="number" class="form-control" id="bidAmount" name="preBid_Amount" required>
+                    </div>
+                    <input type="hidden" id="auctionID" name="auctionID">
+                    <input type="hidden" id="jewelryID" name="jewelryID">
+                    <input type="hidden" name="action" value="Place Bid">
                 </div>
-                <form id="editBidForm_" action="${pageContext.request.contextPath}/editbid" method="POST">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="editBidAmount">Enter your new bid amount:</label>
-                            <input type="number" class="form-control" id="editBidAmount" name="preBid_Amount" value="<%= (preBid_Amount != null) ? preBid_Amount : ""%>" required>
-                        </div>
-                        <input type="hidden" id="auctionID" name="auctionID" value="${param.auctionID}">
-                        <input type="hidden" id="jewelryID" name="jewelryID" value="${j.jewelryID}">
-                        <input type="hidden" name="action" value="Edit Bid">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Edit Bid</button>
-                    </div>
-                </form>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Place Bid</button>
+                </div>
+            </form>
         </div>
     </div>
-</body>
+</div>
+
+<div class="modal fade" id="bidModal_" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bidModalLabel">Edit Your Bid</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editBidForm_" action="${pageContext.request.contextPath}/editbid" method="POST" onsubmit="return validateBid('bidModal_');">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="editBidAmount">Enter your new bid amount:</label>
+                        <input type="number" class="form-control" id="editBidAmount" name="preBid_Amount" required>
+                    </div>
+                    <input type="hidden" id="auctionID" name="auctionID">
+                    <input type="hidden" id="jewelryID" name="jewelryID">
+                    <input type="hidden" name="action" value="Edit Bid">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Edit Bid</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        function filterItems() {
-                            var selectedCategory = document.getElementById('categoryFilter').value;
-                            var searchQuery = document.getElementById('searchBar').value.trim().toLowerCase();
-                            var sortPrice = document.getElementById('sortPrice').value;
+    document.addEventListener('DOMContentLoaded', function () {
+        function filterItems() {
+            var selectedCategory = document.getElementById('categoryFilter').value;
+            var searchQuery = document.getElementById('searchBar').value.trim().toLowerCase();
+            var sortPrice = document.getElementById('sortPrice').value;
 
-                            var catalogItems = Array.from(document.querySelectorAll('.catalog-item'));
+            var catalogItems = Array.from(document.querySelectorAll('.catalog-item'));
 
-                            // Filter by category and search query
-                            catalogItems.forEach(function (item) {
-                                var itemCategory = item.getAttribute('data-category');
-                                var itemJewelryID = item.querySelector('.card-title').textContent.toLowerCase();
+            // Filter by category and search query
+            catalogItems.forEach(function (item) {
+                var itemCategory = item.getAttribute('data-category');
+                var itemJewelryID = item.querySelector('.card-title').textContent.toLowerCase();
 
-                                var categoryMatch = (selectedCategory === '' || itemCategory === selectedCategory);
-                                var searchMatch = (searchQuery === '' || itemJewelryID.includes(searchQuery));
+                var categoryMatch = (selectedCategory === '' || itemCategory === selectedCategory);
+                var searchMatch = (searchQuery === '' || itemJewelryID.includes(searchQuery));
 
-                                if (categoryMatch && searchMatch) {
-                                    item.style.display = 'block';
-                                } else {
-                                    item.style.display = 'none';
-                                }
-                            });
+                if (categoryMatch && searchMatch) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
 
-                            // Sort by price
-                            if (sortPrice !== '') {
-                                catalogItems.sort(function (a, b) {
-                                    var aMinPrice = parseFloat(a.querySelector('.min-price').textContent);
-                                    var bMinPrice = parseFloat(b.querySelector('.min-price').textContent);
+            // Sort by price
+            if (sortPrice !== '') {
+                catalogItems.sort(function (a, b) {
+                    var aMinPrice = parseFloat(a.querySelector('.min-price').textContent.replace(/[^0-9.-]+/g, ""));
+                    var bMinPrice = parseFloat(b.querySelector('.min-price').textContent.replace(/[^0-9.-]+/g, ""));
 
-                                    if (sortPrice === 'lowToHigh') {
-                                        return aMinPrice - bMinPrice;
-                                    } else if (sortPrice === 'highToLow') {
-                                        return bMinPrice - aMinPrice;
-                                    }
-                                });
+                    if (sortPrice === 'lowToHigh') {
+                        return aMinPrice - bMinPrice;
+                    } else if (sortPrice === 'highToLow') {
+                        return bMinPrice - aMinPrice;
+                    }
+                });
 
-                                var catalogContainer = document.getElementById('catalogItems');
-                                catalogItems.forEach(function (item) {
-                                    catalogContainer.appendChild(item);
-                                });
-                            }
-                        }
+                var catalogContainer = document.getElementById('catalogItems');
+                catalogItems.forEach(function (item) {
+                    catalogContainer.appendChild(item);
+                });
+            }
+        }
 
-                        document.getElementById('categoryFilter').addEventListener('change', filterItems);
-                        document.getElementById('searchBar').addEventListener('input', filterItems);
-                        document.getElementById('sortPrice').addEventListener('change', filterItems);
+        document.getElementById('categoryFilter').addEventListener('change', filterItems);
+        document.getElementById('searchBar').addEventListener('input', filterItems);
+        document.getElementById('sortPrice').addEventListener('change', filterItems);
 
-                        $('#bidModal').on('show.bs.modal', function (event) {
-                            var button = $(event.relatedTarget);
-                            var card = button.closest('.card');
-                            var jewelryID = card.find('.card-title').first().text();
-                            var modal = $(this);
-                            modal.find('#jewelryID').val(jewelryID);
-                        });
+        function setupModal(modalId) {
+            $('#' + modalId).on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var card = button.closest('.catalog-item');
+                var minPrice = card.data('min-price');
+                var modal = $(this);
+                modal.find('#jewelryID').val(button.closest('.card').find('.card-title').first().text());
+                modal.find('#auctionID').val(new URLSearchParams(window.location.search).get('auctionID'));
+                modal.find('input[name="preBid_Amount"]').data('min-price', minPrice);
+            });
+        }
 
-                        $('#bidModal_').on('show.bs.modal', function (event) {
-                            var button = $(event.relatedTarget);
-                            var card = button.closest('.card');
-                            var jewelryID = card.find('.card-title').first().text();
-                            var modal = $(this);
-                            modal.find('#jewelryID').val(jewelryID);
-                        });
+        setupModal('bidModal');
+        setupModal('bidModal_');
 
-                        function submitBid() {
-                            document.getElementById('bidForm').submit();
-                        }
-                    });
+        function validateBid(event) {
+            var form = event.target;
+            var bidInput = $(form).find('input[name="preBid_Amount"]');
+            var minPrice = bidInput.data('min-price');
+            var bidAmount = parseFloat(bidInput.val());
 
-                    document.addEventListener("DOMContentLoaded", function () {
-                        var dropdowns = document.querySelectorAll('.nav-item.dropdown');
+            if (bidAmount < minPrice) {
+                alert('Bid amount must be at least ' + minPrice.toFixed(2));
+                event.preventDefault(); // Prevent form submission
+                return false;
+            }
 
-                        dropdowns.forEach(function (dropdown) {
-                            dropdown.addEventListener('mouseenter', function () {
-                                var dropdownMenu = dropdown.querySelector('.dropdown-menu');
-                                if (dropdownMenu) {
-                                    dropdownMenu.classList.add('show');
-                                }
-                            });
-                            dropdown.addEventListener('mouseleave', function () {
-                                var dropdownMenu = dropdown.querySelector('.dropdown-menu');
-                                if (dropdownMenu) {
-                                    dropdownMenu.classList.remove('show');
-                                }
-                            });
-                        });
-                    });
+            return true;
+        }
 
-                    $(document).ready(function () {
-                        $("a.nav-link").on('click', function (event) {
-                            if (this.hash !== "") {
-                                event.preventDefault();
-                                var hash = this.hash;
-                                $('html, body').animate({
-                                    scrollTop: $(hash).offset().top
-                                }, 800, function () {
-                                    window.location.hash = hash;
-                                });
-                            }
-                        });
-                    });
-                    document.addEventListener("DOMContentLoaded", function () {
-                        window.addEventListener("scroll", function () {
-                            if (window.scrollY > 50) {
-                                document.querySelector(".navbar").classList.add("navbar-scrolled");
-                            } else {
-                                document.querySelector(".navbar").classList.remove("navbar-scrolled");
-                            }
-                        });
-                    });
+        $('#bidForm').on('submit', function (event) {
+            return validateBid(event);
+        });
+
+        $('#editBidForm_').on('submit', function (event) {
+            return validateBid(event);
+        });
+
+        var dropdowns = document.querySelectorAll('.nav-item.dropdown');
+
+        dropdowns.forEach(function (dropdown) {
+            dropdown.addEventListener('mouseenter', function () {
+                var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                if (dropdownMenu) {
+                    dropdownMenu.classList.add('show');
+                }
+            });
+            dropdown.addEventListener('mouseleave', function () {
+                var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                if (dropdownMenu) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
+        });
+
+        $("a.nav-link").on('click', function (event) {
+            if (this.hash !== "") {
+                event.preventDefault();
+                var hash = this.hash;
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 800, function () {
+                    window.location.hash = hash;
+                });
+            }
+        });
+
+        window.addEventListener("scroll", function () {
+            if (window.scrollY > 50) {
+                document.querySelector(".navbar").classList.add("navbar-scrolled");
+            } else {
+                document.querySelector(".navbar").classList.remove("navbar-scrolled");
+            }
+        });
+    });
 </script>
 </html>
