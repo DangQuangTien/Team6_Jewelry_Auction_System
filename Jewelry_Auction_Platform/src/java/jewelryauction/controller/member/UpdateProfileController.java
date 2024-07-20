@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jewelryauction.controller.manager;
+package jewelryauction.controller.member;
 
 import dao.UserDAOImpl;
-import entity.user.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author T14
  */
-@WebServlet(name = "ManageUserServlet", urlPatterns = {"/manageUser"})
-public class ManageUserServlet extends HttpServlet {
+@WebServlet(name = "UpdateProfileController", urlPatterns = {"/updateProfile"})
+public class UpdateProfileController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +36,7 @@ public class ManageUserServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            UserDAOImpl dao = new UserDAOImpl();
-            List<User> listUser = dao.displayAllUserForManager();
-            request.setAttribute("USERLIST", listUser);
-            request.getRequestDispatcher("/manager/userManagement.jsp").forward(request, response);
+            
         }
     }
 
@@ -70,7 +66,26 @@ public class ManageUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        UserDAOImpl dao = new UserDAOImpl();
+        String memberID = request.getParameter("memberID");
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String phoneNumber = request.getParameter("phoneNumber");
+        String gender = request.getParameter("gender");
+        String dob = request.getParameter("DOB");
+        String city = request.getParameter("city");
+        String state = request.getParameter("state");
+        String zipCode = request.getParameter("zipCode");
+        String country = request.getParameter("country");
+        String address1 = request.getParameter("address1");
+        String address2 = request.getParameter("address2");
+        
+        boolean result = dao.updateProfile(memberID, firstName, lastName, phoneNumber, gender, dob, city, state, zipCode, country, address1, address2);
+        if(result){
+            response.sendRedirect(request.getContextPath() + "/profile");
+        }else {
+            response.sendRedirect("index.htm");
+        }
     }
 
     /**

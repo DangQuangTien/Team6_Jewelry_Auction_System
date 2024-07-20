@@ -506,7 +506,7 @@
                             <span class="tooltip" style=>Search</span>
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/staff">
+                            <a href="${pageContext.request.contextPath}/statistic">
                                 <i class='bx bx-grid-alt'></i> 
                                 <span class="links_name">Dashboard</span>
                             </a>

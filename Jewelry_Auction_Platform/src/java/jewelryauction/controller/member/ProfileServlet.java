@@ -4,8 +4,10 @@ package jewelryauction.controller.member;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
-
+import dao.UserDAOImpl;
+import entity.address.Address;
+import entity.creditCard.CreditCard;
+import entity.member.Member;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -13,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -33,8 +36,8 @@ public class ProfileServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            request.getRequestDispatcher("/bidder/profile.jsp").forward(request, response);
+        try (PrintWriter out = response.getWriter()) {
+
         }
     }
 
@@ -50,7 +53,19 @@ public class ProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+//        processRequest(request, response);
+        UserDAOImpl dao = new UserDAOImpl();
+        HttpSession session = request.getSession();
+        String userID = (String) session.getAttribute("USERID");
+        Member member = dao.getInformation(userID);
+        Address address = dao.getAddressInformation(userID);
+        CreditCard creditCard = dao.getCardInformation(userID);
+        
+        request.setAttribute("MEMBER", member);
+        request.setAttribute("ADDRESS", address);
+        request.setAttribute("CREDITCARD", creditCard);
+        
+        request.getRequestDispatcher("/bidder/profile.jsp").forward(request, response);
     }
 
     /**

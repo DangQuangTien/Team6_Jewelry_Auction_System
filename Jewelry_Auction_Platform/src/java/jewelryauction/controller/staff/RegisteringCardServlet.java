@@ -38,8 +38,8 @@ public class RegisteringCardServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             UserDao dao = new UserDAOImpl();
-            List<CreditCard> creditCard = dao.displayAllRegisteringCard();
-            request.setAttribute("CREDITCARD", creditCard);
+            List<CreditCard> cc = dao.displayAllRegisteringCard();
+            request.setAttribute("CREDITCARD", cc);
             request.getRequestDispatcher("/staff/cardValidation.jsp").forward(request, response);
         }
     }

@@ -18,18 +18,20 @@ public class User {
     private String password;
     private String roleID;
     private Date joined_at;
+    private int active_status;
 
     public User() {
         
     }
 
-    public User(String userID, String username, String email, String password, String roleID, Date joined_at) {
+    public User(String userID, String username, String email, String password, String roleID, Date joined_at, int active_status) {
         this.userID = userID;
         this.username = username;
         this.email = email;
         this.password = password;
         this.roleID = roleID;
         this.joined_at = joined_at;
+        this.active_status = active_status;
     }
     
     public String getUserID() {
@@ -78,5 +80,13 @@ public class User {
 
     public void setJoined_at(Date joined_at) {
         this.joined_at = joined_at;
+    }
+    
+    public int getActive_status() {
+        return active_status;
+    }
+
+    public void setActive_status(int active_status) {
+        this.active_status = active_status;
     }
 }

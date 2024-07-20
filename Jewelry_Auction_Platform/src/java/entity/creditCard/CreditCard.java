@@ -19,17 +19,19 @@ public class CreditCard {
     private String cardNumber;
     private String cvvCode;
     private Date expiryDate;
+    private int status;
 
     public CreditCard() {
     }
     
-    public CreditCard(String cardID, String memberID, String holderName, String cardNumber, String cvvCode, Date expiryDate) {
+    public CreditCard(String cardID, String memberID, String holderName, String cardNumber, String cvvCode, Date expiryDate, int status) {
         this.cardID = cardID;
         this.memberID = memberID;
         this.holderName = holderName;
         this.cardNumber = cardNumber;
         this.cvvCode = cvvCode;
         this.expiryDate = expiryDate;
+        this.status = status;
     }
 
     public String getCardID() {
@@ -78,5 +80,13 @@ public class CreditCard {
 
     public void setExpiryDate(Date expiryDate) {
         this.expiryDate = expiryDate;
+    }
+    
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
